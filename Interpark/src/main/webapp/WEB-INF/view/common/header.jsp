@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
     <meta name="description" content="Fashi Template">
     <meta name="keywords" content="Fashi, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
