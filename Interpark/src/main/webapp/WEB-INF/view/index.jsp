@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-text product-more">
-                        <a href="./home.html"><i class="fa fa-home"></i> Home1</a>
+                        <a href="./home.html"><i class="fa fa-home"></i> Home11</a>
                     </div>
                 </div>
             </div>
