@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.kosmo.jobkorea.login.dao.RegisterDao">
+
+    <!-- 일반 회원 추가  -->
+	<insert id="aregister">
+        <selectKey resultType="string" keyProperty="std_numsel" order="BEFORE">
+            SELECT IFNULL(MAX(CAST(std_num AS UNSIGNED)),0) + 1 FROM tb_userinfo 
+        </selectKey> 	
+		insert into tb_userinfo (
+		   loginID
+		  ,user_type
+		  ,name
+		  ,password
+		  ,tel 
+		  ,sex
+		  ,birth
+		  ,mail
+		  ,addr
+		  ,join_date
+		  ,pid
+		  ,std_num
+		) values (
+		   #{loginID} 
+		  ,#{user_type}
+		  ,#{name}
+		  ,#{password} 
+		  ,#{tel}
+		  ,#{sex} 
+		  ,STR_TO_DATE(#{birth}, '%Y%m%d')  
+		  ,#{mail}  
+		  ,#{addr}
+		  ,now()
+		  ,#{pid} 
+		  ,#{std_numsel}  
+		)
+	</insert>
+	
+    <!-- 강사 회원 추가  -->
+	<insert id="bregister">
+		insert into tb_userinfo (
+		   loginID
+		  ,user_type
+		  ,name
+		  ,password
+		  ,tel
+		  ,sex
+		  ,birth
+		  ,mail
+		  ,addr
+		  ,join_date
+		  ,pid
+		) values (
+		   #{loginID}
+		  ,#{user_type}
+		  ,#{name}
+		  ,#{password}
+		  ,#{tel}
+		  ,#{sex}
+		  ,#{birth}
+		  ,#{mail}
+		  ,#{addr}
+		  ,now()
+		  ,#{pid}
+		)
+	</insert>
+	
+    <!-- 관리자 회원 추가  -->
+	<insert id="dregister">
+		insert into tb_userinfo (
+		   loginID
+		  ,user_type
+		  ,name
+		  ,password
+		  ,tel
+		  ,sex
+		  ,birth
+		  ,mail
+		  ,addr
+		  ,join_date
+		  ,pid
+		  ,comp_name
+		  ,comp_addr
+		  ,comp_tel
+		  ,comp_mail
+		) values (
+		   #{loginID}
+		  ,#{user_type}
+		  ,#{name}
+		  ,#{password}
+		  ,#{tel}
+		  ,#{sex}
+		  ,#{birth}
+		  ,#{mail}
+		  ,#{addr}
+		  ,now()
+		  ,#{pid}
+		  ,#{comp_name}
+		  ,#{comp_addr}
+		  ,#{comp_tel}
+		  ,#{comp_mail}
+		)
+	</insert>
+	
+   <!-- 사용자 로그인 -->
+   <select id="id_check" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+      SELECT  COUNT(loginID) AS che
+        FROM  tb_userinfo 
+       WHERE  loginID = #{loginID}
+     </select>
+</mapper>

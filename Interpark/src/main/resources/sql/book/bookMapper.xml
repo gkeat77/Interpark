@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kosmo.jobkorea.book.dao.bookDao">
+
+	<insert id="insert">
+		INSERT INTO tb_book(
+		itemId,title,author
+		,isbn,translator,description,priceStandard,
+		coverSmallUrl,coverLargeUrl,categoryId,categoryName
+		,publisher,pubDate
+		) VALUES
+		<foreach collection="bookArr" item="item" separator=" , ">
+			("${item.itemId}", "${item.title}",
+			"${item.author}", "${item.isbn}", "${item.translator}"
+			, "${item.description}", "${item.priceStandard}", "${item.coverSmallUrl}",
+			"${item.coverLargeUrl}", "${item.categoryId}","${item.categoryName}","${item.publisher}","${item.pubDate}")
+		</foreach>
+	</insert>
+
+	<select id="cateList" resultType="String">
+		SELECT detail_code
+		FROM tb_detail_code 
+		where group_code=#{category}
+	</select>
+	
+	<delete id="delete">
+		delete from tb_book where categoryId Like CONCAT(#{cateNum},'%')
+	</delete>
+
+
+</mapper>
