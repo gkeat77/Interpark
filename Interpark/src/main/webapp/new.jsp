@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html lang="ko">
 <head>
-<title>인터파크~</title>    
+    
 </head>
 
 <body>
@@ -32,4 +32,3 @@
 </body>
 
 </html>
-
