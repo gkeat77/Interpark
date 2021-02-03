@@ -29,7 +29,7 @@
 
 	<!-- # DispatcherServlet의 매핑 경로를 '/'로 주었을 때, 기본 컨트롤러 연결 설정 -->
 	<!-- mvc:resources location="/WEB-INF/resource/" mapping="/resource/**"/ -->
-	<mvc:resources location="/WEB-INF/resource/img/" mapping="/img/**" />
+	<mvc:resources location="/WEB-INF/resource/images/" mapping="/images/**" />
 	<mvc:resources location="/WEB-INF/resource/css/" mapping="/css/**" />
 	<mvc:resources location="/WEB-INF/resource/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/resource/fonts/" mapping="/fonts/**" />
@@ -72,7 +72,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://13.124.192.119:3306/interpark" />
 		<property name="username" value="root" />
-        <property name="password" value="hwangkh704!" />
+		<property name="password" value="hwangkh704!" />
 		<property name="validationQuery" value="select 1" />
 	</bean> 
 
@@ -163,5 +163,6 @@
 		<property name="prefix" value="/WEB-INF/view/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
 
 </beans>
