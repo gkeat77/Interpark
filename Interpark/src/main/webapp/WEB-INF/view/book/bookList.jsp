@@ -7,7 +7,7 @@
 		<tr>
 			<th>이미지</th>
 			<th>정보</th>
-		</tr>
+		</tr> 
 	</thead>
 	<tbody id="book_list">
 		<c:if test="${totalCnt eq 0 }">

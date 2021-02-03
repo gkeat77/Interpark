@@ -26,11 +26,6 @@ $(document).ready(function() {
 			break;	
 		}
 	});
-	
-	var msg="${msg}";
-	console.log("msg:"+msg);
-	if(msg !=''){alert(msg)};
-	
 });
 	/** 도서 검색  */
 	function fsearch_book(currentPage) {
