@@ -52,8 +52,8 @@ public class DashboardController {
 
 		logger.info("+ end " + className + ".initDashboard");
 		
-		model.addAttribute("cartCnt",paymentService.getCartList().size());
-		model.addAttribute("cartList",paymentService.getCartList());
+		//model.addAttribute("cartCnt",paymentService.getCartList().size());
+		//model.addAttribute("cartList",paymentService.getCartList());
 		return returnType;
 	}
 
