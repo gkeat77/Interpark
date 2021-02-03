@@ -17,15 +17,15 @@
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/themify-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/themify-icons.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="${CTX_PATH}/css/style.css" type="text/css">
 </head>    
     <!-- Page Preloder -->
     <div id="preloder">

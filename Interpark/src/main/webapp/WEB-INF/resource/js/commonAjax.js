@@ -23,28 +23,16 @@ function callAjax(url, method, dataType, async, param, callback) {
 		dataType : dataType,
 		async : async,
 		data : param,
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader("AJAX", "true");
-			//$.blockUI({ message: '<h1><img src="/img/busy.gif" /> Just a moment...</h1>', T:99999 });
-		},
 		success : function(data) {
 			callback(data);
 		},
-		error : function(xhr, status, err) {
-			
-			console.log("xhr : " + xhr);
-			console.log("status : " + status);
-			console.log("err : " + err);
-			
-			if (xhr.status == 901) {
-				alert("로그인 정보가 없습니다.\n다시 로그인 해 주시기 바랍니다.");
-				location.replace('/login.do');
-			} else {
-				alert('A system error has occurred.' + err);
-			}
+		error : function(status, err) {
+/*			console.log("status : " + status);
+			console.log("err : " + err);*/
+
 		},
 		complete: function(data) {
-			$.unblockUI();
+			//$.unblockUI();
 		}
 	});
 }
@@ -135,27 +123,11 @@ function callAjaxFileUploadSetFormData(url, method, dataType, async, formData, c
 		contentType: false,
 		processData: false,
 		cache : false,
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader("AJAX", "true");
-			$.blockUI({ message: '<h1><img src="/images/admin/comm/busy.gif" /> Just a moment...</h1>', T:99999 }); 
-		},
 		success : function(data) { 
 			callback(data); 
 		},
-		error : function(xhr, status, err) { 
-			console.log("xhr : " + xhr);
-			console.log("status : " + status);
-			console.log("err : " + err);
-			
-			if (xhr.status == 901) {
-				alert("로그인 정보가 없습니다.\n다시 로그인 해 주시기 바랍니다.");
-				location.replace('/login.do');
-			} else {
-				alert('A system error has occurred.' + err);
-			}
-		},
 		complete: function(data) {
-			$.unblockUI();
+			
 		}
 	});
 }

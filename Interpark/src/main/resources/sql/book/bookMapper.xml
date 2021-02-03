@@ -2,29 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.kosmo.jobkorea.book.dao.bookDao">
 
-	<insert id="insert">
-		INSERT INTO tb_book(
-		itemId,title,author
-		,isbn,translator,description,priceStandard,
-		coverSmallUrl,coverLargeUrl,categoryId,categoryName
+	<insert id="BookRegister">
+		INSERT INTO BOOK_GOODS(
+		itemId,isbn,title,description
+		,translator,author
+		,priceStandard,coverSmallUrl,coverLargeUrl
+		,categoryId,categoryName
 		,publisher,pubDate
-		) VALUES
-		<foreach collection="bookArr" item="item" separator=" , ">
-			("${item.itemId}", "${item.title}",
-			"${item.author}", "${item.isbn}", "${item.translator}"
-			, "${item.description}", "${item.priceStandard}", "${item.coverSmallUrl}",
-			"${item.coverLargeUrl}", "${item.categoryId}","${item.categoryName}","${item.publisher}","${item.pubDate}")
-		</foreach>
+		,`index`,authorInfo
+		,stock,saleRate,salePrice,regDate
+		,file_nm,file_loc,file_size
+		<if test="(sellState != null) and (!sellState.equals(''))">
+		,sellState
+		</if>
+		<if test="(display != null) and (!display.equals(''))">
+		,display
+		</if>
+		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
+		,sellStart,sellEnd
+		</if>		
+		) VALUES (
+		#{book.itemId},#{book.isbn},#{book.title},#{description},
+		#{book.translator},#{book.author},
+		#{book.priceStandard},#{book.coverSmallUrl},#{book.coverLargeUrl},
+		#{book.categoryId},#{book.categoryName},
+		#{book.publisher},#{book.pubDate},
+		#{index},#{authorInfo},
+		#{stock},#{saleRate},#{salePrice},now(),
+		#{file_nm},#{file_loc},#{file_size}
+		<if test="(sellState != null) and (!sellState.equals(''))">
+		,#{sellState}
+		</if>
+		<if test="(display != null) and (!display.equals(''))">
+		,#{display}
+		</if>
+		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
+		,#{sellStart},#{sellEnd}
+		</if>
+		)
 	</insert>
 
-	<select id="cateList" resultType="String">
-		SELECT detail_code
-		FROM tb_detail_code 
-		where group_code=#{category}
+	<select id="cateList" resultType="kr.kosmo.jobkorea.book.model.CategoryModel">
+		SELECT * FROM CATEGORY
 	</select>
-	
+
 	<delete id="delete">
-		delete from tb_book where categoryId Like CONCAT(#{cateNum},'%')
 	</delete>
 
 
