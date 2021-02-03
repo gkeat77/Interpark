@@ -11,7 +11,7 @@ import kr.kosmo.jobkorea.supportD.model.NoticeDModel;
 
 public interface PaymentService {
 	
-	public List<PaymentModel> getCartList();
+	public List<PaymentModel> getCartList(String loginID);
 	
 	public void cartUpdate(PaymentModel vo);
 	

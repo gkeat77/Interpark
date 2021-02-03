@@ -184,6 +184,7 @@
                                 <li><a href="./faq.html">Faq</a></li>
                                 <li><a href="./register.html">Register</a></li>
                                 <li><a href="./login.html">Login</a></li>                               
+                                <li><a href="/login.do">Login</a></li>
                             </ul>
                         </li>
                     </ul>

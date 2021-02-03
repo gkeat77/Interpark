@@ -10,7 +10,7 @@ import kr.kosmo.jobkorea.payment.model.PaymentModel;
 
 public interface PaymentDao {
 	
-	public List<PaymentModel> getCartList();
+	public List<PaymentModel> getCartList(String loginID);
 	public void cartUpdate(PaymentModel vo);
 	public List<PaymentModel> payCartList(HashMap<String, Object> map);
 	public void payment(PaymentModel vo);
