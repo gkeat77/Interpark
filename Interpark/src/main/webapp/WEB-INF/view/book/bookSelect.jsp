@@ -90,10 +90,10 @@ $(document).ready(function() {
 		console.log(service);
 		
 		// 기존 목록 삭제
-		$('#book_list').empty();
+		$("#listTable").empty();
 
 		// 신규 목록 생성
-		$('#book_list').append(data);
+		$("#listTable").append(data);
 
 		// 총 개수 추출
 		var totalCnt = $("#totalCnt").val();
@@ -134,7 +134,7 @@ $(document).ready(function() {
 			<option value="${list.categoryId }">${list.categoryName }</option>
 			</c:forEach>
 		</select>
-		 <button type="button" id="btnGetInfo" class="btn"><span>조회</span></button>	
+		 <button type="button" id="btnGetInfo" class="btn btn-warning"><span>조회</span></button>	
 </div>
 	<div class="container">
 		<select id="searchTarget">
@@ -152,7 +152,7 @@ $(document).ready(function() {
 			<option value="productNumber">상품번호</option>
 		</select>
 	<input type="text" id="query" name="query">
-	<button type="button" id="btnSearch" class="btn"><span>검색</span></button>	
+	<button type="button" id="btnSearch" class="btn btn-warning"><span>검색</span></button>	
 	</div>
 </div>
 	<section class="shopping-cart spad">
@@ -160,15 +160,8 @@ $(document).ready(function() {
             <div class="row">
                 <div class="col-lg-12">
                     <div class="cart-table">
-                        <table class="table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>이미지</th>
-                                    <th>정보</th>
-                                </tr>
-                            </thead>                        
-                            <tbody id="book_list"></tbody>                          
-                        </table>
+                    <table class="table-hover table-bordered" id="listTable">
+                    </table>
 					</div>
 	 	            <div class="paging_area" id="Pagination"></div>
                 </div>
