@@ -24,8 +24,8 @@ public class PaymentServiceImpl implements PaymentService{
 	
 	
 	@Override
-	public List<PaymentModel> getCartList() {
-		return paymentDao.getCartList();
+	public List<PaymentModel> getCartList(String loginID) {
+		return paymentDao.getCartList(loginID);
 	}
 
 

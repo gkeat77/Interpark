@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PageMaker;
 import kr.kosmo.jobkorea.payment.model.PaymentModel;
@@ -37,17 +38,12 @@ public class PaymentController {
    public String index(Model model, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
-	   /*
-	   ArrayList<PaymentModel> cartNo = new ArrayList<PaymentModel>();
-	   for(PaymentModel ad :paymentService.getCartList()) {
-		   PaymentModel vo = new PaymentModel();
-		   vo.setCartNo(ad.getCartNo());
-		   cartNo.add(vo);
+	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+	   if(rm != null) {
+		   String loginID = rm.getLoginID();
+		   model.addAttribute("cartList", paymentService.getCartList(loginID));
+		   model.addAttribute("cartCnt",paymentService.getCartList(loginID).size());
 	   }
-	   */
-	   //model.addAttribute("cartNo", cartNo);
-	   model.addAttribute("cartList", paymentService.getCartList());
-	   model.addAttribute("cartCnt",paymentService.getCartList().size());
       logger.info("+ Start Payment.cartList.do");
       return "/payment/cartList";
    }
@@ -83,6 +79,10 @@ public class PaymentController {
 		   paymentService.cartUpdate(vo);
 	   }
 	   
+	   // userInfo
+	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+	   mav.addObject("userInfo", rm);
+	   System.out.println(rm);
 	   // total
 	   String totalPrice = req.getParameter("totalPrice");
 	   //getCart
@@ -94,7 +94,7 @@ public class PaymentController {
 	   // 결제 테이블에 카트 번호 전달 하기 위해서 
 	   mav.addObject("cartNos",cartNos);
 	   mav.addObject("cartList",paymentService.payCartList(map));
-	   mav.addObject("cartCnt",paymentService.getCartList().size());
+	   mav.addObject("cartCnt",paymentService.getCartList(rm.getLoginID()).size());
 	   mav.setViewName("payment/payment");
 	   return mav;
 	}
@@ -135,8 +135,8 @@ public class PaymentController {
         mav.addObject("pageMaker", pageMaker);
     }
    	// cart
-   	mav.addObject("cartList", paymentService.getCartList());
-   	mav.addObject("cartCnt",paymentService.getCartList().size());
+   	//mav.addObject("cartList", paymentService.getCartList());
+   	//mav.addObject("cartCnt",paymentService.getCartList().size());
    	mav.setViewName("payment/admin");
    	return mav;
    }

@@ -4,9 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
 
-
-	
-	
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
     <!-- Breadcrumb Section Begin -->
      <div class="breacrumb-section">
@@ -23,6 +20,14 @@
         </div>
     </div>
     
+    <c:choose>
+    <c:when test="${empty member}">
+    
+    
+
+    </c:when>
+    <c:otherwise>
+
     <section class="shopping-cart spad">
         <div class="container">
             <div class="row">
@@ -93,6 +98,11 @@
             </div>
         </div>
     </section>
+    
+    
+    </c:otherwise>
+</c:choose>
+    
     
     <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
     <!-- Partner Logo Section End -->
