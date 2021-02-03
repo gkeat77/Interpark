@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.kosmo.jobkorea.common.comnUtils.AESCryptoHelper;
 import kr.kosmo.jobkorea.common.comnUtils.ComnUtil;
 import kr.kosmo.jobkorea.login.dao.LoginDao;
-import kr.kosmo.jobkorea.login.model.LgnInfoModel;
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.login.model.UsrMnuAtrtModel;
 import kr.kosmo.jobkorea.login.model.UsrMnuChildAtrtModel;
 
@@ -30,15 +30,15 @@ public class LoginServiceImpl implements LoginService {
 	}
 	
 	/** 사용자 로그인 */
-	public LgnInfoModel loginProc(Map<String, Object> paramMap) throws Exception {
-		String password = paramMap.get("pwd").toString();
+	public RegisterInfoModel loginProc(Map<String, Object> paramMap) throws Exception {
+		//String password = paramMap.get("pwd").toString();
 		
 		//logger.info(" login before password : " + password);
 		//AES 방식 암호화
 		//password = AESCryptoHelper.encode( ComnUtil.AES_KEY, password);
 		
 		//logger.info(" login after password : " + password);
-		paramMap.put("pwd", password);
+		//paramMap.put("pwd", password);
 		return loginDao.selectLogin(paramMap);
 	}
 	
@@ -56,11 +56,11 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	/** 사용자 ID 찾기 */
-	public LgnInfoModel selectFindId(Map<String, Object> paramMap) throws Exception{
+	/*public LgnInfoModel selectFindId(Map<String, Object> paramMap) throws Exception{
 		return loginDao.selectFindId(paramMap);
 	}
 
-	/** 사용자 PW 찾기 */
+	*//** 사용자 PW 찾기 *//*
 	public LgnInfoModel selectFindPw(Map<String, Object> paramMap) throws Exception{
 		String password = paramMap.get("pwd").toString();
 		//AES 방식 암호화
@@ -69,17 +69,17 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.selectFindPw(paramMap);
 	}
 
-	/** 이메일 유무 확인 ID 찾기 */
+	*//** 이메일 유무 확인 ID 찾기 *//*
 	@Override
 	public List<LgnInfoModel> findId(Map<String, Object> paramMap) throws Exception {
 		return loginDao.findId(paramMap);
 	}
 
-	/** 아이디 유무 확인 pass 전송**/
+	*//** 아이디 유무 확인 pass 전송**//*
 	@Override
 	public LgnInfoModel findPass(Map<String, Object> paramMap) throws Exception {
 		return loginDao.findPass(paramMap);
-	}
+	}*/
 
 	/** 비밀번호 재발급 **/
 	@Override
