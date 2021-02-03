@@ -1,6 +1,7 @@
 package kr.kosmo.jobkorea.login.controller;
 
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 //import kr.kosmo.jobkorea.adm.service.MailService;
 import kr.kosmo.jobkorea.common.comnUtils.ComnCodUtil;
-import kr.kosmo.jobkorea.login.model.LgnInfoModel;
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.login.model.UsrMnuAtrtModel;
 import kr.kosmo.jobkorea.login.service.LoginService;
 import kr.kosmo.jobkorea.system.model.ComnCodUtilModel;
@@ -29,7 +30,6 @@ import kr.kosmo.jobkorea.system.model.ComnCodUtilModel;
 @Controller
 public class LoginController {
 
-   // 커밋 테스트 됌 -동철
    // Set logger
    private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -38,9 +38,6 @@ public class LoginController {
    
    @Autowired
    LoginService loginService;
-    
-//   @Autowired
-//   MailService mailService;
 
    /**
     * index 접속 시 로그인 페이지로 이동한다.
@@ -54,24 +51,11 @@ public class LoginController {
     * @throws Exception
     */
 
-   
-   
-   
    @RequestMapping("login.do")
    public String index(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
       logger.info("+ Start LoginController.login.do");
-   /*   List<ComnCodUtilModel> listOfcDvsCod = ComnCodUtil.getComnCod("OFC_DVS_COD","M");   // 오피스 구분 코드 (M제외)
-      Collections.reverse(listOfcDvsCod); // 오피스 구분 역순으로
-      List<ComnCodUtilModel> listCtrCod = ComnCodUtil.getComnCod("CTR_COD");               // 국가 코드
-      List<ComnCodUtilModel> listPnnCtr = ComnCodUtil.getComnCod("PNN_CTR");               // 전화번호 국가
-      
-      result.addAttribute("listOfcDvsCod", listOfcDvsCod);   // 오피스 구분 코드
-      result.addAttribute("listCtrCod", listCtrCod);            // 국가 코드
-      result.addAttribute("listPnnCtr", listPnnCtr);            // 전화번호 국가
-          logger.info("+ End LoginController.login.do");
-*/
       return "/login/login";
    }
 
@@ -88,41 +72,26 @@ public class LoginController {
     */
    @RequestMapping("loginProc.do")
    @ResponseBody
-   public Map<String, String> loginProc(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+   public Map<String, String> loginProc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 	   
-      logger.info("+ Start LoginController.loginProc.do");
-      logger.info("   - ParamMap : " + paramMap);
+      logger.info("+ Start loginProc.do");
+      logger.info("   - loginProc.do ParamMap : " + paramMap);
 
       // 사용자 로그인
-      LgnInfoModel lgnInfoModel = loginService.loginProc(paramMap);
-      
+      RegisterInfoModel rm = loginService.loginProc(paramMap);
       String result;
       String resultMsg;
-      
-      if (lgnInfoModel != null) {
+      logger.info("   - rm : " + rm);
+      if (rm != null) {
          
          result = "SUCCESS";
          resultMsg = "사용자 로그인 정보가 일치 합니다.";
          
          // 사용자 메뉴 권한 조회
-         paramMap.put("usr_sst_id", lgnInfoModel.getUsr_sst_id());
-         paramMap.put("userType",lgnInfoModel.getMem_author());
-         // 메뉴 목록 조회 0depth
-         List<UsrMnuAtrtModel> listUsrMnuAtrtModel = loginService.listUsrMnuAtrt(paramMap);
-         // 메뉴 목록 조회 1depth
-         for(UsrMnuAtrtModel list : listUsrMnuAtrtModel){
-            Map<String, Object> resultMapSub = new HashMap<String, Object>();
-            resultMapSub.put("lgn_Id", paramMap.get("lgn_Id")); 
-            resultMapSub.put("hir_mnu_id", list.getMnu_id());
-            resultMapSub.put("userType",lgnInfoModel.getMem_author());
-            list.setNodeList(loginService.listUsrChildMnuAtrt(resultMapSub));
-         }
-         session.setAttribute("loginId",    lgnInfoModel.getLgn_id());                //   로그인 ID
-         session.setAttribute("userNm",     lgnInfoModel.getUsr_nm());                // 사용자 성명
-         session.setAttribute("usrMnuAtrt", listUsrMnuAtrtModel);
-         session.setAttribute("userType",   lgnInfoModel.getMem_author());            // 로그린 사용자 권란       A: 관리자       C: 기업회원    D:일반회원
-         session.setAttribute("serverName", request.getServerName());
+         paramMap.put("userType", rm.getUser_type());
+        
+         session.setAttribute("member", rm);                //   로그인 ID
       } else {
          
          result = "FALSE";
@@ -132,13 +101,17 @@ public class LoginController {
       Map<String, String> resultMap = new HashMap<String, String>();
       resultMap.put("result", result);
       resultMap.put("resultMsg", resultMsg);
-      resultMap.put("serverName", request.getServerName());
       
       logger.info("+ End LoginController.loginProc.do");
+      Enumeration se = session.getAttributeNames();
+      while(se.hasMoreElements()){
+    	  String getse = se.nextElement()+"";
+    	  System.out.println("@@@@@@@ session : "+getse+" : " + session.getAttribute(getse));
+    	  }
 
       return resultMap;
    }
-   
+  
    
    /**
     * 로그아웃
@@ -148,13 +121,11 @@ public class LoginController {
     * @return
     */
    @RequestMapping(value = "/loginOut.do")
-   public ModelAndView loginOut(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+   public String loginOut(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
                   
-      ModelAndView mav = new ModelAndView();
       session.invalidate();
-      mav.setViewName("redirect:/login.do");
-      
-      return mav;
+      logger.info("+ End LoginController.loginOut.do");
+      return "redirect:/login.do";
    }
    
    /**
@@ -162,7 +133,7 @@ public class LoginController {
     */
    @RequestMapping("selectFindInfo.do")
    @ResponseBody
-   public Map<String, Object> selectFindInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+   public Map<String, Object> selectFindInfo(@RequestParam Map<String, Object> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
       
       logger.info("+ Start " + className + ".selectFindInfo");
@@ -176,23 +147,24 @@ public class LoginController {
  
       String result = "SUCCESS";
       String resultMsg = "조회 성공";
-      LgnInfoModel resultModel;
-      if(paramMap.get("lgn_id") == null){
+      RegisterInfoModel rm;
+      /*if(paramMap.get("lgn_id") == null){
          // 사용자 id 조회
-         resultModel = loginService.selectFindId(paramMap);
+    	  rm = loginService.selectFindId(paramMap);
       }else{
          // 사용자 pw 조회
-         resultModel = loginService.selectFindPw(paramMap);
+    	  rm = loginService.selectFindPw(paramMap);
       }
       
       Map<String, Object> resultMap = new HashMap<String, Object>();
       resultMap.put("result", result);
       resultMap.put("resultMsg", resultMsg);
-      resultMap.put("resultModel", resultModel);
+      resultMap.put("rm", rm);*/
       
       logger.info("+ End " + className + ".selectFindInfo");
       
-      return resultMap;
+      //return resultMap;
+      return null;
    }
    
    

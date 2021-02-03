@@ -11,11 +11,9 @@
 <title>JobKorea</title>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/admin/login.css" />
-
+<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 
 <!-- 우편번호 조회 -->
-
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/popFindZipCode.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/login.js"></script>
@@ -29,25 +27,6 @@
 		$("#loginPwd").hide();
 		
 	
-		
-		/* $("#btn_prelogin").click(function() {
-			$("#EMP_ID").val("admin");
-			$("#EMP_PWD").val("admin");
-			fLoginProc();
-		});
-
-		$("#btn_prelogin1").click(function() {
-			$("#EMP_ID").val("1234");
-			$("#EMP_PWD").val("1234");
-			fLoginProc();
-		});
-
-		$("#btn_prelogin2").click(function() {
-			$("#EMP_ID").val("DigitalOne");
-			$("#EMP_PWD").val("DigitalOne");
-			fLoginProc();
-		}); */
-
 		// 쿠키값을 가져온다.
 		var cookie_user_id = getCookie('EMP_ID');
 		if (cookie_user_id != "") {
@@ -534,14 +513,28 @@
 	}
 
 </script>
+ <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/themify-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
+
 <form id="myForm" action="" method="post">
     <div class="page-container">
         <div class="login-form-container shadow">
             <div class="login-form-right-side">
                 <div class="top-logo-wrap">
-                <img src="${CTX_PATH}/images/admin/login/logo_img.png">
+                <img src="${CTX_PATH}/img/admin/login/logo_img.png">
                 </div>
                 <h1>훈련을 통해 나를 만든다.</h1>
                 <p>Learning Management System</p>
@@ -943,6 +936,8 @@
 			<a href="" class="closePop"><span class="hidden">닫기</span></a>
 		</div>
 	</form>
+	
+	 <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
 </body>
 
 </html>

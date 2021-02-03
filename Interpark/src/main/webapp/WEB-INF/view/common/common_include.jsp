@@ -1,21 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/admin/basic.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/jh_css/style.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/js/jquery-ui/jquery-ui-1.11.4/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/js/jquery-ui/jquery-ui-1.11.4/jquery-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/vuecss/bootstrap-datepicker3.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/vuecss/bootstrap-datepicker3.min.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/vuecss/bootstrap-datepicker3.standalone.min.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/vuecss/bootstrap-datepicker3.standalone.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/js/bootstrap/custom_bootstrap.css" />
-<%-- <link rel="stylesheet" type="text/css" href="${CTX_PATH}/js/statistics/css/font-awesome.min.css" /> --%>
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/common.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/elegant-icons.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/jquery-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/nice-select.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/owl.carousel.min.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/slicknav.min.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/themify-icons.css" />
 
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/underscore-min.js"></script>	
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.countdown.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.dd.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.nice-select.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.slicknav.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.zoom.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery-ui.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/main.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/owl.carousel.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/popFindZipCode.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/underscore-min.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery-ui/jquery-ui-1.11.4/jquery-ui.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery-ui/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.form.min.js"></script>
+
 <!-- 모달팝업 -->
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/global_pub.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.model.js"></script>
@@ -32,8 +44,6 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
 <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <!-- <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>  -->
-<script type="text/javascript" src="//unpkg.com/vue@latest/dist/vue.js"></script>    
-<script type="text/javascript" src="//rawgit.com/wenzhixin/vue-bootstrap-table/develop/docs/static/dist/vue-bootstrap-table.js"></script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script> 

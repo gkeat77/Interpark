@@ -30,11 +30,11 @@
     /*------------------
 		Navigation
 	--------------------*/
-    $(".mobile-menu").slicknav({
+    /*$(".mobile-menu").slicknav({
         prependTo: '#mobile-menu-wrap',
         allowParentLinks: true
     });
-
+*/
     /*------------------
         Hero Slider
     --------------------*/
