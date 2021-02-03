@@ -16,22 +16,14 @@ public class RegisterServiceImpl implements RegisterService{
 	
 	/** 일반 회원 가입*/
 	@Override
-	public String aregister(Map<String, Object> paramMap) throws Exception {
-		registerDao.aregister(paramMap);
-		return null;
-	}
-
-	/** 강사 회원 가입*/
-	@Override
-	public String bregister(Map<String, Object> paramMap) throws Exception {
-		registerDao.bregister(paramMap);
-		return null;
+	public int aregister(RegisterInfoModel member) throws Exception {
+		return registerDao.aregister(member);
 	}
 	
-	/** 관리자 회원 가입*/
+	/** 일반 회원 가입*/
 	@Override
-	public String dregister(Map<String, Object> paramMap) throws Exception {
-		registerDao.dregister(paramMap);
+	public String aregister(Map<String, Object> paramMap) throws Exception {
+		registerDao.aregister(paramMap);
 		return null;
 	}
 
@@ -40,4 +32,13 @@ public class RegisterServiceImpl implements RegisterService{
 	public RegisterInfoModel id_check(Map<String, Object> paramMap) throws Exception {
 		return registerDao.id_check(paramMap);
 	}
+	
+
+
+
+	
+
+
+
+	
 }

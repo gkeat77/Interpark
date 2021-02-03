@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <head>
 <meta charset="UTF-8">
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -44,7 +44,19 @@
                     </div>
                 </div>
                 <div class="ht-right">
-                    <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                <c:if test="${member == null}">
+					 <a href="login.do" class="login-panel"><i class="fa fa-user"></i>Login</a>
+				</c:if>
+				<c:if test="${member != null}">
+					<div class="lan-selector">
+						<div id="login-panel">
+							<span>${member.name} 님 환영합니다
+							<a href="loginOut.do" class="login-panel"><i class="fa fa-user"></i>LogOut</a> </span>
+							<br>
+						</div>
+					</div>
+				</c:if>
+                   
                     <!-- 
                     <div class="lan-selector">
                         <select class="language_drop" name="countries" id="countries" style="width:300px;">
@@ -54,13 +66,14 @@
                                 data-title="Bangladesh">German </option>
                         </select>
                     </div>
-                     -->
+                     
                     <div class="top-social">
                         <a href="#"><i class="ti-facebook"></i></a>
                         <a href="#"><i class="ti-twitter-alt"></i></a>
                         <a href="#"><i class="ti-linkedin"></i></a>
                         <a href="#"><i class="ti-pinterest"></i></a>
                     </div>
+                    -->
                 </div>
             </div>
         </div>
@@ -161,7 +174,7 @@
                 </div>
                 <nav class="nav-menu mobile-menu">
                     <ul>
-                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./index.jsp">Home</a></li>
                         <li><a href="./shop.html">Shop</a></li>
                         <li><a href="#">Collection</a>
                             <ul class="dropdown">
@@ -179,7 +192,7 @@
                                 <li><a href="./check-out.html">Checkout</a></li>
                                 <li><a href="./faq.html">Faq</a></li>
                                 <li><a href="./register.html">Register</a></li>
-                                <li><a href="./login.html">Login</a></li>
+                                <li><a href="/login/login">Login</a></li>
                             </ul>
                         </li>
                     </ul>
