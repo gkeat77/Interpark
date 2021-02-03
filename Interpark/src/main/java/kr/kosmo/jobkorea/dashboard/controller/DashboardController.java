@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.kosmo.jobkorea.payment.service.PaymentService;
 import kr.kosmo.jobkorea.supportD.model.NoticeDModel;
 import kr.kosmo.jobkorea.supportD.service.NoticeDService;
 
@@ -25,6 +26,8 @@ public class DashboardController {
 
 	@Autowired
 	NoticeDService noticeDService;
+	@Autowired
+	PaymentService paymentService;
 
 	private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -48,7 +51,9 @@ public class DashboardController {
 		String returnType = "/index";
 
 		logger.info("+ end " + className + ".initDashboard");
-
+		
+		model.addAttribute("cartCnt",paymentService.getCartList().size());
+		model.addAttribute("cartList",paymentService.getCartList());
 		return returnType;
 	}
 
