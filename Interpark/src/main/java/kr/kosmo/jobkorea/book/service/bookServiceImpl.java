@@ -71,16 +71,21 @@ public class bookServiceImpl implements bookService{
 		return count;
 	}
 
-
 	@Override
-	public int delete(String cateNum) {
-		return bookDao.delete(cateNum);
+	public List<CategoryModel> cateList() {
+		return bookDao.cateList();
 	}
 
 
 	@Override
-	public List<CategoryModel> cateList() {
-		return bookDao.cateList();
+	public List<BookModel> goodsList(Map<String,Object> paramMap) {
+		return bookDao.goodsList(paramMap);
+	}
+
+
+	@Override
+	public int goodsCount(Map<String, Object> paramMap) {
+		return bookDao.goodsCount(paramMap);
 	}
 
 }

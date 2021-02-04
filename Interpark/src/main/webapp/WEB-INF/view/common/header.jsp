@@ -168,14 +168,13 @@
                     <ul>
                         <li><a href="./index.html">Home</a></li>
                         <li><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">Collection</a>
+                        <li><a href="#">도서</a>
                             <ul class="dropdown">
-                                <li><a href="#">Men's</a></li>
-                                <li><a href="#">Women's</a></li>
+                                <li><a href="/book/regPage.do">도서등록</a></li>
+                                <li><a href="/book/goodsListPage.do">도서목록</a></li>
                                 <li><a href="#">Kid's</a></li>
                             </ul>
                         </li>
-                        <li><a href="/book/regPage.do">도서등록</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                 <li><a href="/adminInfo.do">Blog Details</a></li>

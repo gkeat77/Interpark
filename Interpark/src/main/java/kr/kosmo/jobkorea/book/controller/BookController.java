@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.kosmo.jobkorea.book.model.BookModel;
 import kr.kosmo.jobkorea.book.service.bookService;
 import kr.kosmo.jobkorea.book.util.API;
+import kr.kosmo.jobkorea.payment.model.Criteria;
+import kr.kosmo.jobkorea.payment.model.PageMaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +44,7 @@ public class BookController {
 	public 	String bookList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		model.addAttribute("cateList", booksv.cateList());
-		return "book/bookSelect";
+		return "book/bookList";
 	}
 	// 책 검색
 	@RequestMapping("search.do")
@@ -64,8 +66,9 @@ public class BookController {
 		
 		model.addAttribute("list", bookArr);
 		model.addAttribute("totalCnt",total);
-		return "book/bookList";
+		return "book/bookListCallback";
 	}
+	
 	//책 선택 후 상품정보 입력 페이지이동
 	@RequestMapping("select.do")
 	public 	String selectBookInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -96,16 +99,43 @@ public class BookController {
 		logger.info("책 넣엇다"+paramMap);
 		
 		int count=booksv.BookRegister(paramMap,request);
-/*		if(count >0){
-			reAttr.addFlashAttribute("msg","상품이 등록되었습니다.");
-		}else{
-			reAttr.addFlashAttribute("msg","상품이 등록실패.");
-		}
-		*/
+
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("result","SUCCESS");
-		
+		if(count>0){
+			resultMap.put("result","등록되었습니다.");
+		}else{
+			resultMap.put("result","등록 실패.");
+		}
 		return resultMap;
+	}
+	
+	
+	@RequestMapping("goodsListPage.do")
+	public 	String goodsListPage(Model model, HttpServletRequest request) throws Exception {
+		
+		return "book/goodsList";
+	}
+	
+	@RequestMapping("goodsList.do")
+	public 	String goodsList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		List<BookModel> goodsList = new ArrayList<>();
+		int currentPage = Integer.parseInt((String) paramMap.get("currentPage"));
+		int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); 
+		int pageIndex = (currentPage - 1) * pageSize;
+
+		paramMap.put("pageIndex", pageIndex);
+		paramMap.put("pageSize", pageSize);
+
+		goodsList = booksv.goodsList(paramMap);
+		logger.info(goodsList);
+		
+		int totalCnt= booksv.goodsCount(paramMap);
+		
+		model.addAttribute("goodsList", goodsList);
+		model.addAttribute("totalCnt", totalCnt);
+		
+		return "book/goodsListCallback";
 	}
 	
 

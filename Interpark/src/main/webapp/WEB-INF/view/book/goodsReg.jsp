@@ -30,6 +30,15 @@ $(document).ready(function() {
 		registGoods();
 	});
 	
+	//할인 적용가 계산
+	$('input[name=salePrice],input[name=saleRate]').change(function(){
+		let salePrice= $('input[name=salePrice]').val();
+		let saleRate= $('input[name=saleRate]').val();
+		let realPrice = salePrice * ((100-saleRate)/100);
+		$('input[name=realPrice]').val(realPrice);
+	});
+	
+	
 });
 
 //상시 or 기간판매 
@@ -102,6 +111,9 @@ function makeProjectCallback(param){
 									</tr>
 								</tbody>                          
                         </table>
+                        <ul class="btn-group pagination">
+							<h1>1234</h1>
+						</ul>
 					</div>
                 </div>
             </div>
@@ -144,6 +156,12 @@ function makeProjectCallback(param){
 						<span class="input-group-text"><strong>할인율</strong></span>
 					</div>
 					<input type="number" class="form-control" name="saleRate">
+				</div>
+				<div class="input-group mb-3 input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><strong>할인 적용가</strong></span>
+					</div>
+					<input type="number" class="form-control" name="realPrice" readonly>
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">

@@ -12,8 +12,10 @@ public interface bookDao {
 	
 	public int BookRegister(Map<String, Object> paramMap);
 	
-	public int delete(String cateNum);
-	
 	public List<CategoryModel> cateList();
+	
+	public List<BookModel> goodsList(Map<String,Object> paramMap);
+	
+	public int goodsCount(Map<String,Object> paramMap);
 
 }
