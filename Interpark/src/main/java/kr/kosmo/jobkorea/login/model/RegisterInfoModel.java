@@ -28,10 +28,19 @@ public class RegisterInfoModel {
 	private String status;		//M_STATUS 회원가입상태
 	private int a_id;		//A_ID 배송지 번호
 	private String grade;		//G_ID 회원등급
+	private String a_TITLE;		//주소록 제목
+
 	private int che;
 	
 	public RegisterInfoModel(){}
 
+	public String getA_TITLE() {
+		return a_TITLE;
+	}
+	
+	public void setA_TITLE(String a_TITLE) {
+		this.a_TITLE = a_TITLE;
+	}
 	public String getLoginID() {
 		return loginID;
 	}
@@ -256,9 +265,8 @@ public class RegisterInfoModel {
 				+ ", std_Id=" + std_Id + ", rs_fname=" + rs_fname + ", rs_url=" + rs_url + ", rs_fsize=" + rs_fsize
 				+ ", phone1=" + phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + ", account=" + account
 				+ ", mileage=" + mileage + ", totalpay=" + totalpay + ", bkname=" + bkname + ", status=" + status
-				+ ", a_id=" + a_id + ", grade=" + grade + ", che=" + che + "]";
+				+ ", a_id=" + a_id + ", grade=" + grade + ", che=" + che + ", a_TITLE=" + a_TITLE + "]";
 	}
-	
-	
+
 	
 }

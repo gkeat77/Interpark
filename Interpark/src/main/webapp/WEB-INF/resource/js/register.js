@@ -75,28 +75,23 @@ function AfValidateStudent() {
 		alert("연락처 형식을 맞춰주세요");
 	    ($phone3).focus();
 	    return;
-	}	
-}
-	/*
+	}
+	
 	// 이메일 체크
-	var  pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
+	/*var  pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
 	var  Email1   = $("#AregisterEmail1").val();
-	var  Email2   = $("#AregisterEmail2").val();
 	var $Email1   = $('#AregisterEmail1');
-	var $Email2   = $('#AregisterEmail2');
 
 	if(pattern_spc.test(Email1)){
 		alert("이메일에 특수 문자를 사용하실 수 없습니다.");
 		($Email1).focus();
 		return;
 	}
-	if(pattern_spc.test(Email2)){
-		alert("이메일에 특수 문자를 사용하실 수 없습니다.");
-	   ($Email2).focus();
-	    return;
-	}	
-	return true;
-}*/
+	return true;*/
+}
+	
+	
+
 
 /* 회원가입  신규등록*/
 function AfPopModalLsmCod(loginID) {
@@ -126,7 +121,7 @@ function closeDaumPostcode() {
     // iframe을 넣은 element를 안보이게 한다.
     element_layer.style.display = 'none';
 }
-function execDaumPostcode(loginaddr,loginaddr1,detailaddr) {
+function execDaumPostcode() {
 	new daum.Postcode({
 		oncomplete : function(data) {
 			// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -157,10 +152,10 @@ function execDaumPostcode(loginaddr,loginaddr1,detailaddr) {
 				}
 			}
 			// 우편번호와 주소 정보를 해당 필드에 넣는다.
-			document.getElementById(detailaddr).value = data.zonecode;
-			document.getElementById(loginaddr).value = addr;
+			document.getElementById('Adetailaddr').value = data.zonecode;
+			document.getElementById('Aloginaddr').value = addr;
 			// 커서를 상세주소 필드로 이동한다.
-			document.getElementById(loginaddr1).focus();
+			document.getElementById('Aloginaddr1').focus();
 		}
 	}).open({ });
 }
@@ -195,6 +190,7 @@ function execDaumPostcode(loginaddr,loginaddr1,detailaddr) {
 				if(data.OK=="N"){
 					alert("아이디가 중복 되었습니다");
 				}else if(form == "ARegisterForm" ){
+					AfValidateStudent()
 					ACompleteRegister(form);
 				}
 				
@@ -215,7 +211,7 @@ function execDaumPostcode(loginaddr,loginaddr1,detailaddr) {
 			data : $("#"+form).serialize(),
 			success : function(data) {
 				alert("회원가입이 완료 되었습니다");
-				location.href = "login.do";
+				location.href = "login.me";
 			},
 			error : function() {
 				alert("[ 회원 신규 등록 에러 ]");

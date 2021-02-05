@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.login.service.RegisterService;
@@ -34,11 +35,11 @@ public class RegisterController {
 	RegisterService registerService;
 	
 	
-	 @RequestMapping(value="reg.do", method = RequestMethod.GET)
+	 @RequestMapping(value="reg.me", method = RequestMethod.GET)
 	   public String index(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
 	         HttpServletResponse response, HttpSession session) throws Exception {
 
-	      logger.info("+ Start RegisterController.reg.do");
+	      logger.info("+ Start RegisterController.reg.me");
 	  
 	      return "/login/register";
 	   }
@@ -48,11 +49,16 @@ public class RegisterController {
 		public String aregiste(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,  HttpServletResponse response, HttpSession session) throws Exception {
 			
 		 	logger.info("+ Start aregister.do");
-			paramMap.put("addr", (String)paramMap.get("addr") +","+(String)paramMap.get("addr_detail")+","+(String)paramMap.get("user_post"));
-			paramMap.put("tel",  (String)paramMap.get("tel1") +"-"+(String)paramMap.get("tel2")       +"-"+(String)paramMap.get("tel3"));
+			paramMap.put("address", (String)paramMap.get("addr") +","+(String)paramMap.get("addr_detail")+","+(String)paramMap.get("user_post"));
+			paramMap.put("tel",  (String)paramMap.get("phone1") +"-"+(String)paramMap.get("phone2")       +"-"+(String)paramMap.get("phone3"));
 			paramMap.put("birth",(String)paramMap.get("year") +    (String)paramMap.get("month")      +    (String)paramMap.get("day") );
-			 
-			registerService.aregister(paramMap);
+			
+			int re;
+			
+			re = registerService.aregister(paramMap);
+			if(re >0){
+				registerService.aregister2(paramMap);
+			}
 			logger.info("+ End aregister.do");
 			return null;
 	 }
@@ -80,7 +86,7 @@ public class RegisterController {
 			logger.info("회원등록 실패");
 		}
 		
-		return "/login/login";
+		return "/login/login";  
 	}*/
 	
 	@RequestMapping("id_check.do")
@@ -96,5 +102,4 @@ public class RegisterController {
 		}
 	}
 	
-
 }
