@@ -135,7 +135,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/login.do" />
+			<mvc:exclude-mapping path="/login.me" />
 			<mvc:exclude-mapping path="/loginProc.do" />
 			<mvc:exclude-mapping path="/selectFindInfo.do" />
 			<mvc:exclude-mapping path= "/register.do"/>
@@ -150,6 +150,14 @@
 			<bean class="kr.kosmo.jobkorea.common.interceptor.AuthCheckInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			
+		<bean id="AdminInterceptor" class="kr.kosmo.jobkorea.common.interceptor.AuthCheckInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+
 
 
 	 		 

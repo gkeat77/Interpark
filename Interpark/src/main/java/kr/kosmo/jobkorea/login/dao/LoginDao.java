@@ -22,17 +22,26 @@ public interface LoginDao {
 	public List<UsrMnuChildAtrtModel> listUsrChildMnuAtrt(Map<String, Object> paramMap);
 	
 	/** 사용자 ID 찾기 */
-	/*public LgnInfoModel selectFindId(Map<String, Object> paramMap);
+	public RegisterInfoModel selectFindId(Map<String, Object> paramMap);
 
-	*//** 사용자 PW 찾기 *//*
-	public LgnInfoModel selectFindPw(Map<String, Object> paramMap);
+	/** 사용자 PW 찾기 */
+	public RegisterInfoModel selectFindPw(Map<String, Object> paramMap);
 
-	*//** 이메일 유무 확인 ID 찾기 *//*
-	public List<LgnInfoModel> findId(Map<String, Object> paramMap);
-
-	*//** 아이디 유무 확인 pass 전송**//*
-	public LgnInfoModel findPass(Map<String, Object> paramMap) throws Exception;
-	*/
+	/** 아이디 유무 확인 pass 전송**/
+	public RegisterInfoModel findPass(Map<String, Object> paramMap) throws Exception;
+	
 	/** 비밀번호 재발급 **/
-	public int findPassUpdate(Map<String, Object> paramMap) throws Exception;	
+	public int findPassUpdate(Map<String, Object> paramMap) throws Exception;
+	
+	/** ID 찾기 */
+	public String find_id(Map<String, String> paramMap) throws Exception;	
+	
+	/** 회원정보 수정*/
+	public int memberInfo(Map<String, Object> paramMap);
+	//회원 정보 중 주소 수정
+	public int addAddress(Map<String, Object> paramMap);
+
+
+	
+	
 }
