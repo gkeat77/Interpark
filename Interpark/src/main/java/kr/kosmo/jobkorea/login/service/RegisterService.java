@@ -8,12 +8,10 @@ import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 public interface RegisterService {
 	/** 회원 가입*/
 	public int aregister(RegisterInfoModel member)throws Exception;
-	public String aregister(Map<String, Object> paramMap) throws Exception;
+	public int aregister(Map<String, Object> paramMap) throws Exception;
+	public void aregister2(Map<String, Object> paramMap);
 	
 	/** id 증복 체크 **/
 	public RegisterInfoModel id_check(Map<String, Object> paramMap)throws Exception;
-
-	
-	
 	
 }

@@ -13,7 +13,6 @@
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/register.js"></script>
 <script type="text/javascript" src="${CTX_PATH}/js/login_pub.js"></script>
 <script>
-	
 </script>
 </head>
 <body>
@@ -43,6 +42,10 @@
 								<input type="text" name="password1" id="AregisterPwdOk">
 							</div>
 							<div class="group-input">
+								<label for="pass">주소 이름 </label>
+								<input type="text" name="A_TITLE" id="A_TITLE" />
+							</div>
+							<div class="group-input">
 								<label for="pass">우편번호 </label>
 								<input type="text" name="user_post" id="Adetailaddr" />
 								<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('Aloginaddr','Aloginaddr1','Adetailaddr')" class="address_search" />
@@ -57,9 +60,9 @@
 							</div>
 							<div class="group-input">
 								<label for="con-pass">연락처*</label>
-								<input type="text" class="phone" name="tel1" id="AregisterPhone1" style="width: 80px;"/> <b>&nbsp;&nbsp;-</b> 
-								<input type="text" class="phone" name="tel2" id="AregisterPhone2" style="width: 100px;"/> <b>&nbsp;&nbsp;-</b> 
-								<input type="text" class="phone" name="tel3" id="AregisterPhone3" style="width: 100px;"/> 
+								<input type="text" class="phone" name="phone1" id="AregisterPhone1" style="width: 80px;"/> <b>&nbsp;&nbsp;-</b> 
+								<input type="text" class="phone" name="phone2" id="AregisterPhone2" style="width: 100px;"/> <b>&nbsp;&nbsp;-</b> 
+								<input type="text" class="phone" name="phone3" id="AregisterPhone3" style="width: 100px;"/> 
 							</div>
 							<div class="group-input">
 								<label for="con-pass">생년 월일*</label>
@@ -71,16 +74,16 @@
 							</div>
 							<div class="group-input">
 								<label for="con-pass">환불받을 은행이름*</label>
-								<input type="text" class="bkname" name="bank" id="AregisterBank" />
+								<input type="text" class="bkname" name="bkname" id="AregisterBank" />
 							</div>
 							<div class="group-input">
 								<label for="con-pass">환불계좌*</label>
 								<input type="text" class="account" name="account" id="AregisterAccount" />
 							</div>
 							<br>
-							<a href="javascript:IDCheck('ARegisterForm');" class="site-btn register-btn" id="RegisterCom" name="btn" style="margin-left:219px;"><span>가입</span></a>
+							<a href="javascript:IDCheck('ARegisterForm');" class="site-btn register-btn" id="RegisterCom" style="margin-left:219px;"><span>가입</span></a>
 							<div class="switch-login">
-							<a href="login.do" class="or-login">Or Login</a>
+							<a href="login.me" class="or-login">Or Login</a>
 							</div>
 						</div>
 					</div>

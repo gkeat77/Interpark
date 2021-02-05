@@ -22,9 +22,15 @@ public class RegisterServiceImpl implements RegisterService{
 	
 	/** 일반 회원 가입*/
 	@Override
-	public String aregister(Map<String, Object> paramMap) throws Exception {
-		registerDao.aregister(paramMap);
-		return null;
+	public int aregister(Map<String, Object> paramMap) throws Exception {
+		return registerDao.aregister(paramMap);
+	}
+	
+	//회원가입시 주소록에 주소 넣기
+	@Override
+	public void aregister2(Map<String, Object> paramMap) {
+		registerDao.aregister2(paramMap);
+		
 	}
 
 	/** id 중복 체크*/
@@ -32,6 +38,11 @@ public class RegisterServiceImpl implements RegisterService{
 	public RegisterInfoModel id_check(Map<String, Object> paramMap) throws Exception {
 		return registerDao.id_check(paramMap);
 	}
+	
+	
+
+
+	
 	
 
 

@@ -11,10 +11,10 @@ public interface RegisterDao {
 	
 	public int aregister(RegisterInfoModel member);
 	
+	public void aregister2(Map<String, Object> paramMap);
 	
 	/** id 증복 체크 **/
 	public RegisterInfoModel id_check(Map<String, Object> paramMap)throws Exception;
 
-	
 	
 }
