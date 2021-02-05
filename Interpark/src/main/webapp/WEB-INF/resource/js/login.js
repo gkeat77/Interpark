@@ -1,8 +1,47 @@
+$(document).ready(function() {
+	// 쿠키값을 가져온다.
+	var cookie_user_id = getCookie('userId');
+	if (cookie_user_id != "") {
+		$("#userId").val(cookie_user_id);
+		$("#cb_saveId").attr("checked", true);
+	}
+});
+/* 로그인 */
+function fLoginProc(data) {
+	 if ($("#cb_saveId").is(":checked")) { // 저장 체크시
+		saveCookie('userId', $("#userId").val(), 7);
+	} 
+	// vaildation 체크
+	 if (!fValidateLogin()) {
+		return;
+	} 
+	var resultCallback = function(data) {
+		fLoginProcResult(data);
+	};
+	callAjax("loginProc.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
+}
 
-/* 아이디/비밀번호 찾기 모달창 실행 */
-function findIdPwd() {
-	// 모달 팝업
-	gfModalPop("#layer2");
+/* 로그인 결과 */
+function fLoginProcResult(data) {
+	if (data.result == "SUCCESS") {
+		location.href = "/index.do";
+	} else {
+		$("<div style='text-align:center;'>" + data.resultMsg + "</div>")
+				.dialog({
+					modal : true,
+					resizable : false,
+					buttons : [ {
+						text : "확인",
+						click : function() {
+							$(this).dialog("close");
+							$("#userId").val("");
+							$("#userPwd").val("");
+							$("#userId").focus();
+						}
+					} ]
+				});
+		$(".ui-dialog-titlebar").hide();
+	}
 }
 
 /** 로그인 ID 중복 체크 콜백 함수 */
@@ -23,37 +62,8 @@ function fValidateLogin() {
 	return true;
 }
 
-
-/*이메일 기능  (아이디 있는지 없는지 체크)*/
-function SendEmail() {
-	var data = {
-		"email" : $("#emailText").val(),
-		"data-code" : $("#emailText").attr("data-code")
-	};
-
-	$.ajax({
-		url : "/registerFindId.do",
-		type : "post",
-		dataType : "json",
-		async : false,
-		data : data,
-		success : function(flag) {
-			if (flag != '1') {
-				alert("해당 이메일로 인증번호를 전송하였습니다.");
-				$("#authNumId").val(flag);
-				$("#confirm").show();
-			} else if (flag == '1') {
-				alert("존재하지 않는 이메일 입니다.");
-			} else if (flag.length < 1) {
-				alert("이메일을 입력해주세요.");
-			}
-		}
-	});
-}
-
 /* 이메일 기능 (비밀번호 기능)*/
 function SendPwdEmail() {
-
 	var data = {
 		email       : $("#emailPwdText").val(),
 		loginID     : $("#emailIdText").val(),
@@ -64,7 +74,7 @@ function SendPwdEmail() {
 	console.log(data);
 
 	$.ajax({
-		url : "/registerFindPwd.do",
+		url : "findPass.do",
 		type : "post",
 		dataType : "json",
 		async : false,
@@ -129,24 +139,6 @@ function SendCompletePwd() {
 		// 비밀번호 호출하는 함수
 		findPwd();
 	}
-}
-/* 아이디 뜨게 하는 */
-var findId = function() {
-	var data = {
-		"email" : $("#emailText").val()
-	};
-	$.ajax({
-		url : '/findRegisterId.do',
-		type : 'post',
-		data : data,
-		dataType : 'text',
-		async : false,
-		success : function(data) {
-			// 모달 or span 
-			alert("귀하의 아이디는 : " + data + "입니다");
-			gfCloseModal();
-		}
-	});
 }
 
 /* 비밀번호 뜨게 하는 창 */
@@ -215,26 +207,6 @@ function RegisterIdCheck() {
 
 	});
 }
-/* 아이디 찾기 버튼 클릭 이벤트 */
-function fSelectId() {
-
-	$("#registerEmailId").show();
-	$("#findPwdForm").hide();
-	$("#loginEmail").hide();
-	$("#loginPwd").hide();
-	gfModalPop("#layer2");
-}
-
-/* 비밀번호 찾기 버튼 클릭 이벤트 */
-function fSelectPwd() {
-
-	$("#registerEmailId").hide();
-	$("#confirm").hide();
-	$("#findPwdForm").show();
-	$("#loginEmail").show();
-	$("#loginPwd").hide();
-	gfModalPop("#layer2");
-}
 
 /* 아이디 찾기 메일 인증하기 버튼 클릭 이벤트 */
 function fSelectIdOk() {
@@ -248,8 +220,7 @@ function fSelectData() {
 	var resultCallback = function(data) {
 		fSelectDataResult(data);
 	};
-	callAjax("/registerFindId.do", "post", "json", true, $("#modalForm")
-			.serialize(), resultCallback);
+	callAjax("/registerFindId.do", "post", "json", true, $("#modalForm").serialize(), resultCallback);
 }
 
 /** PW 조회 */
@@ -258,8 +229,7 @@ function fSelectDataPw() {
 		fSelectDataResultPw(data);
 	};
 
-	callAjax("/registerFindPwd.do", "post", "json", true, $("#modalForm2")
-			.serialize(), resultCallback);
+	callAjax("/registerFindPwd.do", "post", "json", true, $("#modalForm2").serialize(), resultCallback);
 }
 
 /** pw 저장 */
@@ -268,8 +238,7 @@ function fSaveData() {
 	var resultCallback = function(data) {
 		fSaveDataResult(data);
 	};
-	callAjax("/updateFindPw.do", "post", "json", true, $("#modalForm2")
-			.serialize(), resultCallback);
+	callAjax("/updateFindPw.do", "post", "json", true, $("#modalForm2").serialize(), resultCallback);
 }
 
 /** 데이터 저장 콜백 함수 */
@@ -277,7 +246,7 @@ function fSaveDataResult(data) {
 	if (data.result == "SUCCESS") {
 		// 응답 메시지 출력
 		alert(data.resultMsg);
-		location.href = "/login.do";
+		location.href = "/login.me";
 	} else {
 		// 오류 응답 메시지 출력
 		alert(data.resultMsg);

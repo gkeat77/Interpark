@@ -406,7 +406,7 @@ function g_fFormatSizeUnits(bytes){
  * @returns 
  */
 function fLogOut(){
-	location.href = "/loginOut.do";
+	location.href = "/loginOut.me";
 }
 
 

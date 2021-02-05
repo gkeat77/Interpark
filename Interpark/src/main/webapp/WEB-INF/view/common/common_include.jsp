@@ -1,17 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/common.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/elegant-icons.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/font-awesome.min.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/jquery-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/nice-select.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/owl.carousel.min.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/slicknav.min.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/style.css" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/themify-icons.css" />
-
-<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery-1.11.2.min.js"></script>
+ 
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/imagesloaded.pkgd.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.countdown.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.dd.min.js"></script>
