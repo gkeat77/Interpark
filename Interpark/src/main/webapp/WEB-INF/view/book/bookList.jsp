@@ -112,9 +112,8 @@ $(document).ready(function() {
  	};
 
 </script>
-<body>
+<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 <input type="hidden" id="action"> 
-	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
   <div class="breacrumb-section">
 <div class="container">
 		<select id="service">
@@ -166,8 +165,3 @@ $(document).ready(function() {
     </section>
    
    <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
-	
-
-</body>
-
-</html>

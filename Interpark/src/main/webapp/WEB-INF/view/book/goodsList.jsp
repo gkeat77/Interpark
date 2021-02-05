@@ -7,7 +7,8 @@
 
 <html lang="ko">
 <head>
-<title>!!!!</title>    
+<title>!!!!</title>
+    
 <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
 </head>
 <script>
@@ -26,6 +27,36 @@ $(document).ready(function() {
 		case 'btnSearch':
 			flist_goods();
 			break;
+		case 'btnAll':
+			flist_clean_search();
+			flist_goods();
+			break;
+		case 'btnSell':
+			flist_clean_search();
+			$("#classify").val('sell');
+			flist_goods();
+			break;
+		case 'btnNoSell':
+			flist_clean_search();
+			$("#classify").val('nosell');
+			flist_goods();
+			break;	
+		case 'btnDisplay':
+			flist_clean_search();
+			$("#classify").val('display');
+			flist_goods();
+			break;
+		case 'btnNoDisplay':
+			flist_clean_search();
+			$("#classify").val('nodisplay');
+			flist_goods();
+			break;		
+		case 'btnNostock':
+			flist_clean_search();
+			$("#classify").val('noStock');
+			flist_goods();
+			break;	
+			
 		}
 	});
 });
@@ -36,13 +67,14 @@ $(document).ready(function() {
 		
 		const searchType=$("#searchType").val();
 		const searchKey=$("#searchKey").val();
-		
+		const classify =$("#classify").val();
 		
 		var param = {
 				currentPage : currentPage,
 				pageSize:pageSize,
 				searchType:searchType,
-				searchKey:searchKey
+				searchKey:searchKey,
+				classify:classify
 		}
 
 		var resultCallback = function(data) {
@@ -53,7 +85,7 @@ $(document).ready(function() {
 				resultCallback);
 	}
 
-	/** 책 목록 조회 콜백 함수 */
+	/** 상품 목록 조회 콜백 함수 */
 	function flist_goods_result(data, currentPage) {
 		
 		// 기존 목록 삭제
@@ -64,6 +96,7 @@ $(document).ready(function() {
 
 		// 총 개수 추출
 		var totalCnt = $("#totalCnt").val();
+		console.log("토탈카운트:"+totalCnt);
 
 		// 페이지 네비게이션 생성
 		var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSize, pageBlockSize,'flist_goods');
@@ -72,18 +105,44 @@ $(document).ready(function() {
 		// 현재 페이지 설정
 		$("#currentPage").val(currentPage);
 	}
-
+	
+	//검색어 초기화
+	function flist_clean_search(){
+		$("#classify").val('');
+		$("#searchKey").val('');
+	}
+	// 상품 선택
+ 	function selectBook(pId){
+			location.href="/book/goodsDetail.do?pId="+pId;
+ 	};
+	
+	
 </script>
-<body>
-<input type="hidden" id="action"> 
-	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
-
-<div class="container">
+<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+<input type="hidden" id="classify"> 
+	<div class="container">
 	<section class="shopping-cart spad">
-            <div class="row">
-                <div class="col-lg-12">
+	<div class="nav-item" style="margin-bottom:20px">
+                <nav class="nav-menu mobile-menu">
+                    <ul>
+                        <li><a class="btn" id="btnAll">전체</a></li>
+                        <li><a>판매상태</a>
+                        	 <ul class="dropdown">
+                        	    <li><a class="btn" id="btnSell">판매중</a></li>
+                                <li><a class="btn" id="btnNoSell">판매중지</a></li>
+                            </ul>
+                        </li>
+                         <li><a>전시상태</a>
+                        	 <ul class="dropdown">
+                        	    <li><a class="btn" id="btnDisplay">전시중</a></li>
+                                <li><a class="btn" id="btnNoDisplay">비노출</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="btn" id="btnNostock">품절</a></li>
+                    </ul>
+                </nav>
+               </div> 
                 	<p class="conTitle mt50">
-								<span>검색어 </span>  
 								<select	id="searchType" name="searchType">
 										<option value="all" id="option1" selected="selected">전체</option>
 										<option value="title" id="option1">상품명</option>
@@ -93,10 +152,15 @@ $(document).ready(function() {
 							 	<button type="button" id="btnSearch" class="btn btn-warning"><span>검색</span></button>	
 							</p>
                     <div class="cart-table">
-                    <table class="table-hover table-bordered" id="listTable">
-								<thead>
+                    <table class="table-hover table-bordered">
+                    	   <colgroup>
+							   <col width="10%" />
+							   <col width="30%" />
+							   <col width="20%" />
+							   <col width="20%" />
+							   </colgroup>
+								<thead> 
 									<tr>
-										<th>상품번호</th>
 										<th>이미지</th>
 										<th>도서 정보</th>
 										<th>상품 정보</th>
@@ -106,14 +170,7 @@ $(document).ready(function() {
 								<tbody id="goods_list"></tbody>
 							</table>
 					</div>
-	 				<div class="paging_area" id="Pagination"></div>
-                </div>
-            </div>
-    </section>
+	 		<div class="paging_area" id="Pagination"></div>
+    	</section>
    </div>
    <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
-	
-
-</body>
-
-</html>

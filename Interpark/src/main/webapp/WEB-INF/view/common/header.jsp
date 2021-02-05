@@ -26,7 +26,8 @@
     <link rel="stylesheet" href="${CTX_PATH}/css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="${CTX_PATH}/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${CTX_PATH}/css/style.css" type="text/css">
-</head>    
+</head>
+<body>    
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -74,7 +75,7 @@
                         <div class="logo">
                             <a href="/index.do">
                                 <!-- <img src="img/mol.jpg" alt=""> -->
-                                <img src="img/logo.png" alt="">
+                                <img src="${CTX_PATH}/img/logo.png" alt="">
                             </a>
                         </div>
                     </div>

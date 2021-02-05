@@ -19,5 +19,13 @@ public interface bookService {
 	
 	public int goodsCount(Map<String,Object> paramMap);
 
+	public BookModel goodsDetail(Map<String,Object> paramMap);
+	
+	public int updateGoodsInfo(Map<String,Object> paramMap,HttpServletRequest request) throws Exception;
+	
+	public int deleteGoods(Map<String,Object> paramMap);
+	
+	public int deleteImg(Map<String,Object> paramMap);
+
 	
 }

@@ -119,8 +119,10 @@ public class FileUtilCho {
 				
 				// 원본 파일 삭제Map
 				String pscFilNm = (String)map.get("file_nm");
+				String rootFilePath = (String)map.get("rootFilePath");
 				if (pscFilNm != null && !"".equals(pscFilNm)) {
-					File file = new File(rootFilePath + pscFilNm);
+					logger.info(">>>>삭제 수행:"+ pscFilNm);
+					File file = new File(pscFilNm);
 					if (file.exists()) file.delete();
 				}
 				

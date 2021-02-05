@@ -138,5 +138,66 @@ public class BookController {
 		return "book/goodsListCallback";
 	}
 	
+	@RequestMapping("goodsDetail.do")
+	public 	String goodsDetail(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		model.addAttribute("goods", booksv.goodsDetail(paramMap));
+		
+		return "book/goodsDetail";
+	}
+	
+	@RequestMapping("updateGoodsInfo.do")
+	@ResponseBody
+	public 	Map<String, Object> updateGoodsInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		logger.info("받아온"+paramMap);
+		
+		int count=booksv.updateGoodsInfo(paramMap,request);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		if(count>0){
+			resultMap.put("result","수정되었습니다.");
+		}else{
+			resultMap.put("result","수정 실패.");
+		}
+		return resultMap;
+	}
+	
+	@RequestMapping("deleteGoods.do")
+	@ResponseBody
+	public 	Map<String, Object> deleteGoods(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		logger.info("받아온"+paramMap);
+		
+		int count=booksv.deleteGoods(paramMap);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		if(count>0){
+			resultMap.put("result","삭제되었습니다.");
+		}else{
+			resultMap.put("result","삭제 실패.");
+		}
+		return resultMap;
+	}
+	
+	@RequestMapping("deleteImg.do")
+	@ResponseBody
+	public 	Map<String, Object> deleteImg(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		logger.info("받아온"+paramMap);
+		
+		int count=booksv.deleteImg(paramMap);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		if(count>0){
+			resultMap.put("result","이미지가 삭제되었습니다.");
+		}else{
+			resultMap.put("result","이미지 삭제 실패.");
+		}
+		return resultMap;
+	}
+	
+	
 
 }

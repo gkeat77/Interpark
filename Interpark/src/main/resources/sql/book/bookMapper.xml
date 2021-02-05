@@ -13,12 +13,7 @@
 		,`index`,authorInfo
 		,stock,saleRate,salePrice,realPrice,regDate
 		,file_nm,file_loc,file_size
-		<if test="(sellState != null) and (!sellState.equals(''))">
-			,sellState
-		</if>
-		<if test="(display != null) and (!display.equals(''))">
-			,display
-		</if>
+		,sellState,display
 		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
 			,sellStart,sellEnd
 		</if>
@@ -31,12 +26,7 @@
 		#{index},#{authorInfo},
 		#{stock},#{saleRate},#{salePrice},#{realPrice},now(),
 		#{file_nm},#{file_loc},#{file_size}
-		<if test="(sellState != null) and (!sellState.equals(''))">
-			,#{sellState}
-		</if>
-		<if test="(display != null) and (!display.equals(''))">
-			,#{display}
-		</if>
+		,#{sellState},#{display}
 		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
 			,#{sellStart},#{sellEnd}
 		</if>
@@ -50,7 +40,25 @@
 <!-- 상품 검색 sql -->
 	<sql id="search">
 		<where>
+		<if test="(classify != null) and (classify eq 'sell'.toString())">
+			sellState='Y'	
+		</if>
+		<if test="(classify != null) and (classify eq 'nosell'.toString())">
+			sellState='N'	
+		</if>
+		<if test="(classify != null) and (classify eq 'display'.toString())">
+			display='Y'	
+		</if>
+		<if test="(classify != null) and (classify eq 'nodisplay'.toString())">
+			display='N'	
+		</if>
+		<if test="(classify != null) and (classify eq 'noStock'.toString())">
+			<![CDATA[ stock <= 0 ]]>
+		</if>
 		<if test="(searchKey != null) and (!searchKey.equals(''))">
+		<if test="(classify != null) and (!classify.equals(''))">
+		and
+		</if>
 			<choose>
 				<when test="(searchType != null) and (searchType eq 'all'.toString())">
 					(
@@ -71,9 +79,11 @@
 
 	<!-- 상품 리스트 -->
 	<select id="goodsList" resultType="kr.kosmo.jobkorea.book.model.BookModel">
-		SELECT P_ID as pId,title, description, translator,
+		SELECT P_ID as pId,itemId,title, description, translator,
 		author,coverSmallUrl, categoryId, categoryName,
-		publisher, sellCount, stock, saleRate, salePrice,realPrice, regDate, sellState,
+		publisher, sellCount, stock, 
+		saleRate, salePrice,realPrice, 
+		regDate, sellState,
 		display,
 		DATE_FORMAT(sellStart, '%Y.%m.%d %h:%m') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d
 		%h:%m') as sellEnd
@@ -84,17 +94,65 @@
 		</if>
 	</select>
 	
-	
-
-	
 	<!-- 상품 갯수 -->
 	<select id="goodsCount" resultType="Integer">
 		SELECT count(P_ID) FROM BOOK_GOODS
 		<include refid="search"/>
 	</select>
+	
+	<!-- 상품 상세보기  -->
+	
+	<select id="goodsDetail" resultType="kr.kosmo.jobkorea.book.model.BookModel">
+		select  P_ID as pId, itemId, isbn, title, description, translator, author, priceStandard, 
+		coverSmallUrl, coverLargeUrl, categoryId, categoryName, publisher, pubDate, 
+		`index`, authorInfo, sellCount, stock, saleRate, salePrice, realPrice, regDate, 
+		sellState, display,file_nm, file_loc, file_size ,
+		DATE_FORMAT(sellStart, '%Y-%m-%dT%h:%m') as sellStart,DATE_FORMAT(sellEnd, '%Y-%m-%dT%h:%m') as sellEnd 
+		from BOOK_GOODS 
+		where P_ID=#{pId}
+	</select>
 
 
-	<delete id="delete">
+	<!--상품 정보 수정 -->
+	
+	<update id="updateGoodsInfo">
+		update BOOK_GOODS
+		set salePrice=#{salePrice},saleRate=#{saleRate},realPrice=#{realPrice},
+		sellState=#{sellState},display=#{display},stock=#{stock},
+		`index`=#{index},authorInfo=#{authorInfo},description=#{description}
+		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
+			,sellStart=#{sellStart},sellEnd=#{sellEnd}
+		</if>
+		where P_ID=#{pId}		
+	</update>
+	
+	<!-- 파일 삭제할 목록 가져오기-->
+	<select id="deleteList" resultType="kr.kosmo.jobkorea.book.model.BookModel">
+		select  P_ID as pId,itemId,file_nm,file_loc,file_size
+		from BOOK_GOODS
+		where P_ID=#{pId}
+	</select>
+	
+	<update id="deleteFileInfo">
+		UPDATE BOOK_GOODS
+		    SET  file_nm=DEFAULT
+     			,file_loc=DEFAULT
+		        ,file_size=DEFAULT
+		where P_ID=#{pId}
+	</update>
+	
+	<update id="updateFileInfo">
+		UPDATE BOOK_GOODS SET
+					 file_nm = #{file_nm}
+					,file_loc = #{file_loc}
+					,file_size = #{file_size}
+		where P_ID=#{pId}
+	</update>
+
+
+	<delete id="deleteGoods">
+		delete from BOOK_GOODS
+		where P_ID=#{pId}
 	</delete>
 
 
