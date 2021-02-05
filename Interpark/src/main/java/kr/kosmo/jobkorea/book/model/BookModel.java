@@ -3,6 +3,7 @@ package kr.kosmo.jobkorea.book.model;
 
 public class BookModel {
 		//도서 
+		int pId;
 		String itemId;
 		String title;
 		String isbn;
@@ -29,11 +30,17 @@ public class BookModel {
 		int stock;
 		int saleRate;
 		int salePrice;
+		int realPrice;
 		String sellState;
 		String display;
 		String sellStart;
 		String sellEnd;
-		
+		public int getpId() {
+			return pId;
+		}
+		public void setpId(int pId) {
+			this.pId = pId;
+		}
 		public String getItemId() {
 			return itemId;
 		}
@@ -214,22 +221,27 @@ public class BookModel {
 		public void setSellEnd(String sellEnd) {
 			this.sellEnd = sellEnd;
 		}
+		public int getRealPrice() {
+			return realPrice;
+		}
+		public void setRealPrice(int realPrice) {
+			this.realPrice = realPrice;
+		}
 		@Override
 		public String toString() {
-			return "BookModel [itemId=" + itemId + ", title=" + title + ", isbn=" + isbn + ", author=" + author
-					+ ", translator=" + translator + ", description=" + description + ", priceStandard=" + priceStandard
-					+ ", discountRate=" + discountRate + ", priceSales=" + priceSales + ", coverSmallUrl="
-					+ coverSmallUrl + ", coverLargeUrl=" + coverLargeUrl + ", categoryName=" + categoryName
-					+ ", categoryId=" + categoryId + ", publisher=" + publisher + ", pubDate=" + pubDate + ", regDate="
-					+ regDate + ", service=" + service + ", index=" + index + ", file_nm=" + file_nm + ", file_loc="
-					+ file_loc + ", file_size=" + file_size + ", authorInfo=" + authorInfo + ", sellCount=" + sellCount
-					+ ", stock=" + stock + ", saleRate=" + saleRate + ", salePrice=" + salePrice + ", sellState="
-					+ sellState + ", display=" + display + ", sellStart=" + sellStart + ", sellEnd=" + sellEnd + "]";
+			return "BookModel [pId=" + pId + ", itemId=" + itemId + ", title=" + title + ", isbn=" + isbn + ", author="
+					+ author + ", translator=" + translator + ", description=" + description + ", priceStandard="
+					+ priceStandard + ", discountRate=" + discountRate + ", priceSales=" + priceSales
+					+ ", coverSmallUrl=" + coverSmallUrl + ", coverLargeUrl=" + coverLargeUrl + ", categoryName="
+					+ categoryName + ", categoryId=" + categoryId + ", publisher=" + publisher + ", pubDate=" + pubDate
+					+ ", regDate=" + regDate + ", service=" + service + ", index=" + index + ", file_nm=" + file_nm
+					+ ", file_loc=" + file_loc + ", file_size=" + file_size + ", authorInfo=" + authorInfo
+					+ ", sellCount=" + sellCount + ", stock=" + stock + ", saleRate=" + saleRate + ", salePrice="
+					+ salePrice + ", realPrice=" + realPrice + ", sellState=" + sellState + ", display=" + display
+					+ ", sellStart=" + sellStart + ", sellEnd=" + sellEnd + "]";
 		}
 	
-		
-		
-		
+
 		
 		
 }

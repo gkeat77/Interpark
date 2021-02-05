@@ -85,3 +85,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="${CTX_PATH}/js/jquery.slicknav.js"></script>
     <script src="${CTX_PATH}/js/owl.carousel.min.js"></script>
     <script src="${CTX_PATH}/js/main.js"></script>
+    
+ </body>
+
+</html>   

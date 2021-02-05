@@ -7,3 +7,6 @@
 
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/common.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/commonAjax.js"></script>
+
+ <link rel="stylesheet" href="${CTX_PATH}/css/style_uni.css" type="text/css">
+  <link rel="stylesheet" href="${CTX_PATH}/css/bootstrap.min.css" type="text/css">

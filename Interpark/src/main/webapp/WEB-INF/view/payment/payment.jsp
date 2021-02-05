@@ -40,11 +40,11 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <label for="fir">이름<span>*</span></label>
-                                <input type="text" name="userName">
+                                <input type="text" name="userName" value="${userInfo.name}">
                             </div>
                             <div class="col-lg-6">
                                 <label for="email">Email Address<span>*</span></label>
-                                <input type="text" name="userEmail" id="userEamil">
+                                <input type="text" name="userEmail" id="userEamil" value="${userInfo.mail}">
                             </div>
                             <div class="col-lg-6">
                                 <label for="phone">Phone<span>*</span></label>
@@ -193,7 +193,6 @@
 	
 	
 	$(document).ready(function() {
-
 
 		
 	 

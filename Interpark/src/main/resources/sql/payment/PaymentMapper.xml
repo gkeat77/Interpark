@@ -3,7 +3,7 @@
 <mapper namespace="kr.kosmo.jobkorea.payment.dao.PaymentDao">
 
 
-<select id="getCartList" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+<select id="getCartList" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel" parameterType="String">
 	SELECT 
 	CART_NO AS cartNo
 	, BOOK_NAME AS bookName
@@ -13,6 +13,7 @@
 	FROM CART
 	WHERE 
 	ORDER_YN != 'Y'
+	AND loginID = #{loginID}
 </select>
 
 

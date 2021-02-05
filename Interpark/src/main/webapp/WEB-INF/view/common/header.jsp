@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="${CTX_PATH}/css/style.css" type="text/css">
     <link rel="stylesheet" href="${CTX_PATH}/css/common.css" type="text/css" />
 </head>    
+<body>    
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -86,7 +87,7 @@
                         <div class="logo">
                             <a href="/index.do">
                                 <!-- <img src="img/mol.jpg" alt=""> -->
-                                <img src="img/logo.png" alt="">
+                                <img src="${CTX_PATH}/img/logo.png" alt="">
                             </a>
                         </div>
                     </div>
@@ -180,15 +181,13 @@
                     <ul>
                         <li><a href="./index.html">Home</a></li>
                         <li><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">Collection</a>
+                        <li><a href="#">도서</a>
                             <ul class="dropdown">
-                                <li><a href="#">Men's</a></li>
-                                <li><a href="#">Women's</a></li>
+                                <li><a href="/book/regPage.do">도서등록</a></li>
+                                <li><a href="/book/goodsListPage.do">도서목록</a></li>
                                 <li><a href="#">Kid's</a></li>
                             </ul>
                         </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                 <li><a href="/adminInfo.do">Blog Details</a></li>
@@ -196,7 +195,8 @@
                                 <li><a href="./check-out.html">Checkout</a></li>
                                 <li><a href="./faq.html">Faq</a></li>
                                 <li><a href="./register.html">Register</a></li>
-                                <li><a href="./login.html">Login</a></li>
+                                <li><a href="./login.html">Login</a></li>                               
+                                <li><a href="/login.do">Login</a></li>
                             </ul>
                         </li>
                     </ul>

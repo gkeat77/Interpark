@@ -29,7 +29,8 @@
 
 	<!-- # DispatcherServlet의 매핑 경로를 '/'로 주었을 때, 기본 컨트롤러 연결 설정 -->
 	<!-- mvc:resources location="/WEB-INF/resource/" mapping="/resource/**"/ -->
-	<mvc:resources location="/WEB-INF/resource/images/" mapping="/images/**" />
+	<mvc:resources location="/WEB-INF/resource/img/" mapping="/img/**" />
+	<mvc:resources location="/WEB-INF/resource/FileRepository/img/" mapping="/file/**" />
 	<mvc:resources location="/WEB-INF/resource/css/" mapping="/css/**" />
 	<mvc:resources location="/WEB-INF/resource/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/resource/fonts/" mapping="/fonts/**" />

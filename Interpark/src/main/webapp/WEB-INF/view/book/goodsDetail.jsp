@@ -11,10 +11,39 @@
 
 <script>
 $(document).ready(function() {
-	$("#limit").hide();
 	
-	$('#regBtn').click(function(e) {
-		registGoods();
+//초기 페이지 세팅
+	let sellStart ='${goods.sellStart}';
+	if(sellStart != null && sellStart != ''){
+		$("#limit").show();
+	}else{
+		$("#limit").hide();
+	}
+	let file ='${goods.file_nm}';
+	if(file == null || file == ""){
+		$(".select_img").hide();
+	}else{
+		$(".select_img").append('<img src="${CTX_PATH}/file/${goods.itemId}/${goods.file_nm}">');
+	}
+	$("#display").val("${goods.display}").prop("selected", true);
+	$("#sellState").val("${goods.sellState}").prop("selected", true);
+// end 
+	
+	//버튼
+	$('#updateBtn').click(function(e) {
+		updateGoodsInfo();
+	});
+	
+	$('#deleteBtn').click(function(e) {
+		deleteGoods();
+	});
+	
+	$('#delImgBtn').click(function(e) {
+		deleteImg();
+	});
+	
+	$('#listBtn').click(function(e) {
+		location.href="/book/goodsListPage.do";
 	});
 	
 	//할인 적용가 계산
@@ -43,24 +72,60 @@ function selectLimit(time) {
 	}
 }
 
-function registGoods(){
-	
+/*  상품 수정 */
+
+function updateGoodsInfo(){
 	var frm = document.getElementById("myForm");
 	frm.enctype = 'multipart/form-data';
 	var fileData = new FormData(frm);
 	
 	var resultCallback = function(param) {
-		makeProjectCallback(param);
+		updateGoodsInfoCallback(param);
 	};
-	callAjaxFileUploadSetFormData("/book/regist.do", "post", "json", true, fileData, resultCallback);
+	callAjaxFileUploadSetFormData("/book/updateGoodsInfo.do", "post", "json", true, fileData, resultCallback);
 }
 
-function makeProjectCallback(param){
+function updateGoodsInfoCallback(param){
+	const pId=$("#pId").val();
 	alert(param.result);
-	location.href="/book/regPage.do";
+	location.href="/book/goodsDetail.do?pId="+pId;
 }
 
 
+/* 상품 삭제 */
+function deleteGoods(){
+	var frm = document.getElementById("myForm");
+	frm.enctype = 'multipart/form-data';
+	var fileData = new FormData(frm);
+	
+	var resultCallback = function(param) {
+		deleteGoodsCallback(param);
+	};
+	callAjaxFileUploadSetFormData("/book/deleteGoods.do", "post", "json", true, fileData, resultCallback);
+}
+
+function deleteGoodsCallback(param){
+	alert(param.result);
+	location.href="/book/goodsListPage.do"
+}
+
+/* 이미지만 삭제 */
+function deleteImg(){
+	$(".select_img").hide();
+	$("#gdsImg").val('');
+	var frm = document.getElementById("myForm");
+	frm.enctype = 'multipart/form-data';
+	var fileData = new FormData(frm);
+	
+	var resultCallback = function(param) {
+		deleteImgCallback(param);
+	};
+	callAjaxFileUploadSetFormData("/book/deleteImg.do", "post", "json", true, fileData, resultCallback);
+}
+
+function deleteImgCallback(param){
+	alert(param.result);
+}
 
 </script>
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
@@ -71,7 +136,8 @@ function makeProjectCallback(param){
             <div class="row">
                 <div class="col-lg-12">
                     <div class="cart-table">
-					<input type="hidden" class="form-control"  value="${book.itemId }" name="query">
+					<input type="hidden" value="${goods.pId }" name="pId" id="pId">
+					<input type="hidden" value="${goods.itemId }" name="itemId" id="itemId">
 					<h2 class="mb-3">도서 정보</h2>
                         <table class="table-hover table-bordered">
                             <thead>
@@ -83,16 +149,16 @@ function makeProjectCallback(param){
                             <tbody id="book_list">
 									<tr>
 										<td class="cart-pic first-row">
-										<img src="${book.coverSmallUrl }" width="90px" height="130px">
+										<img src="${goods.coverSmallUrl }" width="90px" height="130px">
 										</td>
 										<td class="cart-title first-row" colspan="2">
-											<h5>${book.title }</h5><strong>
-											<${book.categoryName}></strong> 
-											<br><strong>카테고리ID:</strong> ${book.categoryId} 
-											<br> <strong>저자:</strong> ${book.author }
+											<h5>${goods.title }</h5><strong>
+											<br><strong>도서ID:</strong> ${goods.itemId} 
+											<br><strong>카테고리ID:</strong> ${goods.categoryId} 
+											<br> <strong>저자:</strong> ${goods.author }
 											<br><strong>출판사(제작사):</strong>
-											${book.publisher}<br> <strong>정가:</strong>
-											<span class="text-warning"> ${book.priceStandard }</span><br>
+											${goods.publisher}<br> <strong>정가:</strong>
+											<span class="text-warning"> ${goods.priceStandard }</span><br>
 										</td>
 									</tr>
 								</tbody>                          
@@ -119,44 +185,44 @@ function makeProjectCallback(param){
 						<div class="input-group-prepend">
 							<span class="input-group-text"><strong>판매 시작일 </strong></span>
 						</div>
-						<input type="datetime-local" class="form-control" id="sellStart" name="sellStart">
+						<input type="datetime-local" class="form-control" id="sellStart" name="sellStart" value="${goods.sellStart }">
 					</div>
 					<div class="input-group mb-3 input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><strong>판매 종료일 </strong></span>
 						</div>
-						<input type="datetime-local" class="form-control" id="sellEnd" name="sellEnd">
+						<input type="datetime-local" class="form-control" id="sellEnd" name="sellEnd" value="${goods.sellEnd }">
 					</div>
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>판매가</strong></span>
 					</div>
-					<input type="number" class="form-control" name="salePrice">
+					<input type="number" class="form-control" name="salePrice" value="${goods.salePrice }">
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>할인율</strong></span>
 					</div>
-					<input type="number" class="form-control" name="saleRate">
+					<input type="number" class="form-control" name="saleRate" value="${goods.saleRate }">
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>할인 적용가</strong></span>
 					</div>
-					<input type="number" class="form-control" name="realPrice" readonly>
+					<input type="number" class="form-control" name="realPrice" readonly value="${goods.realPrice }">
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>재고 수량</strong></span>
 					</div>
-					<input type="number" class="form-control" name="stock">
+					<input type="number" class="form-control" name="stock" value="${goods.stock }">
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>전시 상태</strong></span>
 					</div>
-					<select name="display">
+					<select name="display" id="display">
 						<option selected="selected" value="Y">노출</option>
 						<option value="N">비노출</option>
 					</select>
@@ -165,7 +231,7 @@ function makeProjectCallback(param){
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>판매 상태</strong></span>
 					</div>
-					<select name="sellState">
+					<select name="sellState" id="sellState">
 						<option selected="selected" value="Y">판매중</option>
 						<option value="N">판매중지</option>
 					</select>
@@ -175,28 +241,49 @@ function makeProjectCallback(param){
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>책 소개</strong></span>
 					</div>
-					<textarea class="form-control" name="description">${book.description }</textarea>
+					<textarea class="form-control" name="description">${goods.description }</textarea>
 				</div>
 				<div class="input-group mb-3 input-group textarea text-center">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>목차</strong></span>
 					</div>
-					<textarea class="form-control" name="index"></textarea>
+					<textarea class="form-control" name="index">${goods.index }</textarea>
 				</div>
 				<div class="input-group mb-3 input-group textarea">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>저자소개</strong></span>
 					</div>
-					<textarea class="form-control" name="authorInfo"></textarea>
+					<textarea class="form-control" name="authorInfo">${goods.authorInfo }</textarea>
 				</div>
 				<div class="input-group mb-3 input-group" style="height:100px;" >
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>이미지</strong></span>
 					</div>
-					<input type="file"  accept="image/*" id="bbs_files_1" name="bbs_files_1" class="form-control" style="height:100px;">
+					<input type="file"  accept="image/*" id="gdsImg"  name="bbs_files_1" class="form-control" style="height:100px;">
+					 <script>
+					  $("#gdsImg").change(function(){
+						console.log(this.files);
+						console.log(this.files[0]);
+					   if(this.files && this.files[0]) {
+					    	var reader = new FileReader;
+					    	reader.onload = function(data) {
+					    	$(".select_img").show();
+					    	$(".select_img").empty();
+					    	$(".select_img").append('<img src="${CTX_PATH}/file/${goods.itemId}/${goods.file_nm}">');
+					     	$(".select_img img").attr("src", data.target.result).width(500);        
+					    }
+					    	reader.readAsDataURL(this.files[0]);
+					   }
+					  });
+					 </script>
+					 <button type="button" class="btn btn-secondary"  id="delImgBtn">이미지 삭제</button>
 				</div>
-		<button type="button" class="btn btn-warning" style="width:100px;" id="regBtn">등록</button>
-           </div>
+				<div class="select_img"></div>
+		<div class="text-center" style="margin-top:50px">
+		<button type="button" class="btn btn-outline-primary" style="width:100px;" id="listBtn">목록</button>
+		<button type="button" class="btn btn-warning" style="width:100px;" id="updateBtn">수정</button>
+		<button type="button" class="btn btn-danger" style="width:100px;" id="deleteBtn">삭제</button>
+		</div>
 		</section>
    </form>
    <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
