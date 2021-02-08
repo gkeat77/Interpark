@@ -47,7 +47,7 @@ $(document).ready(function() {
 			flist_book_result(data, currentPage);
 		};
 
-		callAjax("/book/search.do", "post", "text", true, param,
+		callAjax("/bookAdmin/search.do", "post", "text", true, param,
 				resultCallback);
 	}
 	
@@ -67,7 +67,7 @@ $(document).ready(function() {
 			flist_book_result(data, currentPage);
 		};
 
-		callAjax("/book/search.do", "post", "text", true, param,
+		callAjax("/bookAdmin/search.do", "post", "text", true, param,
 				resultCallback);
 	}
 
@@ -107,7 +107,7 @@ $(document).ready(function() {
 				"\n제목: "+title+
 				"\n선택하시겠습니까?");
 		if(select){
-			location.href="/book/select.do?query="+itemId;
+			location.href="/bookAdmin/select.do?query="+itemId;
 		}
  	};
 

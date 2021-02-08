@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.kosmo.jobkorea.book.model.BookModel;
-import kr.kosmo.jobkorea.book.service.bookService;
+import kr.kosmo.jobkorea.book.service.bookAdminService;
 import kr.kosmo.jobkorea.book.util.API;
 import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PageMaker;
@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/book/")
-public class BookController {
+@RequestMapping("/bookAdmin/")
+public class BookAdminController {
 	
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
@@ -37,14 +37,14 @@ public class BookController {
 	private final String className = this.getClass().toString();	
 	
 	@Autowired
-	bookService booksv;
+	bookAdminService booksv;
 	
 	//책 등록 페이지 이동
 	@RequestMapping("regPage.do")
 	public 	String bookList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		model.addAttribute("cateList", booksv.cateList());
-		return "book/bookList";
+		return "bookAdmin/bookList";
 	}
 	// 책 검색
 	@RequestMapping("search.do")
@@ -66,7 +66,7 @@ public class BookController {
 		
 		model.addAttribute("list", bookArr);
 		model.addAttribute("totalCnt",total);
-		return "book/bookListCallback";
+		return "bookAdmin/bookListCallback";
 	}
 	
 	//책 선택 후 상품정보 입력 페이지이동
@@ -81,7 +81,7 @@ public class BookController {
 		
 		model.addAttribute("book", book);
 		
-		return "book/goodsReg";
+		return "bookAdmin/goodsReg";
 	}
 	
 	//책정보 DB 등록
@@ -113,7 +113,7 @@ public class BookController {
 	@RequestMapping("goodsListPage.do")
 	public 	String goodsListPage(Model model, HttpServletRequest request) throws Exception {
 		
-		return "book/goodsList";
+		return "bookAdmin/goodsList";
 	}
 	
 	@RequestMapping("goodsList.do")
@@ -135,7 +135,7 @@ public class BookController {
 		model.addAttribute("goodsList", goodsList);
 		model.addAttribute("totalCnt", totalCnt);
 		
-		return "book/goodsListCallback";
+		return "bookAdmin/goodsListCallback";
 	}
 	
 	@RequestMapping("goodsDetail.do")
@@ -144,7 +144,7 @@ public class BookController {
 		
 		model.addAttribute("goods", booksv.goodsDetail(paramMap));
 		
-		return "book/goodsDetail";
+		return "bookAdmin/goodsDetail";
 	}
 	
 	@RequestMapping("updateGoodsInfo.do")

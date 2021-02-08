@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import kr.kosmo.jobkorea.book.model.BookModel;
 import kr.kosmo.jobkorea.book.model.CategoryModel;
 
-public interface bookService {
+public interface bookAdminService {
 	
-
+	/* 관리자 */
 	public int BookRegister(Map<String, Object> paramMap,HttpServletRequest request) throws Exception;
 	
 	public List<CategoryModel> cateList();

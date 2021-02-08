@@ -52,12 +52,12 @@ function registGoods(){
 	var resultCallback = function(param) {
 		makeProjectCallback(param);
 	};
-	callAjaxFileUploadSetFormData("/book/regist.do", "post", "json", true, fileData, resultCallback);
+	callAjaxFileUploadSetFormData("/bookAdmin/regist.do", "post", "json", true, fileData, resultCallback);
 }
 
 function makeProjectCallback(param){
 	alert(param.result);
-	location.href="/book/regPage.do";
+	location.href="/bookAdmin/regPage.do";
 }
 
 

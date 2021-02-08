@@ -183,8 +183,8 @@
                         <li><a href="./shop.html">Shop</a></li>
                         <li><a href="#">도서</a>
                             <ul class="dropdown">
-                                <li><a href="/book/regPage.do">도서등록</a></li>
-                                <li><a href="/book/goodsListPage.do">도서목록</a></li>
+                                <li><a href="/bookAdmin/regPage.do">도서등록</a></li>
+                                <li><a href="/bookAdmin/goodsListPage.do">도서목록</a></li>
                                 <li><a href="#">Kid's</a></li>
                             </ul>
                         </li>

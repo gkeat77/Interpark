@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.kosmo.jobkorea.book.dao.bookDao">
+<mapper namespace="kr.kosmo.jobkorea.book.dao.bookAdminDao">
 
 	<!-- 도서상품 등록 -->
 	<insert id="BookRegister">
@@ -89,6 +89,9 @@
 		%h:%m') as sellEnd
 		FROM BOOK_GOODS
 		<include refid="search"/>
+		<if test="(sort != null) and (!sort.equals(''))">
+			order by ${sort}
+		</if>
 		<if test="(pageIndex != null) and (!pageIndex.equals('')) and (pageSize != null) and (!pageSize.equals(''))">
 			LIMIT #{pageIndex}, #{pageSize}
 		</if>

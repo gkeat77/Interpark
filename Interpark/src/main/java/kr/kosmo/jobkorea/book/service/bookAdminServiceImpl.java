@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import kr.kosmo.jobkorea.book.dao.bookDao;
+import kr.kosmo.jobkorea.book.dao.bookAdminDao;
 import kr.kosmo.jobkorea.book.model.BookModel;
 import kr.kosmo.jobkorea.book.model.CategoryModel;
 import kr.kosmo.jobkorea.common.comnUtils.FileUtilCho;
 
 @Service
-public class bookServiceImpl implements bookService{
+public class bookAdminServiceImpl implements bookAdminService{
 	
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
@@ -38,7 +38,7 @@ public class bookServiceImpl implements bookService{
 	private String rootFilePath;
 	
 	@Autowired
-	bookDao bookDao;
+	bookAdminDao bookDao;
 	
 	@Override
 	public int BookRegister(Map<String, Object> paramMap,HttpServletRequest request) throws Exception {

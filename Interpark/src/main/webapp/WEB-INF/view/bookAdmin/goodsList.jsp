@@ -9,7 +9,7 @@
 <head>
 <title>!!!!</title>
     
-<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 </head>
 <script>
 var pageSize = 10;
@@ -55,7 +55,31 @@ $(document).ready(function() {
 			flist_clean_search();
 			$("#classify").val('noStock');
 			flist_goods();
+			break;
+		case 'regUp':
+			$("#sort").val('regDate');
+			flist_goods();
 			break;	
+		case 'regDown':
+			$("#sort").val('regDate DESC');
+			flist_goods();
+			break;	
+		case 'sellUp':
+			$("#sort").val('sellCount');
+			flist_goods();
+			break;	
+		case 'sellDown':
+			$("#sort").val('sellCount  DESC');
+			flist_goods();
+			break;
+		case 'priceUp':
+			$("#sort").val('realPrice');
+			flist_goods();
+			break;	
+		case 'priceDown':
+			$("#sort").val('realPrice DESC');
+			flist_goods();
+			break;			
 			
 		}
 	});
@@ -68,20 +92,23 @@ $(document).ready(function() {
 		const searchType=$("#searchType").val();
 		const searchKey=$("#searchKey").val();
 		const classify =$("#classify").val();
+		const sort =$("#sort").val();
+		
 		
 		var param = {
 				currentPage : currentPage,
 				pageSize:pageSize,
 				searchType:searchType,
 				searchKey:searchKey,
-				classify:classify
+				classify:classify,
+				sort:sort
 		}
 
 		var resultCallback = function(data) {
 			flist_goods_result(data, currentPage);
 		};
 
-		callAjax("/book/goodsList.do", "post", "text", true, param,
+		callAjax("/bookAdmin/goodsList.do", "post", "text", true, param,
 				resultCallback);
 	}
 
@@ -97,6 +124,7 @@ $(document).ready(function() {
 		// 총 개수 추출
 		var totalCnt = $("#totalCnt").val();
 		console.log("토탈카운트:"+totalCnt);
+		$(".count").text(totalCnt);
 
 		// 페이지 네비게이션 생성
 		var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSize, pageBlockSize,'flist_goods');
@@ -113,13 +141,14 @@ $(document).ready(function() {
 	}
 	// 상품 선택
  	function selectBook(pId){
-			location.href="/book/goodsDetail.do?pId="+pId;
+			location.href="/bookAdmin/goodsDetail.do?pId="+pId;
  	};
 	
 	
 </script>
-<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common/header.jsp"/>
 <input type="hidden" id="classify"> 
+<input type="hidden" id="sort"> 
 	<div class="container">
 	<section class="shopping-cart spad">
 	<div class="nav-item" style="margin-bottom:20px">
@@ -152,6 +181,15 @@ $(document).ready(function() {
 							 	<button type="button" id="btnSearch" class="btn btn-warning"><span>검색</span></button>	
 							</p>
                     <div class="cart-table">
+                    <strong>검색 결과: </strong><span class="count"></span>
+			        <div class="btn-group float-right">
+			      	  <button type="button" class="btn btn-outline-warning" id="priceUp">가격↑</button>
+					  <button type="button" class="btn btn-outline-warning" id="priceDown">가격↓</button>
+					  <button type="button" class="btn btn-outline-warning" id="sellUp">판매량↑</button>
+					  <button type="button" class="btn btn-outline-warning" id="sellDown">판매량↓</button>
+					  <button type="button" class="btn btn-outline-warning" id="regUp">등록일 ↑</button>
+					  <button type="button" class="btn btn-outline-warning" id="regDown">등록일 ↓</button> 
+					</div>
                     <table class="table-hover table-bordered">
                     	   <colgroup>
 							   <col width="10%" />
