@@ -25,3 +25,28 @@ background-color:rgb(255, 204, 0);
 .select_img{
 	margin: 20px;
 }
+
+
+.catagory-name {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space:normal;
+  width:270px;
+  height:30px;
+}
+
+.author{
+  overflow:hidden;
+  text-overflow: ellipsis;
+   white-space:nowrap;
+  font-size: 14px;
+}
+
+.card-header{
+	background-color:black !important;
+	
+}
+
+.card-header h5{
+	color:white;
+}

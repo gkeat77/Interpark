@@ -30,29 +30,8 @@ public class API {
 	// Get class name for logger
 	private final String className = this.getClass().toString();
 	
-
 	
-	public String DelCateNum(String category) throws Exception {
-		String cateNum="";
-		switch(category){
-			case "domestic":
-				cateNum="1";
-				break;
-			case "foreign":
-				cateNum="2";
-				break;
-			case "recode":
-				cateNum="3";
-				break;
-			case "dvd":
-				cateNum="4";
-				break;
-		}
-		logger.info("반환된 카테고리 번호: "+cateNum+ "00번대");
-		return cateNum;
-	}
-	
-	
+	 /*서비스별 보기*/
 	public Map<String, Object> searchBook(Map<String, Object> paramMap) throws Exception {
 		 List<BookModel> bookArr=new ArrayList<>();
 		 Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -191,7 +170,7 @@ public class API {
 	
 	
 	
-	
+	/*검색*/ 
 	public BookModel selectBookInfo(Map<String, Object> paramMap) throws Exception {
 		BookModel book = new BookModel();
 		try {

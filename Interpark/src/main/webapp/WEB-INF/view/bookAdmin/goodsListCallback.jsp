@@ -27,6 +27,10 @@
   													<div class="col-sm-6">${list.itemId}</div>
 												</div>
 												<div class="row">
+												  	<div class="col-sm-4"><strong>카테고리</strong></div>
+  													<div class="col-sm-6">${list.categoryName}</div>
+												</div>
+												<div class="row">
 												  	<div class="col-sm-4"><strong>카테고리ID</strong></div>
   													<div class="col-sm-6">${list.categoryId}</div>
 												</div>

@@ -125,7 +125,15 @@ $(document).ready(function() {
 		<select id="categoryId">
 			<option selected="selected">카테고리 선택</option>
 			<c:forEach items="${cateList }" var="list">
+			<c:choose> 
+			<c:when test="${!empty list.cateClass}">
 			<option value="${list.categoryId }">${list.categoryName }</option>
+			</c:when>
+			<c:otherwise>
+			<option value="${list.categoryId }" style="font-weight: bold;">
+			${list.categoryName }</option>
+			</c:otherwise>
+			</c:choose>
 			</c:forEach>
 		</select>
 		 <button type="button" id="btnGetInfo" class="btn btn-warning"><span>조회</span></button>	

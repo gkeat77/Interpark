@@ -82,13 +82,13 @@ function updateGoodsInfo(){
 	var resultCallback = function(param) {
 		updateGoodsInfoCallback(param);
 	};
-	callAjaxFileUploadSetFormData("/book/updateGoodsInfo.do", "post", "json", true, fileData, resultCallback);
+	callAjaxFileUploadSetFormData("/bookAdmin/updateGoodsInfo.do", "post", "json", true, fileData, resultCallback);
 }
 
 function updateGoodsInfoCallback(param){
 	const pId=$("#pId").val();
 	alert(param.result);
-	location.href="/book/goodsDetail.do?pId="+pId;
+	location.href="/bookAdmin/goodsDetail.do?pId="+pId;
 }
 
 
@@ -101,12 +101,12 @@ function deleteGoods(){
 	var resultCallback = function(param) {
 		deleteGoodsCallback(param);
 	};
-	callAjaxFileUploadSetFormData("/book/deleteGoods.do", "post", "json", true, fileData, resultCallback);
+	callAjaxFileUploadSetFormData("/bookAdmin/deleteGoods.do", "post", "json", true, fileData, resultCallback);
 }
 
 function deleteGoodsCallback(param){
 	alert(param.result);
-	location.href="/book/goodsListPage.do"
+	location.href="/bookAdmin/goodsListPage.do"
 }
 
 /* 이미지만 삭제 */
@@ -120,7 +120,7 @@ function deleteImg(){
 	var resultCallback = function(param) {
 		deleteImgCallback(param);
 	};
-	callAjaxFileUploadSetFormData("/book/deleteImg.do", "post", "json", true, fileData, resultCallback);
+	callAjaxFileUploadSetFormData("/bookAdmin/deleteImg.do", "post", "json", true, fileData, resultCallback);
 }
 
 function deleteImgCallback(param){
@@ -152,7 +152,8 @@ function deleteImgCallback(param){
 										<img src="${goods.coverSmallUrl }" width="90px" height="130px">
 										</td>
 										<td class="cart-title first-row" colspan="2">
-											<h5>${goods.title }</h5><strong>
+											<h4>${goods.title }</h4>
+											[${goods.categoryName}]
 											<br><strong>도서ID:</strong> ${goods.itemId} 
 											<br><strong>카테고리ID:</strong> ${goods.categoryId} 
 											<br> <strong>저자:</strong> ${goods.author }
