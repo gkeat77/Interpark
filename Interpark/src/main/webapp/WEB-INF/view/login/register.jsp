@@ -32,6 +32,7 @@
 							<div class="group-input">
 								<label for="pass">아이디 *</label>
 								<input type="text" name="loginID" id="AregisterId" />
+								<span id="id_check" style="text-color:led;"></span>
 							</div>
 							<div class="group-input">
 								<label for="pass">비밀번호 *</label>
@@ -71,6 +72,7 @@
 							<div class="group-input">
 								<label for="con-pass">이메일*</label>
 								<input type="text" class="mail" name="mail" id="AregisterEmail1" />
+								<span id="email_check" style="text-color:led;"></span>
 							</div>
 							<div class="group-input">
 								<label for="con-pass">환불받을 은행이름*</label>

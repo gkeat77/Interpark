@@ -38,6 +38,13 @@ public class RegisterServiceImpl implements RegisterService{
 	public RegisterInfoModel id_check(Map<String, Object> paramMap) throws Exception {
 		return registerDao.id_check(paramMap);
 	}
+
+	/** email 중복 체크*/
+	@Override
+	public RegisterInfoModel email_check(Map<String, Object> paramMap) throws Exception {
+		// TODO Auto-generated method stub
+		return registerDao.email_check(paramMap);
+	}
 	
 	
 
