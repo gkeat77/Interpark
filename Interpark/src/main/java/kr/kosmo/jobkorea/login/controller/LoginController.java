@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.kosmo.jobkorea.login.service.MailService;
+import kr.kosmo.jobkorea.login.model.Address;
 import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.login.service.LoginService;
 
@@ -85,6 +88,10 @@ public class LoginController {
       String result;
       String resultMsg;
       logger.info("   - rm : " + rm);
+      List<Address> ad = loginService.userAddress(paramMap);
+		if(ad != null){
+			session.setAttribute("address", ad);
+		}
       if (rm != null) {
          
          result = "SUCCESS";
@@ -93,7 +100,7 @@ public class LoginController {
          // 사용자 메뉴 권한 조회
          paramMap.put("userType", rm.getUser_type());
         
-         session.setAttribute("member", rm);                //   로그인 ID
+         session.setAttribute("member", rm);                
       } else {
          
          result = "FALSE";
@@ -122,12 +129,17 @@ public class LoginController {
     * @param session
     * @return
     */
-   @RequestMapping(value = "/loginOut.me")
-   public String loginOut(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-                  
-      session.invalidate();
-      logger.info("+ End LoginController.loginOut.me");
-      return "redirect:/login.me";
+   @RequestMapping(value = "/logOut.do")
+   public ModelAndView logOut(SessionStatus sessionStatus, HttpSession session) {
+       
+		   logger.info("+ Start " + className + "logOut");
+	      ModelAndView mav = new ModelAndView();
+	      sessionStatus.setComplete();
+	      session.invalidate();
+	      logger.info("+ End " + className + "logOut");
+	      mav.setViewName("redirect:/login.me");
+
+      return mav;
    }
    
    /**
@@ -178,7 +190,7 @@ public class LoginController {
    
    // id 찾기 
    @RequestMapping("findId.me")
-   public String find_id(HttpServletResponse response, @RequestParam Map<String, String> paramMap, Model m, RegisterInfoModel vo) throws Exception{
+   public String find_id(HttpServletResponse response, @RequestParam Map<String, String> paramMap, Model m) throws Exception{
 	  String id = loginService.find_id(paramMap, response);
 		 logger.info(" fdfdfdfdfdfd" + paramMap.get("mail"));
 		 m.addAttribute("id", id);
@@ -249,7 +261,6 @@ public class LoginController {
 		paramMap.put("birth",(String)paramMap.get("year") +    (String)paramMap.get("month")      +    (String)paramMap.get("day") );
 		
 		int re;
-		
 		re = loginService.memberInfo(paramMap);
 		if(re >0){
 			logger.info("회원정보 수정 완료");
@@ -266,33 +277,71 @@ public class LoginController {
       return "/myPage/changAddress";
    }
    
- //주소록 수정
+ //주소록 추가
    @RequestMapping("addAddress.me")
 	@ResponseBody
 	public  Map<String, Object> addAddress(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 	   logger.info("+ Start RegisterController memberInfo.me");
-		paramMap.put("address", (String)paramMap.get("addr") +","+(String)paramMap.get("addr_detail")+","+(String)paramMap.get("user_post"));
-		paramMap.put("tel",  (String)paramMap.get("phone1") +"-"+(String)paramMap.get("phone2")       +"-"+(String)paramMap.get("phone3"));
-		
-		
 		RegisterInfoModel userVO = (RegisterInfoModel) session.getAttribute("member");
-		 
-		 
-		    // 사용자 정보를 가져올 수 있다.
-		    userVO.getLoginID();
-		    logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + userVO.getLoginID());
-
-		    paramMap.put("loginID", userVO.getLoginID());
-		int re;
 		
-		re = loginService.addAddress(paramMap);
+	    // 사용자 정보를 가져올 수 있다.
+	    userVO.getLoginID();
+	    
+	    
+	    logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + userVO.getLoginID());
+
+	    paramMap.put("loginID", userVO.getLoginID());
+	   
+	    
+		int re= loginService.addAddress(paramMap);
 		if(re >0){
-			logger.info("주소록 수정 완료");
+			logger.info("주소록 추가 완료");
+			List<Address> ad = loginService.userAddress(paramMap);
+			if(ad != null){
+				session.setAttribute("address", ad);
+			}
+		}
+		Enumeration se = session.getAttributeNames();
+		while(se.hasMoreElements()){
+			String getse = se.nextElement()+"";
+			System.out.println("@@@@@@@ session : "+getse+" : " + session.getAttribute(getse));
 		}
 		
 		logger.info("+ End memberInfo.me");
 		return null;
 	}
+   
+   //주소록 수정
+   @RequestMapping("editAddress.me")
+   @ResponseBody
+   public  Map<String, Object> editAddress(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	   logger.info("+ Start RegisterController editAddress.me");
+	   
+	   RegisterInfoModel userVO = (RegisterInfoModel) session.getAttribute("member");
+	   Address add = (Address) session.getAttribute("address"); 
+	   // 사용자 정보를 가져올 수 있다.
+	   userVO.getLoginID();
+	   add.getA_ID();
+	   paramMap.put("loginID", userVO.getLoginID());
+	   paramMap.put("A_ID",  add.getA_ID());
+	   
+	   int re= loginService.editAddress(paramMap);
+	   if(re >0){
+		   logger.info("주소록 수정 완료");
+		   List<Address> ad = loginService.userAddress(paramMap);
+		   if(ad != null){
+			   session.setAttribute("editAddress", ad);
+		   }
+	   }
+	   Enumeration se = session.getAttributeNames();
+	   while(se.hasMoreElements()){
+		   String getse = se.nextElement()+"";
+		   System.out.println("@@@@@@@ session : "+getse+" : " + session.getAttribute(getse));
+	   }
+	   
+	   logger.info("+ End memberInfo.me");
+	   return null;
+   }
    
    
    

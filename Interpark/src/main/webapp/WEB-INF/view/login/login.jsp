@@ -27,7 +27,7 @@
                             </div>
                             <div class="group-input">
                                 <label for="pass">Password *</label>
-                                <input type="text" id="userPwd" name="password" onfocus="this.placeholder=''; return true"  >
+                                <input type="password" id="userPwd" name="password" onfocus="this.placeholder=''; return true"  >
                             </div>
                             <div class="group-input gi-check">
                                 <div class="gi-more">

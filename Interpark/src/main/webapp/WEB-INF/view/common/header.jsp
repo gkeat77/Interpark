@@ -49,18 +49,21 @@
                     </div>
                 </div>
                 <div class="ht-right">
-				<c:if test="${member == null}">
-					 <a href="login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
-				</c:if>
-				<c:if test="${member != null}">
-					<div class="lan-selector">
-						<div id="login-panel">
-							<a href="my.me" class="login-panel"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a> </span>
-							<a href="loginOut.me" class="login-panel">LogOut</a> </span>
-							<br>
-						</div>
-					</div>
-				</c:if>
+					<c:choose >
+						<c:when test="${not empty member}">
+						<div class="lan-selector">
+							<div id="login-panel">
+								<a href="my.me" class="login-panel"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
+								<a href="/logOut.do" class="login-panel">LogOut</a>
+								<a href="/index.do" class="login-panel">home</a>
+								<br>
+							</div>
+						</div>					
+						</c:when>
+						<c:when test="${empty member}">
+						 <a href="login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
+						</c:when>					
+					</c:choose>
                     <!-- 
                     <div class="lan-selector">
                         <select class="language_drop" name="countries" id="countries" style="width:300px;">
@@ -195,8 +198,14 @@
                                 <li><a href="./check-out.html">Checkout</a></li>
                                 <li><a href="./faq.html">Faq</a></li>
                                 <li><a href="./register.html">Register</a></li>
-                                <li><a href="./login.html">Login</a></li>                               
-                                <li><a href="/login.do">Login</a></li>
+                                <c:choose>
+		                         <c:when test="${empty member}">
+		                            <li><a href="/login.do">Login</a></li>
+		                         </c:when>
+		                         <c:otherwise>
+		                            <li><a href="/logOut.do">LOGOUT</a></li>
+		                         </c:otherwise>
+		                         </c:choose>
                             </ul>
                         </li>
                     </ul>

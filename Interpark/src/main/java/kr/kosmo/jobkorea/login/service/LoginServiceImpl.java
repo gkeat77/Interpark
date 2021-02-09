@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import kr.kosmo.jobkorea.common.comnUtils.AESCryptoHelper;
 import kr.kosmo.jobkorea.common.comnUtils.ComnUtil;
 import kr.kosmo.jobkorea.login.dao.LoginDao;
+import kr.kosmo.jobkorea.login.model.Address;
 import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.login.model.UsrMnuAtrtModel;
 import kr.kosmo.jobkorea.login.model.UsrMnuChildAtrtModel;
@@ -109,12 +110,27 @@ public class LoginServiceImpl implements LoginService {
 			// TODO Auto-generated method stub
 			return loginDao.memberInfo(paramMap);
 		}
-		
-		//회원 정보 중 주소 수정
-		@Override
-		public int addAddress(Map<String, Object> paramMap) throws Exception{
-			return loginDao.addAddress(paramMap);
-			
-		}
 
+		
+	//회원 정보 중 주소 추가
+	@Override
+	public int addAddress(Map<String, Object> paramMap) throws Exception {
+		// TODO Auto-generated method stub
+		return loginDao.addAddress(paramMap);
+	}
+	
+	//Adress 테이블에서 정보 가져오기
+	@Override
+	public List<Address> userAddress(Map<String, Object> paramMap) throws Exception{
+		// TODO Auto-generated method stub
+		return loginDao.userAddress(paramMap);
+	}
+
+	//회원 정보 중 주소 수정
+	@Override
+	public int editAddress(Map<String, Object> paramMap) throws Exception {
+		// TODO Auto-generated method stub
+		return loginDao.editAddress(paramMap);
+	}
+		
 }

@@ -58,11 +58,18 @@
 		  )
 	</insert>
 	
-   <!-- 사용자 로그인-->
+   <!-- id 중복체크-->
    <select id="id_check" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
       SELECT  COUNT(loginID) AS che
         FROM  tb_userinfo 
        WHERE  loginID = #{loginID}
+    </select> 
+    
+   <!-- email 중복체크-->
+   <select id="email_check" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+      SELECT  COUNT(M_EMAIL) AS che
+        FROM  tb_userinfo 
+       WHERE  M_EMAIL = #{mail}
     </select> 
     
     
