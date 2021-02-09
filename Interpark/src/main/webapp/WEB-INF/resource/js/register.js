@@ -188,12 +188,30 @@ function execDaumPostcode() {
 			data : $("#"+form).serialize(),
 			success : function(data) {
 				if(data.OK=="N"){
-					alert("아이디가 중복 되었습니다");
+					$("#id_check").html("중복된 아이디가 있습니다.");
 				}else if(form == "ARegisterForm" ){
 					AfValidateStudent()
+					eMailCheck(form);
+				}
+			},
+			error : function() {
+				alert("회원가입 에러");
+			}
+		});		
+	}
+	
+	function eMailCheck( form ) {
+		$.ajax({
+			url : "email_check.do",
+			type : "POST",
+			async : true ,
+			data : $("#"+form).serialize(),
+			success : function(data) {
+				if(data.OK=="N"){
+					$("#email_check").html("중복된 이메일이 있습니다.");
+				}else if(form == "ARegisterForm" ){
 					ACompleteRegister(form);
 				}
-				
 			},
 			error : function() {
 				alert("회원가입 에러");

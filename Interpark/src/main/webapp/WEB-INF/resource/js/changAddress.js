@@ -48,6 +48,46 @@ function addAddress(){
 			location.href = "ca1.me";
 		},
 		error : function() {
+			alert("[ 주소록 추가 실패 ]");
+		}
+	  });
+	  
+}
+
+function Popup2(hasFilter) {
+	const popup = document.querySelector('#editp');
+  
+  if (hasFilter) {
+  	popup.classList.add('has-filter');
+  } 
+  
+  
+  popup.classList.remove('hide');
+}
+
+function closePopup2() {
+	const popup = document.querySelector('#editp');
+  popup.classList.add('hide');
+}
+
+function editAddress(){
+	$.ajax({
+		url : "editAddress.me",
+		type : "POST",
+		data : {A_TITLE : $("#title").val(),
+			A_AD1 : $("#da").val(),
+			A_AD2 : $("#addr").val(),
+			A_AD3 : $("#addr2").val(),
+			A_PHONE1 : $("#p1").val(),
+			A_PHONE2 : $("#p2").val(),
+			A_PHONE3 : $("#p3").val(),
+			A_NAME : $("#name").val(),
+		},
+		success : function(data) {
+			alert("주소록이 수정되었습니다.");
+			closePopup2();
+		},
+		error : function() {
 			alert("[ 주소록 수정 실패 ]");
 		}
 	  });

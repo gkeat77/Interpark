@@ -16,5 +16,8 @@ public interface RegisterDao {
 	/** id 증복 체크 **/
 	public RegisterInfoModel id_check(Map<String, Object> paramMap)throws Exception;
 
+	/** email 중복 체크*/
+	public RegisterInfoModel email_check(Map<String, Object> paramMap)throws Exception;
+
 	
 }

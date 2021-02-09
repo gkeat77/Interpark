@@ -36,6 +36,21 @@
    <!-- kr.kosmo.jobkorea.login.dao.LoginDao.selectLogin -->
    <select id="selectLogin" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel" resultMap="userSelect">
       SELECT  loginID 
+		      	,A_AD1
+				,A_AD2
+				,A_AD3
+				,A_ID
+				,A_TITLE
+				,M_ACCOUNT
+				,M_BIRTH
+				,M_BKNAME
+				,M_EMAIL
+				,M_MILEAGE
+				,M_PAY
+				,M_PHONE1
+				,M_PHONE2
+				,M_PHONE3
+				,NAME
       FROM tb_userinfo 
      WHERE loginID = #{loginID}
      AND  password = #{password}
@@ -218,6 +233,26 @@
 		   ,#{a_name}
 		  )
     </insert>
+    
+    <select id="userAddress" resultType="kr.kosmo.jobkorea.login.model.Address">
+    	select A_ID, A_TITLE, A_AD1, A_AD2, A_AD3, A_PHONE1, A_PHONE2, A_PHONE3, A_NAME, loginID FROM ADDRESS
+    	where loginID = #{loginID} 
+    </select>
+    
+    <!-- 회원정보수정 -->
+    <update id="editAddress">
+    	update ADDRESS SET
+		   A_TITLE = #{A_TITLE}
+		  ,A_AD1 = #{A_AD1}
+		  ,A_AD2 =#{A_AD2}
+		  ,A_AD3 = #{A_AD3}
+		  ,A_PHONE1 = #{A_PHONE1}
+		  ,A_PHONE2 = #{A_PHONE2}
+		  ,A_PHONE3 = #{A_PHONE3}
+		  ,A_NAME = #{A_NAME}
+		WHERE loginID = #{loginID} 
+		AND A_ID = #{A_ID}
+    </update>
 	
 	
 	

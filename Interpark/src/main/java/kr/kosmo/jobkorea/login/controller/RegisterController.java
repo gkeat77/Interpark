@@ -102,4 +102,21 @@ public class RegisterController {
 		}
 	}
 	
+	@RequestMapping("email_check.do")
+	@ResponseBody
+	public  Map<String, Object> email_check(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+		if(registerService.email_check(paramMap).getChe()>0){
+			
+			paramMap.put("OK", "N");
+			logger.info("중복된 이메일 있음");
+			return paramMap;
+		}else{
+			paramMap.put("OK", "Y");
+			logger.info("중복된 이메일 없음");
+			return paramMap;
+		}
+	}
+	
+	
+	
 }
