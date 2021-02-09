@@ -13,7 +13,7 @@ public interface bookAdminDao {
 	/* 관리자 */
 	public int BookRegister(Map<String, Object> paramMap);
 	
-	public List<CategoryModel> cateList();
+	public List<CategoryModel> cateList(); 
 	
 	public List<BookModel> goodsList(Map<String,Object> paramMap);
 	
