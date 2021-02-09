@@ -35,19 +35,21 @@
     <header class="header-section">
         <div class="header-top">
             <div class="container">
-				<c:if test="${member == null}">
-					 <a href="login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
-				</c:if>
-				<c:if test="${member != null}">
+				<c:choose >
+					<c:when test="${not empty member}">
 					<div class="lan-selector">
 						<div id="login-panel">
 							<a href="my.me" class="login-panel"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
-							<a href="loginOut.me" class="login-panel">LogOut</a>
+							<a href="/logOut.do" class="login-panel">LogOut</a>
 							<a href="/index.do" class="login-panel">home</a>
 							<br>
 						</div>
-					</div>
-				</c:if>
+					</div>					
+					</c:when>
+					<c:when test="${empty member}">
+					 <a href="login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
+					</c:when>					
+					</c:choose>
             </div>
         </div>
         <div class="container">
