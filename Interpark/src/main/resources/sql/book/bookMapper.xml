@@ -4,7 +4,13 @@
 
 	<!--카테고리 리스트 -->
 	<select id="cateList" resultType="kr.kosmo.jobkorea.book.model.CategoryModel">
-		SELECT * FROM CATEGORY where level=#{level}
+		SELECT * FROM CATEGORY 
+		<where> 
+		level=#{level}
+		<if test="(cateClass != null) and (!cateClass.equals(''))">
+		and cateClass=#{cateClass}
+		</if>
+		</where>
 	</select>
 
 	
@@ -12,13 +18,17 @@
 <!-- 상품 검색 sql -->
 	<sql id="search">
 		<where>
-		<if test="(classify != null) and (classify eq 'noStock'.toString())">
-			<![CDATA[ stock <= 0 ]]>
-		</if>
+			display ='y' and sellState='y'
+		<choose>	
+		<when test="(cateClass != null) and (!cateClass.equals(''))">
+			and categoryId like CONCAT(#{cateClass}, '__')
+		</when>	
+		<when test="(cateId != null) and (!cateId.equals(''))">
+			and categoryId=#{cateId}
+		</when>
+		</choose>
 		<if test="(searchKey != null) and (!searchKey.equals(''))">
-		<if test="(classify != null) and (!classify.equals(''))">
 		and
-		</if>
 			<choose>
 				<when test="(searchType != null) and (searchType eq 'all'.toString())">
 					(
@@ -48,6 +58,7 @@
 		DATE_FORMAT(sellStart, '%Y.%m.%d %h:%m') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d
 		%h:%m') as sellEnd
 		FROM BOOK_GOODS
+		<include refid="search"/>
 		<if test="(sort != null) and (!sort.equals(''))">
 			order by ${sort}
 		</if>
@@ -59,6 +70,7 @@
 	<!-- 상품 갯수 -->
 	<select id="goodsCount" resultType="Integer">
 		SELECT count(P_ID) FROM BOOK_GOODS
+		<include refid="search"/>
 	</select>
 	
 	<!-- 상품 상세보기  -->

@@ -14,6 +14,22 @@ var pageBlockSize = 10;
 $(document).ready(function() {
 	flist_book();
 	
+	//상위 카테고리 클릭시
+	$(".card-link").click(function() {
+		let cateClass = $(this).closest("div").find("input").val();
+		$("#cateClass").val(cateClass.substring(0,1));
+		$("#cateId").val('');
+		flist_book();
+	});
+	
+	//하위 카테고리 클릭시
+	$(".list-group").children().click(function() {
+		let cateId = $(this).find("li").val();
+		$("#cateId").val(cateId);
+		$("#cateClass").val('');
+		flist_book();
+		});
+	
 });
 
 /** 상품 목록 조회 */
@@ -25,10 +41,17 @@ function flist_book(currentPage) {
 	const classify =$("#classify").val();
 	const sort =$("#sort").val(); */
 	
+	const cateClass=$("#cateClass").val();
+	const cateId=$("#cateId").val();
+	
+	console.log("cateClass:"+cateClass);
+	console.log("cateId:"+cateId);
 	
 	var param = {
 			currentPage : currentPage,
 			pageSize:pageSize,
+			cateClass:cateClass,
+			cateId:cateId
 /* 			searchType:searchType,
 			searchKey:searchKey,
 			classify:classify,
@@ -80,26 +103,30 @@ function flist_book_result(data, currentPage) {
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Breadcrumb Section Begin -->
+   <!-- Breadcrumb Section Begin -->
 
     <!-- Product Shop Section Begin -->
+    <input type="hidden" id="cateId">
+    <input type="hidden" id="cateClass">
     <section class="product-shop spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
                     <div class="filter-widget">
                         <div id="accordion">
-                        <c:forEach var="list" items="${cateList }" >
+                        <c:forEach var="list" items="${cateList }" varStatus="status">
 					    <div class="card" >
 					      <div class="card-header">
-					        <a class="card-link" data-toggle="collapse" href="#collapseOne">
-					         <h5>${list.cateUpper.categoryName }</h5>
+					        <a class="card-link" data-toggle="collapse" href="#collapse_${status.count}">
+					        <input type="hidden" value="${list.categoryId }">
+					         <h5>${list.categoryName }</h5>
 					        </a>
 					      </div>
-					      <div id="collapseOne" class="collapse show" data-parent="#accordion">
+					      <div id="collapse_${status.count}" class="collapse" data-parent="#accordion">
 							 <ul class="list-group">
-							    <li class="list-group-item">${list.cateLower.categoryName }</li>
+							 <c:forEach var="cate" items="${list.lowerCateList}">
+							    <span><li class="list-group-item" value="${cate.categoryId }">${cate.categoryName }</li></span>
+							 </c:forEach>   
 							  </ul>
 					      </div>
 					    </div>
@@ -156,13 +183,12 @@ function flist_book_result(data, currentPage) {
                             </div>
                         </div>
                     </div>
-                    <div class="product-list">
-                        <div class="row" id="goods_List"></div>
+                    <div class="product-list" id="goods_List"></div>
+        		<div class="paging_area" id="Pagination"></div>
             	</div>
         		</div>
         	</div>
         </div>
-  
     </section>
       
     <!-- Product Shop Section End -->

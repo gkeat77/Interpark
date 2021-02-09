@@ -40,16 +40,18 @@ public class BookController {
 	
 	@RequestMapping("goodsListPage.do")
 	public 	String goodsListPage(Model model, HttpServletRequest request) throws Exception {
+		//상위 카테고리 불러오기
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("level", 0);
+		List<CategoryModel> cateUpperList= booksv.cateList(paramMap);
 		
-		//카테고리 불러오기
-		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<CategoryModel> cateUpper= booksv.cateList(0);
-		List<CategoryModel> cateLower= booksv.cateList(1);
-
-		resultMap.put("cateUpper", cateUpper);
-		resultMap.put("cateLower", cateLower);
-
-		model.addAttribute("cateList", resultMap);
+		//상위 카테고리에 하위 카테고리넣기
+		for (int i = 0; i < cateUpperList.size(); i++) {
+			paramMap.put("level", 1);
+			paramMap.put("cateClass", cateUpperList.get(i).getCateClass());
+			cateUpperList.get(i).setLowerCateList(booksv.cateList(paramMap));
+		}
+		model.addAttribute("cateList", cateUpperList);
 		
 		return "book/goodsList";
 	}
@@ -57,6 +59,9 @@ public class BookController {
 	@RequestMapping("goodsList.do")
 	public 	String goodsList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		logger.info(">>>>>>>>>>paramMap"+paramMap);
+		
 		List<BookModel> goodsList = new ArrayList<>();
 		int currentPage = Integer.parseInt((String) paramMap.get("currentPage"));
 		int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); 

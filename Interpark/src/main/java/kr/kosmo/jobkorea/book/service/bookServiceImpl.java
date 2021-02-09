@@ -3,6 +3,8 @@ package kr.kosmo.jobkorea.book.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,18 @@ import kr.kosmo.jobkorea.book.model.CategoryModel;
 
 public class bookServiceImpl implements bookService{
 
+	// Set logger
+	private final Logger logger = LogManager.getLogger(this.getClass());
+
+	// Get class name for logger
+	private final String className = this.getClass().toString();
 	
 	@Autowired
 	bookDao bookDao;
 	
 	@Override
-	public List<CategoryModel> cateList(int level) {
-		return null;
+	public List<CategoryModel> cateList(Map<String,Object> paramMap) {
+		return bookDao.cateList(paramMap);
 	}
 
 	@Override

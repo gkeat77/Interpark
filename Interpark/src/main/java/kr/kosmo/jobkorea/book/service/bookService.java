@@ -12,7 +12,7 @@ public interface bookService {
 	
 	/* 일반 */
 	
-	public List<CategoryModel> cateList(int level);
+	public List<CategoryModel> cateList(Map<String,Object> paramMap);
 	
 	public List<BookModel> goodsList(Map<String,Object> paramMap);
 	
