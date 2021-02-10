@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/bookAdmin/")
+@RequestMapping("/bookAdmin/") 
 public class BookAdminController {
 	
 	// Set logger
