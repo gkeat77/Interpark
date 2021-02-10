@@ -3,8 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>
+<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 
 <script>
 var pageSize = 12;
@@ -24,7 +24,7 @@ $(document).ready(function() {
 	
 	//하위 카테고리 클릭시
 	$(".list-group").children().click(function() {
-		let cateId = $(this).find("li").val();
+		let cateId = $(this).val();
 		$("#cateId").val(cateId);
 		$("#cateClass").val('');
 		flist_book();
@@ -105,12 +105,12 @@ function flist_book_result(data, currentPage) {
           </div>  
    <!-- Breadcrumb Section Begin -->
 	<p class="conTitle mt50">
-		<select id="searchType" name="searchType" class="form-control">
+		<select id="searchType" name="searchType" class="form-control sSelect">
 			<option value="all" id="option1" selected="selected">전체</option>
 			<option value="title" id="option1">상품명</option>
 			<option value="P_ID" id="option1">ID</option>
-		</select> <input type="text"  class="form-control" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
-		<button type="button" id="btnSearch" class="btn btn-warning">
+		</select> <input type="text"  class="form-control sInput" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
+		<button type="button" id="btnSearch" class="btn sBtn">
 			<span>검색</span>
 		</button>
 	</p>

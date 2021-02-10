@@ -182,13 +182,13 @@ $(document).ready(function() {
                 </nav>
                </div> 
                 	<p class="conTitle mt50">
-								<select	id="searchType" name="searchType">
+								<select	id="searchType" name="searchType" class="form-control sSelect">
 										<option value="all" id="option1" selected="selected">전체</option>
 										<option value="title" id="option1">상품명</option>
 										<option value="P_ID" id="option1">ID</option>
 								</select>
-								<input type="text" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()"> 
-							 	<button type="button" id="btnSearch" class="btn btn-warning"><span>검색</span></button>	
+								<input type="text" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()" class="form-control sInput"> 
+							 	<button type="button" id="btnSearch" class="btn sBtn"><span>검색</span></button>	
 							</p>
                     <div class="cart-table">
                     <strong>검색 결과: </strong><span class="count"></span>
