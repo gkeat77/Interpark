@@ -62,18 +62,19 @@ input[readonly]{
 
 
 .sSelect{
-	width:120px;
+	width:150px;
 	display:inline !important;
 } 
 
 .sInput{
-	width:500px;
+	width:300px;
 	display:inline !important;
 } 
 
 
 .sBtn{
 	width:150px;
+	height:35px;
 	color:white;
 	background-color:#e6b800;
 }
