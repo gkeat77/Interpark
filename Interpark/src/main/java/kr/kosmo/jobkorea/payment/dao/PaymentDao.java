@@ -21,4 +21,17 @@ public interface PaymentDao {
 	public List<Map<String, Object>> goSearch(String searchKey);
 	public List<PaymentModel> userDetail(Map<String, Object> paramMap);
 	public void cartDel(String cartNo);
+	public void goDelivery(String payNo);
+	public void goDeliveryHst(String payNo);
+	public List<PaymentModel>getRegDt();
+	public void completeDelivery(String payNo);  
+	public PaymentModel orderShow(String payNo);
+	public List<PaymentModel> orderCarts(HashMap<String, Object> map);
+	public void goCancel(String PayNo); 
+	public List<PaymentModel> getCoupon (String loginID);
+	public PaymentModel getCouponOne (String couponNo);
+	public void useCoupon (String couponNo);
+	public List<PaymentModel> detailCoupon (PaymentModel vo);
+	public void couponCancel (String couponNo);
+	public void cartUpdate3(String cartNo);
 }

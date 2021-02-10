@@ -21,12 +21,66 @@ public class PaymentModel {
 	
 	private String payNo;
 	
+	private String loginID;
+	
+	private String regDt;
+	
+	private String couponName;
+	private String couponNo;
+	private String couponPrice;
+	private String couponRate;
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public String getCouponPrice() {
+		return couponPrice;
+	}
+	public void setCouponPrice(String couponPrice) {
+		this.couponPrice = couponPrice;
+	}
+	public String getCouponNo() {
+		return couponNo;
+	}
+	public void setCouponNo(String couponNo) {
+		this.couponNo = couponNo;
+	}
+	
+	public String getCouponRate() {
+		return couponRate;
+	}
+	public void setCouponRate(String couponRate) {
+		this.couponRate = couponRate;
+	}
+	public String getCouponName() {
+		return couponName;
+	}
+	public void setCouponName(String couponName) {
+		this.couponName = couponName;
+	}
+	public String getRegDt() {
+		return regDt;
+	}
+	public void setRegDt(String regDt) {
+		this.regDt = regDt;
+	}
+	public String getLoginID() {
+		return loginID;
+	}
+	public void setLoginID(String loginID) {
+		this.loginID = loginID;
+	}
 	public int getUserState() {
 		return userState;
 	}
@@ -116,4 +170,5 @@ public class PaymentModel {
 	
 	
 }
+
 
