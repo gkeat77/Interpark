@@ -92,8 +92,8 @@ function flist_book_result(data, currentPage) {
 
 </script>
     <!-- Breadcrumb Section Begin -->
-     <div class="container">
     <div class="breacrumb-section">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-text">
@@ -102,21 +102,10 @@ function flist_book_result(data, currentPage) {
                     </div>
                 </div>
             </div>
-          </div>  
+        </div>
    <!-- Breadcrumb Section Begin -->
-	<p class="conTitle mt50">
-		<select id="searchType" name="searchType" class="form-control">
-			<option value="all" id="option1" selected="selected">전체</option>
-			<option value="title" id="option1">상품명</option>
-			<option value="P_ID" id="option1">ID</option>
-		</select> <input type="text"  class="form-control" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
-		<button type="button" id="btnSearch" class="btn btn-warning">
-			<span>검색</span>
-		</button>
-	</p>
 
-
-	<!-- Product Shop Section Begin -->
+    <!-- Product Shop Section Begin -->
     <input type="hidden" id="cateId">
     <input type="hidden" id="cateClass">
     <section class="product-shop spad">
@@ -136,7 +125,7 @@ function flist_book_result(data, currentPage) {
 					      <div id="collapse_${status.count}" class="collapse" data-parent="#accordion">
 							 <ul class="list-group">
 							 <c:forEach var="cate" items="${list.lowerCateList}">
-							  <li class="list-group-item" value="${cate.categoryId }">${cate.categoryName }</li>
+							    <span><li class="list-group-item" value="${cate.categoryId }">${cate.categoryName }</li></span>
 							 </c:forEach>   
 							  </ul>
 					      </div>
@@ -199,8 +188,8 @@ function flist_book_result(data, currentPage) {
             	</div>
         		</div>
         	</div>
+        </div>
     </section>
-  </div>
       
     <!-- Product Shop Section End -->
 

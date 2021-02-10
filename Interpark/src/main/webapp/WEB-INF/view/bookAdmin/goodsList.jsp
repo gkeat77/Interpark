@@ -150,16 +150,6 @@ $(document).ready(function() {
 <input type="hidden" id="classify"> 
 <input type="hidden" id="sort"> 
 	<div class="container">
-	   <div class="breacrumb-section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-text">
-                        <a href="#"><i class="fa fa-home"></i> Home</a>
-                        <span>Shop</span>
-                    </div>
-                </div>
-            </div>
-          </div>  
 	<section class="shopping-cart spad">
 	<div class="nav-item" style="margin-bottom:20px">
                 <nav class="nav-menu mobile-menu">

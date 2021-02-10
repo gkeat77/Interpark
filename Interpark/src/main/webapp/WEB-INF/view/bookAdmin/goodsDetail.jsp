@@ -131,18 +131,8 @@ function deleteImgCallback(param){
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 <input type="hidden" id="action"> 
 	<form id="myForm">
-	 <div class="container">
-	      <div class="breacrumb-section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-text">
-                        <a href="#"><i class="fa fa-home"></i> Home</a>
-                        <span>Shop</span>
-                    </div>
-                </div>
-            </div>
-          </div>   
 	<section class="shopping-cart spad">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="cart-table">
@@ -162,60 +152,14 @@ function deleteImgCallback(param){
 										<img src="${goods.coverSmallUrl }" width="90px" height="130px">
 										</td>
 										<td class="cart-title first-row" colspan="2">
-										<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>도서ID</strong></span>
-											</div>
-											<input type="text" class="form-control"  value="${goods.itemId }" readonly name="itemId"> 
-										</div> 
-										<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>제목</strong></span>
-											</div>
-											<input type="text" class="form-control" value="${goods.title}" name="title">
-										</div> 
-										<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>카테고리명</strong></span>
-											</div>
-											<input type="text" class="form-control" value="${goods.categoryName}" name="categoryName">  
-										</div> 	
-										<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>카테고리ID</strong></span>
-											</div>
-											<input type="text" class="form-control" value="${goods.categoryId}" name="categoryId">
-										</div>
-										<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>저자</strong></span>
-											</div>
-											<input type="text" class="form-control" value="${goods.author }" name="author" readonly>
-										</div>
-										<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>역자</strong></span>
-											</div>
-											<input type="text" class="form-control" value="${goods.translator }" name="translator" readonly>
-										</div>
-										<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>출판사</strong></span>
-											</div>
-											<input type="text" class="form-control" value="	${goods.publisher}" name="publisher" readonly>
-										</div>
-											<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>출판일</strong></span>
-											</div>
-											<input type="text" class="form-control" value="	${goods.pubDate}" name="publisher" readonly>
-										</div>
-										<div class="input-group mb-3 input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><strong>정가</strong></span>
-											</div>
-											<input type="text" class="form-control" value="${goods.priceStandard }" name="priceStandard" style="color: #e6b800;font-weight:700"	readonly >
-										</div>
+											<h4>${goods.title }</h4>
+											[${goods.categoryName}]
+											<br><strong>도서ID:</strong> ${goods.itemId} 
+											<br><strong>카테고리ID:</strong> ${goods.categoryId} 
+											<br> <strong>저자:</strong> ${goods.author }
+											<br><strong>출판사(제작사):</strong>
+											${goods.publisher}<br> <strong>정가:</strong>
+											<span class="text-warning"> ${goods.priceStandard }</span><br>
 										</td>
 									</tr>
 								</tbody>                          
@@ -341,7 +285,6 @@ function deleteImgCallback(param){
 		<button type="button" class="btn btn-warning" style="width:100px;" id="updateBtn">수정</button>
 		<button type="button" class="btn btn-danger" style="width:100px;" id="deleteBtn">삭제</button>
 		</div>
-	</section>
+		</section>
    </form>
-
    <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>

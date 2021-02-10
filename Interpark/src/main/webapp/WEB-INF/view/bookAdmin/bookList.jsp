@@ -114,17 +114,8 @@ $(document).ready(function() {
 </script>
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 <input type="hidden" id="action"> 
-	<div class="container"> 
-            <div class="breacrumb-section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-text">
-                        <a href="#"><i class="fa fa-home"></i> Home</a>
-                        <span>Shop</span>
-                    </div>
-                </div>
-            </div>
-          </div>  
+  <div class="breacrumb-section">
+<div class="container">
 		<select id="service">
 			<option selected="selected">서비스 선택</option>
 			<option value="bestSeller">베스트셀러</option>
@@ -165,6 +156,7 @@ $(document).ready(function() {
 	<input type="text" id="query" name="query">
 	<button type="button" id="btnSearch" class="btn btn-warning"><span>검색</span></button>	
 	</div>
+</div>
 	<section class="shopping-cart spad">
         <div class="container">
             <div class="row">
