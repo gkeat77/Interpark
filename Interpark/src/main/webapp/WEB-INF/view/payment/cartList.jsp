@@ -23,7 +23,10 @@
     <c:choose>
     <c:when test="${empty member}">
     
-    
+    	<script>
+    		alert("로그인 먼저 해주세요");
+    		location.href="/login.do";
+    	</script>
 
     </c:when>
     <c:otherwise>
@@ -121,6 +124,8 @@
 	    
 	    totalPayment();	
 	    
+	    
+	    
 	}); // onLoad End
 	
 	// ------------------------
@@ -167,6 +172,7 @@
 			    data : data,
 			    success : function(result){
 					if(result == "success") {
+						location.reload(true);	// 삭제 후 초기화
 					}else {
 						 alert("회원만 사용할 수 있습니다.")
 					}
@@ -177,7 +183,6 @@
 			   });
 		}else{
 		}
-		
 	}
 
 	function add(cartNo) {
@@ -306,6 +311,7 @@
 			    data : data,
 			    success : function(result){
 					if(result == "success") {
+						location.reload(true);	// 삭제 후 초기화
 					}else {
 						 alert("회원만 사용할 수 있습니다.")
 					}
