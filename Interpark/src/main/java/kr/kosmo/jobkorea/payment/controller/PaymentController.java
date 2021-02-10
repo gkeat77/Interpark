@@ -1,7 +1,11 @@
 package kr.kosmo.jobkorea.payment.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.kosmo.jobkorea.common.comnUtils.ComnUtil;
 import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PageMaker;
@@ -44,6 +49,7 @@ public class PaymentController {
 		   model.addAttribute("cartList", paymentService.getCartList(loginID));
 		   model.addAttribute("cartCnt",paymentService.getCartList(loginID).size());
 	   }
+	   
       logger.info("+ Start Payment.cartList.do");
       return "/payment/cartList";
    }
@@ -53,7 +59,7 @@ public class PaymentController {
    @RequestMapping(value="/cartDel.do" , method = RequestMethod.POST)
 	public String cartDel(HttpSession session, HttpServletRequest req) throws Exception {
 		String result = null;
-		System.out.println(req.getParameter("cartNo"));
+		paymentService.cartDel(req.getParameter("cartNo"));
 		result= "success";
 		return result;
 	}
@@ -79,10 +85,12 @@ public class PaymentController {
 		   paymentService.cartUpdate(vo);
 	   }
 	   
+	   
 	   // userInfo
 	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 	   mav.addObject("userInfo", rm);
-	   System.out.println(rm);
+	   String loginID = rm.getLoginID();
+	   
 	   // total
 	   String totalPrice = req.getParameter("totalPrice");
 	   //getCart
@@ -95,6 +103,8 @@ public class PaymentController {
 	   mav.addObject("cartNos",cartNos);
 	   mav.addObject("cartList",paymentService.payCartList(map));
 	   mav.addObject("cartCnt",paymentService.getCartList(rm.getLoginID()).size());
+	   // 쿠폰
+	   mav.addObject("getCoupon",paymentService.getCoupon(loginID));
 	   mav.setViewName("payment/payment");
 	   return mav;
 	}
@@ -107,37 +117,67 @@ public class PaymentController {
          HttpServletResponse response, HttpSession session) throws Exception {
 	  logger.info("+ Start Payment.payment.do"); 
 	  ModelAndView mav = new ModelAndView();
+	  
+	  String dcPrice = request.getParameter("couponPrice");
+	  String [] arr = request.getParameterValues("cc");
+	  
+	  if(!dcPrice.equals("0")) {
+		  // 할인을 받았다면
+		  for (int i = 0; i < arr.length; i++) {
+			  paymentService.useCoupon(arr[i]);
+		  }
+	  }
 	  paymentService.payment(vo);
-      mav.setViewName("redirect:index.do");
+	  mav.addObject("userInfo",vo);
+	  mav.setViewName("payment/paymentResult");
       return mav;
    }
-   
-   
-   
 
    @RequestMapping(value="/adminInfo.do", method = RequestMethod.GET)
-   public ModelAndView admin(Criteria cri, Model model
+   public ModelAndView admin(Criteria cri, Model mode, HttpSession session
    		, @RequestParam(value="searchKey", required=false)String searchKey
-   		) {
+   		) throws ParseException {
    	
 	ModelAndView mav = new ModelAndView();
-
-    // search
-    if(searchKey != null) {
-    	mav.addObject("list", paymentService.goSearch(searchKey));
-    }else {    // paging
-    	PageMaker pageMaker = new PageMaker();
-        pageMaker.setCri(cri);
-        pageMaker.setTotalCount(paymentService.countUser());
-        
-        List<Map<String,Object>> list = paymentService.pagingUser(cri);
-        mav.addObject("list", list);
-        mav.addObject("pageMaker", pageMaker);
-    }
-   	// cart
-   	//mav.addObject("cartList", paymentService.getCartList());
-   	//mav.addObject("cartCnt",paymentService.getCartList().size());
-   	mav.setViewName("payment/admin");
+	
+	RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+	if(ComnUtil.isEmpty(rm)) {
+		mav.setViewName("login/login");
+	}else if(rm.getLoginID().equals("admin")) {
+		// 배송중 -> 배송완료 처리
+				List<PaymentModel> regDt = paymentService.getRegDt();
+				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd-HH:mm", Locale.KOREA);
+				String format_time1 = f.format (System.currentTimeMillis());
+				for(PaymentModel ad :regDt) {
+					Date d1 = f.parse(format_time1);
+					Date d2 = f.parse(ad.getRegDt());
+					long diff = d1.getTime() - d2.getTime();
+					long mm = diff / 60000;
+					long hh = diff / 3600000;
+					if(hh>48) {
+						paymentService.completeDelivery(ad.getPayNo());
+					}
+				}
+			    // search
+			    if(searchKey != null) {
+			    	mav.addObject("list", paymentService.goSearch(searchKey));
+			    }else {    // paging
+			    	PageMaker pageMaker = new PageMaker();
+			        pageMaker.setCri(cri);
+			        pageMaker.setTotalCount(paymentService.countUser());
+			        
+			        List<Map<String,Object>> list = paymentService.pagingUser(cri);
+			        mav.addObject("list", list);
+			        mav.addObject("pageMaker", pageMaker);
+			    }
+			   	// cart
+			   	//mav.addObject("cartList", paymentService.getCartList());
+			   	//mav.addObject("cartCnt",paymentService.getCartList().size());
+			   	mav.setViewName("payment/admin");
+	}
+	else {
+		mav.setViewName("index");
+	}
    	return mav;
    }
    
@@ -148,8 +188,6 @@ public class PaymentController {
 	public Map<String, Object> userDetail(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
 	   Map<String, Object> resultMap = new HashMap<String, Object>();
 	   String result="";
-	   System.out.println(paramMap.get("loginID"));
-	   
 	   resultMap.put("userOrders", paymentService.userDetail(paramMap));
 	   result="success";
 	   resultMap.put("resultMsg", result); 
@@ -163,11 +201,97 @@ public class PaymentController {
 		String result = null;
 		
 		for(int i=0; i<vals.size() ;i++){
-	        System.out.println("vals(" + i + ") : " + vals.get(i));
+	        String cartNo = Integer.toString(vals.get(i));
+	        paymentService.cartDel(cartNo);
 	    }
 		
 		result= "success";
 		return result;
 	}
+   
+   
+   @ResponseBody
+   @RequestMapping(value="/goDelivery.do" , method = RequestMethod.POST)
+	public Map<String, Object> goDelivery(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+	   Map<String, Object> resultMap = new HashMap<String, Object>();
+	   String result="";
+	   System.out.println(paramMap.get("payNo"));
+	   String payNo = (String) paramMap.get("payNo");
+	   paymentService.goDelivery(payNo);
+	   //resultMap.put("userOrders", paymentService.userDetail(paramMap));
+	   result="success";
+	   resultMap.put("resultMsg", result); 
+		return resultMap;
+   }
+   
+   
+   
+
+   
+   @ResponseBody
+   @RequestMapping(value="/orderShow.do" , method = RequestMethod.POST)
+	public Map<String, Object> orderShow(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+	   Map<String, Object> resultMap = new HashMap<String, Object>();
+	   String result="";
+	   
+	   // getCartNo 하니까 1,2,3 이면 1만 가지고 와서 payNo가지고 옴
+	   String payNo = (String) paramMap.get("payNo");
+	   // getCartNos
+	   PaymentModel  cartNos =paymentService.orderShow(payNo);
+	   String[] cartNosArray = cartNos.getCartNos().split(",");
+	   
+	   HashMap<String, Object> map = new HashMap<String, Object>();
+	   map.put("cartNos", cartNosArray);
+	   
+	   result="success";
+	   resultMap.put("cartList",paymentService.orderCarts(map));
+	   resultMap.put("resultMsg", result); 
+		return resultMap;
+   }
+   
+   
+   
+   @ResponseBody
+   @RequestMapping(value="/goCancel.do" , method = RequestMethod.POST)
+	public Map<String, Object> goCancel(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+	   Map<String, Object> resultMap = new HashMap<String, Object>();
+	   String result="";
+	   String payNo = (String) paramMap.get("payNo");
+	   
+	   // 쿠폰 && 카트 복귀
+	   PaymentModel CancelCoupon =paymentService.orderShow(payNo);
+	   paymentService.detailCoupon(CancelCoupon);
+	  
+	   String[] cartNosArray = CancelCoupon.getCartNos().split(",");
+	   for (int i = 0; i < cartNosArray.length; i++) {
+		   // 카트 복귀 보류
+		   //paymentService.cartUpdate3(cartNosArray[i]);
+	   }
+	   
+	   paymentService.goCancel(payNo);
+	   result="success";
+	   resultMap.put("resultMsg", result); 
+		return resultMap;
+   }
+   
+   
+
+   @ResponseBody
+   @RequestMapping(value="/couponOne.do" , method = RequestMethod.POST)
+	public Map<String, Object> couponOne(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+	   Map<String, Object> resultMap = new HashMap<String, Object>();
+	   String result="";
+	   String couponNo = (String) paramMap.get("couponNo");
+	   resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
+	   result="success";
+	   resultMap.put("resultMsg", result); 
+	   
+	   
+	   
+		return resultMap;
+   }
+   
+   
+   
    
 }
