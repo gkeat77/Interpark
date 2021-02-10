@@ -127,7 +127,7 @@ public class LoginController {
     * @param session
     * @return
     */
-   @RequestMapping(value = "/logOut.do", method = RequestMethod.POST)
+   @RequestMapping(value = "/logOut.do")
    public ModelAndView logOut(SessionStatus sessionStatus, HttpSession session) {
        
 		   logger.info("+ Start " + className + "logOut");
@@ -179,7 +179,7 @@ public class LoginController {
    }
    
    //아이디 찾기 페이지 이동
-   @RequestMapping(value="ff.me", method = RequestMethod.GET)
+   @RequestMapping(value="ff.me")
    public String findI(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
@@ -187,7 +187,7 @@ public class LoginController {
    }
    
    // id 찾기 
-   @RequestMapping(value="findId.me", method = RequestMethod.POST)
+   @RequestMapping(value="findId.me")
    public String find_id(HttpServletResponse response, @RequestParam Map<String, String> paramMap, Model m) throws Exception{
 	  String id = loginService.find_id(paramMap, response);
 		 logger.info(" fdfdfdfdfdfd" + paramMap.get("mail"));

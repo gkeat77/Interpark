@@ -58,7 +58,7 @@ public class MyPageController {
     */
    
  //회원정보 수정으로 이동
-   @RequestMapping(value="my.me", method = RequestMethod.GET)
+   @RequestMapping(value="my.me")
    public String my(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 	   logger.info("+ Start LoginController.my.me+");
@@ -85,7 +85,7 @@ public class MyPageController {
 	}
    
  //주소록 목록
-   @RequestMapping(value="addList.me", method = RequestMethod.POST)
+   @RequestMapping(value="addList.me")
 	public  String addList(Model m, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 	   logger.info("+ Start RegisterController addList.me");
 		
@@ -122,28 +122,25 @@ public class MyPageController {
    }
    
    //주소 조회 후 수정페이지로 이동
-   @RequestMapping(value="selectAddress.me", method = RequestMethod.POST)
-   @ResponseBody
-   public  Map<String, Object> selectAddress(@RequestParam Map<String, Object> paramMap, Model m, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-	   logger.info("+ Start RegisterController selectAddress.me");
-	   logger.info("!!!!!!!!!!!!!!" + paramMap.get("a_ID"));
+   @RequestMapping(value="selectAddress.me")
+   public  String selectAddress(@RequestParam("a_id") int a_id, @RequestParam Map<String, Object> paramMap, Model m, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	   paramMap.put("a_ID", a_id);
 	   Address ad = mService.selectAddress(paramMap);
 	   
 	   m.addAttribute("ad", ad);
 	   
 	   logger.info("+++++++++++" + ad);
 	   logger.info("+ End selectAddress.me");
-	   return null;
-   }
+	   return "/myPage/editAddress";
 
-   
+   }
    
    //주소록 수정
    @RequestMapping(value="editAddress.me", method = RequestMethod.POST)
    @ResponseBody
-   public  Map<String, Object> editAddress(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+   public  Map<String, Object> editAddress(@RequestParam("a_id") int a_id, Model m, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 	   logger.info("+ Start RegisterController editAddress.me");
-	   
+	   //Address ad = mService.selectAddress(a_id);
 	   int re= mService.editAddress(paramMap);
 	   if(re >0){
 		   logger.info("주소록 수정 완료");
