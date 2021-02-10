@@ -26,6 +26,13 @@
 		  ,M_PHONE3 = #{phone3}
 		WHERE loginID = #{loginID}
     </update>
+	
+	 <!-- 회원탈퇴 -->
+    <!--<update id="memberInfo">
+    	UPDATE tb_userinfo SET
+   		  M_STATUS ='Y'
+		WHERE loginID = #{loginID}
+    </update> -->
     
     <!-- 회원정보 주소록 추가 -->
     <insert id="addAddress">

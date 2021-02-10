@@ -141,12 +141,13 @@
                         <li><a href="/cartList.do">장바구니</a></li>
                         <li><a href="#">포인트</a> </li>
                         <li><a href="#">쿠폰</a> </li>
-                        <li><a href="/index.do">HOME</a> </li>
+                        <li><a href="/bye.me" >회원탈퇴</a> </li>
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>
             </div>
         </div>
     </header>
+    
     <!-- Header End -->		
 

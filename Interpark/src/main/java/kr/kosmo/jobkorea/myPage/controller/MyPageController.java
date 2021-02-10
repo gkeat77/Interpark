@@ -59,8 +59,7 @@ public class MyPageController {
    
  //회원정보 수정으로 이동
    @RequestMapping(value="my.me")
-   public String my(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
-         HttpServletResponse response, HttpSession session) throws Exception {
+   public String my() throws Exception {
 	   logger.info("+ Start LoginController.my.me+");
       return "/myPage/userInfo";
    }
@@ -84,6 +83,43 @@ public class MyPageController {
 		return null;
 	}
    
+   //회원탈퇴
+   @RequestMapping(value="/bye.me")
+   public String bye() throws Exception {
+	   logger.info("+ End bye.me");
+	   return "/myPage/deleteMember";
+   }
+   
+/* //회원정보 수정
+   @RequestMapping(value="/deleteMember.me", method = RequestMethod.POST)
+   @ResponseBody
+   public  Map<String, Object> deleteMember(RegisterInfoModel m,@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	   logger.info("+ Start RegisterController deleteMember.me");
+	   
+	   RegisterInfoModel member = (RegisterInfoModel) session.getAttribute("member");
+	   String oldPass = member.getPassword();
+	   String newPass = m.getPassword();
+	   
+	   
+	   String result ;
+	   Map<String, Object> rMap = new HashMap<String, Object>();
+	   if(!(oldPass.equals(newPass))){
+		   rMap.put("result", result);
+		   return "redirect:
+	   }
+
+	   paramMap.put("loginID", userVO.getLoginID());
+	    
+	   int re;
+		re = mService.memberInfo(paramMap);
+		if(re >0){
+			logger.info("회원정보 수정 완료");
+		}
+		
+		logger.info("+ End deleteMember.me");
+		return null;
+	}
+   */
  //주소록 목록
    @RequestMapping(value="addList.me")
 	public  String addList(Model m, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
