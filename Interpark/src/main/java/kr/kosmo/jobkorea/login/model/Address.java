@@ -2,16 +2,16 @@ package kr.kosmo.jobkorea.login.model;
 
 public class Address {
 
-	private String loginID ;		//loginID
+	private int a_ID;
+	private String a_TITLE;
 	private String a_AD1;
 	private String a_AD2;
 	private String a_AD3;
-	private int a_ID;
-	private String a_NAME;
 	private String a_PHONE1;
 	private String a_PHONE2;
 	private String a_PHONE3;
-	private String a_TITLE;
+	private String a_NAME;
+	private String loginID ;		//loginID
 	private int che;
 	
 	public Address(){}

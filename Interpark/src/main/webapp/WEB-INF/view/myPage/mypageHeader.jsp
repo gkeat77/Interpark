@@ -137,7 +137,7 @@
                     <ul>
                         <li><a href="#">구매내역</a></li>
                         <li><a href="my.me">회원정보 수정</a></li>
-                        <li><a href="ca1.me">배송지 추가</a></li>
+                        <li><a href="addList.me">배송지 추가</a></li>
                         <li><a href="/cartList.do">장바구니</a></li>
                         <li><a href="#">포인트</a> </li>
                         <li><a href="#">쿠폰</a> </li>
