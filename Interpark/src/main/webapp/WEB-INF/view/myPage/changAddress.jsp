@@ -33,13 +33,13 @@
 										<th>삭제</th>
 									</tr>
 								</thead>
-									<c:forEach items="${address}" var="ad">
+									<c:forEach items="${ad}" var="ad">
 										<tr>
-											<td><input type="hidden" value="${ad.a_ID }" id="a_id"></td>
-											<td>${ad.a_TITLE }</td>
+											<td><input type="hidden" name="a_id" value="${ad.a_ID }" id="a_id">
+											${ad.a_TITLE }</td>
 											<td>${ad.a_AD1} <br> ${ad.a_AD2} <br> ${ad.a_AD3}</td>
 											<td>${ad.a_PHONE1} - ${ad.a_PHONE2} - ${ad.a_PHONE3}</td>
-											<td style="padding-top: 32px;"><a href="javascript:Popup2(true ${'#a_id'}.val())" class="site-btn register-btn" id="RegisterCom"><span>수정</span></a></td>
+											<td style="padding-top: 32px;"><a href="/selectAddress.me?a_id=${ad.a_ID}" class="site-btn register-btn" id="RegisterCom"><span>수정</span></a></td>
 											<td style="padding-top: 32px;"><a href="" class="site-btn register-btn" id=""><span>삭제</span></a></td>
 										</tr>
 									</c:forEach>
@@ -89,40 +89,6 @@
 	  </div>
 	</div>
 	
-	<!-- 주소록 수정 팝업창 -->
-	<div id="editp" class="hide">
-	  <div class="content">
-	  	<div class="group-input">
-			<label for="pass">주소 이름 </label>
-			<input type="text" name="A_TITLE" id="title" value="${ad.a_TITLE}"/>
-		</div>
-	    <div class="group-input">
-			<label for="pass">우편번호 </label>
-			<input type="text" name="user_post" id="da" value="${ad.a_AD1}"/>
-			<input type="button" value="우편번호 찾기" onclick="execDaumPostcode('Aloginaddr','Aloginaddr1','Adetailaddr')" class="address_search" />
-		</div>
-		<div class="group-input">
-			<label for="con-pass">주소</label>
-			<input type="text"  name="addr" id="addr" value="${ad.a_AD2}" />
-		</div>
-		<div class="group-input">
-			<label for="con-pass">상세주소</label>
-			<input type="text"  name="addr_detail" id="addr2" value="${ad.a_AD3}"/>
-		</div>
-		<div class="group-input">
-			<label for="con-pass">연락처</label>
-			<input type="text" class="phone" name="phone1" id="p1" style="width: 80px;" value="${ad.a_PHONE1}"/> <b>&nbsp;&nbsp;-</b> 
-			<input type="text" class="phone" name="phone2" id="p2" style="width: 100px;" value="${ad.a_PHONE2}"/> <b>&nbsp;&nbsp;-</b> 
-			<input type="text" class="phone" name="phone3" id="p3" style="width: 100px;" value="${ad.a_PHONE3}"/> 
-		</div>
-		<div class="group-input">
-			<label for="con-pass">수령인</label>
-			<input type="text" class="phone" name="a_name" id="name" style="width: 80px;" value="${ad.a_name}"/> <b>&nbsp;&nbsp;</b> 
-		</div>
-	    <button onclick="editAddress()">수정하기</button>
-	    <button onclick="closePopup2()">닫기</button>
-	  </div>
-	</div>
-
+	
 </body>
 </html>

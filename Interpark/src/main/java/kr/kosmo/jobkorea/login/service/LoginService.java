@@ -39,14 +39,6 @@ public interface LoginService {
 	//아이디 찾기
 	public String find_id(Map<String, String> paramMap, HttpServletResponse response) throws Exception;
 	
-	/** 회원 정보 수정*/
-	public int memberInfo(Map<String, Object> paramMap) throws Exception;
-	//주소록 수정
-	public int addAddress(Map<String, Object> paramMap) throws Exception;
-	//주소록 페이지에 회원의 주소록 목록 불러오기
-	public List<Address> userAddress(Map<String, Object> paramMap) throws Exception;
-
-	public int editAddress(Map<String, Object> paramMap) throws Exception;
 
 	
 	
