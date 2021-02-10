@@ -56,6 +56,24 @@ background-color:rgb(255, 204, 0);
 .list-group-item:hover{ color:#e6b800; }
 
 
-iinput[readonly]{
+input[readonly]{
     background-color: yellow;
+}
+
+
+.sSelect{
+	width:120px;
+	display:inline !important;
 } 
+
+.sInput{
+	width:500px;
+	display:inline !important;
+} 
+
+
+.sBtn{
+	width:150px;
+	color:white;
+	background-color:#e6b800;
+}
