@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
-                        <h2>Login!!!!!!!!!!!!!!!!!!!!!!!!!</h2>
+                        <h2>Login!!!!------------------!</h2>
                         <form action="" id="myForm" method="post">
                             <div class="group-input">
                                 <label for="username">ID *</label>
