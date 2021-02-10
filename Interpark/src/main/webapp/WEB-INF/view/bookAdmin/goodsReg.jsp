@@ -66,8 +66,18 @@ function makeProjectCallback(param){
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 <input type="hidden" id="action"> 
 	<form id="myForm">
+      <div class="container">
+         <div class="breacrumb-section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+          </div>   
 	<section class="shopping-cart spad">
-        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="cart-table">
@@ -81,18 +91,70 @@ function makeProjectCallback(param){
                                 </tr>
                             </thead>                        
                             <tbody id="book_list">
+                            <!-- 책 정보 -->
 									<tr>
 										<td class="cart-pic first-row">
 										<img src="${book.coverSmallUrl }" width="90px" height="130px">
+										<input type="hidden" class="form-control"  value="${book.coverSmallUrl }" name="coverSmallUrl"> 
+										<input type="hidden" class="form-control"  value="${book.coverLargeUrl }" name="coverLargeUrl"> 
+										<input type="hidden" class="form-control"  value="${book.isbn }" name="isbn"> 
 										</td>
 										<td class="cart-title first-row" colspan="2">
-											<h5>${book.title }</h5><strong>
-											<${book.categoryName}></strong> 
-											<br><strong>카테고리ID:</strong> ${book.categoryId} 
-											<br> <strong>저자:</strong> ${book.author }
-											<br><strong>출판사(제작사):</strong>
-											${book.publisher}<br> <strong>정가:</strong>
-											<span class="text-warning"> ${book.priceStandard }</span><br>
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>도서ID</strong></span>
+											</div>
+											<input type="text" class="form-control"  value="${book.itemId }" readonly name="itemId"> 
+										</div> 
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>제목</strong></span>
+											</div>
+											<input type="text" class="form-control" value="${book.title}" name="title">
+										</div> 
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>카테고리명</strong></span>
+											</div>
+											<input type="text" class="form-control" value="${book.categoryName}" name="categoryName" readonly>
+										</div> 	
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>카테고리ID</strong></span>
+											</div>
+											<input type="text" class="form-control" value="${book.categoryId}" name="categoryId">
+										</div>
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>저자</strong></span>
+											</div>
+											<input type="text" class="form-control" value="${book.author }" name="author">
+										</div>
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>역자</strong></span>
+											</div>
+											<input type="text" class="form-control" value="${book.translator }" name="translator">
+										</div>
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>출판사</strong></span>
+											</div>
+											<input type="text" class="form-control" value="	${book.publisher}" name="publisher">
+										</div>
+											<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>출판일</strong></span>
+											</div>
+											<input type="text" class="form-control" value="	${book.pubDate}" name="publisher">
+										</div>
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>정가</strong></span>
+											</div>
+											<input type="text" class="form-control" value="${book.priceStandard }" name="priceStandard" style="color: #e6b800;font-weight:700"	 >
+										</div>
+									<!--책정보 끝  -->	      
 										</td>
 									</tr>
 								</tbody>                          
@@ -196,7 +258,7 @@ function makeProjectCallback(param){
 					<input type="file"  accept="image/*" id="bbs_files_1" name="bbs_files_1" class="form-control" style="height:100px;">
 				</div>
 		<button type="button" class="btn btn-warning" style="width:100px;" id="regBtn">등록</button>
-           </div>
 		</section>
+       </div>
    </form>
    <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
