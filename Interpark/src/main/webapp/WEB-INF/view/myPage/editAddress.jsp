@@ -48,7 +48,7 @@
 							</div>
 							<div class="group-input">
 								<label for="con-pass">수령인</label>
-								<input type="text" class="phone" name="a_name" id="a_name" style="width: 80px;" value="${ad.a_name}"/> <b>&nbsp;&nbsp;</b> 
+								<input type="text" class="phone" name="a_name" id="a_name" style="width: 80px;" value="${ad.a_NAME}"/> <b>&nbsp;&nbsp;</b> 
 							</div>
 						    <button onclick="addAddress(${ad.a_ID})">수정하기</button>
 						    <button onclick="closePopup()">닫기</button>

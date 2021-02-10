@@ -35,11 +35,11 @@
 								</thead>
 									<c:forEach items="${ad}" var="ad">
 										<tr>
-											<td><input type="hidden" value="${ad.a_ID }" id="a_id">
+											<td><input type="hidden" name="a_id" value="${ad.a_ID }" id="a_id">
 											${ad.a_TITLE }</td>
 											<td>${ad.a_AD1} <br> ${ad.a_AD2} <br> ${ad.a_AD3}</td>
 											<td>${ad.a_PHONE1} - ${ad.a_PHONE2} - ${ad.a_PHONE3}</td>
-											<td style="padding-top: 32px;"><a href="javascript:selectAddress()" class="site-btn register-btn" id="RegisterCom"><span>수정</span></a></td>
+											<td style="padding-top: 32px;"><a href="/selectAddress.me?a_id=${ad.a_ID}" class="site-btn register-btn" id="RegisterCom"><span>수정</span></a></td>
 											<td style="padding-top: 32px;"><a href="" class="site-btn register-btn" id=""><span>삭제</span></a></td>
 										</tr>
 									</c:forEach>
