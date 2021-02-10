@@ -18,12 +18,12 @@
 			,sellStart,sellEnd
 		</if>
 		) VALUES (
-		#{book.itemId},#{book.isbn},#{book.title},#{description},
-		#{book.translator},#{book.author},
-		#{book.priceStandard},#{book.coverSmallUrl},#{book.coverLargeUrl},
-		#{book.categoryId},
-		(SELECT categoryName as categoryName FROM CATEGORY where categoryId=#{book.categoryId}),
-		#{book.publisher},#{book.pubDate},
+		#{itemId},#{isbn},#{title},#{description},
+		#{translator},#{author},
+		#{priceStandard},#{coverSmallUrl},#{coverLargeUrl},
+		#{categoryId},
+		(SELECT categoryName as categoryName FROM CATEGORY where categoryId=#{categoryId}),
+		#{publisher},#{pubDate},
 		#{index},#{authorInfo},
 		#{stock},#{saleRate},#{salePrice},#{realPrice},now(),
 		#{file_nm},#{file_loc},#{file_size}
@@ -121,7 +121,9 @@
 	
 	<update id="updateGoodsInfo">
 		update BOOK_GOODS
-		set salePrice=#{salePrice},saleRate=#{saleRate},realPrice=#{realPrice},
+		set
+		title=#{salePrice},categoryName=#{categoryName},categoryId=#{categoryId},  
+		salePrice=#{salePrice},saleRate=#{saleRate},realPrice=#{realPrice},
 		sellState=#{sellState},display=#{display},stock=#{stock},
 		`index`=#{index},authorInfo=#{authorInfo},description=#{description}
 		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">

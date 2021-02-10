@@ -87,13 +87,13 @@ public class BookAdminController {
 	public 	Map<String, Object> regist(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		logger.info("받아온"+paramMap);
-		API api = new API();
+		//API api = new API();
 		
 		//itemID로 책정보받아오기
-		BookModel book = new BookModel();
+/*		BookModel book = new BookModel();
 		book = api.selectBookInfo(paramMap);
 		paramMap.put("book", book);
-		logger.info("책 넣엇다"+paramMap);
+		logger.info("책 넣엇다"+paramMap);*/
 		
 		int count=booksv.BookRegister(paramMap,request);
 
