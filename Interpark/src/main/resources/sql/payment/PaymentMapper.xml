@@ -49,6 +49,8 @@ INSERT INTO ORDERS
 	, ORDER_DT
 	, CART_NO
 	, ORDER_STATE
+	, loginID
+	, DC_PRICE
 )
 VALUES
 (
@@ -57,6 +59,8 @@ VALUES
 	, now()
 	, #{cartNos}
 	, '0'
+	, #{loginID}
+	, #{couponPrice}
 )
 </insert>
 
@@ -82,7 +86,7 @@ VALUES
 (
 	#{payNo}
 	, NOW()
-	, '0'
+	, #{userState}
 )
 
 </insert>
@@ -118,8 +122,129 @@ VALUES
 <select id="userDetail" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
 	SELECT ORDER_STATE AS userState
 					, ORDER_NO AS payNo
+					, PAYMENT AS price
+					, CART_NO AS cartNos
 	FROM ORDERS
 	WHERE loginID = #{loginID}
 </select>
+
+<delete id="cartDel">
+	DELETE FROM CART
+	WHERE CART_NO = #{cartNo}
+</delete>
+
+
+
+<update id="goDelivery">
+		UPDATE ORDERS
+		SET ORDER_STATE = '1'
+				, ORDER_DT = NOW()
+		WHERE ORDER_NO = #{payNo}
+</update>
+
+<insert id="goDeliveryHst">
+	INSERT INTO ORDER_HST
+	(ORDER_NO, ORDER_DT, ORDER_STATE)
+	VALUES
+	(#{payNo},NOW(),'1')
+</insert>
+
+<select id="getRegDt" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	SELECT DATE_FORMAT(ORDER_DT, '%Y-%m-%d-%h:%i') AS regDt
+				, ORDER_NO AS payNo
+	FROM ORDERS
+	WHERE ORDER_STATE = 1
+</select>
+
+<update id="completeDelivery">
+	UPDATE ORDERS
+	SET ORDER_STATE = '2'
+	WHERE ORDER_NO = #{payNo}
+</update>
+
+<select id="orderShow" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	SELECT CART_NO AS cartNos
+			, loginID AS loginID
+			, ORDER_DT AS regDt
+	FROM ORDERS
+	WHERE ORDER_NO = #{payNo}
+</select>
+
+<select id="orderCarts" parameterType="hashmap" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+SELECT
+    BOOK_NAME AS bookName
+    , CART_NO AS cartNo
+    , CART_PRICE AS price
+    , CART_STOCK AS stock
+    , CART_IMG  AS bookImg
+FROM CART 
+<if test="cartNos!=null">
+				WHERE  
+				<foreach collection="cartNos" item="arr" separator="or">
+					CART_NO IN ( #{arr} )
+				</foreach>
+				AND ORDER_YN = 'Y'	
+</if>
+</select>
+
+
+<update id="goCancel">
+	UPDATE ORDERS
+	SET ORDER_STATE = '3'
+	WHERE ORDER_NO = #{payNo}
+</update>
+
+<select id="getCoupon" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+SELECT A.COUPON_NAME as couponName
+		, B.COUPON_HST_NO as couponNo		
+FROM COUPON A
+JOIN  COUPON_HST B ON A.COUPON_NO = B.COUPON_NO
+WHERE B.loginID = #{loginID}
+AND DATE(B.COUPON_USE_DT) = '0000-00-00 00:00:00'
+</select>
+
+
+
+<select id="getCouponOne" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+SELECT ifnull(A.DC_RATE,0) as couponRate
+		, ifnull(A.DC_PRICE,0) as couponPrice
+FROM COUPON A
+JOIN  COUPON_HST B ON A.COUPON_NO = B.COUPON_NO
+WHERE B.COUPON_HST_NO = #{couponNo}
+AND DATE(B.COUPON_USE_DT) = '0000-00-00 00:00:00' 
+</select>
+
+
+<update id="useCoupon">
+UPDATE COUPON_HST
+SET COUPON_USE_DT = NOW()
+WHERE COUPON_HST_NO = #{couponNo}
+		
+</update>
+
+
+<select id="detailCoupon" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+SELECT COUPON_HST_NO AS couponNo
+FROM COUPON_HST
+WHERE COUPON_USE_DT = #{regDt}
+  AND loginID = #{loginID}
+</select>
+
+<update id="couponCancel">
+UPDATE COUPON_HST
+SET COUPON_USE_DT = '0000-00-00 00:00:00'
+WHERE COUPON_HST_NO = #{couponNo}
+</update>
+
+
+
+<update id="cartUpdate3">
+UPDATE CART
+SET ORDER_YN = 'N'
+WHERE
+CART_NO =  #{cartNo} 
+</update>
+
+
 
 </mapper>

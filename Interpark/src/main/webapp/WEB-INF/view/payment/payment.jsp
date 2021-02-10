@@ -8,6 +8,56 @@
 	
 	
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+	<style>
+
+
+input[type="checkbox"] {
+    display:none;
+}
+
+input[type="checkbox"] + label {
+    /* color:#f2f2f2; */
+}
+
+input[type="checkbox"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-2px 10px 0 0;
+    vertical-align:middle;
+    background:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) left top no-repeat;
+    cursor:pointer;
+}
+
+input[type="checkbox"]:checked + label span {
+    background:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -19px top no-repeat;
+}
+
+input[type="radio"] {
+    display:none;
+}
+
+input[type="radio"] + label {
+    color:#f2f2f2;
+    font-family:Arial, sans-serif;
+}
+
+input[type="radio"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-2px 10px 0 0;
+    vertical-align:middle;
+    background:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -38px top no-repeat;
+    cursor:pointer;
+}
+
+input[type="radio"]:checked + label span {
+    background:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -57px top no-repeat;
+}
+
+
+</style>
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <!-- Breadcrumb Section Begin -->
      <div class="breacrumb-section">
@@ -24,6 +74,16 @@
         </div>
     </div>
     
+    <c:choose>
+    <c:when test="${empty member}">
+    
+    
+    	<script>
+    		alert("로그인 먼저 해주세요");
+    	</script>
+
+    </c:when>
+    <c:otherwise>
     
     
     <section class="checkout-section spad">
@@ -31,6 +91,8 @@
             <form class="checkout-form" name="form">
                 <div class="row">
                     <div class="col-lg-6">
+                    
+                    
                     	<!--
                         <div class="checkout-content">
                             <a href="#" class="content-btn">Click Here To Login</a>
@@ -48,7 +110,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <label for="phone">Phone<span>*</span></label>
-                                <input type="text" name="userPhone" id="userPhone">
+                                <input type="text" name="userPhone" id="userPhone" value="${userInfo.phone1}-${userInfo.phone2}-${userInfo.phone3}">
                             </div>
                             <div class="col-lg-12">
                                 <label for="zip" style=visibility:hidden;>우편번호</label>
@@ -75,26 +137,27 @@
                                 <input type="text" class="inputTxt p100"
 												name="userAddress1" id="loginaddr1" />
                             </div>
-                            
-                            <div class="col-lg-12">
-                                <div class="create-item">
-                                	<!--
-                                    <label for="acc-create">
-                                        Create an account?
-                                        <input type="checkbox" id="acc-create">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                      -->
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                    	<!--  
                         <div class="checkout-content">
-                            <input type="text" placeholder="Enter Your Coupon Code">
+                            <input type="text" placeholder="Choose your coupon" disabled>
+                             
+                             <!-- getCoupon  -->
+                             <c:forEach var="getCoupon" items="${getCoupon}" varStatus="status" >
+                             <input type="checkbox" id="coupon${getCoupon.couponNo}" name="cc" value="${getCoupon.couponNo}"/>
+							  <label for="coupon${getCoupon.couponNo}"><span></span>${getCoupon.couponName}</label>
+							  &nbsp;&nbsp;	
+                             </c:forEach>
+                              
+							  <!-- <p> -->
+							  <!-- <input type="checkbox" id="c2" name="cc" />
+							  <label for="c2"><span></span>Check Box 2</label> -->
+							  <!-- <p> -->
+							  <br/>
+    						 
                         </div>
-                        -->
+                        
                         <div class="place-order">
                             <h4>Your Order</h4>
                             <div class="order-total">
@@ -105,8 +168,8 @@
 	                                    </c:forEach>
                                     <!-- <li class="fw-normal">Subtotal <span>$240.00</span></li> -->
                                     <!--bookName, price, stock  -->
-                                    <li class="total-price">Total <span><fmt:formatNumber pattern="###,###,###" value="${totalPrice}" />원</span>
-                                    <input type="hidden" value="${totalPrice}" name="totalPrice">
+                                    <li class="total-price">Total <span id="paymentPrice">원</span>
+                                    <input type="hidden" value="${totalPrice}" name="totalPrice" id="totalPrice">
                                     <input type="hidden" value="${cartNos}" name="cartNos">
                                     </li>
                                 </ul>
@@ -135,11 +198,15 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" value="${userInfo.loginID }" name="loginID" >
+                <input type="hidden" value="" name="couponPrice" id="couponPrice">
             </form>
         </div>
     </section>
     
     
+    </c:otherwise>
+</c:choose>
     
     <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
     <!-- Partner Logo Section End -->
@@ -176,7 +243,7 @@
 						extraAddr += (extraAddr !== '' ? ', '
 								+ data.buildingName : data.buildingName);
 					}
-				}
+				}	
 
 				// 우편번호와 주소 정보를 해당 필드에 넣는다.
 				document.getElementById('detailaddr').value = data.zonecode;
@@ -193,8 +260,115 @@
 	
 	
 	$(document).ready(function() {
-
 		
+		$('#paymentPrice').html(comma($('#totalPrice').val())+"원");
+		
+		
+		var oldTotal2 = $('#totalPrice').val();
+		var oldTotal3 = 0;
+        var TotalRem = 0;
+		// check box 동적
+		$("body").on("change", "[id^=coupon]", function(event) {
+	        //console.log(this.id);		coupon2
+	        
+	        
+	        // 체크박스 3개 이상 선택 x
+	        cnt=0
+	        $('input:checkbox[name="cc"]').each(function() {
+	        	if(this.checked){
+	        		cnt++;
+	        		if(cnt >= 3) {
+	        			alert("쿠폰은 최대 2개까지 사용할 수 있습니다");
+	        			$("input:checkbox[id^='coupon']").prop("checked", false); 
+	        		}
+	        	}
+	        });	
+	        
+	        
+	        if($("#"+this.id).is(":checked")){
+	            // 체크박스 선택
+	            oldTotal = fn($('#paymentPrice').html());
+	            var couponNo = fn(this.id); // 함수써서 숫자만 추출
+	            var data = {
+	            		couponNo : couponNo
+					     };
+					   $.ajax({
+					    url : "/couponOne.do",
+					    type : "post",
+					    data : data,
+					    success : function(result){
+							if(result.resultMsg == "success") {
+								var userCoupon =result.userCoupon;
+								if(userCoupon.couponRate == 0){
+									// price할인 일경우
+									var dcPrice = userCoupon.couponPrice;
+				                	oldTotal = fn($('#paymentPrice').html());
+				                	TotalRem = oldTotal-dcPrice;
+				                	oldTotal3 = fn($('#paymentPrice').html());
+				                	$('#paymentPrice').html(comma(TotalRem)+"원");
+								}else {
+									// dc할인 일 겨우
+									var dcRate = userCoupon.couponRate;
+				                	oldTotal = fn($('#paymentPrice').html());
+				                	TotalRem = oldTotal-oldTotal * dcRate / 100;
+				                	oldTotal3 = fn($('#paymentPrice').html());
+									$('#paymentPrice').html(comma(TotalRem)+"원");
+								}
+							}
+					    },
+					    error : function(){
+					     alert("fail");
+					    }
+					   });
+	        }else{
+	            // "체크박스 체크 해제!"
+	            var couponNo = fn(this.id); // 함수써서 숫자만 추출
+	            
+	            sw=0;
+	            
+	            $('input:checkbox[name="cc"]').each(function() {
+	                if(this.checked){//체크박스 해제 했을 때 남아있는 체크박스에서 체크된 애들
+	                	                	
+	                	var couponNo = fn(this.value); // 함수써서 숫자만 추출
+	    	            var data = {
+	    	            		couponNo : couponNo
+	    					     };
+	    					   $.ajax({
+	    					    url : "/couponOne.do",
+	    					    type : "post",
+	    					    data : data,
+	    					    success : function(result){
+	    							if(result.resultMsg == "success") {
+	    								var userCoupon =result.userCoupon;
+	    								if(userCoupon.couponRate == 0){
+	    									// price할인 일경우
+	    									var dcPrice = userCoupon.couponPrice;
+	    									oldTotal = oldTotal2;
+	    				                	TotalRem = oldTotal-dcPrice;
+	    				                	$('#paymentPrice').html(comma(TotalRem)+"원");
+	    								}else {
+	    									// dc할인 일 겨우
+	    									var dcRate = userCoupon.couponRate;
+	    									oldTotal = oldTotal2;
+	    									TotalRem = oldTotal-oldTotal * dcRate / 100;
+	    									$('#paymentPrice').html(comma(TotalRem)+"원");
+	    								}
+	    							}
+	    					    },
+	    					    error : function(){
+	    					     alert("fail");
+	    					    }
+	    					   });
+	                	sw=1;
+	                }
+	           });
+				if(sw != 1) {
+					$('#paymentPrice').html(comma(oldTotal2)+"원");
+				}else {
+					$('#paymentPrice').html(comma(oldTotal3)+"원");
+				}
+	        }
+	    });
 	 
 		
 	    
@@ -224,7 +398,17 @@
 	    } 
 	    return str;
 	}
+
+	// string에서 숫자만 추출
+	function fn(str){
+	    var res;
+	    res = str.replace(/[^0-9]/g,"");
+	    return res;
+	}
 	
+	
+
+
 
 	
 	// ------------------------
@@ -250,9 +434,20 @@
             return false;
 }
 		
+		// 현재값
+		nowTotal = fn($('#paymentPrice').html());
+		// 최초값
+		oldTotal = $('#totalPrice').val();
 		
 		
+		// couponPrice
+		if(oldTotal - nowTotal == 0) {
+			$('#couponPrice').val(0);
+		}else {
+			$('#couponPrice').val(oldTotal - nowTotal);
+		}
 		
+		$('#totalPrice').val(nowTotal);
 		var form = document.form;
 		form.method="post";
 	    form.action="payment.do";

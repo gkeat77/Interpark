@@ -7,8 +7,8 @@
 <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>Login</title>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/login.js"></script>
-<script type="text/javascript" src="${CTX_PATH}/js/login_pub.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/login.js"></script>
+<script type="text/javascript" src="/js/login_pub.js"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
-                        <h2>Login!!!!!!!!!!!!!!!!!!!!!!!!!</h2>
+                        <h2>Login!!!!------------------!</h2>
                         <form action="" id="myForm" method="post">
                             <div class="group-input">
                                 <label for="username">ID *</label>

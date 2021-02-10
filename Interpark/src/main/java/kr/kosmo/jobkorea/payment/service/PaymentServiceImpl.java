@@ -67,6 +67,7 @@ public class PaymentServiceImpl implements PaymentService{
 		    paymentDao.cartUpdate2(vo2);
 	    }
 	    // order_hst
+	    vo.setUserState(0);
 	    paymentDao.regOderHst(vo);
 	}
 
@@ -97,4 +98,107 @@ public class PaymentServiceImpl implements PaymentService{
 	public void cartDel(String cartNo) {
 		paymentDao.cartDel(cartNo);
 	}
+
+
+
+
+	@Override
+	public void goDelivery(String payNo) {
+		paymentDao.goDelivery(payNo);
+		paymentDao.goDeliveryHst(payNo);
+	}
+
+	@Override
+	public List<PaymentModel> getRegDt() {
+		return paymentDao.getRegDt();
+	}
+
+	@Override
+	public void completeDelivery(String payNo) {
+		paymentDao.completeDelivery(payNo);
+		// hst
+		PaymentModel vo = new PaymentModel();
+		vo.setPayNo(payNo);
+		vo.setUserState(2);
+		paymentDao.regOderHst(vo);
+	}
+
+
+
+
+	@Override
+	public PaymentModel orderShow(String payNo) {
+		return paymentDao.orderShow(payNo);
+	}
+
+
+
+
+	@Override
+	public List<PaymentModel> orderCarts(HashMap<String, Object> map) {
+		return paymentDao.orderCarts(map);
+	}
+
+
+
+
+	@Override
+	public void goCancel(String PayNo) {
+		paymentDao.goCancel(PayNo);
+		// hst
+		PaymentModel vo = new PaymentModel();
+		vo.setUserState(3);
+		vo.setPayNo(PayNo);
+	    paymentDao.regOderHst(vo);
+	}
+
+
+
+	
+	@Override
+	public List<PaymentModel> getCoupon(String loginID) {
+		return paymentDao.getCoupon(loginID);
+	}
+
+
+
+
+	@Override
+	public PaymentModel getCouponOne(String couponNo) {
+		return paymentDao.getCouponOne(couponNo);
+	}
+
+
+
+
+	@Override
+	public void useCoupon(String couponNo) {
+		paymentDao.useCoupon(couponNo);
+	}
+
+
+
+
+	@Override
+	public List<PaymentModel> detailCoupon(PaymentModel vo) {
+		
+		List<PaymentModel> goCancel=paymentDao.detailCoupon(vo);
+		
+		// couponUpdate
+		for(PaymentModel ad : goCancel) {
+			paymentDao.couponCancel(ad.getCouponNo());
+		}
+		
+		return paymentDao.detailCoupon(vo);
+	}
+
+
+
+
+	@Override
+	public void cartUpdate3(String cartNo) {
+		paymentDao.cartUpdate3(cartNo);
+	}
+
+
 }

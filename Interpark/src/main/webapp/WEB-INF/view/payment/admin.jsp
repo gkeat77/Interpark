@@ -4,8 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
 
-
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+
 	<style>
 		a:link{ color:black;
 		}
@@ -13,6 +13,41 @@
 		#payNo {
 		 padding-top: 80px;
 		}
+		#buttonPro{
+			border-radius:10px;
+			width: 60px;
+			height: 30px;
+		}
+		#cartImg{
+			width: 100px;
+			height: 150px;
+		}
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                   
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */
+            -webkit-overflow-scrolling: touch;   
+        }
+		
 	</style>
     <!-- Breadcrumb Section Begin -->
      <div class="breacrumb-section">
@@ -28,6 +63,17 @@
             </div>
         </div>
     </div>
+    
+    <c:choose>
+    <c:when test="${empty member}">
+    
+    	<script>
+    		alert("로그인 먼저 해주세요");
+    		location.href="/login.do";
+    	</script>
+
+    </c:when>
+    <c:otherwise>
     
     
     
@@ -78,30 +124,29 @@
                                 </div>
                                 -->
                                 <div class="order-btn">
-                                <ul class="btn-group pagination">
+                                <ul class="btn-group pagination justify-content-center" id="paging-ul">
 								    <c:if test="${pageMaker.prev }">
-								    <li>
+								    <li id="paging-li">
 								        <a class="page-link" href='<c:url value="/adminInfo.do?page=${pageMaker.startPage-1 }"/>'>Previous</a>
 								    </li>
 								    </c:if>
-								    
 								    <!--
-								    when, search일 때 페이징 적용 위함
+								    when, search일 때 페이징 적용 하지 않기 위함
 								    when, active 페이징 설정하기 위함
 								      -->
 								    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
 										<c:choose>
 											<c:when test="${not empty param.searchKey}"></c:when>
 											<c:when test="${param.page eq pageNum }"> 
-												<li class="page-item active "><a class="page-link" href='<c:url value="/adminInfo.do?page=${pageNum }"/>'>${pageNum }</a></li>
+												<li id="paging-li" class="page-item active "><a class="page-link" href='<c:url value="/adminInfo.do?page=${pageNum }"/>'>${pageNum }</a></li>
 											</c:when>
 											<c:otherwise>
-								        			<li class="page-item "><a class="page-link" href='<c:url value="/adminInfo.do?page=${pageNum }"/>'>${pageNum }</a></li>											
+								        			<li id="paging-li" class="page-item "><a class="page-link" href='<c:url value="/adminInfo.do?page=${pageNum }"/>'>${pageNum }</a></li>											
 											</c:otherwise>
 										</c:choose>
 								    </c:forEach>
 								    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-								    <li class="page-item">
+								    <li id="paging-li" class="page-item">
 								        <a class="page-link" href='<c:url value="/adminInfo.do?page=${pageMaker.endPage+1 }"/>'>Next</a>
 								    </li>
 								    </c:if>
@@ -128,7 +173,6 @@
 										</c:if>
 									</div>
 									  -->
-									  
                                 </div>
                             </div>
                         </div>
@@ -140,7 +184,7 @@
                         </div>
                         -->
                         <div class="place-order">
-                            <h4>배송 or 쿠폰</h4>
+                            <h4>배송</h4>
                             <div class="order-total">
                                 <ul class="order-table">
                                     <li class="user-orders" id="userId">아이디<span>정보</span></li>
@@ -164,9 +208,31 @@
                                     </div>
                                 </div>
                                 -->
+                                <!--
                                 <div class="order-btn">
                                     <button type="button"  onclick="goPayment()" class="site-btn place-btn">Place Order</button>
                                 </div>
+                                  -->
+                                  
+                                  <!-- The Modal -->
+									    <div id="myModal" class="modal">
+									 
+									      <!-- Modal content -->
+									      <div class="modal-content">
+									                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">카트목록</span></b></span></p>
+									                <p style="text-align: center; line-height: 1.5;"><br /></p>
+									                <div id="cartList">
+									                </div>
+									                <p><br /></p>
+									            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+									                <span class="pop_bt" style="font-size: 13pt;" >
+									                     	닫기
+									                </span>
+									            </div>
+									      </div>
+									      
+									    </div>
+        							<!--End Modal-->
                             </div>
                         </div>
                     </div>
@@ -175,21 +241,15 @@
         </div>
     </section>
     
-    
+    </c:otherwise>
+    </c:choose>
     
     <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
     <!-- Partner Logo Section End -->
 
 	<script>
 	
-	
-	
-	
-	
 	$(document).ready(function() {
-	 
-		
-	    
 	}); // onLoad End
 	
 	// ------------------------
@@ -218,11 +278,42 @@
 	}
 	
 
+	// 모달 닫기	
+	 function close_pop(flag) {
+        $('#myModal').hide();         
+        $('body').css("overflow", "scroll");
+   };
+
 	
 	// ------------------------
 	// function
 	// ------------------------
 
+	function delivery(payNo) {
+		console.log(payNo);
+		var result = confirm("입금을 확인하셨습니까??");
+		if(result) {
+			var data = {
+					payNo : payNo
+				     };
+				   
+				   $.ajax({
+				    url : "/goDelivery.do",
+				    type : "post",
+				    data : data,
+				    success : function(result){
+						if(result.resultMsg == "success") {
+							
+							location.reload(true);	// 삭제 후 초기화
+						}
+				    },
+				    error : function(){
+				     alert("fail");
+				    }
+				   });
+		}
+	}
+	
 	function goSearch () {
 		var key = $('#searchKey').val();
 		if(!key) {
@@ -234,8 +325,6 @@
 	
 	
 	function userDetail(loginID) {
-		//alert(loginID);
-
 		$('#userId').html(loginID);
 		var data = {
 				loginID : loginID
@@ -253,16 +342,26 @@
 							//user
 							var State = "";
 							if(item.userState=="0") {
-								State="입금완료";
+								State="입금대기";
 							}else if (item.userState=="1") {
 								State="배송중";
+							}else if (item.userState=="2") {
+								State="배송완료";
+							}else if (item.userState=="3") {
+								State="관리자 취소";
 							}
 							var proQty = $('.user-orders');
-							/* proQty.append('<li id="payNo">'+item.payNo+'</li>'); */
+							
+							/*
 							proQty.append('<li id="payNo">결제번호'+""+"<span>"+item.payNo+"</span>"+'</li>');
-							proQty.append('<li id="payState" >결제상태'+""+"<span>"+State+"</span>"+'</li>');
-							if(State == "입금완료") {
-								proQty.append('<li id="payNo">button'+""+"<span>"+item.payNo+"</span>"+'</li>');
+									href="#layer2" class="btn-example"
+							*/
+							 proQty.append('<li id="payNo">결제번호'+""+"<span><a href='javascript:void(0);' class='btn-example' onclick='orderCart("+item.payNo+")''>"+item.payNo+"</a></span>"+'</li>');  
+							proQty.append('<li id="payPrice">결제금액'+""+"<span>"+comma(item.price)+"</span>"+'</li>');
+							proQty.append('<li id="payState" >상태'+""+"<span>"+State+"</span>"+'</li>');
+							if(State == "입금대기") {
+								proQty.append('<li id="adminButton">배송처리'+""+"<span><input type='button' id='buttonPro' value='DO' onclick='delivery("+item.payNo+")'/>"+"</span>"+'</li>');
+								proQty.append('<li id="adminButton">주문취소'+""+"<span><input type='button' id='buttonPro' value='DO' onclick='goCancel("+item.payNo+")'/>"+"</span>"+'</li>');
 							}
 							})
 					}
@@ -272,9 +371,64 @@
 			    }
 			   });
 	}
-
 	
+	
+	
+    function orderCart(payNo){
+    	 var data = {
+    			 payNo : payNo
+ 			     };
+ 			   $.ajax({
+ 			    url : "/orderShow.do",
+ 			    type : "post",
+ 			    data : data,
+ 			    success : function(result){
+ 					if(result.resultMsg == "success") {
+ 						var userCarts =result.cartList;
+ 						
+ 						var proQty = $('#cartList');
+ 						proQty.empty();	// append전에 비운다
+ 						userCarts.forEach(function (item, index, array) {
+							proQty.append('<p><img id=cartImg src='+item.bookImg+'></img>'+item.bookName+'<br>'+item.stock+'권</p>');
+							proQty.append('<br><br>');
+							//proQty.append('<p><img id="cartImg" src='+item.bookImg+'></img></p>');
+							//proQty.append('<p>'+item.bookName+'</p>');
+							//proQty.append('<p>'+item.stock+'권</p>');
+							
+ 						})
+ 					$('body').css("overflow", "hidden"); // 기존 body스크롤 hidden처리	
+					$('#myModal').show();
+ 					}else {
+ 					}
+ 			    },
+ 			    error : function(){
+ 			     alert("fail");
+ 			    }
+ 			   });
+    }
+    
+    function goCancel(payNo) {
+    	var result = confirm("정말 고객의 주문을 취소하시겠습니까??");
+    	if(result) {
+			var data = {
+					payNo : payNo
+				     };
+				   
+				   $.ajax({
+				    url : "/goCancel.do",
+				    type : "post",
+				    data : data,
+				    success : function(result){
+						if(result.resultMsg == "success") {
+							
+							location.reload(true);	// 삭제 후 초기화
+						}
+				    },
+				    error : function(){
+				     alert("fail");
+				    }
+				   });
+		}
+    }
 	</script>
-
-
 </html>
