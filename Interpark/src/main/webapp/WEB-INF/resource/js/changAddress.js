@@ -38,22 +38,6 @@ function addAddress(){
 	  
 }
 
-function selectAddress() {
-  var data = {a_ID : $("#a_id").val()};
-  $.ajax({
-		url : "selectAddress.me",
-		type : "POST",
-		data : data,
-		success : function(data) {
-			alert(data)
-		},
-		error : function() {
-			alert("[주소록 찾기 실패 ]");
-		}
-	  });
-}
-
-
 function editAddress(id){
 	$.ajax({
 		url : "editAddress.me",
