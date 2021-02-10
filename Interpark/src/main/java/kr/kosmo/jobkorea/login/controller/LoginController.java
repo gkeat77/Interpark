@@ -84,7 +84,7 @@ public class LoginController {
       logger.info("+ Start loginProc.do");
       logger.info("   - loginProc.do ParamMap : " + paramMap);
 
-      // 사용자 로그인
+      // 사용자 로그인!
       RegisterInfoModel rm = loginService.loginProc(paramMap);
       String result;
       String resultMsg;
