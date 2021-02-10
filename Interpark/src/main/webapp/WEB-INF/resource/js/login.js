@@ -6,7 +6,7 @@ $(document).ready(function() {
 		$("#cb_saveId").attr("checked", true);
 	}
 });
-/* 로그인 */
+/* 로그인 !!*/
 function fLoginProc(data) {
 	 if ($("#cb_saveId").is(":checked")) { // 저장 체크시
 		saveCookie('userId', $("#userId").val(), 7);
