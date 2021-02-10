@@ -31,6 +31,8 @@
 		<result property="addr" column="A_AD2"/>
 		<result property="addr_detail" column="A_AD3"/>
 	</resultMap>
+   
+   
 	
    <!-- 사용자 로그인 -->
    <!-- kr.kosmo.jobkorea.login.dao.LoginDao.selectLogin -->
@@ -195,65 +197,5 @@
 		   SET password = #{pwd}
 		 WHERE loginID  = #{loginID}
 	</update> 
-	
-	<!-- 회원정보수정 -->
-    <update id="memberInfo">
-    	UPDATE  tb_userinfo SET
-		  password = #{password}
-		  ,M_ACCOUNT = #{account}
-		  ,M_BKNAME = #{bkname}
-		  ,M_EMAIL = #{mail}
-		  ,M_PHONE1 = #{phone1}
-		  ,M_PHONE2 = #{phone2}
-		  ,M_PHONE3 = #{phone3}
-		WHERE loginID = #{loginID}
-    </update>
-    
-    <!-- 회원정보 주소록 추가 -->
-    <insert id="addAddress">
-   		insert into ADDRESS (
-		    A_AD1
-		    ,A_AD2
-		    ,A_AD3
-		    ,A_TITLE
-		    ,loginID
-		    ,A_PHONE1 
-		    ,A_PHONE2
-		    ,A_PHONE3
-		    ,A_NAME 
-		 ) VALUES (
-		   #{user_post}
-		   ,#{addr}
-		   ,#{addr_detail}
-		   ,#{A_TITLE}
-		   ,#{loginID} 
-		   ,#{phone1}
-		   ,#{phone2}
-		   ,#{phone3}
-		   ,#{a_name}
-		  )
-    </insert>
-    
-    <select id="userAddress" resultType="kr.kosmo.jobkorea.login.model.Address">
-    	select A_ID, A_TITLE, A_AD1, A_AD2, A_AD3, A_PHONE1, A_PHONE2, A_PHONE3, A_NAME, loginID FROM ADDRESS
-    	where loginID = #{loginID} 
-    </select>
-    
-    <!-- 회원정보수정 -->
-    <update id="editAddress">
-    	update ADDRESS SET
-		   A_TITLE = #{A_TITLE}
-		  ,A_AD1 = #{A_AD1}
-		  ,A_AD2 =#{A_AD2}
-		  ,A_AD3 = #{A_AD3}
-		  ,A_PHONE1 = #{A_PHONE1}
-		  ,A_PHONE2 = #{A_PHONE2}
-		  ,A_PHONE3 = #{A_PHONE3}
-		  ,A_NAME = #{A_NAME}
-		WHERE loginID = #{loginID} 
-		AND A_ID = #{A_ID}
-    </update>
-	
-	
 	
 </mapper>

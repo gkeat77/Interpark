@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -56,7 +57,7 @@ public class LoginController {
     * @throws Exception
     */
 
-   @RequestMapping("login.me")
+   @RequestMapping(value="login.me", method = RequestMethod.GET)
    public String index(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
@@ -75,9 +76,9 @@ public class LoginController {
     * @return   String - page navigator
     * @throws Exception
     */
-   @RequestMapping("loginProc.do")
+   @RequestMapping(value="loginProc.do", method = RequestMethod.POST)
    @ResponseBody
-   public Map<String, String> loginProc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+   public Map<String, Object> loginProc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 	   
       logger.info("+ Start loginProc.do");
@@ -88,10 +89,7 @@ public class LoginController {
       String result;
       String resultMsg;
       logger.info("   - rm : " + rm);
-      List<Address> ad = loginService.userAddress(paramMap);
-		if(ad != null){
-			session.setAttribute("address", ad);
-		}
+      
       if (rm != null) {
          
          result = "SUCCESS";
@@ -106,8 +104,8 @@ public class LoginController {
          result = "FALSE";
          resultMsg = "사용자 로그인 정보가 일치하지 않습니다.";
       }
-            
-      Map<String, String> resultMap = new HashMap<String, String>();
+      
+      Map<String, Object> resultMap = new HashMap<String, Object>();
       resultMap.put("result", result);
       resultMap.put("resultMsg", resultMsg);
       
@@ -129,7 +127,7 @@ public class LoginController {
     * @param session
     * @return
     */
-   @RequestMapping(value = "/logOut.do")
+   @RequestMapping(value = "/logOut.do", method = RequestMethod.POST)
    public ModelAndView logOut(SessionStatus sessionStatus, HttpSession session) {
        
 		   logger.info("+ Start " + className + "logOut");
@@ -145,7 +143,7 @@ public class LoginController {
    /**
     *  사용자 id,pw 찾기
     */
-   @RequestMapping("selectFindInfo.do")
+   @RequestMapping(value="selectFindInfo.do", method = RequestMethod.POST)
    @ResponseBody
    public Map<String, Object> selectFindInfo(@RequestParam Map<String, Object> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
@@ -181,7 +179,7 @@ public class LoginController {
    }
    
    //아이디 찾기 페이지 이동
-   @RequestMapping("ff.me")
+   @RequestMapping(value="ff.me", method = RequestMethod.GET)
    public String findI(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
@@ -189,7 +187,7 @@ public class LoginController {
    }
    
    // id 찾기 
-   @RequestMapping("findId.me")
+   @RequestMapping(value="findId.me", method = RequestMethod.POST)
    public String find_id(HttpServletResponse response, @RequestParam Map<String, String> paramMap, Model m) throws Exception{
 	  String id = loginService.find_id(paramMap, response);
 		 logger.info(" fdfdfdfdfdfd" + paramMap.get("mail"));
@@ -200,7 +198,7 @@ public class LoginController {
 	
       
    // pass 찾기 이메일 발송
-   @RequestMapping("findPass.do")
+   @RequestMapping(value="findPass.do", method = RequestMethod.POST)
    @ResponseBody
    public Map<String, Object> findPass(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 	  
@@ -241,113 +239,6 @@ public class LoginController {
    public void findPwPOST(@ModelAttribute RegisterInfoModel member, HttpServletResponse response) throws Exception{
 	   loginService.findPw(response, member);
    }*/
-   
-   
- //회원정보 수정으로 이동
-   @RequestMapping("my.me")
-   public String my(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
-         HttpServletResponse response, HttpSession session) throws Exception {
-	   logger.info("+ Start LoginController.my.me+");
-      return "/myPage/userInfo";
-   }
-   
-   //회원정보 수정
-   @RequestMapping("memberInfo.me")
-	@ResponseBody
-	public  Map<String, Object> memberInfo(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-	   logger.info("+ Start RegisterController memberInfo.me");
-		paramMap.put("address", (String)paramMap.get("addr") +","+(String)paramMap.get("addr_detail")+","+(String)paramMap.get("user_post"));
-		paramMap.put("tel",  (String)paramMap.get("phone1") +"-"+(String)paramMap.get("phone2")       +"-"+(String)paramMap.get("phone3"));
-		paramMap.put("birth",(String)paramMap.get("year") +    (String)paramMap.get("month")      +    (String)paramMap.get("day") );
-		
-		int re;
-		re = loginService.memberInfo(paramMap);
-		if(re >0){
-			logger.info("회원정보 수정 완료");
-		}
-		
-		logger.info("+ End memberInfo.me");
-		return null;
-	}
-   
- //주소록 수정으로 이동
-   @RequestMapping("ca1.me")
-   public String ad(HttpSession session) throws Exception {
-	   logger.info("+ Start LoginController.ca1.me+");
-      return "/myPage/changAddress";
-   }
-   
- //주소록 추가
-   @RequestMapping("addAddress.me")
-	@ResponseBody
-	public  Map<String, Object> addAddress(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-	   logger.info("+ Start RegisterController memberInfo.me");
-		RegisterInfoModel userVO = (RegisterInfoModel) session.getAttribute("member");
-		
-	    // 사용자 정보를 가져올 수 있다.
-	    userVO.getLoginID();
-	    
-	    
-	    logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + userVO.getLoginID());
-
-	    paramMap.put("loginID", userVO.getLoginID());
-	   
-	    
-		int re= loginService.addAddress(paramMap);
-		if(re >0){
-			logger.info("주소록 추가 완료");
-			List<Address> ad = loginService.userAddress(paramMap);
-			if(ad != null){
-				session.setAttribute("address", ad);
-			}
-		}
-		Enumeration se = session.getAttributeNames();
-		while(se.hasMoreElements()){
-			String getse = se.nextElement()+"";
-			System.out.println("@@@@@@@ session : "+getse+" : " + session.getAttribute(getse));
-		}
-		
-		logger.info("+ End memberInfo.me");
-		return null;
-	}
-   
-   //주소록 수정
-   @RequestMapping("editAddress.me")
-   @ResponseBody
-   public  Map<String, Object> editAddress(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-	   logger.info("+ Start RegisterController editAddress.me");
-	   
-	   RegisterInfoModel userVO = (RegisterInfoModel) session.getAttribute("member");
-	   Address add = (Address) session.getAttribute("address"); 
-	   // 사용자 정보를 가져올 수 있다.
-	   userVO.getLoginID();
-	   add.getA_ID();
-	   paramMap.put("loginID", userVO.getLoginID());
-	   paramMap.put("A_ID",  add.getA_ID());
-	   
-	   int re= loginService.editAddress(paramMap);
-	   if(re >0){
-		   logger.info("주소록 수정 완료");
-		   List<Address> ad = loginService.userAddress(paramMap);
-		   if(ad != null){
-			   session.setAttribute("editAddress", ad);
-		   }
-	   }
-	   Enumeration se = session.getAttributeNames();
-	   while(se.hasMoreElements()){
-		   String getse = se.nextElement()+"";
-		   System.out.println("@@@@@@@ session : "+getse+" : " + session.getAttribute(getse));
-	   }
-	   
-	   logger.info("+ End memberInfo.me");
-	   return null;
-   }
-   
-   
-   
-   
-   
-   
    
    
 }
