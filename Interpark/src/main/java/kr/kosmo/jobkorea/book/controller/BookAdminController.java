@@ -37,7 +37,7 @@ public class BookAdminController {
 	bookAdminService booksv;
 	
 	//책 등록 페이지 이동
-	@RequestMapping("regPage.do") //
+	@RequestMapping("regPage.do")
 	public 	String bookList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		model.addAttribute("cateList", booksv.cateList());
