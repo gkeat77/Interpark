@@ -14,6 +14,12 @@ var pageBlockSize = 10;
 $(document).ready(function() {
 	flist_goods();
 	
+	$(".cateHedaer").click(function() {
+		$("#cateId").val('');
+		$("#cateClass").val('');
+		flist_goods();
+	});
+	
 	//상위 카테고리 클릭시
 	$(".card-link").click(function() {
 		let cateClass = $(this).closest("div").find("input").val();
@@ -32,8 +38,8 @@ $(document).ready(function() {
 		flist_goods();
 		});
 	//보기 갯수
-	$(".p-show").change(function(){
-		pageSize = $(".p-show").val();
+	$("#pageSize").change(function(){
+		pageSize = $("#pageSize").val();
 		flist_goods();
 	});
 	//정렬
@@ -128,17 +134,7 @@ function flist_clean_search(){
             </div>
           </div>  
    <!-- Breadcrumb Section Begin -->
-	<p class="conTitle mt50">
-		<select id="searchType" name="searchType" class="form-control sSelect">
-			<option value="all" id="option1" selected="selected">전체</option>
-			<option value="title" id="option1">상품명</option>
-			<option value="P_ID" id="option1">ID</option>
-		</select> 
-		<input type="text"  class="form-control sInput" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
-		<button type="button" id="btnSearch" class="btn sBtn">
-			<span>검색</span>
-		</button>
-	</p>
+
 
 
 	<!-- Product Shop Section Begin -->
@@ -146,10 +142,26 @@ function flist_clean_search(){
     <input type="hidden" id="cateClass">
     <section class="product-shop spad">
         <div class="container">
+		     <p class="conTitle mt50 text-right">
+				<select id="searchType" name="searchType" class="form-control sSelect">
+					<option value="all" id="option1" selected="selected">전체</option>
+					<option value="title" id="option1">상품명</option>
+					<option value="P_ID" id="option1">ID</option>
+				</select> 
+				<input type="text"  class="form-control sInput" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
+				<button type="button" id="btnSearch" class="btn sBtn">
+					<span>검색</span>
+				</button>
+			</p>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
                     <div class="filter-widget">
                         <div id="accordion">
+                            <div class="card-header cateHedaer">
+					        <a class="card-link">
+					         <h5>카테고리</h5>
+					        </a>
+					      </div>
                         <c:forEach var="list" items="${cateList }" varStatus="status">
 					    <div class="card" >
 					      <div class="card-header">
@@ -169,36 +181,6 @@ function flist_clean_search(){
 					    </c:forEach>
 					  </div>
                     </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Price</h4>
-                        <div class="filter-range-wrap">
-                            <div class="range-slider">
-                                <div class="price-input">
-                                    <input type="text" id="minamount">
-                                    <input type="text" id="maxamount">
-                                </div>
-                            </div>
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                data-min="0" data-max="1000000">
-                                <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                            </div>
-                        </div>
-                        <a href="#" class="filter-btn">Filter</a>
-                    </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Tags</h4>
-                        <div class="fw-tags">
-                            <a href="#">Towel</a>
-                            <a href="#">Shoes</a>
-                            <a href="#">Coat</a>
-                            <a href="#">Dresses</a>
-                            <a href="#">Trousers</a>
-                            <a href="#">Men's hats</a>
-                            <a href="#">Backpack</a>
-                        </div>
-                    </div>
                 </div>
                 <!--상품정보 시작  -->
                 <div class="col-lg-9 order-1 order-lg-2">
@@ -209,11 +191,11 @@ function flist_clean_search(){
                                     <select class="sorting" id="sort">
                                         <option value="sellCount desc">판매량 순</option>
                                         <option value="title">상품명 순</option>
-                                        <option value="R_STAR desc">평점 순</option>
-                                        <option value="R_COUNT desc">리뷰 순</option>
+                                        <option value="rStar desc">평점 순</option>
+                                        <option value="rCount desc">리뷰 순</option>
                                         <option value="realPrice desc">가격 순</option>
                                     </select>
-                                    <select class="p-show">
+                                    <select class="sorting" id="pageSize">
                                         <option value="12">12개씩</option>
                                         <option value="24">24개씩</option>
                                         <option value="36">36개씩</option> 

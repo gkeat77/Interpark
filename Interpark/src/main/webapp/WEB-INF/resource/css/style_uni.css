@@ -47,6 +47,11 @@ background-color:rgb(255, 204, 0);
 	
 }
 
+.cateHedaer{
+	background-color:#000000 !important;
+	
+}
+
 .card-header h5{
 	color:white;
 	font-weight: bolder;
