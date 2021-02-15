@@ -205,6 +205,10 @@
 		                            <li><a href="/logOut.do">LOGOUT</a></li>
 		                         </c:otherwise>
 		                         </c:choose>
+		                         <!-- admin  -->
+                                <c:if test="${member.loginID eq 'admin'}">
+                                	<li><a href="/adminInfo.do">ADMIN</a></li>
+								</c:if>
                             </ul>
                         </li>
                     </ul>

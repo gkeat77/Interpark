@@ -25,7 +25,7 @@
     
     	<script>
     		alert("로그인 먼저 해주세요");
-    		location.href="/login.do";
+    		location.href="/login.me";
     	</script>
 
     </c:when>
