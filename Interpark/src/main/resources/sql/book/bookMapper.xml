@@ -32,7 +32,7 @@
 			<choose>
 				<when test="(searchType != null) and (searchType eq 'all'.toString())">
 					(
-					P_ID = #{searchKey } or
+					b.P_ID = #{searchKey } or
 					title Like CONCAT('%', #{searchKey }, '%') 
 					)
 				</when>
@@ -40,7 +40,7 @@
 					title Like CONCAT('%', #{searchKey }, '%') 
 				</when>
 				<when test="(searchType != null) and (searchType eq 'P_ID'.toString())">
-					P_ID = #{searchKey }
+					b.P_ID = #{searchKey }
 				</when>
 			</choose>	
 		</if>
@@ -49,16 +49,20 @@
 
 	<!-- 상품 리스트 -->
 	<select id="goodsList" resultType="kr.kosmo.jobkorea.book.model.BookModel">
-		SELECT P_ID as pId,itemId,title, description, translator,
+		SELECT b.P_ID as pId,itemId,title, description, translator,
 		author,coverLargeUrl, categoryId, categoryName,
 		publisher, sellCount, stock, 
 		saleRate, salePrice,realPrice, 
 		regDate, sellState,
 		display,
 		DATE_FORMAT(sellStart, '%Y.%m.%d %h:%m') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d
-		%h:%m') as sellEnd
-		FROM BOOK_GOODS
+		%h:%m') as sellEnd,
+		 ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
+		FROM BOOK_GOODS b
+		left join REVIEW r
+		on b.P_ID = r.P_ID
 		<include refid="search"/>
+		group by b.P_ID
 		<if test="(sort != null) and (!sort.equals(''))">
 			order by ${sort}
 		</if>
@@ -69,7 +73,7 @@
 	
 	<!-- 상품 갯수 -->
 	<select id="goodsCount" resultType="Integer">
-		SELECT count(P_ID) FROM BOOK_GOODS
+		SELECT count(P_ID) FROM BOOK_GOODS b
 		<include refid="search"/>
 	</select>
 	
