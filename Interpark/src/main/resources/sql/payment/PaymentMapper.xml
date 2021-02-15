@@ -51,6 +51,7 @@ INSERT INTO ORDERS
 	, ORDER_STATE
 	, loginID
 	, DC_PRICE
+	, COUPON_NO
 )
 VALUES
 (
@@ -61,6 +62,7 @@ VALUES
 	, '0'
 	, #{loginID}
 	, #{couponPrice}
+	, #{couponNos}
 )
 </insert>
 

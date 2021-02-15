@@ -35,6 +35,11 @@ public class BookModel {
 		String display;
 		String sellStart;
 		String sellEnd;
+		double rStar;
+		int rCount;
+		
+		
+		
 		public int getpId() {
 			return pId;
 		}
@@ -227,6 +232,18 @@ public class BookModel {
 		public void setRealPrice(int realPrice) {
 			this.realPrice = realPrice;
 		}
+		public double getrStar() {
+			return rStar;
+		}
+		public void setrStar(double rStar) {
+			this.rStar = rStar;
+		}
+		public int getrCount() {
+			return rCount;
+		}
+		public void setrCount(int rCount) {
+			this.rCount = rCount;
+		}
 		@Override
 		public String toString() {
 			return "BookModel [pId=" + pId + ", itemId=" + itemId + ", title=" + title + ", isbn=" + isbn + ", author="
@@ -238,9 +255,11 @@ public class BookModel {
 					+ ", file_loc=" + file_loc + ", file_size=" + file_size + ", authorInfo=" + authorInfo
 					+ ", sellCount=" + sellCount + ", stock=" + stock + ", saleRate=" + saleRate + ", salePrice="
 					+ salePrice + ", realPrice=" + realPrice + ", sellState=" + sellState + ", display=" + display
-					+ ", sellStart=" + sellStart + ", sellEnd=" + sellEnd + "]";
+					+ ", sellStart=" + sellStart + ", sellEnd=" + sellEnd + ", rStar=" + rStar + ", rCount=" + rCount
+					+ "]";
 		}
-	
+		
+		
 
 		
 		

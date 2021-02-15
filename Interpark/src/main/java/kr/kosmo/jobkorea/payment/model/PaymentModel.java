@@ -29,6 +29,7 @@ public class PaymentModel {
 	private String couponNo;
 	private String couponPrice;
 	private String couponRate;
+	private String couponNos;
 	
 	
 	
@@ -43,7 +44,12 @@ public class PaymentModel {
 	
 	
 	
-	
+	public String getCouponNos() {
+		return couponNos;
+	}
+	public void setCouponNos(String couponNos) {
+		this.couponNos = couponNos;
+	}
 	public String getCouponPrice() {
 		return couponPrice;
 	}

@@ -47,6 +47,11 @@ background-color:rgb(255, 204, 0);
 	
 }
 
+.cateHedaer{
+	background-color:#000000 !important;
+	
+}
+
 .card-header h5{
 	color:white;
 	font-weight: bolder;
@@ -56,6 +61,33 @@ background-color:rgb(255, 204, 0);
 .list-group-item:hover{ color:#e6b800; }
 
 
-iinput[readonly]{
+input[readonly]{
     background-color: yellow;
+}
+
+
+.sSelect{
+	width:150px;
+	height:40px;
+	display:inline !important;
 } 
+
+.sInput{
+	width:300px;
+	height:40px;
+	display:inline !important;
+} 
+
+
+.sBtn{
+	width:150px;
+	height:40px;
+	color:white;
+	background-color:#e6b800;
+}
+
+
+.star{
+	width:60px;
+	height:16px;
+	}

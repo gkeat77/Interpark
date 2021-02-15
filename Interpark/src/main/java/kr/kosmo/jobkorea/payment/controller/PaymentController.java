@@ -292,6 +292,61 @@ public class PaymentController {
    }
    
    
+   @RequestMapping(value="/statistics.do", method = RequestMethod.GET)
+   public ModelAndView statistics (Model mode, HttpSession session
+   		, @RequestParam(value="searchKey", required=false)String searchKey
+   		) throws ParseException {
+   	
+	ModelAndView mav = new ModelAndView();
+	
+	RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+	if(ComnUtil.isEmpty(rm)) {
+		mav.setViewName("login/login");
+	}else if(rm.getLoginID().equals("admin")) {
+		mav.setViewName("payment/statistics");
+	}
+	else {
+		mav.setViewName("index");
+	}
+   	return mav;
+   }
+   
+   
+   @ResponseBody
+   @RequestMapping(value="/goStatistics.do" , method = RequestMethod.POST)
+	public Map<String, Object> goStatistics(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+	   Map<String, Object> resultMap = new HashMap<String, Object>();
+	   String result="";
+	   String fromDt = (String) paramMap.get("fromDt");
+	   String toDt = (String) paramMap.get("toDt");
+	   
+	   
+	   //resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
+	   
+	   SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+	   String format_time1 = f.format (System.currentTimeMillis());
+		
+		Date d1 = f.parse(fromDt);
+		Date d2 = f.parse(toDt);
+		long diff = d2.getTime() - d1.getTime();
+		long mm = diff / 60000;
+		long hh = diff / 3600000;
+		long day = hh/24;
+		
+		System.out.println(day);
+		
+		if(day == 0) {
+			//paymentService.completeDelivery(ad.getPayNo());
+			// d1
+			
+		}
+		
+		
+	   result="success";
+	   resultMap.put("resultMsg", result); 
+	   
+		return resultMap;
+   }
    
    
 }

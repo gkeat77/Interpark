@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 	<c:if test="${totalCnt eq 0 }">
 		<div style="padding:100px">
 				<h3 class="text-center" >데이터가 존재하지 않습니다.</h3>
@@ -17,9 +16,7 @@
 			<div class="col-lg-4 col-sm-6">
 				<div class="product-item">
 					<div class="pi-pic">
-						<img src="${list.coverLargeUrl}" alt=""
-							style="width: 260px; height: 300px;"
-						>
+						<img src="${list.coverLargeUrl}"  style="width: 260px; height: 300px;">
 						<c:if test="${list.saleRate > 1 }">
 							<div class="sale pp-sale">Sale</div>
 						</c:if>
@@ -27,8 +24,9 @@
 							<i class="icon_heart_alt"></i>
 						</div>
 						<ul>
-							<li class="w-icon active"><a href="#"><iclass="icon_bag_alt"></i></a></li>
-							<li class="quick-view"><a href="#">상세보기</a></li>
+						<!--카트 /  구매 버튼 링크  -->
+							<li class="w-icon active"><a href="#">CART</a></li>
+							<li class="quick-view"><a href="#">BUY</a></li>
 						</ul>
 					</div>
 					<div class="pi-text">
@@ -39,9 +37,20 @@
 						</a>
 						<div class="author">${list.author}저│ ${list.publisher}</div>
 						<div class="product-price">
-							<fmt:formatNumber value="${list.realPrice }" type="number" />원 
+							<fmt:formatNumber value="${list.realPrice }" type="number" />원
+							<c:if test="${list.saleRate > 1 }">
+							(${list.saleRate}% ↓)
 							<span><fmt:formatNumber value="${list.salePrice }" type="number"/>원</span>
+							</c:if>
 						</div>
+						<div class="author">
+						<c:if test="${0 <= list.rStar  and list.rStar <= 1}"><img src="${CTX_PATH}/img/star/star0.png" class="star"></c:if>
+						<c:if test="${1 < list.rStar  and list.rStar < 2.5}"><img src="${CTX_PATH}/img/star/star1.png" class="star"></c:if>
+						<c:if test="${2.5 <= list.rStar  and list.rStar < 4.5}"><img src="${CTX_PATH}/img/star/star2.png" class="star"></c:if>
+						<c:if test="${4.5 <= list.rStar  and list.rStar < 6.5}"><img src="${CTX_PATH}/img/star/star3.png" class="star"></c:if>
+						<c:if test="${6.5 <= list.rStar  and list.rStar < 8.5}"><img src="${CTX_PATH}/img/star/star4.png" class="star"></c:if>
+						<c:if test="${8.5 < list.rStar}"><img src="${CTX_PATH}/img/star/star5.png" class="star"></c:if>
+						${list.rStar } │ 리뷰: ${list.rCount } 건</div>	
 						<div class="catagory-name text-center">${list.description}</div>
 					</div>
 				</div>
