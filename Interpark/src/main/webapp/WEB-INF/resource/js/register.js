@@ -181,7 +181,7 @@ function execDaumPostcode() {
 
 	function IDCheck( form ) {
 		$.ajax({
-			url : "id_check.do",
+			url : "/register/id_check.re",
 			type : "POST",
 			async : true ,
 			//data : $('#ARegisterForm').serialize(),
@@ -189,7 +189,7 @@ function execDaumPostcode() {
 			success : function(data) {
 				if(data.OK=="N"){
 					$("#id_check").html("중복된 아이디가 있습니다.");
-				}else if(form == "ARegisterForm" ){
+				}else(data.OK=="Y"){
 					AfValidateStudent()
 					eMailCheck(form);
 				}
@@ -207,8 +207,10 @@ function execDaumPostcode() {
 			async : true ,
 			data : $("#"+form).serialize(),
 			success : function(data) {
+				alert("?");
+				
 				if(data.OK=="N"){
-					$("#email_check").html("중복된 이메일이 있습니다.");
+					alert("중복된 이메일이 있습니다.");
 				}else if(form == "ARegisterForm" ){
 					ACompleteRegister(form);
 				}
@@ -224,12 +226,12 @@ function execDaumPostcode() {
 	/* 일반 회원가입  완료*/
 	function ACompleteRegister( form ) {
 		$.ajax({
-			url : "aregister.do",
+			url : "/register/aregister.re",
 			type : "POST",
 			data : $("#"+form).serialize(),
 			success : function(data) {
 				alert("회원가입이 완료 되었습니다");
-				location.href = "login.me";
+				location.href = "/login/login.me";
 			},
 			error : function() {
 				alert("[ 회원 신규 등록 에러 ]");

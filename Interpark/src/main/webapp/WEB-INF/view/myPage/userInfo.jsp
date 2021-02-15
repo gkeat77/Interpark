@@ -7,7 +7,7 @@
 <title>회원가입</title>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/myPage/mypageHeader.jsp"></jsp:include>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/popFindZipCode.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/register.js"></script>
@@ -16,7 +16,7 @@
 /* 일반 회원가입  완료*/
 function memberInfoChange( form ) {
 	$.ajax({
-		url : "memberInfo.me",
+		url : "/mypage/memberInfo.my",
 		type : "POST",
 		data : $("#"+form).serialize(),
 		success : function(data) {
@@ -42,11 +42,11 @@ function memberInfoChange( form ) {
 							
 							<div class="group-input">
 								<label for="username">이름 </label>
-								<input type="text"  name="name" id="AregisterName" value="${ses.name}" readonly />
+								<input type="text"  name="name" id="AregisterName" value="${member.name}" readonly />
 							</div>
 							<div class="group-input">
 								<label for="pass">아이디 </label>
-								<input type="text" name="loginID" id="AregisterId" value="${ses.loginID}" readonly/>
+								<input type="text" name="loginID" id="AregisterId" value="${member.loginID}" readonly/>
 							</div>
 							<div class="group-input">
 								<label for="pass">비밀번호 *</label>
@@ -58,9 +58,9 @@ function memberInfoChange( form ) {
 							</div>
 							<div class="group-input">
 								<label for="con-pass">연락처*</label>
-								<input type="text" class="phone" name="phone1" id="AregisterPhone1" style="width: 80px;" value="${ses.phone1}"/> <b>&nbsp;&nbsp;-</b> 
-								<input type="text" class="phone" name="phone2" id="AregisterPhone2" style="width: 100px;" value="${ses.phone2}"/> <b>&nbsp;&nbsp;-</b> 
-								<input type="text" class="phone" name="phone3" id="AregisterPhone3" style="width: 100px;" value="${ses.phone3}"/> 
+								<input type="text" class="phone" name="phone1" id="AregisterPhone1" style="width: 80px;" value="${member.phone1}"/> <b>&nbsp;&nbsp;-</b> 
+								<input type="text" class="phone" name="phone2" id="AregisterPhone2" style="width: 100px;" value="${member.phone2}"/> <b>&nbsp;&nbsp;-</b> 
+								<input type="text" class="phone" name="phone3" id="AregisterPhone3" style="width: 100px;" value="${member.phone3}"/> 
 							</div>
 							<div class="group-input">
 								<label for="con-pass">이메일*</label>

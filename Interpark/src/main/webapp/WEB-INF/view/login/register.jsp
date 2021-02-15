@@ -85,7 +85,7 @@
 							<br>
 							<a href="javascript:IDCheck('ARegisterForm');" class="site-btn register-btn" id="RegisterCom" style="margin-left:219px;"><span>가입</span></a>
 							<div class="switch-login">
-							<a href="login.me" class="or-login">Or Login</a>
+							<a href="/login/login.me" class="or-login">Or Login</a>
 							</div>
 						</div>
 					</div>
