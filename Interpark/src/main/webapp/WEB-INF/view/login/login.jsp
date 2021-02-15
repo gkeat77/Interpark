@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
-                        <h2>Login!!!!------------------!</h2>
+                        <h2>Login</h2>
                         <form action="" id="myForm" method="post">
                             <div class="group-input">
                                 <label for="username">ID *</label>
@@ -34,13 +34,13 @@
 	                                <span > <input type="checkbox" id="cb_saveId" style="height: 17px; margin-left: -266px; margin-right: -268px;" > ID 저장</span>
                                        
                                         <!-- <input type="checkbox" id="cb_saveId" name="" onkeypress="if(event.keyCode==13) {fLoginProc(); return false;}"> -->
-                                    <a href="ff.me" id="forget" class="forget-pass">Forget your ID&Password</a>
+                                    <a href="/login/ff.me" id="forget" class="forget-pass">Forget your ID&Password</a>
                                 </div>
                             </div>
                             <input type="button" onclick="fLoginProc();" class="site-btn login-btn" id="btn_login" value="Sign In">
                         </form>
                         <div class="switch-login">
-                            <a href="reg.me" class="or-login">Or Create An Account</a>
+                            <a href="/register/chre.re" class="or-login">Or Create An Account</a>
                         </div>
                     </div>
                 </div>

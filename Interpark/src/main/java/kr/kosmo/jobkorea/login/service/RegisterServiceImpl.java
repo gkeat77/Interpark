@@ -1,6 +1,9 @@
 package kr.kosmo.jobkorea.login.service;
 
+import java.io.PrintWriter;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +45,10 @@ public class RegisterServiceImpl implements RegisterService{
 	/** email 중복 체크*/
 	@Override
 	public RegisterInfoModel email_check(Map<String, Object> paramMap) throws Exception {
-		// TODO Auto-generated method stub
-		return registerDao.email_check(paramMap);
-	}
+		
+		return registerDao.email_check(paramMap); 
+		}
+	
 	
 	
 

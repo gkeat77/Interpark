@@ -8,7 +8,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 function goLogin(){
-		location.href='login.me';
+		location.href='/login/login.me';
 	}
 
 </script>

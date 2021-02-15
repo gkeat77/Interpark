@@ -23,6 +23,7 @@ import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.login.service.RegisterService;
 
 @Controller
+@RequestMapping("/register")
 public class RegisterController {
 	// Set logger
 	   private final Logger logger = LogManager.getLogger(this.getClass());
@@ -35,7 +36,7 @@ public class RegisterController {
 	RegisterService registerService;
 	
 	
-	 @RequestMapping(value="reg.me", method = RequestMethod.GET)
+	 @RequestMapping(value="/reg.re")
 	   public String index(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
 	         HttpServletResponse response, HttpSession session) throws Exception {
 
@@ -44,9 +45,9 @@ public class RegisterController {
 	      return "/login/register";
 	   }
 	 
-	@RequestMapping("aregister.do")
+	@RequestMapping(value="/aregister.re", method = RequestMethod.POST)
 	@ResponseBody
-		public String aregiste(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,  HttpServletResponse response, HttpSession session) throws Exception {
+		public String aregiste(@RequestParam Map<String, Object> paramMap, HttpServletRequest request,  HttpServletResponse response, HttpSession session) throws Exception {
 			
 		 	logger.info("+ Start aregister.do");
 			paramMap.put("address", (String)paramMap.get("addr") +","+(String)paramMap.get("addr_detail")+","+(String)paramMap.get("user_post"));
@@ -62,34 +63,8 @@ public class RegisterController {
 			logger.info("+ End aregister.do");
 			return null;
 	 }
-	 
- 	/*@RequestMapping("aregister.do")
-	@ResponseBody
-	public String aregiste(RegisterInfoModel member, Model m, HttpServletRequest request, @RequestParam String user_post, 
-			@RequestParam String addr,@RequestParam String addr_detail, @RequestParam String tel1, @RequestParam String tel2, 
-			@RequestParam String tel3, @RequestParam String year, @RequestParam String month, @RequestParam String day,
-			HttpServletResponse response) throws Exception {
-		
-		String address = addr + addr_detail + user_post;
-		String tel = tel1 + tel2 + tel3;
-		String birth = year + month + day;
-		
-		member.setAddres(address);
-		member.setBirth(birth);
-		member.setPhone1(tel);
-		
-		int re = registerService.aregister(member);
-
-		if(re > 0){
-			logger.info("회원등록 성공");
-		}else{
-			logger.info("회원등록 실패");
-		}
-		
-		return "/login/login";  
-	}*/
 	
-	@RequestMapping("id_check.do")
+	@RequestMapping(value="/id_check.re", method = RequestMethod.POST)
 	@ResponseBody
 	public  Map<String, Object> id_check(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		if(registerService.id_check(paramMap).getChe()==1){
@@ -102,18 +77,31 @@ public class RegisterController {
 		}
 	}
 	
-	@RequestMapping("email_check.do")
-	@ResponseBody
-	public  Map<String, Object> email_check(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-		if(registerService.email_check(paramMap).getChe()>0){
-			
-			paramMap.put("OK", "N");
+	//가입 여부 확인
+	@RequestMapping(value="/chre.re")
+	public String chre() throws Exception {
+
+      logger.info("+ Start RegisterController.chre.me");
+  
+      return "/login/checkRegister";
+	}
+	 
+	
+	@RequestMapping(value="/email_check.re")
+	public String email_check(Model m, HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, Object> paramMap) throws Exception {
+		if(registerService.email_check(paramMap).getChe()==1){
+			m.addAttribute("email", "no");
+			m.addAttribute("OK1", "가입된 이메일이 있습니다.");
+			m.addAttribute("OK2", "아이디가 기억나지 않는다면 아이디 찾기를 진행해주세요.");
+			logger.info("?????????????????" + m);
 			logger.info("중복된 이메일 있음");
-			return paramMap;
+			return "/login/ckRe";
 		}else{
-			paramMap.put("OK", "Y");
+			m.addAttribute("email", "YES");
+			m.addAttribute("OK3", "가입된 이메일이 없습니다.");
+			m.addAttribute("OK4", "회원가입을 진행해주세요.");
 			logger.info("중복된 이메일 없음");
-			return paramMap;
+			return "/login/ckRe";
 		}
 	}
 	

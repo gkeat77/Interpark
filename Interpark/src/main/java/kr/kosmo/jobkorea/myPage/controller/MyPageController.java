@@ -31,6 +31,7 @@ import kr.kosmo.jobkorea.myPage.service.MyPageService;
 
 @Controller
 @SessionAttributes("member")
+@RequestMapping("/mypage")
 public class MyPageController {
 
    // Set logger
@@ -58,17 +59,17 @@ public class MyPageController {
     */
    
  //회원정보 수정으로 이동
-   @RequestMapping(value="my.me")
+   @RequestMapping(value="/my.my")
    public String my() throws Exception {
-	   logger.info("+ Start LoginController.my.me+");
+	   logger.info("+ Start LoginController.my.my+");
       return "/myPage/userInfo";
    }
    
    //회원정보 수정
-   @RequestMapping(value="memberInfo.me", method = RequestMethod.POST)
+   @RequestMapping(value="/memberInfo.my", method = RequestMethod.POST)
 	@ResponseBody
 	public  Map<String, Object> memberInfo(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-	   logger.info("+ Start RegisterController memberInfo.me");
+	   logger.info("+ Start RegisterController memberInfo.my");
 		paramMap.put("address", (String)paramMap.get("addr") +","+(String)paramMap.get("addr_detail")+","+(String)paramMap.get("user_post"));
 		paramMap.put("tel",  (String)paramMap.get("phone1") +"-"+(String)paramMap.get("phone2")       +"-"+(String)paramMap.get("phone3"));
 		paramMap.put("birth",(String)paramMap.get("year") +    (String)paramMap.get("month")      +    (String)paramMap.get("day") );
@@ -84,34 +85,38 @@ public class MyPageController {
 	}
    
    //회원탈퇴
-   @RequestMapping(value="/bye.me")
+   @RequestMapping(value="/bye.my")
    public String bye() throws Exception {
 	   logger.info("+ End bye.me");
 	   return "/myPage/deleteMember";
    }
    
-/* //회원정보 수정
-   @RequestMapping(value="/deleteMember.me", method = RequestMethod.POST)
+ //회원탈퇴
+   @RequestMapping(value="/deleteMember.my", method = RequestMethod.POST)
    @ResponseBody
    public  Map<String, Object> deleteMember(RegisterInfoModel m,@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 	   logger.info("+ Start RegisterController deleteMember.me");
 	   
 	   RegisterInfoModel member = (RegisterInfoModel) session.getAttribute("member");
+	   
+	   //세션 비밀번호
 	   String oldPass = member.getPassword();
+	   logger.info("oldPassoldPassoldPassoldPass"+oldPass);
+	   logger.info("oldPassoldPassoldPassoldPass"+member.getPassword());
+	   //사용자 입력 비밀번호
 	   String newPass = m.getPassword();
+	   logger.info("newPassnewPassnewPassnewPassnewPass"+newPass);
 	   
-	   
-	   String result ;
 	   Map<String, Object> rMap = new HashMap<String, Object>();
+	   
 	   if(!(oldPass.equals(newPass))){
-		   rMap.put("result", result);
-		   return "redirect:
+		   rMap.put("result", false);
+		   return rMap;
 	   }
-
-	   paramMap.put("loginID", userVO.getLoginID());
+	   paramMap.put("loginID", member.getLoginID());
 	    
 	   int re;
-		re = mService.memberInfo(paramMap);
+		re = mService.deleteMember(paramMap);
 		if(re >0){
 			logger.info("회원정보 수정 완료");
 		}
@@ -119,9 +124,9 @@ public class MyPageController {
 		logger.info("+ End deleteMember.me");
 		return null;
 	}
-   */
+   
  //주소록 목록
-   @RequestMapping(value="addList.me")
+   @RequestMapping(value="/addList.my")
 	public  String addList(Model m, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 	   logger.info("+ Start RegisterController addList.me");
 		
@@ -142,7 +147,7 @@ public class MyPageController {
 	}
    
    //주소록 추가
-   @RequestMapping(value="addAddress.me", method = RequestMethod.POST)
+   @RequestMapping(value="/addAddress.my", method = RequestMethod.POST)
    @ResponseBody
    public  Map<String, Object> addAddress(Model result, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 	   logger.info("+ Start RegisterController addAddress.me");
@@ -153,12 +158,12 @@ public class MyPageController {
 	   if(re >0){
 		   logger.info("주소록 추가 완료");
 	   }
-	   logger.info("+ End memberInfo.me");
+	   logger.info("+ End addAddress.me");
 	   return null;
    }
    
    //주소 조회 후 수정페이지로 이동
-   @RequestMapping(value="selectAddress.me")
+   @RequestMapping(value="/selectAddress.my")
    public  String selectAddress(@RequestParam("a_id") int a_id, @RequestParam Map<String, Object> paramMap, Model m, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 	   paramMap.put("a_ID", a_id);
 	   Address ad = mService.selectAddress(paramMap);
@@ -172,18 +177,36 @@ public class MyPageController {
    }
    
    //주소록 수정
-   @RequestMapping(value="editAddress.me", method = RequestMethod.POST)
+   @RequestMapping(value="/editAddress.my", method = RequestMethod.POST)
    @ResponseBody
-   public  Map<String, Object> editAddress(@RequestParam("a_id") int a_id, Model m, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-	   logger.info("+ Start RegisterController editAddress.me");
+   public  Map<String, Object> editAddress(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	   logger.info("+++++++++++++ Start RegisterController editAddress.me");
+	   RegisterInfoModel userVO = (RegisterInfoModel) session.getAttribute("member");
+	   userVO.getLoginID();
+	   paramMap.put("loginID", userVO.getLoginID());
+	   
 	   //Address ad = mService.selectAddress(a_id);
 	   int re= mService.editAddress(paramMap);
 	   if(re >0){
 		   logger.info("주소록 수정 완료");
 	   }
-	   logger.info("+ End memberInfo.me");
+	   logger.info("+ End editAddress.my");
 	   return null;
    }
+   
+ //주소록 삭제
+   @RequestMapping(value="/deleteAddress.my", method = RequestMethod.POST)
+   @ResponseBody
+   public  Map<String, Object> deleteAddress(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	   logger.info("+++++++++++++ Start RegisterController deleteAddress.my");
+	   int re=  mService.deleteAddress(paramMap);
+	   if(re > 0){
+		   logger.info("주소록 삭제 완료");
+	   }
+	   logger.info("+ End deleteAddress.my");
+	   return null;
+   }
+   
    
    
    
