@@ -6,7 +6,8 @@
 <html lang="ko">
 <head>
 <title>!!!!</title>    
-<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common/header.jsp"/>
+<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 </head>
 <script>
 $(document).ready(function() {
@@ -112,7 +113,7 @@ $(document).ready(function() {
  	};
 
 </script>
-<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+
 <input type="hidden" id="action"> 
 	<div class="container"> 
             <div class="breacrumb-section">
@@ -125,13 +126,13 @@ $(document).ready(function() {
                 </div>
             </div>
           </div>  
-		<select id="service">
+		<select id="service" class="form-control sSelect">
 			<option selected="selected">서비스 선택</option>
 			<option value="bestSeller">베스트셀러</option>
 			<option value="recommend">추천도서</option>
 			<option value="newBook">신간</option>
 		</select> 
-		<select id="categoryId">
+		<select id="categoryId" class="form-control sSelect">
 			<option selected="selected">카테고리 선택</option>
 			<c:forEach items="${cateList }" var="list">
 			<c:choose> 
@@ -145,16 +146,16 @@ $(document).ready(function() {
 			</c:choose>
 			</c:forEach>
 		</select>
-		 <button type="button" id="btnGetInfo" class="btn btn-warning"><span>조회</span></button>	
+		 <button type="button" id="btnGetInfo" class="btn sBtn"><span>조회</span></button>	
 </div>
 	<div class="container">
-		<select id="searchTarget">
+		<select id="searchTarget" class="form-control sSelect">
 			<option selected="selected" value="book">국내도서</option>
 			<option value="foreign">외국도서</option>
 			<option value="cd">음반</option>
 			<option value="dvd">DVD</option>
 		</select>  
-		<select id="queryType">
+		<select id="queryType" class="form-control sSelect"> 	
 			<option selected="selected" value="all">전체</option>
 			<option value="title">제목</option>
 			<option value="author">저자</option>
@@ -162,8 +163,8 @@ $(document).ready(function() {
 			<option value="isbn">isbn</option>
 			<option value="productNumber">상품번호</option>
 		</select>
-	<input type="text" id="query" name="query">
-	<button type="button" id="btnSearch" class="btn btn-warning"><span>검색</span></button>	
+	<input type="text" id="query" name="query" onKeyDown="if(event.keyCode == 13) fsearch_book()" class="form-control sInput"> 
+	<button type="button" id="btnSearch" class="btn sBtn"><span>검색</span></button>	
 	</div>
 	<section class="shopping-cart spad">
         <div class="container">

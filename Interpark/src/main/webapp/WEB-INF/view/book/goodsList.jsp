@@ -3,8 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>
+<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 
 <script>
 var pageSize = 12;
@@ -12,34 +12,54 @@ var pageBlockSize = 10;
 
 
 $(document).ready(function() {
-	flist_book();
+	flist_goods();
+	
+	$(".cateHedaer").click(function() {
+		$("#cateId").val('');
+		$("#cateClass").val('');
+		flist_goods();
+	});
 	
 	//상위 카테고리 클릭시
 	$(".card-link").click(function() {
 		let cateClass = $(this).closest("div").find("input").val();
 		$("#cateClass").val(cateClass.substring(0,1));
 		$("#cateId").val('');
-		flist_book();
+		flist_clean_search();
+		flist_goods();
 	});
 	
 	//하위 카테고리 클릭시
 	$(".list-group").children().click(function() {
-		let cateId = $(this).find("li").val();
+		let cateId = $(this).val();
 		$("#cateId").val(cateId);
 		$("#cateClass").val('');
-		flist_book();
+		flist_clean_search();
+		flist_goods();
 		});
+	//보기 갯수
+	$("#pageSize").change(function(){
+		pageSize = $("#pageSize").val();
+		flist_goods();
+	});
+	//정렬
+	$("#sort").change(function(){
+		flist_goods();
+	});
+	//검색버튼 
+	$("#btnSearch").click(function(){
+		flist_goods();
+	});
 	
 });
 
 /** 상품 목록 조회 */
-function flist_book(currentPage) {
+function flist_goods(currentPage) {
 	currentPage = currentPage || 1;
 	
-/* 	const searchType=$("#searchType").val();
+ 	const searchType=$("#searchType").val();
 	const searchKey=$("#searchKey").val();
-	const classify =$("#classify").val();
-	const sort =$("#sort").val(); */
+	const sort =$("#sort").val();
 	
 	const cateClass=$("#cateClass").val();
 	const cateId=$("#cateId").val();
@@ -51,15 +71,14 @@ function flist_book(currentPage) {
 			currentPage : currentPage,
 			pageSize:pageSize,
 			cateClass:cateClass,
-			cateId:cateId
-/* 			searchType:searchType,
+			cateId:cateId,
+			searchType:searchType,
 			searchKey:searchKey,
-			classify:classify,
-			sort:sort */
+			sort:sort 
 	}
 
 	var resultCallback = function(data) {
-		flist_book_result(data, currentPage);
+		flist_goods_result(data, currentPage);
 	};
 
 	callAjax("/book/goodsList.do", "post", "text", true, param,
@@ -67,7 +86,7 @@ function flist_book(currentPage) {
 }
 
 /** 상품 목록 조회 콜백 함수 */
-function flist_book_result(data, currentPage) {
+function flist_goods_result(data, currentPage) {
 	
 	// 기존 목록 삭제
 	$("#goods_List").empty();
@@ -81,12 +100,23 @@ function flist_book_result(data, currentPage) {
 	//$(".count").text(totalCnt);
 
 	// 페이지 네비게이션 생성
-	var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSize, pageBlockSize,'flist_book');
+	var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSize, pageBlockSize,'flist_goods');
 	$("#Pagination").empty().append(paginationHtml);
 
 	// 현재 페이지 설정
 	$("#currentPage").val(currentPage);
+	$("#totalCount").text(totalCnt);
 }
+
+//검색어 초기화
+function flist_clean_search(){
+	$("#searchKey").val('');
+}
+// 상품 선택
+	function selectBook(pId){
+		location.href="/bookAdmin/goodsDetail.do?pId="+pId;
+	};
+
 
 
 
@@ -104,16 +134,7 @@ function flist_book_result(data, currentPage) {
             </div>
           </div>  
    <!-- Breadcrumb Section Begin -->
-	<p class="conTitle mt50">
-		<select id="searchType" name="searchType" class="form-control">
-			<option value="all" id="option1" selected="selected">전체</option>
-			<option value="title" id="option1">상품명</option>
-			<option value="P_ID" id="option1">ID</option>
-		</select> <input type="text"  class="form-control" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
-		<button type="button" id="btnSearch" class="btn btn-warning">
-			<span>검색</span>
-		</button>
-	</p>
+
 
 
 	<!-- Product Shop Section Begin -->
@@ -121,10 +142,26 @@ function flist_book_result(data, currentPage) {
     <input type="hidden" id="cateClass">
     <section class="product-shop spad">
         <div class="container">
+		     <p class="conTitle mt50 text-right">
+				<select id="searchType" name="searchType" class="form-control sSelect">
+					<option value="all" id="option1" selected="selected">전체</option>
+					<option value="title" id="option1">상품명</option>
+					<option value="P_ID" id="option1">ID</option>
+				</select> 
+				<input type="text"  class="form-control sInput" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
+				<button type="button" id="btnSearch" class="btn sBtn">
+					<span>검색</span>
+				</button>
+			</p>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
                     <div class="filter-widget">
                         <div id="accordion">
+                            <div class="card-header cateHedaer">
+					        <a class="card-link">
+					         <h5>카테고리</h5>
+					        </a>
+					      </div>
                         <c:forEach var="list" items="${cateList }" varStatus="status">
 					    <div class="card" >
 					      <div class="card-header">
@@ -144,36 +181,6 @@ function flist_book_result(data, currentPage) {
 					    </c:forEach>
 					  </div>
                     </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Price</h4>
-                        <div class="filter-range-wrap">
-                            <div class="range-slider">
-                                <div class="price-input">
-                                    <input type="text" id="minamount">
-                                    <input type="text" id="maxamount">
-                                </div>
-                            </div>
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                data-min="33" data-max="98">
-                                <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                            </div>
-                        </div>
-                        <a href="#" class="filter-btn">Filter</a>
-                    </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Tags</h4>
-                        <div class="fw-tags">
-                            <a href="#">Towel</a>
-                            <a href="#">Shoes</a>
-                            <a href="#">Coat</a>
-                            <a href="#">Dresses</a>
-                            <a href="#">Trousers</a>
-                            <a href="#">Men's hats</a>
-                            <a href="#">Backpack</a>
-                        </div>
-                    </div>
                 </div>
                 <!--상품정보 시작  -->
                 <div class="col-lg-9 order-1 order-lg-2">
@@ -181,16 +188,22 @@ function flist_book_result(data, currentPage) {
                         <div class="row">
                             <div class="col-lg-7 col-md-7">
                                 <div class="select-option">
-                                    <select class="sorting">
-                                        <option value="">Default Sorting</option>
+                                    <select class="sorting" id="sort">
+                                        <option value="sellCount desc">판매량 순</option>
+                                        <option value="title">상품명 순</option>
+                                        <option value="rStar desc">평점 순</option>
+                                        <option value="rCount desc">리뷰 순</option>
+                                        <option value="realPrice desc">가격 순</option>
                                     </select>
-                                    <select class="p-show">
-                                        <option value="">Show:</option>
+                                    <select class="sorting" id="pageSize">
+                                        <option value="12">12개씩</option>
+                                        <option value="24">24개씩</option>
+                                        <option value="36">36개씩</option> 
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-5 text-right">
-                                <p>Show 01- 09 Of 36 Product</p>
+                                <p>전체 결과: <span id="totalCount"></span> </p>
                             </div>
                         </div>
                     </div>
