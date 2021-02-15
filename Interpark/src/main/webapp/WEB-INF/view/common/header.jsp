@@ -209,6 +209,9 @@
                                 <c:if test="${member.loginID eq 'admin'}">
                                 	<li><a href="/adminInfo.do">ADMIN</a></li>
 								</c:if>
+								<c:if test="${member.loginID eq 'admin'}">
+                                	<li><a href="/statistics.do">통계</a></li>
+								</c:if>
                             </ul>
                         </li>
                     </ul>
