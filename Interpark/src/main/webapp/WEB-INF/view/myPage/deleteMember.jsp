@@ -12,14 +12,18 @@
 <script type="text/javascript" src="${CTX_PATH}/js/login_pub.js"></script>
 <script>
 /* 일반 회원가입  완료*/
-function memberInfoChange( form ) {
+function deleteMember( form ) {
+	 if(!confirm("정말 탈퇴하시겠습니까?")){
+		return false;
+	} 
+	
 	$.ajax({
-		url : "/deleteMember.me",
+		url : "/mypage/deleteMember.my",
 		type : "POST",
 		data : $("#"+form).serialize(),
 		success : function(data) {
 			alert("잘가.");
-			location.href = "loginOut.me";
+			location.href = "/mypage/loginOut.do";
 		},
 		error : function() {
 			alert("[ 탈퇴 실패 ]");
@@ -40,14 +44,14 @@ function memberInfoChange( form ) {
 							
 							<div class="group-input">
 								<label for="pass">아이디 </label>
-								<input type="text" name="loginID" id="AregisterId"  required/>
+								<input type="text" name="loginID" id="AregisterId"  value="${member.loginID}" readonly/>
 							</div>
 							<div class="group-input">
 								<label for="pass">비밀번호 *</label>
 								<input type="password"  name="password" id="AregisterPwd" required/>
 							</div>
 							<br>
-							<a href="javascript:memberInfoChange('ARegisterForm')" class="site-btn register-btn" id="RegisterCom"  style="margin-left:219px;"><span>탈퇴하기</span></a>
+							<a href="javascript:deleteMember('ARegisterForm')" class="site-btn register-btn" id="RegisterCom"  style="margin-left:219px;"><span>탈퇴하기</span></a>
 							<input type="button" onclick="history.go(-1);" class="site-btn register-btn" value="취소"><span></span>
 						</div>
 					</div>
@@ -55,6 +59,10 @@ function memberInfoChange( form ) {
 			</div>
 		</div>
 	</form>
+	
+	<c:if test="${result == false}">
+		비밀번호가 맞지 않습니다.
+	</c:if>
 
 </body>
 </html>

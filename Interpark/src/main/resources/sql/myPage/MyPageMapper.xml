@@ -28,11 +28,11 @@
     </update>
 	
 	 <!-- 회원탈퇴 -->
-    <!--<update id="memberInfo">
+    <update id="deleteMember">
     	UPDATE tb_userinfo SET
    		  M_STATUS ='Y'
 		WHERE loginID = #{loginID}
-    </update> -->
+    </update>
     
     <!-- 회원정보 주소록 추가 -->
     <insert id="addAddress">
@@ -69,7 +69,7 @@
     	where A_ID = #{a_ID} 
     </select>
     
-    <!-- 회원정보수정 -->
+    <!-- 주소록수정 -->
     <update id="editAddress">
     	update ADDRESS SET
 		   A_TITLE = #{A_TITLE}
@@ -83,6 +83,12 @@
 		WHERE loginID = #{loginID} 
 		AND A_ID = #{A_ID}
     </update>
+    
+    <!-- 주소록 삭제 -->
+    <delete id="deleteAddress">
+    	DELETE FROM ADDRESS 
+    	WHERE A_ID = #{A_ID}
+    </delete>
 	
 	
 	

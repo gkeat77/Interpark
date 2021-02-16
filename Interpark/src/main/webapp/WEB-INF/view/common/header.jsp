@@ -52,15 +52,15 @@
 						<c:when test="${not empty member}">
 						<div class="lan-selector">
 							<div id="login-panel">
-								<a href="my.me" class="login-panel"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
-								<a href="/logOut.do" class="login-panel">LogOut</a>
+								<a href="/mypage/my.my" class="login-panel"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
+								<a href="/login/logOut.do" class="login-panel">LogOut</a>
 								<a href="/index.do" class="login-panel">home</a>
 								<br>
 							</div>
 						</div>					
 						</c:when>
 						<c:when test="${empty member}">
-						 <a href="login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
+						 <a href="/login/login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
 						</c:when>					
 					</c:choose>
                     <!-- 
@@ -202,12 +202,15 @@
 		                            <li><a href="/login.do">Login</a></li>
 		                         </c:when>
 		                         <c:otherwise>
-		                            <li><a href="/logOut.do">LOGOUT</a></li>
+		                            <li><a href="/login/logOut.do">LOGOUT</a></li>
 		                         </c:otherwise>
 		                         </c:choose>
 		                         <!-- admin  -->
                                 <c:if test="${member.loginID eq 'admin'}">
                                 	<li><a href="/adminInfo.do">ADMIN</a></li>
+								</c:if>
+								<c:if test="${member.loginID eq 'admin'}">
+                                	<li><a href="/statistics.do">통계</a></li>
 								</c:if>
                             </ul>
                         </li>
