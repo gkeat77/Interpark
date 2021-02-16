@@ -11,15 +11,13 @@
 <body>
     <div class="w3-content w3-container w3-margin-top">
 		<div class="w3-container w3-card-4">
-			<form action="/login/findId.me" method="post">
+			<form action="/register/email_check.re" method="post">
 				<div class="w3-center w3-large w3-margin-top">
-					<h3>아이디 찾기</h3>
+					<h3>가입 여부 확인</h3>
 				</div>
 				<div>
 					<p>
-						<label>이름</label>
-						<input class="w3-input" type="text" id="userName" name="NAME" required>
-						<label>Email</label>
+						<label>Email로 가입여부 확인하기</label>
 						<input class="w3-input" type="text" id="mail" name="mail" required>
 					</p>
 					<p class="w3-center">

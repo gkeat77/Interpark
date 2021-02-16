@@ -40,14 +40,14 @@
 					<div class="lan-selector">
 						<div id="login-panel">
 							<a href="my.me" class="login-panel"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
-							<a href="/logOut.do" class="login-panel">LogOut</a>
+							<a href="/login/logOut.do" class="login-panel">LogOut</a>
 							<a href="/index.do" class="login-panel">home</a>
 							<br>
 						</div>
 					</div>					
 					</c:when>
 					<c:when test="${empty member}">
-					 <a href="login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
+					 <a href="/login/login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
 					</c:when>					
 					</c:choose>
             </div>
@@ -136,12 +136,12 @@
                 <nav class="nav-menu mobile-menu">
                     <ul>
                         <li><a href="#">구매내역</a></li>
-                        <li><a href="my.me">회원정보 수정</a></li>
-                        <li><a href="addList.me">배송지 추가</a></li>
+                        <li><a href="/mypage/my.my">회원정보 수정</a></li>
+                        <li><a href="/mypage/addList.my">배송지 추가</a></li>
                         <li><a href="/cartList.do">장바구니</a></li>
                         <li><a href="#">포인트</a> </li>
                         <li><a href="#">쿠폰</a> </li>
-                        <li><a href="/bye.me" >회원탈퇴</a> </li>
+                        <li><a href="/mypage/bye.my" >회원탈퇴</a> </li>
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>

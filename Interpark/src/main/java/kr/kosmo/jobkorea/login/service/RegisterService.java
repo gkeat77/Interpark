@@ -2,6 +2,8 @@ package kr.kosmo.jobkorea.login.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 
 /* 정수빈 작업 */

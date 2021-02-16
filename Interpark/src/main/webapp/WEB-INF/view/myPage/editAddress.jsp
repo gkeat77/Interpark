@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>주소록 추가</title>
+<title>주소록 수정</title>
 <link rel="stylesheet" href="${CTX_PATH}/css/popUp.css" type="text/css">
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
@@ -12,9 +12,34 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/popFindZipCode.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/register.js"></script>
-<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/changAddress.js"></script>
 <script type="text/javascript" src="${CTX_PATH}/js/login_pub.js"></script>
 </head>
+<script>
+function editAddress(){
+	$.ajax({
+		url : "/mypage/editAddress.my",
+		type : "POST",
+		data : {A_TITLE : $("#A_TITLE").val(),
+			A_AD1 : $("#Adetailaddr").val(),
+			A_AD2 : $("#Aloginaddr").val(),
+			A_AD3 : $("#Aloginaddr1").val(),
+			A_PHONE1 : $("#AregisterPhone1").val(),
+			A_PHONE2 : $("#AregisterPhone2").val(),
+			A_PHONE3 : $("#AregisterPhone3").val(),
+			A_NAME : $("#a_name").val(),
+			A_ID : $("#a_id").val()
+		},
+		success : function(data) {
+			alert("주소록이 수정되었습니다.");
+			location.href = "/mypage/addList.my";
+		},
+		error : function() {
+			alert("[ 주소록 수정 실패 ]");
+		}
+	  });
+	  
+}
+</script>
 <body>
 	<form action="" method="post">
 		<div class="register-login-section spad">
@@ -22,7 +47,7 @@
 				<div class="row">
 					<div class="col-lg-6 offset-lg-3">
 						<div class="register-form"  id="layerA">
-							<input type="hidden" id="a_id" value="${ad.a_ID }" >
+							<input type="hidden" name="A_ID" id="a_id" value="${ad.a_ID }" >
 							<div class="group-input">
 								<label for="pass">주소 이름 </label>
 								<input type="text" name="A_TITLE" id="A_TITLE" value="${ad.a_TITLE }"/>
@@ -50,7 +75,7 @@
 								<label for="con-pass">수령인</label>
 								<input type="text" class="phone" name="a_name" id="a_name" style="width: 80px;" value="${ad.a_NAME}"/> <b>&nbsp;&nbsp;</b> 
 							</div>
-						    <button onclick="addAddress(${ad.a_ID})">수정하기</button>
+						    <button onclick="editAddress()">수정하기</button>
 						    <button onclick="closePopup()">닫기</button>
 						</div>
 					</div>

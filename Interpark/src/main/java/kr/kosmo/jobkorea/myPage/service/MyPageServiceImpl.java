@@ -33,6 +33,12 @@ public class MyPageServiceImpl implements MyPageService {
 	public int memberInfo(Map<String, Object> paramMap) throws Exception {
 		return dao.memberInfo(paramMap);
 	}
+	
+	@Override
+	public int deleteMember(Map<String, Object> paramMap) throws Exception{
+		// TODO Auto-generated method stub
+		return dao.deleteMember(paramMap);
+	}
 
 	@Override
 	public List<Address> userAddress(Map<String, Object> paramMap) throws Exception {
@@ -49,8 +55,16 @@ public class MyPageServiceImpl implements MyPageService {
 		return dao.editAddress(paramMap);
 	}
 
+	//수정할 주소록 한개만 불러오기
 	@Override
 	public Address selectAddress(Map<String, Object> paramMap) throws Exception {
 		return dao.selectAddress(paramMap);
+	}
+
+	//주소록 삭제
+	@Override
+	public int deleteAddress(Map<String, Object> paramMap) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.deleteAddress(paramMap);
 	}
 }

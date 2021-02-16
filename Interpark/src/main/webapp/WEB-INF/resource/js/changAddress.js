@@ -16,7 +16,7 @@ function closePopup() {
 
 function addAddress(){
 	$.ajax({
-		url : "addAddress.me",
+		url : "/mypage/addAddress.my",
 		type : "POST",
 		data : {A_TITLE : $("#A_TITLE").val(),
 				user_post : $("#Adetailaddr").val(),
@@ -29,7 +29,7 @@ function addAddress(){
 		},
 		success : function(data) {
 			alert("주소록이 추가되었습니다.");
-			location.href = "addList.me";
+			location.href = "/mypage/addList.my";
 		},
 		error : function() {
 			alert("[ 주소록 추가 실패 ]");
@@ -38,26 +38,19 @@ function addAddress(){
 	  
 }
 
-function editAddress(id){
+function deleteAddress(id){
 	$.ajax({
-		url : "editAddress.me",
+		url : "/mypage/deleteAddress.my",
 		type : "POST",
-		data : {A_TITLE : $("#A_TITLE").val(),
-			A_AD1 : $("#Adetailaddr").val(),
-			A_AD2 : $("#Aloginaddr").val(),
-			A_AD3 : $("#Aloginaddr1").val(),
-			A_PHONE1 : $("#AregisterPhone1").val(),
-			A_PHONE2 : $("#AregisterPhone2").val(),
-			A_PHONE3 : $("#AregisterPhone3").val(),
-			A_NAME : $("#a_name").val(),
-		},
+		data : {A_ID : id},
 		success : function(data) {
-			alert("주소록이 수정되었습니다.");
-			location.href = "addList.me";
+			alert("주소록이 삭제되었습니다.");
+			location.href = "/mypage/addList.my";
 		},
 		error : function() {
-			alert("[ 주소록 수정 실패 ]");
+			alert("[ 주소록 삭제 실패 ]");
 		}
 	  });
 	  
 }
+

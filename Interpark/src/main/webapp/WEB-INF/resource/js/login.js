@@ -18,7 +18,7 @@ function fLoginProc(data) {
 	var resultCallback = function(data) {
 		fLoginProcResult(data);
 	};
-	callAjax("loginProc.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
+	callAjax("/login/loginProc.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
 }
 
 /* 로그인 결과 */
@@ -246,7 +246,7 @@ function fSaveDataResult(data) {
 	if (data.result == "SUCCESS") {
 		// 응답 메시지 출력
 		alert(data.resultMsg);
-		location.href = "/login.me";
+		location.href = "/login/login.me";
 	} else {
 		// 오류 응답 메시지 출력
 		alert(data.resultMsg);

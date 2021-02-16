@@ -30,6 +30,7 @@ import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.login.service.LoginService;
 
 @Controller
+@RequestMapping("/login")
 @SessionAttributes("member")
 public class LoginController {
 
@@ -57,7 +58,7 @@ public class LoginController {
     * @throws Exception
     */
 
-   @RequestMapping(value="login.me", method = RequestMethod.GET)
+   @RequestMapping(value="/login.me", method = RequestMethod.GET)
    public String index(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
@@ -76,7 +77,7 @@ public class LoginController {
     * @return   String - page navigator
     * @throws Exception
     */
-   @RequestMapping(value="loginProc.do", method = RequestMethod.POST)
+   @RequestMapping(value="/loginProc.do", method = RequestMethod.POST)
    @ResponseBody
    public Map<String, Object> loginProc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
@@ -135,7 +136,7 @@ public class LoginController {
 	      sessionStatus.setComplete();
 	      session.invalidate();
 	      logger.info("+ End " + className + "logOut");
-	      mav.setViewName("redirect:/login.me");
+	      mav.setViewName("redirect:/login/login.me");
 
       return mav;
    }
@@ -179,7 +180,7 @@ public class LoginController {
    }
    
    //아이디 찾기 페이지 이동
-   @RequestMapping(value="ff.me")
+   @RequestMapping(value="/ff.me")
    public String findI(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
@@ -187,7 +188,7 @@ public class LoginController {
    }
    
    // id 찾기 
-   @RequestMapping(value="findId.me")
+   @RequestMapping(value="/findId.me")
    public String find_id(HttpServletResponse response, @RequestParam Map<String, String> paramMap, Model m) throws Exception{
 	  String id = loginService.find_id(paramMap, response);
 		 logger.info(" fdfdfdfdfdfd" + paramMap.get("mail"));
