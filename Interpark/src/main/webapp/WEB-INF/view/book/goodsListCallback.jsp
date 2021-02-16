@@ -16,7 +16,7 @@
 			<div class="col-lg-4 col-sm-6">
 				<div class="product-item">
 					<div class="pi-pic">
-						<img src="${list.coverLargeUrl}"  style="width: 300px; height: 390px;" onClick="selectBook('${list.pId}')">
+						<img src="${list.coverLargeUrl}"  style="width: 300px; height: 320px;" onClick="selectBook('${list.pId}')">
 						<c:if test="${list.saleRate > 1 }">
 							<div class="sale pp-sale">Sale</div>
 						</c:if>
@@ -40,7 +40,6 @@
 							<fmt:formatNumber value="${list.realPrice }" type="number" />원
 							<c:if test="${list.saleRate > 1 }">
 							(${list.saleRate}% ↓)
-							<span><fmt:formatNumber value="${list.salePrice }" type="number"/>원</span>
 							</c:if>
 						</div>
 						<div class="author">

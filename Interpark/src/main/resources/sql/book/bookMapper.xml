@@ -53,7 +53,7 @@
 		author,coverLargeUrl, categoryId, categoryName,
 		publisher, sellCount, stock, 
 		saleRate, salePrice,realPrice, 
-		regDate, sellState,
+		regDate, sellState,serviceType,mileage,
 		display,
 		DATE_FORMAT(sellStart, '%Y.%m.%d %h:%m') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d
 		%h:%m') as sellEnd,
@@ -84,7 +84,8 @@
 		coverSmallUrl, coverLargeUrl, categoryId, categoryName, publisher, pubDate, 
 		`index`, authorInfo, sellCount, stock, saleRate, salePrice, realPrice, regDate, 
 		sellState, display,file_nm, file_loc, file_size ,
-		DATE_FORMAT(sellStart, '%Y-%m-%dT%h:%m') as sellStart,DATE_FORMAT(sellEnd, '%Y-%m-%dT%h:%m') as sellEnd, 
+		serviceType,mileage,mileageRate,
+		DATE_FORMAT(sellStart, '%Y/%m/%d') as sellStart,DATE_FORMAT(sellEnd, '%Y/%m/%d') as sellEnd, 
 		ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
 		FROM BOOK_GOODS b
 		left join REVIEW r

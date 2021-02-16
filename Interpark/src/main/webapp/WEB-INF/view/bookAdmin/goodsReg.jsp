@@ -18,12 +18,23 @@ $(document).ready(function() {
 	});
 	
 	//할인 적용가 계산
-	$('input[name=salePrice],input[name=saleRate]').change(function(){
+	$('input[name=salePrice],input[name=saleRate],input[name=mileageRate]').change(function(){
+		
 		let salePrice= $('input[name=salePrice]').val();
 		let saleRate= $('input[name=saleRate]').val();
 		let realPrice = salePrice * ((100-saleRate)/100);
-		$('input[name=realPrice]').val(realPrice);
+		let mileageRate =$('input[name=mileageRate]').val();
+		let mileage = realPrice * (mileageRate/100);
+		
+		if(saleRate >100||mileageRate >100 ){
+			alert("할인율이나 적립율이 100%를 넘을수 없습니다.")
+			return
+		}else{
+			$('input[name=realPrice]').val(realPrice);
+			$('input[name=mileage]').val(mileage);
+		}
 	});
+	
 	
 	
 });
@@ -154,6 +165,17 @@ function makeProjectCallback(param){
 											</div>
 											<input type="text" class="form-control" value="${book.priceStandard }" name="priceStandard" style="color: #e6b800;font-weight:700"	 >
 										</div>
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>유형</strong></span>
+											</div>
+											<select name="serviceType">
+												<option value="">없음</option>
+												<option value="bestSeller">베스트셀러</option>
+												<option value="recommend">추천도서</option>
+												<option value="newBook">신간</option>
+											</select>
+										</div>
 									<!--책정보 끝  -->	      
 										</td>
 									</tr>
@@ -181,13 +203,13 @@ function makeProjectCallback(param){
 						<div class="input-group-prepend">
 							<span class="input-group-text"><strong>판매 시작일 </strong></span>
 						</div>
-						<input type="datetime-local" class="form-control" id="sellStart" name="sellStart">
+						<input type="date" class="form-control" id="sellStart" name="sellStart">
 					</div>
 					<div class="input-group mb-3 input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><strong>판매 종료일 </strong></span>
 						</div>
-						<input type="datetime-local" class="form-control" id="sellEnd" name="sellEnd">
+						<input type="date" class="form-control" id="sellEnd" name="sellEnd">
 					</div>
 				</div>
 				<div class="input-group mb-3 input-group">
@@ -207,6 +229,18 @@ function makeProjectCallback(param){
 						<span class="input-group-text"><strong>할인 적용가</strong></span>
 					</div>
 					<input type="number" class="form-control" name="realPrice" readonly>
+				</div>
+				<div class="input-group mb-3 input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><strong>적립율</strong></span>
+					</div>
+					<input type="number" min="0" max="100" class="form-control" name="mileageRate" value=5>
+				</div>
+					<div class="input-group mb-3 input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><strong>적립금</strong></span>
+					</div>
+					<input type="number" class="form-control" name="mileage" readonly>
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">

@@ -95,4 +95,10 @@ input[readonly]{
 .fa-star{
 	color:#e6b800;
 }	
-	
+
+.uBoder{
+	border-style:GROOVE;
+	border-width:5px;
+	padding:20px;
+	border-radius:20px;
+}	

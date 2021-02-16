@@ -5,8 +5,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html lang="ko">
 <head>
-<title>!!!!</title>    
+<title>!!!!</title>
 <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common/header.jsp"/>    
 </head>
 
 <script>
@@ -27,6 +28,8 @@ $(document).ready(function() {
 	}
 	$("#display").val("${goods.display}").prop("selected", true);
 	$("#sellState").val("${goods.sellState}").prop("selected", true);
+	$("#serviceType").val("${goods.serviceType}").prop("selected", true);
+	
 // end 
 	
 	//버튼
@@ -47,11 +50,21 @@ $(document).ready(function() {
 	});
 	
 	//할인 적용가 계산
-	$('input[name=salePrice],input[name=saleRate]').change(function(){
+	$('input[name=salePrice],input[name=saleRate],input[name=mileageRate]').change(function(){
+		
 		let salePrice= $('input[name=salePrice]').val();
 		let saleRate= $('input[name=saleRate]').val();
 		let realPrice = salePrice * ((100-saleRate)/100);
-		$('input[name=realPrice]').val(realPrice);
+		let mileageRate =$('input[name=mileageRate]').val();
+		let mileage = realPrice * (mileageRate/100);
+		
+		if(saleRate >100||mileageRate >100 ){
+			alert("할인율이나 적립율이 100%를 넘을수 없습니다.")
+			return
+		}else{
+			$('input[name=realPrice]').val(realPrice);
+			$('input[name=mileage]').val(mileage);
+		}
 	});
 	
 	
@@ -128,7 +141,7 @@ function deleteImgCallback(param){
 }
 
 </script>
-<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+
 <input type="hidden" id="action"> 
 	<form id="myForm">
 	 <div class="container">
@@ -216,6 +229,17 @@ function deleteImgCallback(param){
 											</div>
 											<input type="text" class="form-control" value="${goods.priceStandard }" name="priceStandard" style="color: #e6b800;font-weight:700"	readonly >
 										</div>
+										<div class="input-group mb-3 input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><strong>유형</strong></span>
+											</div>
+											<select name="serviceType" id="serviceType">
+												<option value="">없음</option>
+												<option value="bestSeller">베스트셀러</option>
+												<option value="recommend">추천도서</option>
+												<option value="newBook">신간</option>
+											</select>
+										</div>
 										</td>
 									</tr>
 								</tbody>                          
@@ -242,13 +266,13 @@ function deleteImgCallback(param){
 						<div class="input-group-prepend">
 							<span class="input-group-text"><strong>판매 시작일 </strong></span>
 						</div>
-						<input type="datetime-local" class="form-control" id="sellStart" name="sellStart" value="${goods.sellStart }">
+						<input type="date" class="form-control" id="sellStart" name="sellStart" value="${goods.sellStart }">
 					</div>
 					<div class="input-group mb-3 input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><strong>판매 종료일 </strong></span>
 						</div>
-						<input type="datetime-local" class="form-control" id="sellEnd" name="sellEnd" value="${goods.sellEnd }">
+						<input type="date" class="form-control" id="sellEnd" name="sellEnd" value="${goods.sellEnd }">
 					</div>
 				</div>
 				<div class="input-group mb-3 input-group">
@@ -268,6 +292,18 @@ function deleteImgCallback(param){
 						<span class="input-group-text"><strong>할인 적용가</strong></span>
 					</div>
 					<input type="number" class="form-control" name="realPrice" readonly value="${goods.realPrice }">
+				</div>
+				<div class="input-group mb-3 input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><strong>적립율</strong></span>
+					</div>
+					<input type="number" min="0" max="100" class="form-control" name="mileageRate" value="${goods.mileageRate }">
+				</div>
+				<div class="input-group mb-3 input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><strong>적립금</strong></span>
+					</div>
+					<input type="number" class="form-control" name="mileage" value="${goods.mileage }" readonly>
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
@@ -342,6 +378,7 @@ function deleteImgCallback(param){
 		<button type="button" class="btn btn-danger" style="width:100px;" id="deleteBtn">삭제</button>
 		</div>
 	</section>
+	</div>
    </form>
 
    <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>

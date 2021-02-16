@@ -3,8 +3,22 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>
 <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
+
+
+<script>
+$(document).ready(function() {
+	var timerdate ='${goods.sellEnd}'; 
+	
+		$("#countdown").countdown(timerdate, function(event) {
+		    $(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>일</p> </div>" + "<div class='cd-item'><span>%H</span> <p>시</p> </div>" + "<div class='cd-item'><span>%M</span> <p>분</p> </div>" + "<div class='cd-item'><span>%S</span> <p>초</p> </div>"));
+		});
+}); 
+
+</script>
 
     <!-- Breadcrumb Section Begin -->
     <div class="breacrumb-section">
@@ -23,18 +37,27 @@
     <!-- Breadcrumb Section Begin -->
 <section class="product-shop spad page-details">
     	<div class="container">
-                <div class="col-lg-9">
+                <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="product-pic-zoom">
-                                <img src="${goods.coverLargeUrl }" style="width: 300px; height: 390px;">
+                        <div class="col-lg-5">
+                            <!-- 이미지 -->
+                            <div class="product">
+                                <img src="${goods.coverLargeUrl }" style="width: 320px; height: 375px;">
+                                     <div class="pd-share">
+                                    <div class="p-code"></div>
+                                    <div class="pd-social">
+                                        <a href="#"><i class="ti-facebook"></i></a>
+                                        <a href="#"><i class="ti-twitter-alt"></i></a>
+                                        <a href="#"><i class="ti-linkedin"></i></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-7"> 
+                        <!-- 상품 정보 -->
                             <div class="product-details">
                                 <div class="pd-title">
-                                    <span>${goods.categoryName }</span>
-                                    <h3>${goods.title }</h3>
+                                	 <h3>${goods.title }</h3>
                                     <a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
                                 </div>
                                 <div class="pd-rating">
@@ -44,33 +67,41 @@
 									<c:if test="${4.5 <= goods.rStar  and goods.rStar < 6.5}"><img src="${CTX_PATH}/img/star/star3.png" class="star"></c:if>
 									<c:if test="${6.5 <= goods.rStar  and goods.rStar < 8.5}"><img src="${CTX_PATH}/img/star/star4.png" class="star"></c:if>
 									<c:if test="${8.5 < goods.rStar}"><img src="${CTX_PATH}/img/star/star5.png" class="star"></c:if>
-                                    <span>(${goods.rCount })</span>
+                                    <span>${goods.rStar } (${goods.rCount })</span>
                                 </div>
                                 <div class="pd-desc">
-                                    <p>${goods.title }</p>
-                                    <h4>$495.00 <span>629.99</span></h4>
+                                    <p> 
+                                    <span>저 : ${goods.author } 
+                                    <c:if test="${goods.translator ne null and goods.translator ne ''}"> │ 역 : ${goods.translator} </c:if> 
+                                     <br>출판사: ${goods.publisher }  │ 발행 : ${goods.pubDate } <br>상품번호: ${goods.pId } │  ISBN : ${goods.isbn }
+                                    </span>
+                                    </p>
+                                    <div class="uBoder" style="width:250px;">
+                                    <h4><fmt:formatNumber value="${goods.realPrice }" type="number" />원  <p>(${goods.saleRate } % 할인)</p></h4>
+                                    <p><strong>적립 </strong> <fmt:formatNumber value="${goods.mileage }" type="number" />P  (${goods.mileageRate } % 적립)</p>
+                                    </div>
                                 </div>
+                                <c:if test="${goods.sellState ne null and goods.sellState ne 'N' }">
                                 <div class="quantity">
                                     <div class="pro-qty">
                                         <input type="text" value="1">
                                     </div>
-                                    <a href="#" class="primary-btn pd-cart">Add To Cart</a>
                                 </div>
-                                <ul class="pd-tags">
-                                    <li><span>CATEGORIES</span>: More Accessories, Wallets & Cases</li>
-                                    <li><span>TAGS</span>: Clothing, T-shirt, Woman</li>
-                                </ul>
-                                <div class="pd-share">
-                                    <div class="p-code">Sku : 00012</div>
-                                    <div class="pd-social">
-                                        <a href="#"><i class="ti-facebook"></i></a>
-                                        <a href="#"><i class="ti-twitter-alt"></i></a>
-                                        <a href="#"><i class="ti-linkedin"></i></a>
-                                    </div>
-                                </div>
+                                <c:if test="${goods.sellEnd ne null and goods.sellEnd ne '' }">
+                                <p><strong>남은 판매기간</strong></p>
+                                <div class="countdown-timer uBoder" id="countdown">
+				                </div>
+				                </c:if>
+                                <a href="#" class="primary-btn pd-cart text-center" style="background-color:#000000;width:150px;height:50px">카트 담기</a>
+                                <a href="#" class="primary-btn pd-cart text-center" style="width:150px;height:50px">바로 구매</a>
+                                </c:if>
+                                <c:if test="${goods.sellState ne null and goods.sellState eq 'N' }">
+                                	<h3>현재 판매중인 상품이 아닙니다.</h3>
+                                </c:if> 
                             </div>
                         </div>
                     </div>
+                     <!-- 상세정보  -->
                     <div class="product-tab">
                         <div class="tab-item">
                             <ul class="nav" role="tablist">
@@ -90,7 +121,7 @@
                                 <div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
                                     <div class="product-content">
                                         <div class="row">
-                                            <div>
+                                             <div class="col-lg-12">
                                                 <h5>책소개</h5><hr>
                                                 <p>${goods.description }</p>
                                                 <h5>목차</h5><hr>

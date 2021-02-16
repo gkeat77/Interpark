@@ -11,7 +11,8 @@
 		,categoryId,categoryName
 		,publisher,pubDate
 		,`index`,authorInfo
-		,stock,saleRate,salePrice,realPrice,regDate
+		,stock,saleRate,salePrice,realPrice,
+		mileageRate,mileage,regDate,serviceType
 		,file_nm,file_loc,file_size
 		,sellState,display
 		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
@@ -25,7 +26,8 @@
 		(SELECT categoryName as categoryName FROM CATEGORY where categoryId=#{categoryId}),
 		#{publisher},#{pubDate},
 		#{index},#{authorInfo},
-		#{stock},#{saleRate},#{salePrice},#{realPrice},now(),
+		#{stock},#{saleRate},#{salePrice},#{realPrice},
+		#{mileageRate},#{mileage},now(),#{serviceType},
 		#{file_nm},#{file_loc},#{file_size}
 		,#{sellState},#{display}
 		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
@@ -86,8 +88,7 @@
 		saleRate, salePrice,realPrice, 
 		regDate, sellState,
 		display,
-		DATE_FORMAT(sellStart, '%Y.%m.%d %h:%m') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d
-		%h:%m') as sellEnd
+		DATE_FORMAT(sellStart, '%Y.%m.%d') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d') as sellEnd
 		FROM BOOK_GOODS
 		<include refid="search"/>
 		<if test="(sort != null) and (!sort.equals(''))">
@@ -110,8 +111,8 @@
 		select  P_ID as pId, itemId, isbn, title, description, translator, author, priceStandard, 
 		coverSmallUrl, coverLargeUrl, categoryId, categoryName, publisher, pubDate, 
 		`index`, authorInfo, sellCount, stock, saleRate, salePrice, realPrice, regDate, 
-		sellState, display,file_nm, file_loc, file_size ,
-		DATE_FORMAT(sellStart, '%Y-%m-%dT%h:%m') as sellStart,DATE_FORMAT(sellEnd, '%Y-%m-%dT%h:%m') as sellEnd 
+		sellState, display,file_nm, file_loc, file_size ,mileage,mileageRate,serviceType,
+		DATE_FORMAT(sellStart, '%Y-%m-%d') as sellStart,DATE_FORMAT(sellEnd, '%Y-%m-%d') as sellEnd 
 		from BOOK_GOODS 
 		where P_ID=#{pId}
 	</select>
@@ -125,7 +126,8 @@
 		title=#{title},categoryName=#{categoryName},categoryId=#{categoryId},  
 		salePrice=#{salePrice},saleRate=#{saleRate},realPrice=#{realPrice},
 		sellState=#{sellState},display=#{display},stock=#{stock},
-		`index`=#{index},authorInfo=#{authorInfo},description=#{description}
+		`index`=#{index},authorInfo=#{authorInfo},description=#{description},
+		serviceType=#{serviceType},mileageRate=#{mileageRate},mileage=#{mileageRate} 
 		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
 			,sellStart=#{sellStart},sellEnd=#{sellEnd}
 		</if>
