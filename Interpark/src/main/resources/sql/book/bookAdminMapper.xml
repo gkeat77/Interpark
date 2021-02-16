@@ -122,7 +122,7 @@
 	<update id="updateGoodsInfo">
 		update BOOK_GOODS
 		set
-		title=#{salePrice},categoryName=#{categoryName},categoryId=#{categoryId},  
+		title=#{title},categoryName=#{categoryName},categoryId=#{categoryId},  
 		salePrice=#{salePrice},saleRate=#{saleRate},realPrice=#{realPrice},
 		sellState=#{sellState},display=#{display},stock=#{stock},
 		`index`=#{index},authorInfo=#{authorInfo},description=#{description}

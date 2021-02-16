@@ -57,7 +57,7 @@
 		display,
 		DATE_FORMAT(sellStart, '%Y.%m.%d %h:%m') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d
 		%h:%m') as sellEnd,
-		 ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
+		ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
 		FROM BOOK_GOODS b
 		left join REVIEW r
 		on b.P_ID = r.P_ID
@@ -80,13 +80,17 @@
 	<!-- 상품 상세보기  -->
 	
 	<select id="goodsDetail" resultType="kr.kosmo.jobkorea.book.model.BookModel">
-		select  P_ID as pId, itemId, isbn, title, description, translator, author, priceStandard, 
+		select  b.P_ID as pId, itemId, isbn, title, description, translator, author, priceStandard, 
 		coverSmallUrl, coverLargeUrl, categoryId, categoryName, publisher, pubDate, 
 		`index`, authorInfo, sellCount, stock, saleRate, salePrice, realPrice, regDate, 
 		sellState, display,file_nm, file_loc, file_size ,
-		DATE_FORMAT(sellStart, '%Y-%m-%dT%h:%m') as sellStart,DATE_FORMAT(sellEnd, '%Y-%m-%dT%h:%m') as sellEnd 
-		from BOOK_GOODS 
-		where P_ID=#{pId}
+		DATE_FORMAT(sellStart, '%Y-%m-%dT%h:%m') as sellStart,DATE_FORMAT(sellEnd, '%Y-%m-%dT%h:%m') as sellEnd, 
+		ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
+		FROM BOOK_GOODS b
+		left join REVIEW r
+		on b.P_ID = r.P_ID 
+		where b.P_ID=#{pId}
+		group by b.P_ID
 	</select>
 
 </mapper>
