@@ -17,6 +17,8 @@
 					if(result == "success") {
 						//location.reload(true);	// 삭제 후 초기화
 					}else {
+						alert("로그인 먼저해주세요");
+						location.href='/login/login.me'; 
 					}
 			    },
 			    error : function(){

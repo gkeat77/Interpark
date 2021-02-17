@@ -161,8 +161,6 @@
 		total[i] = totalAry[i];
 		days[i] = daysAry[i];
 	}
-
-	
 	
 	$(document).ready(function() {
 		
@@ -205,6 +203,9 @@
 	// ------------------------
 	// comm
 	// ------------------------
+	
+	
+	
 	function removeComma(str)
 	{
 		n = parseInt(str.replace(/,/g,""));
@@ -303,6 +304,16 @@
                     display: true,
                     ticks: {
                         suggestedMin: 0,
+                        beginAtZero: true,
+                        callback: function(value, index) {
+                            //if(value.toString().length > 8) return (Math.floor(value / 100000000)).toLocaleString("ko-KR") + "억";
+                            //else if(value.toString().length > 4) return (Math.floor(value / 10000)).toLocaleString("ko-KR") + "만";
+                            //else return value.toLocaleString("ko-KR");
+                            if (value ==1){
+                            } 
+                            else return value.toLocaleString("ko-KR");
+                            // y축 콤마 처리
+                          }
                     },
                     scaleLabel: {
                         display: true

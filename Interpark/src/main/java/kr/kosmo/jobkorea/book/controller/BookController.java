@@ -15,6 +15,7 @@ import kr.kosmo.jobkorea.book.model.BookModel;
 import kr.kosmo.jobkorea.book.model.CategoryModel;
 import kr.kosmo.jobkorea.book.service.bookService;
 import kr.kosmo.jobkorea.book.util.API;
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,10 +99,18 @@ public class BookController {
 	public Map<String, Object> goCart(@RequestParam Map<String, Object> paramMap, HttpSession session, HttpServletRequest req) throws Exception {
 		   Map<String, Object> resultMap = new HashMap<String, Object>();
 		   String result="";
+		   
 		   String itemId = (String) paramMap.get("itemId");
-		   System.out.println(itemId);
+		   
+		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		   if(rm != null) {
+			   BookModel bookInfo = booksv.bookInfo(itemId);
+			   
+			   result="success";   
+		   }else {
+			   result="no";
+		   }
 		   //resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
-		   result="success";
 		   resultMap.put("resultMsg", result); 
 		   return resultMap;
 	   }

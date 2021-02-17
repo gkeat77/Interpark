@@ -94,4 +94,8 @@
 		group by b.P_ID
 	</select>
 
+	<!-- ahn -->
+	<select id="bookInfo">
+		
+	</select>
 </mapper>

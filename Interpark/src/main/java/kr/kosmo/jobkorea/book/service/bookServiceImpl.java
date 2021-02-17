@@ -48,4 +48,9 @@ public class bookServiceImpl implements bookService{
 		return bookDao.goodsDetail(paramMap);
 	}
 
+	@Override
+	public BookModel bookInfo(String itemId) {
+		return bookDao.bookInfo(itemId);
+	}
+
 }
