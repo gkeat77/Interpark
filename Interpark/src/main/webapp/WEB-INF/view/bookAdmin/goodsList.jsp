@@ -8,7 +8,7 @@
 <html lang="ko">
 <head>
 <title>!!!!</title>
-    
+<jsp:include page="/WEB-INF/view/common/header.jsp"/>    
 <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 </head>
 <script>
@@ -146,7 +146,7 @@ $(document).ready(function() {
 	
 	
 </script>
-<jsp:include page="/WEB-INF/view/common/header.jsp"/>
+
 <input type="hidden" id="classify"> 
 <input type="hidden" id="sort"> 
 	<div class="container">

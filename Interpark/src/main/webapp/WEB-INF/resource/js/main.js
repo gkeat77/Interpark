@@ -136,7 +136,7 @@
         mm = parseInt(mm) + 1;
         mm = String(mm).padStart(2, '0');
     }
-    var timerdate = mm + '/' + dd + '/' + yyyy;
+    var timerdate = '2021/10/10';
     // For demo preview end
 
     console.log(timerdate);
@@ -146,7 +146,7 @@
     /* var timerdate = "2020/01/01"; */
 
 	$("#countdown").countdown(timerdate, function(event) {
-        $(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>Days</p> </div>" + "<div class='cd-item'><span>%H</span> <p>Hrs</p> </div>" + "<div class='cd-item'><span>%M</span> <p>Mins</p> </div>" + "<div class='cd-item'><span>%S</span> <p>Secs</p> </div>"));
+        $(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>일</p> </div>" + "<div class='cd-item'><span>%H</span> <p>시</p> </div>" + "<div class='cd-item'><span>%M</span> <p>분</p> </div>" + "<div class='cd-item'><span>%S</span> <p>초</p> </div>"));
     });
 
         
@@ -228,7 +228,7 @@
     /*-------------------
 		Quantity change
 	--------------------- */
-   /*  
+     
     var proQty = $('.pro-qty');
 	proQty.prepend('<span class="dec qtybtn">-</span>');
 	proQty.append('<span class="inc qtybtn">+</span>');
@@ -247,5 +247,5 @@
 		}
 		$button.parent().find('input').val(newVal);
 	});
-    */
+    
 })(jQuery);

@@ -19,8 +19,8 @@
 			<c:forEach var="list" items="${list }">
 				<tr class="book"
 					onClick="selectBook('${list.itemId }','${list.title }')">
-					<td class="cart-pic first-row"><img
-						src="${list.coverSmallUrl }" width="90px" height="130px"></td>
+					<td class="cart-pic first-row">
+					<img src="${list.coverSmallUrl }" width="90px" height="130px"></td>
 					<td class="cart-title first-row" colspan="2">
 						<h5>${list.title }</h5> <strong><${list.categoryName}></strong> <br>
 						<strong>카테고리ID:</strong>${list.categoryId} <br> <strong>저자:</strong>

@@ -45,7 +45,7 @@ public class bookServiceImpl implements bookService{
 
 	@Override
 	public BookModel goodsDetail(Map<String, Object> paramMap) {
-		return null;
+		return bookDao.goodsDetail(paramMap);
 	}
 
 }
