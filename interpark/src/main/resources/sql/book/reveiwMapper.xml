@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kosmo.jobkorea.book.dao.reviewDao">
+
+	<insert id="reviewReg">
+		insert into REVIEW(P_ID,loginID,R_STAR,R_LIKE,R_TITLE,R_CONTENT,R_DATE) 
+		values(#{pId},#{loginId},#{rStar},#{rLike},#{rTitle},#{rContent},#{rDate})
+	</insert>
+	
+	<select id="reviewList" resultType="kr.kosmo.jobkorea.book.model.reviewModel">
+		select * from REVIEW where P_ID=#{pId}
+	</select>
+	
+	<delete id="reviewDel">
+		delete * from REVIEW where P_ID=#{pId}
+	</delete>
+
+	<update id="reviewLike">
+		update REVIEW 
+		SET R_LIKE=R_LIKE+1
+		where R_ID=#{rID}
+	</update>
+
+</mapper>

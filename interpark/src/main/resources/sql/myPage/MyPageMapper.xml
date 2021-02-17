@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.kosmo.jobkorea.myPage.dao.MyPageDao">
+	<resultMap type="kr.kosmo.jobkorea.login.model.Address" id="address">
+		<result property="a_AD1" column="A_AD1"/>
+		<result property="a_AD2" column="A_AD2"/>
+		<result property="a_AD3" column="A_AD3"/>
+		<result property="a_ID" column="A_ID"/>
+		<result property="a_NAME" column="A_NAME"/>
+		<result property="a_PHONE1" column="A_PHONE1"/>
+		<result property="a_PHONE2" column="A_PHONE2"/>
+		<result property="a_PHONE3" column="A_PHONE3"/>
+		<result property="a_TITLE" column="A_TITLE"/>
+	</resultMap>
+	
+	<!-- 회원정보수정 -->
+    <update id="memberInfo">
+    	UPDATE  tb_userinfo SET
+		  password = #{password}
+		  ,M_ACCOUNT = #{account}
+		  ,M_BKNAME = #{bkname}
+		  ,M_EMAIL = #{mail}
+		  ,M_PHONE1 = #{phone1}
+		  ,M_PHONE2 = #{phone2}
+		  ,M_PHONE3 = #{phone3}
+		WHERE loginID = #{loginID}
+    </update>
+	
+	 <!-- 회원탈퇴 -->
+    <update id="deleteMember">
+    	UPDATE tb_userinfo SET
+   		  M_STATUS ='Y'
+		WHERE loginID = #{loginID}
+    </update>
+    
+    <!-- 회원정보 주소록 추가 -->
+    <insert id="addAddress">
+   		insert into ADDRESS (
+		    A_AD1
+		    ,A_AD2
+		    ,A_AD3
+		    ,A_TITLE
+		    ,loginID
+		    ,A_PHONE1 
+		    ,A_PHONE2
+		    ,A_PHONE3
+		    ,A_NAME 
+		 ) VALUES (
+		   #{user_post}
+		   ,#{addr}
+		   ,#{addr_detail}
+		   ,#{A_TITLE}
+		   ,#{loginID} 
+		   ,#{phone1}
+		   ,#{phone2}
+		   ,#{phone3}
+		   ,#{a_name}
+		  )
+    </insert>
+    
+    <select id="userAddress" resultType="kr.kosmo.jobkorea.login.model.Address" resultMap="address">
+    	select A_ID, A_TITLE, A_AD1, A_AD2, A_AD3, A_PHONE1, A_PHONE2, A_PHONE3, A_NAME, loginID FROM ADDRESS
+    	where loginID = #{loginID} 
+    </select>
+    
+    <select id="selectAddress" resultType="kr.kosmo.jobkorea.login.model.Address">
+    	select A_ID, A_TITLE, A_AD1, A_AD2, A_AD3, A_PHONE1, A_PHONE2, A_PHONE3, A_NAME, loginID FROM ADDRESS
+    	where A_ID = #{a_ID} 
+    </select>
+    
+    <!-- 주소록수정 -->
+    <update id="editAddress">
+    	update ADDRESS SET
+		   A_TITLE = #{A_TITLE}
+		  ,A_AD1 = #{A_AD1}
+		  ,A_AD2 =#{A_AD2}
+		  ,A_AD3 = #{A_AD3}
+		  ,A_PHONE1 = #{A_PHONE1}
+		  ,A_PHONE2 = #{A_PHONE2}
+		  ,A_PHONE3 = #{A_PHONE3}
+		  ,A_NAME = #{A_NAME}
+		WHERE loginID = #{loginID} 
+		AND A_ID = #{A_ID}
+    </update>
+    
+    <!-- 주소록 삭제 -->
+    <delete id="deleteAddress">
+    	DELETE FROM ADDRESS 
+    	WHERE A_ID = #{A_ID}
+    </delete>
+	
+	
+	
+</mapper>
