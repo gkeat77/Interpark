@@ -20,7 +20,7 @@
 					}
 			    },
 			    error : function(){
-			     alert("fall");
+			     alert("fail");
 			    }
 			   });
 		}
