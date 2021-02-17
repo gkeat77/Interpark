@@ -63,13 +63,14 @@
       SELECT  COUNT(loginID) AS che
         FROM  tb_userinfo 
        WHERE  loginID = #{loginID}
+       AND M_STATUS = 'N'
     </select> 
     
    <!-- email 중복체크-->
    <select id="email_check" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
       SELECT  COUNT(M_EMAIL) AS che
         FROM  tb_userinfo 
-       WHERE  M_EMAIL = #{mail}
+       WHERE  M_EMAIL = #{mail} AND M_STATUS = 'N'
     </select> 
     
     

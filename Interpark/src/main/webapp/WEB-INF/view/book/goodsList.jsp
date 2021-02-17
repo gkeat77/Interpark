@@ -114,7 +114,7 @@ function flist_clean_search(){
 }
 // 상품 선택
 	function selectBook(pId){
-		location.href="/bookAdmin/goodsDetail.do?pId="+pId;
+		location.href="/book/goodsDetail.do?pId="+pId;
 	};
 
 

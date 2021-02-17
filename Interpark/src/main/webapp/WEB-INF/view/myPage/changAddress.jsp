@@ -39,8 +39,8 @@
 											${ad.a_TITLE }</td>
 											<td>${ad.a_AD1} <br> ${ad.a_AD2} <br> ${ad.a_AD3}</td>
 											<td>${ad.a_PHONE1} - ${ad.a_PHONE2} - ${ad.a_PHONE3}</td>
-											<td style="padding-top: 32px;"><a href="/selectAddress.me?a_id=${ad.a_ID}" class="site-btn register-btn" id="RegisterCom"><span>수정</span></a></td>
-											<td style="padding-top: 32px;"><a href="" class="site-btn register-btn" id=""><span>삭제</span></a></td>
+											<td style="padding-top: 32px;"><a href="/mypage/selectAddress.my?a_id=${ad.a_ID}" class="site-btn register-btn" id="RegisterCom"><span>수정</span></a></td>
+											<td style="padding-top: 32px;"><a href="javascript:deleteAddress(${ad.a_ID})" class="site-btn register-btn" id=""><span>삭제</span></a></td>
 										</tr>
 									</c:forEach>
 								</tbody>

@@ -20,7 +20,7 @@ public class BookModel {
 		String publisher;
 		String pubDate;
 		String regDate;
-		String service;
+		String serviceType;
 		String index;
 		String file_nm;
 		String file_loc;
@@ -37,9 +37,8 @@ public class BookModel {
 		String sellEnd;
 		double rStar;
 		int rCount;
-		
-		
-		
+		int mileage;
+		int mileageRate;
 		public int getpId() {
 			return pId;
 		}
@@ -142,11 +141,11 @@ public class BookModel {
 		public void setRegDate(String regDate) {
 			this.regDate = regDate;
 		}
-		public String getService() {
-			return service;
+		public String getServiceType() {
+			return serviceType;
 		}
-		public void setService(String service) {
-			this.service = service;
+		public void setServiceType(String serviceType) {
+			this.serviceType = serviceType;
 		}
 		public String getIndex() {
 			return index;
@@ -202,6 +201,12 @@ public class BookModel {
 		public void setSalePrice(int salePrice) {
 			this.salePrice = salePrice;
 		}
+		public int getRealPrice() {
+			return realPrice;
+		}
+		public void setRealPrice(int realPrice) {
+			this.realPrice = realPrice;
+		}
 		public String getSellState() {
 			return sellState;
 		}
@@ -226,12 +231,6 @@ public class BookModel {
 		public void setSellEnd(String sellEnd) {
 			this.sellEnd = sellEnd;
 		}
-		public int getRealPrice() {
-			return realPrice;
-		}
-		public void setRealPrice(int realPrice) {
-			this.realPrice = realPrice;
-		}
 		public double getrStar() {
 			return rStar;
 		}
@@ -244,6 +243,18 @@ public class BookModel {
 		public void setrCount(int rCount) {
 			this.rCount = rCount;
 		}
+		public int getMileage() {
+			return mileage;
+		}
+		public void setMileage(int mileage) {
+			this.mileage = mileage;
+		}
+		public int getMileageRate() {
+			return mileageRate;
+		}
+		public void setMileageRate(int mileageRate) {
+			this.mileageRate = mileageRate;
+		}
 		@Override
 		public String toString() {
 			return "BookModel [pId=" + pId + ", itemId=" + itemId + ", title=" + title + ", isbn=" + isbn + ", author="
@@ -251,16 +262,11 @@ public class BookModel {
 					+ priceStandard + ", discountRate=" + discountRate + ", priceSales=" + priceSales
 					+ ", coverSmallUrl=" + coverSmallUrl + ", coverLargeUrl=" + coverLargeUrl + ", categoryName="
 					+ categoryName + ", categoryId=" + categoryId + ", publisher=" + publisher + ", pubDate=" + pubDate
-					+ ", regDate=" + regDate + ", service=" + service + ", index=" + index + ", file_nm=" + file_nm
-					+ ", file_loc=" + file_loc + ", file_size=" + file_size + ", authorInfo=" + authorInfo
+					+ ", regDate=" + regDate + ", serviceType=" + serviceType + ", index=" + index + ", file_nm="
+					+ file_nm + ", file_loc=" + file_loc + ", file_size=" + file_size + ", authorInfo=" + authorInfo
 					+ ", sellCount=" + sellCount + ", stock=" + stock + ", saleRate=" + saleRate + ", salePrice="
 					+ salePrice + ", realPrice=" + realPrice + ", sellState=" + sellState + ", display=" + display
 					+ ", sellStart=" + sellStart + ", sellEnd=" + sellEnd + ", rStar=" + rStar + ", rCount=" + rCount
-					+ "]";
+					+ ", mileage=" + mileage + ", mileageRate=" + mileageRate + "]";
 		}
-		
-		
-
-		
-		
 }
