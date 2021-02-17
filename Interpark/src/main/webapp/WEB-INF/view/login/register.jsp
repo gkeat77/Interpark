@@ -71,7 +71,7 @@
 							</div>
 							<div class="group-input">
 								<label for="con-pass">이메일*</label>
-								<input type="text" class="mail" name="mail" id="AregisterEmail1" />
+								<input type="text" class="mail" name="mail" id="AregisterEmail1" reanonly value="${mail}" />
 								<span id="email_check" style="text-color:led;"></span>
 							</div>
 							<div class="group-input">

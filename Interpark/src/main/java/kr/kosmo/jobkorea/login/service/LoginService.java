@@ -30,14 +30,14 @@ public interface LoginService {
 	/** 사용자 PW 찾기 */
 	public RegisterInfoModel selectFindPw(Map<String, Object> paramMap) throws Exception;
 
-	/** 아이디 유무 확인 pass 전송**/
-	public RegisterInfoModel findPass(Map<String, Object> paramMap) throws Exception;
+	/** 비밀번호 찾기 위한 아이디&이메일 유무 확인 전송**/
+	public RegisterInfoModel findIE(Map<String, Object> paramMap) throws Exception;
 
 	/** 비밀번호 재발급 **/
 	public int findPassUpdate(Map<String, Object> paramMap) throws Exception;
 	
 	//아이디 찾기
-	public String find_id(Map<String, String> paramMap, HttpServletResponse response) throws Exception;
+	public String find_id(Map<String, String> paramMap) throws Exception;
 	
 
 	
