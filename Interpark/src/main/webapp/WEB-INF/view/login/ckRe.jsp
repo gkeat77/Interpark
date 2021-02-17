@@ -9,11 +9,22 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
 function gofinId(){
-		location.href='/login/ff.me';
-	}
-	
+	location.href='/login/ff.me';
+}
+
 function goregi(){
-	location.href='/register/reg.re';
+	$.ajax({
+		url : "/register/reg.re",
+		type : "POST",
+		data : {mail : $("#mail").val()},
+		success : function(data) {
+			alert("회원가입 페이지로 이동합니다.");
+			
+		},
+		error : function() {
+			alert("[ 이메일 찾기 실패 ]");
+		}
+	});
 }
 
 
@@ -38,6 +49,8 @@ function goregi(){
 						<button type="button" onclick="history.go(-1);" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-margin-bottom w3-round">Cancel</button>
 					</p>
 				</c:if>
+			</form>
+			<form action="/register/reg.re" method="post">
 				<c:if test="${email eq 'YES'}">
 					<h5>
 						${ OK3 }
@@ -45,13 +58,14 @@ function goregi(){
 					<h5>
 						${ OK4 }
 					</h5>
+					<input type="hidden" value="${mail}" name="mail">
 					<p class="w3-center">
-						<button type="button" onclick="goregi()" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round">find</button>
+						<button type="submit" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round">Register</button>
 						<button type="button" onclick="history.go(-1);" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-margin-bottom w3-round">Cancel</button>
 					</p>
 				</c:if>
-				</div>
 			</form>
+				</div>
 			
 		</div>
 	</div>

@@ -29,7 +29,7 @@ public interface LoginDao {
 	public RegisterInfoModel selectFindPw(Map<String, Object> paramMap);
 
 	/** 아이디 유무 확인 pass 전송**/
-	public RegisterInfoModel findPass(Map<String, Object> paramMap) throws Exception;
+	public RegisterInfoModel findIE(Map<String, Object> paramMap) throws Exception;
 	
 	/** 비밀번호 재발급 **/
 	public int findPassUpdate(Map<String, Object> paramMap) throws Exception;

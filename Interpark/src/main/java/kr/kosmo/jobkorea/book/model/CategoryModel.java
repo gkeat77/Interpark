@@ -7,8 +7,9 @@ public class CategoryModel {
 	private String categoryId;
 	private String cateClass;
 	private int level;
-	
 	private List<CategoryModel> lowerCateList;
+	
+	
 	public String getCategoryName() {
 		return categoryName;
 	}

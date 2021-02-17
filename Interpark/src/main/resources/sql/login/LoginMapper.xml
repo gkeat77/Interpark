@@ -156,10 +156,10 @@
    </select>
    
    <!-- 이메일 유무 확인 ID 찾기 -->
-   <select id="findPass" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
-		SELECT mail, password
+   <select id="findIE" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+		SELECT M_EMAIL, loginID
 		  FROM tb_userinfo 
-		 WHERE loginID = #{loginID}
+		 WHERE loginID = #{loginID} AND M_EMAIL = #{mail}
    </select>
    
   <!--  비밀번호 재발급 -->

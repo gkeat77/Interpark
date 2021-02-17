@@ -57,7 +57,7 @@ $(document).ready(function() {
                         <!-- 상품 정보 -->
                             <div class="product-details">
                                 <div class="pd-title">
-                                	 <h3>${goods.title }</h3>
+                                	 <h3>${goods.title }</h3> <p class="star"></p>
                                     <a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
                                 </div>
                                 <div class="pd-rating">
@@ -87,13 +87,14 @@ $(document).ready(function() {
                                         <input type="text" value="1">
                                     </div>
                                 </div>
+                             	<p><strong>남은 수량: ${goods.stock }</strong></p>
                                 <c:if test="${goods.sellEnd ne null and goods.sellEnd ne '' }">
                                 <p><strong>남은 판매기간</strong></p>
                                 <div class="countdown-timer uBoder" id="countdown">
 				                </div>
 				                </c:if>
-                                <a href="#" class="primary-btn pd-cart text-center" style="background-color:#000000;width:150px;height:50px">카트 담기</a>
-                                <a href="#" class="primary-btn pd-cart text-center" style="width:150px;height:50px">바로 구매</a>
+                                <a href="#" class="primary-btn pd-cart text-center" style="background-color:#000000;width:200px;height:50px">카트 담기</a>
+                                <a href="#" class="primary-btn pd-cart text-center" style="width:200px;height:50px">바로 구매</a>
                                 </c:if>
                                 <c:if test="${goods.sellState ne null and goods.sellState eq 'N' }">
                                 	<h3>현재 판매중인 상품이 아닙니다.</h3>
@@ -123,11 +124,17 @@ $(document).ready(function() {
                                         <div class="row">
                                              <div class="col-lg-12">
                                                 <h5>책소개</h5><hr>
-                                                <p>${goods.description }</p>
+                                                <pre>${goods.description }</pre>
                                                 <h5>목차</h5><hr>
-                                                <p>${goods.index }</p>
+                                                <pre>${goods.index }</pre>
+                                                <c:if test="${goods.authorInfo ne null and goods.authorInfo ne '' }">
+                                                <h5>저자소개</h5><hr>
+                                                <pre>${goods.authorInfo }</pre>
+                                                </c:if>
+                                                <c:if test="${goods.file_nm ne null and goods.file_nm ne '' }">
                                                 <h5>관련 이미지</h5><hr>
                                                 <p><img src="${CTX_PATH}/file/${goods.itemId}/${goods.file_nm}"></p>
+                                                </c:if>
                                             </div>
                                             <div>
                                                 <img src="img/product-single/tab-desc.jpg" alt="">
@@ -137,7 +144,16 @@ $(document).ready(function() {
                                 </div>
                                 <div class="tab-pane fade" id="tab-2" role="tabpanel">
                                     <div class="customer-review-option">
-                                        <h4>2 Comments</h4>
+                                        <h4>
+                                        리뷰 
+											<c:if test="${0 <= goods.rStar  and goods.rStar <= 1}"><img src="${CTX_PATH}/img/star/star0.png" class="star"></c:if>
+											<c:if test="${1 < goods.rStar  and goods.rStar < 2.5}"><img src="${CTX_PATH}/img/star/star1.png" class="star"></c:if>
+											<c:if test="${2.5 <= goods.rStar  and goods.rStar < 4.5}"><img src="${CTX_PATH}/img/star/star2.png" class="star"></c:if>
+											<c:if test="${4.5 <= goods.rStar  and goods.rStar < 6.5}"><img src="${CTX_PATH}/img/star/star3.png" class="star"></c:if>
+											<c:if test="${6.5 <= goods.rStar  and goods.rStar < 8.5}"><img src="${CTX_PATH}/img/star/star4.png" class="star"></c:if>
+											<c:if test="${8.5 < goods.rStar}"><img src="${CTX_PATH}/img/star/star5.png" class="star"></c:if>
+		                                    <span>${goods.rStar } ( 총 ${goods.rCount} 건)</span>
+                                        </h4>
                                         <div class="comment-option">
                                             <div class="co-item">
                                                 <div class="avatar-pic">
@@ -183,7 +199,7 @@ $(document).ready(function() {
                                             </div>
                                         </div>
                                         <div class="leave-comment">
-                                            <h4>Leave A Comment</h4>
+                                            <h4>리뷰 쓰기</h4>
                                             <form action="#" class="comment-form">
                                                 <div class="row">
                                                     <div class="col-lg-6">
@@ -194,7 +210,7 @@ $(document).ready(function() {
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <textarea placeholder="Messages"></textarea>
-                                                        <button type="submit" class="site-btn">Send message</button>
+                                                        <button type="submit" class="site-btn">리뷰 작성</button>
                                                     </div>
                                                 </div>
                                             </form>

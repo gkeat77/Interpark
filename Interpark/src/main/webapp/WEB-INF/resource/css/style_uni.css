@@ -90,6 +90,8 @@ input[readonly]{
 .star{
 	width:60px;
 	height:16px;
+	background: url(/img/star/star4.png) 0% 0% no-repeat;
+	background-size: 119px 22px;
 	}
 	
 .fa-star{
@@ -102,3 +104,10 @@ input[readonly]{
 	padding:20px;
 	border-radius:20px;
 }	
+
+pre{
+	font-size:18px;
+	font-family: 'Muli', sans-serif;
+	line-height: 30px;
+	overflow: auto;
+}
