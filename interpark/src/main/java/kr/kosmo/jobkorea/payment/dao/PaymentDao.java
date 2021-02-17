@@ -34,4 +34,5 @@ public interface PaymentDao {
 	public List<PaymentModel> detailCoupon (PaymentModel vo);
 	public void couponCancel (String couponNo);
 	public void cartUpdate3(String cartNo);
+	public PaymentModel defaultChart(String day);
 }

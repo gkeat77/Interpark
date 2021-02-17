@@ -76,8 +76,8 @@ public class LoginServiceImpl implements LoginService {
 
 	/** 아이디 유무 확인 pass 전송**/
 	@Override
-	public RegisterInfoModel findPass(Map<String, Object> paramMap) throws Exception {
-		return loginDao.findPass(paramMap);
+	public RegisterInfoModel findIE(Map<String, Object> paramMap) throws Exception {
+		return loginDao.findIE(paramMap);
 	}
 
 	/** 비밀번호 재발급 **/
@@ -88,19 +88,8 @@ public class LoginServiceImpl implements LoginService {
 
 	//아이디 찾기
 	@Override
-	public String find_id(Map<String, String> paramMap, HttpServletResponse response) throws Exception {
-
-		PrintWriter out = response.getWriter();
+	public String find_id(Map<String, String> paramMap) throws Exception {
 		String id = loginDao.find_id(paramMap);
-		if (id == null) {
-			out.println("<script>");
-			out.println("alert('가입된 아이디가 없습니다.');");
-			out.println("history.go(-1);");
-			out.println("</script>");
-			out.close();
-			return null;
-		} else {
-			return id;
-		}
+		return id;
 	}
 }

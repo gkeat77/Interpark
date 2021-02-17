@@ -41,7 +41,9 @@ public class RegisterController {
 	         HttpServletResponse response, HttpSession session) throws Exception {
 
 	      logger.info("+ Start RegisterController.reg.me");
-	  
+	      String mail = request.getParameter("mail");
+	      logger.info("asdfdfsadfsdfddas : " + mail);
+	      result.addAttribute("mail", mail);
 	      return "/login/register";
 	   }
 	 
@@ -85,11 +87,11 @@ public class RegisterController {
   
       return "/login/checkRegister";
 	}
-	 
 	
 	@RequestMapping(value="/email_check.re")
 	public String email_check(Model m, HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, Object> paramMap) throws Exception {
-		if(registerService.email_check(paramMap).getChe()==1){
+		String mail = request.getParameter("mail");
+		if(registerService.email_check(paramMap).getChe()>0){
 			m.addAttribute("email", "no");
 			m.addAttribute("OK1", "가입된 이메일이 있습니다.");
 			m.addAttribute("OK2", "아이디가 기억나지 않는다면 아이디 찾기를 진행해주세요.");
@@ -99,8 +101,10 @@ public class RegisterController {
 		}else{
 			m.addAttribute("email", "YES");
 			m.addAttribute("OK3", "가입된 이메일이 없습니다.");
-			m.addAttribute("OK4", "회원가입을 진행해주세요.");
+			m.addAttribute("OK4", "이 이메일로 회원가입을 진행해주세요.");
+			m.addAttribute("mail", mail);
 			logger.info("중복된 이메일 없음");
+			logger.info(mail);
 			return "/login/ckRe";
 		}
 	}

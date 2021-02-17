@@ -78,7 +78,7 @@ function AfValidateStudent() {
 	}
 	
 	// 이메일 체크
-	/*var  pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
+	var  pattern_spc = /[~!#$%^&*()_+|<>?:{}]/;
 	var  Email1   = $("#AregisterEmail1").val();
 	var $Email1   = $('#AregisterEmail1');
 
@@ -87,7 +87,7 @@ function AfValidateStudent() {
 		($Email1).focus();
 		return;
 	}
-	return true;*/
+	return true;
 }
 	
 	
@@ -189,39 +189,33 @@ function execDaumPostcode() {
 			success : function(data) {
 				if(data.OK=="N"){
 					$("#id_check").html("중복된 아이디가 있습니다.");
-				}else(data.OK=="Y"){
-					AfValidateStudent()
-					eMailCheck(form);
-				}
+				}else if(data.OK=="Y"){
+					ACompleteRegister(form);				}
 			},
 			error : function() {
-				alert("회원가입 에러");
+				alert("중복된 아이디가 있습니다");
 			}
 		});		
 	}
 	
-	function eMailCheck( form ) {
+	function emailCheck( form ) {
 		$.ajax({
-			url : "email_check.do",
+			url : "/register/id_check.re",
 			type : "POST",
 			async : true ,
+			//data : $('#ARegisterForm').serialize(),
 			data : $("#"+form).serialize(),
 			success : function(data) {
-				alert("?");
-				
 				if(data.OK=="N"){
-					alert("중복된 이메일이 있습니다.");
-				}else if(form == "ARegisterForm" ){
-					ACompleteRegister(form);
-				}
+					alert("중복된  이메일이라니까!!!!!!!!!!!!!!!!!!!");
+				}else if(data.OK=="Y"){
+					ACompleteRegister(form);				}
 			},
 			error : function() {
-				alert("회원가입 에러");
+				alert("중복된 아이디가 있습니다");
 			}
 		});		
 	}
-
-
 
 	/* 일반 회원가입  완료*/
 	function ACompleteRegister( form ) {

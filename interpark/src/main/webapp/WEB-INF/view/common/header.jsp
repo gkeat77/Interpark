@@ -199,7 +199,7 @@
                                 <li><a href="./register.html">Register</a></li>
                                 <c:choose>
 		                         <c:when test="${empty member}">
-		                            <li><a href="/login.do">Login</a></li>
+		                            <li><a href="/login.me">Login</a></li>
 		                         </c:when>
 		                         <c:otherwise>
 		                            <li><a href="/login/logOut.do">LOGOUT</a></li>

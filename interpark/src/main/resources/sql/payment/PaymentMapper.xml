@@ -247,6 +247,10 @@ WHERE
 CART_NO =  #{cartNo} 
 </update>
 
+<select id="defaultChart" parameterType="String" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	SELECT IFNULL(SUM(PAYMENT), 0) AS totalPrice FROM ORDERS
+	WHERE DATE(ORDER_DT)= #{param1}
+</select>
 
 
 </mapper>

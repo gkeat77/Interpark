@@ -1,5 +1,6 @@
 package kr.kosmo.jobkorea.payment.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
@@ -46,5 +47,6 @@ public interface PaymentService {
 	public void useCoupon (String couponNo);	// 쿠폰 사용
 	public List<PaymentModel> detailCoupon (PaymentModel vo); // 쿠폰 취소 하기 위해서 get coupon_hst_no
 	public void cartUpdate3(String cartNo); // 취소했을 떄 카트리스트 복귀
+	public Map<String, Object> defaultChart();
 }
 
