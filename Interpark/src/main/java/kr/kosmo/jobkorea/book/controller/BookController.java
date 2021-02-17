@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -89,5 +90,22 @@ public class BookController {
 		
 		return "book/goodsDetail";
 	}
+	
+	// -------------ahn start-------------
+	
+	@ResponseBody
+	@RequestMapping(value="/goCart.do" , method = RequestMethod.POST)
+	public Map<String, Object> goCart(@RequestParam Map<String, Object> paramMap, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+		   String itemId = (String) paramMap.get("itemId");
+		   System.out.println(itemId);
+		   //resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
+		   result="success";
+		   resultMap.put("resultMsg", result); 
+		   return resultMap;
+	   }
+	
+	// -------------ahn end-------------
 	
 }

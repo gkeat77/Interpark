@@ -2,6 +2,7 @@ package kr.kosmo.jobkorea.payment.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -303,6 +304,16 @@ public class PaymentController {
 	if(ComnUtil.isEmpty(rm)) {
 		mav.setViewName("login/login");
 	}else if(rm.getLoginID().equals("admin")) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map = (HashMap<String, Object>) paymentService.defaultChart();
+
+		
+		ArrayList<String> days = (ArrayList<String>) map.get("days");
+		ArrayList<String> total = (ArrayList<String>) map.get("total");
+	
+		mav.addObject("days", days);
+		mav.addObject("total", total);
 		mav.setViewName("payment/statistics");
 	}
 	else {
@@ -350,3 +361,4 @@ public class PaymentController {
    
    
 }
+

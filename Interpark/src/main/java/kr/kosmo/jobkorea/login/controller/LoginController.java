@@ -1,5 +1,6 @@
 package kr.kosmo.jobkorea.login.controller;
 
+import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -190,26 +191,41 @@ public class LoginController {
    // id 찾기 
    @RequestMapping(value="/findId.me")
    public String find_id(HttpServletResponse response, @RequestParam Map<String, String> paramMap, Model m) throws Exception{
-	  String id = loginService.find_id(paramMap, response);
-		 logger.info(" fdfdfdfdfdfd" + paramMap.get("mail"));
-		 m.addAttribute("id", id);
-		
-		return "/login/findId";
+	  String id = loginService.find_id(paramMap);
+	  m.addAttribute("id", id);
+	  
+	  response.setContentType("text/html; charset=UTF-8");
+	  PrintWriter out = response.getWriter();
+		if (id == null) {
+			out.println("<script>alert('가입된 아이디가 없습니다.'); location.href=history.go(-1);</script>");
+			out.flush();
+			return null;
+		} else {
+			return "/login/findId";
+		}
 	}
+   
+ //비밀번호 찾기 페이지 이동
+   @RequestMapping(value="/fp.me")
+   public String findP() throws Exception {
+
+      return "/login/findPwForm";
+   }
 	
-      
    // pass 찾기 이메일 발송
-   @RequestMapping(value="findPass.do", method = RequestMethod.POST)
+   @RequestMapping(value="/findPass.me", method = RequestMethod.POST)
    @ResponseBody
    public Map<String, Object> findPass(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-	  
-	   RegisterInfoModel rm = loginService.findPass(paramMap);
-	  
-	  if(rm.getMail() == ""||rm.getMail() == null){
-		  paramMap.put("msg", "존재하지 않는 아이디거나 메일 등록이 안되어있습니다.");
+	   logger.info("+ start " + className + ".findPass");
+	   
+	   RegisterInfoModel rm = loginService.findIE(paramMap);
+	   logger.info("!!!!!!!!!!!"+rm);
+	   if(rm == null){
+		  paramMap.put("msg", false);
+		  /*paramMap.put("msg", "존재하지 않는 아이디거나 메일 등록이 안되어있습니다.");*/
 		  return paramMap;
 		  
-	  }else{
+	   }else{
 		  // 받는 사람 이메일 저장
 		  paramMap.put("email",rm.getMail());
 		  
