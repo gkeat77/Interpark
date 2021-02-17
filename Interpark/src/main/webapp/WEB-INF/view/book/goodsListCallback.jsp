@@ -14,8 +14,9 @@
 			    type : "post",
 			    data : data,
 			    success : function(result){
-					if(result == "success") {
-						//location.reload(true);	// 삭제 후 초기화
+					if(result.resultMsg == "success") {
+						alert("카트에 등록되었습니다");
+						location.reload(true);	// 삭제 후 초기화
 					}else {
 						alert("로그인 먼저해주세요");
 						location.href='/login/login.me'; 

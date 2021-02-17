@@ -236,12 +236,16 @@
 	function goPayment(){
 		let cartNos="";	// 배열로 controller넘기는게 어려워서 string 형식으로 넘김
 		let cartStocks="";
+		let mileages="";
 		var cartNoArr = new Array();
 		
 		<c:forEach items="${cartList}" var="item1">
 			cartNos+=${item1.cartNo}+",";
 			cartNoArr.push("${item1.cartNo}");
+			mileages+=${item1.mileage}+",";
 		</c:forEach>
+		
+		
 		
 
 		
@@ -271,13 +275,19 @@
 		input3.setAttribute("type", "hidden"); 
 		input3.setAttribute("name", "cartStocks"); 
 		input3.setAttribute("value", cartStocks.slice(0,-1));
-
+		
+		var input4 = document.createElement('input'); 
+		input4.setAttribute("type", "hidden"); 
+		input4.setAttribute("name", "mileages"); 
+		input4.setAttribute("value", mileages.slice(0,-1));
+		
+		
 		newForm.appendChild(input1);
 		newForm.appendChild(input2);
 		newForm.appendChild(input3);
+		newForm.appendChild(input4);
 		
 		document.body.appendChild(newForm);
-		
 		
 		if ( !cartNos.length ){
 			alert("장바구니 등록 먼저해주세요");

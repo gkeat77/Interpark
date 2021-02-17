@@ -53,4 +53,9 @@ public class bookServiceImpl implements bookService{
 		return bookDao.bookInfo(itemId);
 	}
 
+	@Override
+	public void cartAdd(BookModel vo) {
+		bookDao.cartAdd(vo);
+	}
+
 }

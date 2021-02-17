@@ -95,7 +95,25 @@
 	</select>
 
 	<!-- ahn -->
-	<select id="bookInfo">
-		
+	<select id="bookInfo" resultType="kr.kosmo.jobkorea.book.model.BookModel">
+		SELECT IFNULL(mileage, 0) AS mileage
+			, title
+			, IFNULL(realPrice,0) AS realPrice
+			, coverLargeUrl
+			, P_ID AS pId
+		FROM BOOK_GOODS
+		WHERE itemId = #{itemId}
 	</select>
+	<insert id="cartAdd" parameterType="kr.kosmo.jobkorea.book.model.BookModel">
+		INSERT INTO CART
+		(
+			BOOK_NAME, CART_STOCK, CART_PRICE, CART_REG_DT, ORDER_YN, loginID, CART_IMG, MILEAGE, P_ID
+		)
+		VALUES
+		(
+			#{title},1,#{realPrice},NOW(),'N',#{loginID},#{coverLargeUrl},#{mileage},#{pId}
+		)
+	</insert>
+	
+	
 </mapper>

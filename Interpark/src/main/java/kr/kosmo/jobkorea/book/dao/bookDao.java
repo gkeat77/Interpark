@@ -22,4 +22,6 @@ public interface bookDao {
 	
 	public BookModel bookInfo (String itemId);  
 	
+	public void cartAdd(BookModel vo);
+	
 }

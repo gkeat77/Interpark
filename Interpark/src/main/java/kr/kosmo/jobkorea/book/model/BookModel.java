@@ -39,7 +39,17 @@ public class BookModel {
 		private int rCount;
 		private int mileage;
 		private int mileageRate;
+		// ahn
+		private String loginID;
 		
+		
+		
+		public String getLoginID() {
+			return loginID;
+		}
+		public void setLoginID(String loginID) {
+			this.loginID = loginID;
+		}
 		public int getpId() {
 			return pId;
 		}

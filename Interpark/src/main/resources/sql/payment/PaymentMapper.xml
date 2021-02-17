@@ -10,6 +10,7 @@
 	, CART_STOCK AS stock
 	, CART_PRICE AS price
 	, CART_IMG AS bookImg
+	, MILEAGE AS mileage
 	FROM CART
 	WHERE 
 	ORDER_YN != 'Y'
@@ -20,6 +21,7 @@
 <update id="cartUpdate" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
 UPDATE CART
 SET CART_STOCK = #{stock}
+	, MILEAGE = #{stock} * #{mileage} 
 WHERE CART_NO = #{cartNo}
 </update>
 

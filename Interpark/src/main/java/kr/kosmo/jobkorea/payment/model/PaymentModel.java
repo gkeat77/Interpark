@@ -31,6 +31,7 @@ public class PaymentModel {
 	private String couponRate;
 	private String couponNos;
 	
+	private String mileage;
 	
 	
 	
@@ -44,6 +45,13 @@ public class PaymentModel {
 	
 	
 	
+	
+	public String getMileage() {
+		return mileage;
+	}
+	public void setMileage(String mileage) {
+		this.mileage = mileage;
+	}
 	public String getCouponNos() {
 		return couponNos;
 	}

@@ -101,15 +101,17 @@ public class BookController {
 		   String result="";
 		   
 		   String itemId = (String) paramMap.get("itemId");
-		   
+
 		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 		   if(rm != null) {
 			   BookModel bookInfo = booksv.bookInfo(itemId);
-			   
-			   result="success";   
+			   bookInfo.setLoginID(rm.getLoginID());
+			   booksv.cartAdd(bookInfo);
+			   result="success";     
 		   }else {
 			   result="no";
 		   }
+		    
 		   //resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
 		   resultMap.put("resultMsg", result); 
 		   return resultMap;

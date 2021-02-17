@@ -72,17 +72,25 @@ public class PaymentController {
 	   logger.info("+ Start Payment.paymentForm.do");
 	   ModelAndView mav = new ModelAndView();
 
+	   System.out.println(req.getParameter("cartNos"));
+	   System.out.println(req.getParameter("cartStocks"));
+	   System.out.println(req.getParameter("mileages"));
+	   
 	   // cartList 값이 수정되었을 수도 있으므로 stock update
 	   String cartNos = req.getParameter("cartNos");
 	   String[] cartNosArray = cartNos.split(",");
 	   
+
 	   String cartStocks = req.getParameter("cartStocks");
 	   String[] cartStocksArray = cartStocks.split(",");
 	   
+	   String mileages = req.getParameter("mileages");
+	   String[] mileagesArray = mileages.split(",");
 	   for (int i = 0; i < cartStocksArray.length; i++) {
 		   PaymentModel vo = new PaymentModel();
 		   vo.setStock(Integer.parseInt(cartStocksArray[i]));
 		   vo.setCartNo(cartNosArray[i]);
+		   vo.setMileage(mileagesArray[i]);
 		   paymentService.cartUpdate(vo);
 	   }
 	   
