@@ -118,7 +118,7 @@ public class MyPageController {
 	   int re;
 		re = mService.deleteMember(paramMap);
 		if(re >0){
-			logger.info("회원정보 수정 완료");
+			logger.info("회원탈퇴 완료");
 		}
 		
 		logger.info("+ End deleteMember.me");
