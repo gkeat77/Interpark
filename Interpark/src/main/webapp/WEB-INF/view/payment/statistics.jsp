@@ -5,6 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
 
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+	
 	<style>
 		/*datepicer 버튼 롤오버 시 손가락 모양 표시*/
 		.ui-datepicker-trigger{cursor: pointer;}
@@ -51,8 +53,6 @@
         <div class="container">
             <form class="checkout-form" name="form">
                 <div class="row">
-                
-                
                     <div class="col-lg-6">
                     	<!--  
                         <div class="checkout-content">
@@ -120,7 +120,10 @@
                 	
                 		<div class="col-lg-12">
                                 <label for="fir"></label>
-                                <input type="text" name="searchKey" id="searchKey">
+                                
+                                <div style="width:100%;">
+							        <canvas id="canvas"></canvas>
+							    </div>
                         </div>
                         
                         
@@ -139,8 +142,30 @@
     <!-- Partner Logo Section End -->
 
 	<script>
+	var total = [];
+	var days = [];
+	var daysAry = new Array();
+	var totalAry = new Array();
+	
+	<c:forEach items="${days}" var="item1">
+		daysAry.push("${item1}");
+	</c:forEach>
+	
+	<c:forEach items="${total}" var="item1">
+		totalAry.push("${item1}");
+	</c:forEach>
+
+
+
+	for (var i = 0; i < daysAry.length; i++) {
+		total[i] = totalAry[i];
+		days[i] = daysAry[i];
+	}
+
+	
 	
 	$(document).ready(function() {
+		
 		
 		//모든 datepicker에 대한 공통 옵션 설정
         $.datepicker.setDefaults({
@@ -170,6 +195,10 @@
         $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
         //To의 초기값을 내일로 설정
         $('#datepicker2').datepicker('setDate', '+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
+        
+        
+        
+        
         
 	}); // onLoad End
 	
@@ -205,6 +234,8 @@
 	// function
 	// ------------------------
 
+	
+	
 	function goStatistics() {
 		
 		var fromDt = $('#datepicker').val();
@@ -229,5 +260,58 @@
 			    }
 			   });
 	}
+	
+	
+	// chart
+	new Chart(document.getElementById("canvas"), {
+        type: 'line',
+        data: {
+            labels: days,
+            datasets: [{
+                label: '매출',
+                data: total
+                ,
+                borderColor: "rgba(255, 201, 14, 1)",
+                backgroundColor: "rgba(255, 201, 14, 0.5)",
+                fill: true,
+                lineTension: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: '라인 차트 테스트'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true
+                        //labelString: 'x축'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        suggestedMin: 0,
+                    },
+                    scaleLabel: {
+                        display: true
+                        //labelString: 'y축'
+                    }
+                }]
+            }
+        }
+    });
+	
 	</script>
 </html>

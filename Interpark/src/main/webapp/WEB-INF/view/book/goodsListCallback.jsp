@@ -4,6 +4,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+	<script>
+		function goCart(itemId) {
+			var data = {
+					itemId : itemId
+			     };
+			   $.ajax({
+			    url : "/book/goCart.do",
+			    type : "post",
+			    data : data,
+			    success : function(result){
+					if(result == "success") {
+						//location.reload(true);	// 삭제 후 초기화
+					}else {
+					}
+			    },
+			    error : function(){
+			     alert("fall");
+			    }
+			   });
+		}
+		function goBuy() {
+			
+		}
+		
+	</script>
 	<c:if test="${totalCnt eq 0 }">
 		<div style="padding:100px">
 				<h3 class="text-center" >데이터가 존재하지 않습니다.</h3>
@@ -25,8 +50,8 @@
 						</div>
 						<ul>
 						<!--카트 /  구매 버튼 링크  -->
-							<li class="w-icon active"><a href="#">CART</a></li>
-							<li class="quick-view"><a href="#">BUY</a></li>
+							<li class="w-icon active"><a href="javascript:void(0);" onclick="goCart(${list.itemId})">CART</a></li>
+							<li class="quick-view"><a href="javascript:void(0);" onclick="goBuy()">BUY</a></li>
 						</ul>
 					</div>
 					<div class="pi-text">

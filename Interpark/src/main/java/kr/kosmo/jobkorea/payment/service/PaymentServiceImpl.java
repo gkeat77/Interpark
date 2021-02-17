@@ -3,11 +3,13 @@ package kr.kosmo.jobkorea.payment.service;
 import java.text.DateFormat;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -198,6 +200,45 @@ public class PaymentServiceImpl implements PaymentService{
 	@Override
 	public void cartUpdate3(String cartNo) {
 		paymentDao.cartUpdate3(cartNo);
+	}
+
+
+
+
+	@Override
+	public Map<String, Object> defaultChart(){
+		
+		
+		// 현재날짜 
+		SimpleDateFormat  formatter = new SimpleDateFormat("yyyy-MM-dd");    
+		Date today = new Date();
+		String date =  formatter.format(today);
+		// d-1
+		today = new Date(today.getTime()+(1000*60*60*24*-1));
+		String yesterday = formatter.format(today);
+		// d-2
+		today = new Date(today.getTime()+(1000*60*60*24*-1));
+		String yyesterday = formatter.format(today);
+		
+		ArrayList<String> days = new ArrayList<>();
+		days.add(yyesterday);
+		days.add(yesterday);
+		days.add(date);
+		
+		// date
+		ArrayList<String> result = new ArrayList<>();
+		for (String ad : days) {
+			PaymentModel vo = new PaymentModel();
+			vo = paymentDao.defaultChart(ad);
+			result.add(vo.getTotalPrice());
+		}
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("days", days);
+		map.put("total", result);
+		//System.out.println(todayTotal);
+		
+		return map;
 	}
 
 
