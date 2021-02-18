@@ -192,6 +192,7 @@ input[type="radio"]:checked + label span {
                                 </div>
                                 -->
                                 <div class="order-btn">
+                                	<button type="button"  onclick="goCancel()" class="site-btn place-btn">cancel</button>
                                     <button type="button"  onclick="goPayment()" class="site-btn place-btn">Place Order</button>
                                 </div>
                             </div>
@@ -421,54 +422,60 @@ input[type="radio"]:checked + label span {
 
 	
 	function goPayment() {
-		
+		var confirm_val = confirm("결제금액을 확인하셨나요??");
 
-		if(!emailRule.test($("input[id='userEamil']").val())) {            
-					alert("이메일 양식을 확인해주세요");
-		            return false;
-		}
-		
-		if(!regExp.test($("input[id='userPhone']").val())) {            
-			alert("전화번호 양식 확인해주세요");
+		if(confirm_val) {
+			if(!emailRule.test($("input[id='userEamil']").val())) {            
+			alert("이메일 양식을 확인해주세요");
             return false;
-}
-		
-		// 현재값
-		nowTotal = fn($('#paymentPrice').html());
-		// 최초값
-		oldTotal = $('#totalPrice').val();
-		
-		
-		// couponPrice
-		if(oldTotal - nowTotal == 0) {
-			$('#couponPrice').val(0);
-		}else {
-			$('#couponPrice').val(oldTotal - nowTotal);
-		}
-		
-		
-		
-		// couponNo
-		let couponNos="";
-		var couponNosArr = new Array();
+			}
 			
-		$('input:checkbox[name="cc"]').each(function() {
-	        	if(this.checked){
-	        		var couponNo = fn(this.id); // 함수써서 숫자만 추출
-	        		couponNos+=couponNo+",";
-	        	}
-	        });	
-		$('#couponNos').val(couponNos.slice(0,-1));
-
+			if(!regExp.test($("input[id='userPhone']").val())) {            
+				alert("전화번호 양식 확인해주세요");
+		        return false;
+			}
+			
+			// 현재값
+			nowTotal = fn($('#paymentPrice').html());
+			// 최초값
+			oldTotal = $('#totalPrice').val();
+			
+			
+			// couponPrice
+			if(oldTotal - nowTotal == 0) {
+				$('#couponPrice').val(0);
+			}else {
+				$('#couponPrice').val(oldTotal - nowTotal);
+			}
+			
+			
+			
+			// couponNo
+			let couponNos="";
+			var couponNosArr = new Array();
+				
+			$('input:checkbox[name="cc"]').each(function() {
+		        	if(this.checked){
+		        		var couponNo = fn(this.id); // 함수써서 숫자만 추출
+		        		couponNos+=couponNo+",";
+		        	}
+		        });	
+			$('#couponNos').val(couponNos.slice(0,-1));
 		
-		// post
-		$('#totalPrice').val(nowTotal);
-		var form = document.form;
-		form.method="post";
-	    form.action="payment.do";
-	    form.submit();
-	    
-	    
+			
+			// post
+			$('#totalPrice').val(nowTotal);
+			var form = document.form;
+			form.method="post";
+		    form.action="payment.do";
+		    form.submit();
+				    
+			}else {
+			}
+	}
+	
+	function goCancel() {
+		location.href="/cartList.do";
 	}
 	</script>
 

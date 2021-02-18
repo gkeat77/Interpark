@@ -28,7 +28,16 @@
     		location.href="/login/login.me";
     	</script>
 
+    </c:when>	
+    <c:when test="${empty cartList}">
+    
+    	<script>
+    		alert("카트에 이미 상품이 있습니다");
+    		location.href="/cartList.do";
+    	</script>
+
     </c:when>
+    
     <c:otherwise>
 
     <section class="shopping-cart spad">
@@ -201,8 +210,8 @@
 		var value = $('#desNum'+""+cartNo).val();
 		var stock = parseInt(value)-1;
 		$('#desNum'+""+cartNo).val(stock);
-		if(stock <0 ) {
-			$('#desNum'+""+cartNo).val("0");
+		if(stock <=0 ) {
+			$('#desNum'+""+cartNo).val("1");
 		}else {
 			var oldPrice =$('#price'+""+cartNo).html();
 	        oldPrice.slice(0,-1);
@@ -335,7 +344,7 @@
 		
 		}
 	
-	
+	// 도서 이미지 클릭시 상세정보
 	function bookInfo(pId) {
 		url = "/book/goodsDetail.do?pId=";	
 		location.href = url+pId;

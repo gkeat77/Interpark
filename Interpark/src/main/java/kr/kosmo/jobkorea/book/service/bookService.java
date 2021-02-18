@@ -21,7 +21,7 @@ public interface bookService {
 	public BookModel goodsDetail(Map<String,Object> paramMap);
 	
 	// ahn
-	public BookModel bookInfo (String itemId);
+	public BookModel bookInfo (String pId);
 	public void cartAdd(BookModel vo);
-	
+	public String cartInfo (String pId);
 }

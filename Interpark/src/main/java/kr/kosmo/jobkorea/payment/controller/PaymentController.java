@@ -1,5 +1,6 @@
 package kr.kosmo.jobkorea.payment.controller;
 
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.kosmo.jobkorea.book.model.BookModel;
+import kr.kosmo.jobkorea.book.service.bookService;
 import kr.kosmo.jobkorea.common.comnUtils.ComnUtil;
 import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.model.Criteria;
@@ -37,22 +40,50 @@ public class PaymentController {
 
 	@Autowired
 	PaymentService paymentService;
-   private final Logger logger = LogManager.getLogger(this.getClass());
+	
+	@Autowired
+	bookService booksv;
+	
+	private final Logger logger = LogManager.getLogger(this.getClass());
 
    
    @RequestMapping("/cartList.do")
-   public String index(Model model, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
+   public ModelAndView index(Model model, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
+	   ModelAndView mav = new ModelAndView();
 	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
-	   if(rm != null) {
-		   String loginID = rm.getLoginID();
-		   model.addAttribute("cartList", paymentService.getCartList(loginID));
-		   model.addAttribute("cartCnt",paymentService.getCartList(loginID).size());
-	   }
 	   
+	   String pId = request.getParameter("pId");
+	   // 도서상품 -> buy버튼 
+	   if(pId != null) {
+		   // cart에 존재하는지 check 후 insert
+		   BookModel bookInfo = booksv.bookInfo(pId);
+		   String cartBookTtitle = booksv.cartInfo(pId);
+		   if(bookInfo.getTitle().equals(cartBookTtitle)) { // check
+			   mav.setViewName("/payment/cartList"); // 빈 카트로 페이지 이동해서 jsp해서 해결
+		   }else {
+			   bookInfo.setLoginID(rm.getLoginID());
+			   booksv.cartAdd(bookInfo);
+			   
+			   // cartList
+			   String loginID = rm.getLoginID();
+			   mav.addObject("cartList", paymentService.getCartList(loginID));
+			   mav.addObject("cartCnt",paymentService.getCartList(loginID).size());
+			   mav.setViewName("/payment/cartList");
+		   }
+	   }else {
+		   if(rm != null) {
+			   String loginID = rm.getLoginID();
+			   mav.addObject("cartList", paymentService.getCartList(loginID));
+			   mav.addObject("cartCnt",paymentService.getCartList(loginID).size());
+			   mav.setViewName("/payment/cartList");
+		   }else {
+			   mav.setViewName("/payment/cartList");
+		   }
+	  }
       logger.info("+ Start Payment.cartList.do");
-      return "/payment/cartList";
+      return mav;
    }
    
    
@@ -72,10 +103,6 @@ public class PaymentController {
 	   logger.info("+ Start Payment.paymentForm.do");
 	   ModelAndView mav = new ModelAndView();
 
-	   System.out.println(req.getParameter("cartNos"));
-	   System.out.println(req.getParameter("cartStocks"));
-	   System.out.println(req.getParameter("mileages"));
-	   
 	   // cartList 값이 수정되었을 수도 있으므로 stock update
 	   String cartNos = req.getParameter("cartNos");
 	   String[] cartNosArray = cartNos.split(",");

@@ -101,9 +101,11 @@
 			, IFNULL(realPrice,0) AS realPrice
 			, coverLargeUrl
 			, P_ID AS pId
+			, itemId
 		FROM BOOK_GOODS
-		WHERE itemId = #{itemId}
+		WHERE P_ID = #{pId}
 	</select>
+	
 	<insert id="cartAdd" parameterType="kr.kosmo.jobkorea.book.model.BookModel">
 		INSERT INTO CART
 		(
@@ -115,5 +117,10 @@
 		)
 	</insert>
 	
+	<select id="cartInfo" resultType="String">
+		SELECT BOOK_NAME AS title
+		FROM CART
+		WHERE P_ID = #{pId}
+	</select>
 	
 </mapper>
