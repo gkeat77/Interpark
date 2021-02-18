@@ -51,7 +51,7 @@
                             <tbody>
                                 <c:forEach var="cartList" items="${cartList}" >
                                 <tr>
-                                    <td class="cart-pic"><img src="${cartList.bookImg}" alt=""></td>
+                                    <td class="cart-pic"><img src="${cartList.bookImg}" alt="" onclick="bookInfo(${cartList.pId})"></td>
                                     <td class="cart-title">
                                         <h5>${cartList.bookName}</h5>
                                     </td>
@@ -336,6 +336,10 @@
 		}
 	
 	
+	function bookInfo(pId) {
+		url = "/book/goodsDetail.do?pId=";	
+		location.href = url+pId;
+	}
 	
 	</script>
 

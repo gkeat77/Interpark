@@ -34,6 +34,7 @@ public class PaymentModel {
 	private String mileage;
 	
 	
+	private String pId;
 	
 	
 	
@@ -46,6 +47,14 @@ public class PaymentModel {
 	
 	
 	
+	
+	
+	public String getpId() {
+		return pId;
+	}
+	public void setpId(String pId) {
+		this.pId = pId;
+	}
 	public String getMileage() {
 		return mileage;
 	}

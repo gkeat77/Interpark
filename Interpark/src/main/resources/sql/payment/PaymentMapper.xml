@@ -11,6 +11,7 @@
 	, CART_PRICE AS price
 	, CART_IMG AS bookImg
 	, MILEAGE AS mileage
+	, P_ID AS pId
 	FROM CART
 	WHERE 
 	ORDER_YN != 'Y'

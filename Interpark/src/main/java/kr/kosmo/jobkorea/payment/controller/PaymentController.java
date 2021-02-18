@@ -293,11 +293,9 @@ public class PaymentController {
 	   String couponNo = (String) paramMap.get("couponNo");
 	   resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
 	   result="success";
-	   resultMap.put("resultMsg", result); 
+	   resultMap.put("resultMsg", result);
 	   
-	   
-	   
-		return resultMap;
+	   return resultMap;
    }
    
    
@@ -366,7 +364,5 @@ public class PaymentController {
 	   
 		return resultMap;
    }
-   
-   
 }
 
