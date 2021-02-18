@@ -61,6 +61,7 @@ public class PaymentController {
 		   BookModel bookInfo = booksv.bookInfo(pId);
 		   String cartBookTtitle = booksv.cartInfo(pId);
 		   if(bookInfo.getTitle().equals(cartBookTtitle)) { // check
+			   mav.addObject("check", 1);
 			   mav.setViewName("/payment/cartList"); // 빈 카트로 페이지 이동해서 jsp해서 해결
 		   }else {
 			   bookInfo.setLoginID(rm.getLoginID());

@@ -29,7 +29,7 @@
     	</script>
 
     </c:when>	
-    <c:when test="${empty cartList}">
+    <c:when test="${check eq 1}">
     
     	<script>
     		alert("카트에 이미 상품이 있습니다");
@@ -336,7 +336,7 @@
 					}
 			    },
 			    error : function(){
-			     alert("fall");
+			     alert("fail");
 			    }
 			   });
 		}else{

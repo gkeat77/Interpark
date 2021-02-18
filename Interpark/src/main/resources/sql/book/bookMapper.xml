@@ -121,6 +121,7 @@
 		SELECT BOOK_NAME AS title
 		FROM CART
 		WHERE P_ID = #{pId}
+		AND ORDER_YN != 'Y'
 	</select>
 	
 </mapper>
