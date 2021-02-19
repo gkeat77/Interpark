@@ -1,7 +1,8 @@
-package kr.kosmo.jobkorea.book.controller;
+﻿ackage kr.kosmo.jobkorea.book.controller;
 
 
 import org.apache.log4j.LogManager;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,16 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.kosmo.jobkorea.book.model.BookModel;
 import kr.kosmo.jobkorea.book.model.CategoryModel;
 import kr.kosmo.jobkorea.book.service.bookService;
 import kr.kosmo.jobkorea.book.util.API;
+import kr.kosmo.jobkorea.common.comnUtils.ComnUtil;
 import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,14 +107,21 @@ public class BookController {
 		   Map<String, Object> resultMap = new HashMap<String, Object>();
 		   String result="";
 		   
-		   String itemId = (String) paramMap.get("itemId");
+		   String pId = (String) paramMap.get("pId");
 
 		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 		   if(rm != null) {
-			   BookModel bookInfo = booksv.bookInfo(itemId);
+			   BookModel bookInfo = booksv.bookInfo(pId);
 			   bookInfo.setLoginID(rm.getLoginID());
-			   booksv.cartAdd(bookInfo);
-			   result="success";     
+			   // 같은 상품이 있으면 add x
+			   String cartBookTtitle = booksv.cartInfo(bookInfo);
+			   if(bookInfo.getTitle().equals(cartBookTtitle)) {
+				   result="cartAlready";
+			   }else {
+				   bookInfo.setLoginID(rm.getLoginID());
+				   booksv.cartAdd(bookInfo);
+				   result="success";
+			   }
 		   }else {
 			   result="no";
 		   }
