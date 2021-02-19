@@ -1,0 +1,13 @@
+diff a/Interpark/src/main/webapp/WEB-INF/view/book/goodsDetail.jsp b/Interpark/src/main/webapp/WEB-INF/view/book/goodsDetail.jsp	(rejected hunks)
+@@ -51,6 +51,11 @@
+ /** 리뷰 저장 */
+ function freview_regist() {
+ 
++	/* // vaildation 체크
++	if (!fValidate_adv()) {
++		return;
++	} */
++
+ 	var resultCallback = function(data) {
+ 		freview_regist_result(data);
+ 	};
