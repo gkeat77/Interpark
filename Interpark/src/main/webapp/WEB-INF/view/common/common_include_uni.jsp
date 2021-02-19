@@ -14,3 +14,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
  <link rel="stylesheet" href="${CTX_PATH}/css/style_uni.css" type="text/css">
  <script src="${CTX_PATH}/js/main.js"></script>
+  <script src="${CTX_PATH}/js/goods.js"></script>
+  <script src="${CTX_PATH}/js/jquery.model.js"></script>

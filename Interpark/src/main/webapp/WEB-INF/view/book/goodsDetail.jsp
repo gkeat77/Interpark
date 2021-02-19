@@ -10,16 +10,137 @@
 
 
 <script>
+var pageSize = 5;
+var pageBlockSize = 10;
+
 $(document).ready(function() {
+	
+	//타이머
 	var timerdate ='${goods.sellEnd}'; 
 	
-		$("#countdown").countdown(timerdate, function(event) {
-		    $(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>일</p> </div>" + "<div class='cd-item'><span>%H</span> <p>시</p> </div>" + "<div class='cd-item'><span>%M</span> <p>분</p> </div>" + "<div class='cd-item'><span>%S</span> <p>초</p> </div>"));
-		});
-}); 
+	$("#countdown").countdown(timerdate, function(event) {
+		$(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>일</p> </div>" + "<div class='cd-item'><span>%H</span> <p>시</p> </div>" + "<div class='cd-item'><span>%M</span> <p>분</p> </div>" + "<div class='cd-item'><span>%S</span> <p>초</p> </div>"));
+	});
+	//별점 표시	
+	let rStar ='${goods.rStar}'	
+	displayAvgStar(rStar);
+	
+	//리뷰
+	$("#reviewPop").click(function(event){
+		fInit();
+		gfModalPop("#layer1");
+	});
+	
+	//별점 버튼
+	$('input[name="rStar"]').change(function(){
+		let value = $(this).val();
+		for (var i = 1; i <= $('input[name="rStar"]').length; i++) {
+			$('#star'+i).removeClass("radioStar")
+			$('#star'+i).addClass("radioNoStar")
+		}
+	 	for (var i = 1; i <= value; i++) {
+			$('#star'+i).removeClass("radioNoStar");
+			$('#star'+i).addClass("radioStar");
+		}  
+	});
+
+	flist_review();
+});
+
+
+/** 리뷰 저장 */
+function freview_regist() {
+
+	/* // vaildation 체크
+	if (!fValidate_adv()) {
+		return;
+	} */
+
+	var resultCallback = function(data) {
+		freview_regist_result(data);
+	};
+
+	callAjax("/review/regist.do", "post", "json", true, $("#modalForm")
+			.serialize(), resultCallback);
+}
+
+/** 리뷰 저장 콜백 함수 */
+function freview_regist_result(data) {
+/* 	// 목록 조회 페이지 번호
+	var currentPage = "1";
+	if ($("#action").val() != "I") {
+		currentPage = $("#currentPage_adv").val();
+	}
+ */
+		// 응답 메시지 출력
+		alert(data.resultMsg);
+
+		// 모달 닫기
+		gfCloseModal();
+	// 입력폼 초기화
+	fInit();
+}
+//폼 초기화
+function fInit(){
+	for (var i = 1; i <= $('input[name="rStar"]').length; i++) {
+		$('#star'+i).removeClass("radioStar")
+		$('#star'+i).addClass("radioNoStar")
+	}
+	$("#rtitle").val('');
+	$("#rContent").val('');
+	
+}
+
+
+/** 리뷰 목록 조회 */
+function flist_review(currentPage) {
+
+	currentPage = currentPage || 1;
+
+	// 강의 정보 설정
+	let pId = $("#pId").val();
+
+	var param = {
+		pId : pId,
+		currentPage : currentPage,
+		pageSize : pageSize
+	}
+
+	var resultCallback = function(data) {
+		flist_review_result(data, currentPage);
+	};
+
+	callAjax("/review/reviewList.do", "post", "text", true, param,
+			resultCallback);
+}
+
+/** 상담 조회 콜백 함수 */
+function flist_review_result(data, currentPage) {
+	alert(data);
+	// 기존 목록 삭제
+	$('.comment-option').empty();
+
+	// 신규 목록 생성
+	$('.comment-option').append(data);
+
+	// 총 개수 추출
+	var totalCnt = $("#totalCnt").val();
+
+	// 페이지 네비게이션 생성
+	var paginationHtml = getPaginationHtml(currentPage, totalCnt,
+			pageSize, pageBlockSize, 'flist_review');
+	$("#Pagination").empty().append(paginationHtml);
+
+	// 현재 페이지 설정
+	$("#currentPage").val(currentPage);
+
+}
+
+
 
 </script>
-
+	<input type="hidden" id="currentPage" value="1">
+	
     <!-- Breadcrumb Section Begin -->
     <div class="breacrumb-section">
         <div class="container">
@@ -57,17 +178,11 @@ $(document).ready(function() {
                         <!-- 상품 정보 -->
                             <div class="product-details">
                                 <div class="pd-title">
-                                	 <h3>${goods.title }</h3> <p class="star"></p>
+                                	 <h3>${goods.title }</h3>
                                     <a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
                                 </div>
                                 <div class="pd-rating">
-									<c:if test="${0 <= goods.rStar  and goods.rStar <= 1}"><img src="${CTX_PATH}/img/star/star0.png" class="star"></c:if>
-									<c:if test="${1 < goods.rStar  and goods.rStar < 2.5}"><img src="${CTX_PATH}/img/star/star1.png" class="star"></c:if>
-									<c:if test="${2.5 <= goods.rStar  and goods.rStar < 4.5}"><img src="${CTX_PATH}/img/star/star2.png" class="star"></c:if>
-									<c:if test="${4.5 <= goods.rStar  and goods.rStar < 6.5}"><img src="${CTX_PATH}/img/star/star3.png" class="star"></c:if>
-									<c:if test="${6.5 <= goods.rStar  and goods.rStar < 8.5}"><img src="${CTX_PATH}/img/star/star4.png" class="star"></c:if>
-									<c:if test="${8.5 < goods.rStar}"><img src="${CTX_PATH}/img/star/star5.png" class="star"></c:if>
-                                    <span>${goods.rStar } (${goods.rCount })</span>
+                                	<div class="star"><p>${goods.rStar } (${goods.rCount })</p></div>
                                 </div>
                                 <div class="pd-desc">
                                     <p> 
@@ -145,75 +260,12 @@ $(document).ready(function() {
                                 <div class="tab-pane fade" id="tab-2" role="tabpanel">
                                     <div class="customer-review-option">
                                         <h4>
-                                        리뷰 
-											<c:if test="${0 <= goods.rStar  and goods.rStar <= 1}"><img src="${CTX_PATH}/img/star/star0.png" class="star"></c:if>
-											<c:if test="${1 < goods.rStar  and goods.rStar < 2.5}"><img src="${CTX_PATH}/img/star/star1.png" class="star"></c:if>
-											<c:if test="${2.5 <= goods.rStar  and goods.rStar < 4.5}"><img src="${CTX_PATH}/img/star/star2.png" class="star"></c:if>
-											<c:if test="${4.5 <= goods.rStar  and goods.rStar < 6.5}"><img src="${CTX_PATH}/img/star/star3.png" class="star"></c:if>
-											<c:if test="${6.5 <= goods.rStar  and goods.rStar < 8.5}"><img src="${CTX_PATH}/img/star/star4.png" class="star"></c:if>
-											<c:if test="${8.5 < goods.rStar}"><img src="${CTX_PATH}/img/star/star5.png" class="star"></c:if>
-		                                    <span>${goods.rStar } ( 총 ${goods.rCount} 건)</span>
+                                        리뷰<div class="star"><p>${goods.rStar } ( 총 ${goods.rCount} 건)</p></div><hr>
                                         </h4>
-                                        <div class="comment-option">
-                                            <div class="co-item">
-                                                <div class="avatar-pic">
-                                                    <img src="img/product-single/avatar-1.png" alt="">
-                                                </div>
-                                                <div class="avatar-text">
-                                                    <div class="at-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </div>
-                                                    <h5>Brandon Kelley <span>27 Aug 2019</span></h5>
-                                                    <div class="at-reply">Nice !</div>
-                                                </div>
-                                            </div>
-                                            <div class="co-item">
-                                                <div class="avatar-pic">
-                                                    <img src="img/product-single/avatar-2.png" alt="">
-                                                </div>
-                                                <div class="avatar-text">
-                                                    <div class="at-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </div>
-                                                    <h5>Roy Banks <span>27 Aug 2019</span></h5>
-                                                    <div class="at-reply">Nice !</div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div class="comment-option"></div>
+                                        <div class="paging_area" id="Pagination_lec"></div>
                                         <div class="personal-rating">
-                                            <h6>Your Ratind</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
-                                        <div class="leave-comment">
-                                            <h4>리뷰 쓰기</h4>
-                                            <form action="#" class="comment-form">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <input type="text" placeholder="Name">
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" placeholder="Email">
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <textarea placeholder="Messages"></textarea>
-                                                        <button type="submit" class="site-btn">리뷰 작성</button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                            <button type="button" class="site-btn" id="reviewPop">리뷰 작성</button>
                                         </div>
                                     </div>
                                 </div>
@@ -398,3 +450,45 @@ $(document).ready(function() {
     </div>
     <!-- Related Products Section End -->
  <jsp:include page="/WEB-INF/view/common/footer.jsp"/>
+ 
+ 
+ 		<!-- 모달팝업 -->
+		<div id="mask"></div>
+		<div id="layer1" class="layerPop layerType2" style="width:800px; height:650px; padding:10px; overflow:hidden;">
+		<form id="modalForm">
+			<input type="hidden" name="pId" value="${goods.pId }" id="pId">
+			<input type="hidden" name="loginId" value="${member.loginID}">
+ 			<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col" colspan="2" class="text-center">리뷰 작성</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	 <tr>
+			    	<th scope="row">평점</th>
+					<td>
+						<label class="box-radio-input"><input type="radio" name="rStar" value="1"><span class="radioNoStar" id="star1"></span></label>
+						<label class="box-radio-input"><input type="radio" name="rStar" value="2"><span class="radioNoStar" id="star2"></span></label>
+						<label class="box-radio-input"><input type="radio" name="rStar" value="3"><span class="radioNoStar" id="star3"></span></label>
+						<label class="box-radio-input"><input type="radio" name="rStar" value="4"><span class="radioNoStar" id="star4"></span></label>
+						<label class="box-radio-input"><input type="radio" name="rStar" value="5"><span class="radioNoStar" id="star5"></span></label>
+					</td>
+			    </tr>
+			    <tr>
+			    	<th scope="row">제목</th>
+					<td><input type="text" class="form-control" name="rTitle" id="rTitle"></td>
+			    </tr>
+			    <tr>
+			    	<th scope="row">내용</th>
+			    	<td><textarea class="form-control" name="rContent" style="height:320px" id="rContent"></textarea></td>
+			    </tr>
+			    <tr>
+			    	<td colspan="2" class="text-center"><button type="button" class="btn btn-warning btn-lg" onclick="freview_regist()">작성</button> 
+			    	<button type="button" class="btn btn-dark btn-lg" onclick="gfCloseModal()">취소</button></td>
+			    </tr>
+			  </tbody>
+			</table>
+			</form>
+		</div>
+ 

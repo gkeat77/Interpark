@@ -86,17 +86,68 @@ input[readonly]{
 	background-color:#e6b800;
 }
 
+ /* 별점   */
+.star0{
+  background: url(/img/star/star0.png) no-repeat;
+  background-size: 100px;
+  width: 120px;
+  height: 60px;
+  display:inline-block;
+}
 
-.star{
-	width:60px;
-	height:16px;
-	background: url(/img/star/star4.png) 0% 0% no-repeat;
-	background-size: 119px 22px;
-	}
-	
-.fa-star{
-	color:#e6b800;
-}	
+.star1{
+  background: url(/img/star/star1.png) no-repeat;
+  background-size: 100px;
+  width: 120px;
+  height: 60px;
+  display:inline-block;
+}
+
+.star2{
+  background: url(/img/star/star2.png) no-repeat;
+  background-size: 100px;
+  width: 120px;
+  height: 60px;
+  display:inline-block;
+}
+
+.star3{
+  background: url(/img/star/star3.png) no-repeat;
+  background-size: 100px;
+  width: 120px;
+  height: 60px;
+  display:inline-block;
+}
+
+.star4{
+  background: url(/img/star/star4.png) no-repeat;
+  background-size: 100px;
+  width: 120px;
+  height: 60px;
+  display:inline-block;
+}
+
+.star5{
+  background: url(/img/star/star5.png) no-repeat;
+  background-size: 100px;
+  width: 120px;
+  height: 60px;
+  display:inline-block;
+}
+
+.starImg{
+  width: 100px;
+  height: 28px;
+}
+
+.star p{
+	margin-left:105px;
+	width:120px;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+/* 별점 끝 */
 
 .uBoder{
 	border-style:GROOVE;
@@ -111,3 +162,39 @@ pre{
 	line-height: 30px;
 	overflow: auto;
 }
+
+
+/* 라디오버튼 */
+
+.box-radio-input input[type="radio"]{
+  display:none;
+  height: 30px;
+}
+
+.radioNoStar{
+  	display:inline-block;
+	 background: url(/img/star/nostar.png) no-repeat;
+	        border: none;
+	        background-size: 35px;
+			width: 30px;
+			height: 30px;
+	        cursor: pointer;
+}
+
+.radioStar{
+  	display:inline-block;
+	 background: url(/img/star/star.png) no-repeat;
+	        border: none;
+	        background-size: 35px;
+			width: 30px;
+			height: 30px;
+	        cursor: pointer;
+}
+
+
+
+
+
+      
+      
+      

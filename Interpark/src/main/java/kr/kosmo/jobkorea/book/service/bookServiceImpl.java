@@ -49,13 +49,18 @@ public class bookServiceImpl implements bookService{
 	}
 
 	@Override
-	public BookModel bookInfo(String itemId) {
-		return bookDao.bookInfo(itemId);
+	public BookModel bookInfo(String pId) {
+		return bookDao.bookInfo(pId);
 	}
 
 	@Override
 	public void cartAdd(BookModel vo) {
 		bookDao.cartAdd(vo);
+	}
+
+	@Override
+	public String cartInfo(BookModel vo) {
+		return bookDao.cartInfo(vo);
 	}
 
 }

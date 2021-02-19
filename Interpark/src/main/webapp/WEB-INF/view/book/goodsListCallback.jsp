@@ -14,11 +14,11 @@
 			    type : "post",
 			    data : data,
 			    success : function(result){
-					if(result == "success") {
-						//location.reload(true);	// 삭제 후 초기화
-					}else {
-						alert("로그인 먼저해주세요");
-						location.href='/login/login.me'; 
+			    	if(result == "success") {
+			    		//location.reload(true);    // 삭제 후 초기화
+			    	}else {
+			    		alert("로그인 먼저해주세요");
+			    		location.href='/login/login.me';
 					}
 			    },
 			    error : function(){
@@ -71,14 +71,14 @@
 						</div>
 						<div class="author">
 						<c:set var="rStar" value="${list.rStar+((list.rStar%1>0.5)?(1-(list.rStar%1))%1:-(list.rStar%1))}"/>
-							<c:if test="${0 <= rStar and rStar < 1}"><img src="${CTX_PATH }/img/star/star0.png" class="starImg"></c:if>
-							<c:if test="${1 <= rStar and rStar < 2}"><img src="${CTX_PATH }/img/star/star1.png" class="starImg"></c:if>
-							<c:if test="${2 <= rStar and rStar < 3}"><img src="${CTX_PATH }/img/star/star2.png" class="starImg"></c:if>
-							<c:if test="${3 <= rStar and rStar < 4}"><img src="${CTX_PATH }/img/star/star3.png" class="starImg"></c:if>
-							<c:if test="${4 <= rStar and rStar < 5}"><img src="${CTX_PATH }/img/star/star4.png" class="starImg"></c:if>
-							<c:if test="${rStar eq 5}"><img src="${CTX_PATH }/img/star/star5.png" class="starImg"></c:if>
-							${list.rStar } │ 리뷰: ${list.rCount } 건
-						</div>
+                            <c:if test="${0 <= rStar and rStar < 1}"><img src="${CTX_PATH }/img/star/star0.png" class="starImg"></c:if>
+                            <c:if test="${1 <= rStar and rStar < 2}"><img src="${CTX_PATH }/img/star/star1.png" class="starImg"></c:if>
+                            <c:if test="${2 <= rStar and rStar < 3}"><img src="${CTX_PATH }/img/star/star2.png" class="starImg"></c:if>
+                            <c:if test="${3 <= rStar and rStar < 4}"><img src="${CTX_PATH }/img/star/star3.png" class="starImg"></c:if>
+                            <c:if test="${4 <= rStar and rStar < 5}"><img src="${CTX_PATH }/img/star/star4.png" class="starImg"></c:if>
+                            <c:if test="${rStar eq 5}"><img src="${CTX_PATH }/img/star/star5.png" class="starImg"></c:if>
+                            ${list.rStar } │ 리뷰: ${list.rCount } 건
+                        </div>
 						<div class="catagory-name text-center">${list.description}</div>
 					</div>
 				</div>
