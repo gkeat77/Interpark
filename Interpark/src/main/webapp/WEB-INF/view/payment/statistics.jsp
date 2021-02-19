@@ -6,7 +6,12 @@
 
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-	
+
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		
+	<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/bootstrap-datepicker.js"></script>
 	<style>
 		/*datepicer 버튼 롤오버 시 손가락 모양 표시*/
 		.ui-datepicker-trigger{cursor: pointer;}
@@ -18,11 +23,7 @@
 			visibility: hidden;
 		}
 	</style>
-
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
+		
     <!-- Breadcrumb Section Begin -->
      <div class="breacrumb-section">
         <div class="container">
@@ -124,6 +125,10 @@
                                 <div style="width:100%;">
 							        <canvas id="canvas"></canvas>
 							    </div>
+							    
+							    <div style="width:100%;">
+							        <canvas id="canvas2"></canvas>
+							    </div>
                         </div>
                         
                         
@@ -143,27 +148,19 @@
 
 	<script>
 	var total = [];
+	var total2 = [];
 	var days = [];
+	var days2 = [];
+	
 	var daysAry = new Array();
 	var totalAry = new Array();
+
 	
-	<c:forEach items="${days}" var="item1">
-		daysAry.push("${item1}");
-	</c:forEach>
-	
-	<c:forEach items="${total}" var="item1">
-		totalAry.push("${item1}");
-	</c:forEach>
-
-
-
-	for (var i = 0; i < daysAry.length; i++) {
-		total[i] = totalAry[i];
-		days[i] = daysAry[i];
-	}
+	ininChart();
 	
 	$(document).ready(function() {
 		
+		document.getElementById("canvas2").hidden = true;
 		
 		//모든 datepicker에 대한 공통 옵션 설정
         $.datepicker.setDefaults({
@@ -181,23 +178,24 @@
             ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
             ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
             ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-            ,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-            ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                    
+            ,minDate: new Date('2020-01-01')
+            ,maxDate: new Date('2021-12-31')                    
         });
+		
+	
 
         //input을 datepicker로 선언
         $("#datepicker").datepicker();                    
         $("#datepicker2").datepicker();
         
         //From의 초기값을 오늘 날짜로 설정
-        $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
+        $('#datepicker').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
         //To의 초기값을 내일로 설정
-        $('#datepicker2').datepicker('setDate', '+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
+        $('#datepicker2').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
         
         
-        
-        
-        
+        	
+        	
 	}); // onLoad End
 	
 	// ------------------------
@@ -228,6 +226,17 @@
 	    return str;
 	}
 	
+	// date -> yyyy-mm-dd
+	 function getFormatDate(date){
+         var year = date.getFullYear();
+         var month = (1 + date.getMonth());
+         month = month >= 10 ? month : '0' + month;
+         var day = date.getDate();
+         day = day >= 10 ? day : '0' + day;
+         return year + '-' + month + '-' + day;
+     }
+
+	
 
 
 	
@@ -237,30 +246,6 @@
 
 	
 	
-	function goStatistics() {
-		
-		var fromDt = $('#datepicker').val();
-		var toDt = $('#datepicker2').val();
-		var data = {
-				fromDt : fromDt
-				, toDt : toDt 
-			     };
-			   
-			   $.ajax({
-			    url : "/goStatistics.do",
-			    type : "post",
-			    data : data,
-			    success : function(result){
-					if(result.resultMsg == "success") {
-						
-						location.reload(true);	// 삭제 후 초기화
-					}
-			    },
-			    error : function(){
-			     alert("fail");
-			    }
-			   });
-	}
 	
 	
 	// chart
@@ -324,5 +309,149 @@
         }
     });
 	
+	
+
+	function ininChart() {
+		<c:forEach items="${days}" var="item1">
+			daysAry.push("${item1}");
+		</c:forEach>
+		
+		<c:forEach items="${total}" var="item2">
+			totalAry.push("${item2}");
+		</c:forEach>
+
+		for (var i = 0; i < daysAry.length; i++) {
+			total[i] = totalAry[i];
+			days[i] = daysAry[i];
+		}
+		
+	}
+	function getTotal(total, day) {
+		total2=total;
+		days2=day;
+	}
+	
+	
+	function goStatistics() {
+
+		// new
+		let date1 = new Date();
+		// to
+		var pickerDate =$('#datepicker2').val();
+		let date2 = new Date(pickerDate);
+		// from 
+		var pickerFrom =$('#datepicker').val();
+		let date3 = new Date(pickerFrom);
+		// 차이
+		var dateDiff = Math.ceil((date2.getTime()-date3.getTime())/(1000*3600*24));
+		
+		if(date1<date2){	// to값이 현재날짜보다 클 경우
+			alert("날짜를 확인해 주세요");
+			$('#datepicker2').val(getFormatDate(date1));
+		}else if(date3 > date2) {
+			alert("from이 더크다");
+		}else if(date3.getTime() == date2.getTime()) {
+			alert("같다");	
+		}else if(dateDiff > 46) {
+			alert("45일을 초과할 수 없습니다");
+		}else {
+			
+			document.getElementById("canvas2").hidden = false;
+			document.getElementById("canvas").hidden = true;
+			
+			
+			var fromDt = $('#datepicker').val();
+			var toDt = $('#datepicker2').val();
+			var data = {
+					fromDt : fromDt
+					, toDt : toDt 
+				     };
+				   
+				   $.ajax({
+				    url : "/goStatistics.do",
+				    type : "post",
+				    data : data,
+				    success : function(result){
+						if(result.resultMsg == "success") {
+							//location.reload(true);	// 삭제 후 초기화
+							getTotal(result.total2, result.days2);
+							goChart2();
+						}
+				    },
+				    error : function(){
+				     alert("fail");
+				    }
+				   });
+		}
+	}
+	
+	
+	
+	function goChart2() {
+		// chart2
+		new Chart(document.getElementById("canvas2"), {
+	        type: 'line',
+	        data: {
+	            labels: days2,
+	            datasets: [{
+	                label: '매출',
+	                data: total2
+	                ,
+	                borderColor: "rgba(255, 201, 14, 1)",
+	                backgroundColor: "rgba(255, 201, 14, 0.5)",
+	                fill: true,
+	                lineTension: 0
+	            }]
+	        },
+	        options: {
+	            responsive: true,
+	            title: {
+	                display: true,
+	                text: 'Interpark'
+	            },
+	            tooltips: {
+	                mode: 'index',
+	                intersect: false,
+	            },
+	            hover: {
+	                mode: 'nearest',
+	                intersect: true
+	            },
+	            scales: {
+	                xAxes: [{
+	                    display: true,
+	                    scaleLabel: {
+	                        display: true
+	                        //labelString: 'x축'
+	                    }
+	                }],
+	                yAxes: [{
+	                    display: true,
+	                    ticks: {
+	                        suggestedMin: 0,
+	                        beginAtZero: true,
+	                        callback: function(value, index) {
+	                            //if(value.toString().length > 8) return (Math.floor(value / 100000000)).toLocaleString("ko-KR") + "억";
+	                            //else if(value.toString().length > 4) return (Math.floor(value / 10000)).toLocaleString("ko-KR") + "만";
+	                            //else return value.toLocaleString("ko-KR");
+	                            if (value ==1){
+	                            } 
+	                            else return value.toLocaleString("ko-KR");
+	                            // y축 콤마 처리
+	                          }
+	                    },
+	                    scaleLabel: {
+	                        display: true
+	                        //labelString: 'y축'
+	                    }
+	                }]
+	            }
+	        }
+	    });
+	
+	
+	}
 	</script>
 </html>
+
+

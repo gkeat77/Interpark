@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -361,31 +362,15 @@ public class PaymentController {
 	public Map<String, Object> goStatistics(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
 	   Map<String, Object> resultMap = new HashMap<String, Object>();
 	   String result="";
-	   String fromDt = (String) paramMap.get("fromDt");
-	   String toDt = (String) paramMap.get("toDt");
+	   HashMap<String, Object> map = new HashMap<String, Object>();
+	   map = (HashMap<String, Object>) paymentService.goChart(paramMap);
+	   
+	   ArrayList<String> days = (ArrayList<String>) map.get("days");
+	   ArrayList<String> total = (ArrayList<String>) map.get("total");
+	   resultMap.put("days2", days);
+	   resultMap.put("total2", total);
 	   
 	   
-	   //resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
-	   
-	   SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-	   String format_time1 = f.format (System.currentTimeMillis());
-		
-		Date d1 = f.parse(fromDt);
-		Date d2 = f.parse(toDt);
-		long diff = d2.getTime() - d1.getTime();
-		long mm = diff / 60000;
-		long hh = diff / 3600000;
-		long day = hh/24;
-		
-		System.out.println(day);
-		
-		if(day == 0) {
-			//paymentService.completeDelivery(ad.getPayNo());
-			// d1
-			
-		}
-		
-		
 	   result="success";
 	   resultMap.put("resultMsg", result); 
 	   
