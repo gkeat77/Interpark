@@ -14,9 +14,8 @@
 			    type : "post",
 			    data : data,
 			    success : function(result){
-					if(result.resultMsg == "success") {
-						alert("카트에 등록되었습니다");
-						location.reload(true);	// 삭제 후 초기화
+					if(result == "success") {
+						//location.reload(true);	// 삭제 후 초기화
 					}else {
 						alert("로그인 먼저해주세요");
 						location.href='/login/login.me'; 
@@ -71,13 +70,15 @@
 							</c:if>
 						</div>
 						<div class="author">
-						<c:if test="${0 <= list.rStar  and list.rStar <= 1}"><img src="${CTX_PATH}/img/star/star0.png" class="star"></c:if>
-						<c:if test="${1 < list.rStar  and list.rStar < 2.5}"><img src="${CTX_PATH}/img/star/star1.png" class="star"></c:if>
-						<c:if test="${2.5 <= list.rStar  and list.rStar < 4.5}"><img src="${CTX_PATH}/img/star/star2.png" class="star"></c:if>
-						<c:if test="${4.5 <= list.rStar  and list.rStar < 6.5}"><img src="${CTX_PATH}/img/star/star3.png" class="star"></c:if>
-						<c:if test="${6.5 <= list.rStar  and list.rStar < 8.5}"><img src="${CTX_PATH}/img/star/star4.png" class="star"></c:if>
-						<c:if test="${8.5 < list.rStar}"><img src="${CTX_PATH}/img/star/star5.png" class="star"></c:if>
-						${list.rStar } │ 리뷰: ${list.rCount } 건</div>	
+						<c:set var="rStar" value="${list.rStar+((list.rStar%1>0.5)?(1-(list.rStar%1))%1:-(list.rStar%1))}"/>
+							<c:if test="${0 <= rStar and rStar < 1}"><img src="${CTX_PATH }/img/star/star0.png" class="starImg"></c:if>
+							<c:if test="${1 <= rStar and rStar < 2}"><img src="${CTX_PATH }/img/star/star1.png" class="starImg"></c:if>
+							<c:if test="${2 <= rStar and rStar < 3}"><img src="${CTX_PATH }/img/star/star2.png" class="starImg"></c:if>
+							<c:if test="${3 <= rStar and rStar < 4}"><img src="${CTX_PATH }/img/star/star3.png" class="starImg"></c:if>
+							<c:if test="${4 <= rStar and rStar < 5}"><img src="${CTX_PATH }/img/star/star4.png" class="starImg"></c:if>
+							<c:if test="${rStar eq 5}"><img src="${CTX_PATH }/img/star/star5.png" class="starImg"></c:if>
+							${list.rStar } │ 리뷰: ${list.rCount } 건
+						</div>
 						<div class="catagory-name text-center">${list.description}</div>
 					</div>
 				</div>
