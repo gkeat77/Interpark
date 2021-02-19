@@ -173,7 +173,6 @@ function flist_clean_search(){
                     </div>
                 </div>
                 <!--상품정보 시작  -->
-
 					<div class="row">
 					  	<input type="hidden" value="${member}" id="session"/>
 						<c:forEach var="list" items="${eventList }">
@@ -186,7 +185,6 @@ function flist_clean_search(){
 							</div>
 						</c:forEach>
 					</div>
-
         		</div>
         	</div>
     </section>
