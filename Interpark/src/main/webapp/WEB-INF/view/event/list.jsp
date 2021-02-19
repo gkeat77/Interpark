@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>
 <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 
@@ -176,13 +177,37 @@ function flist_clean_search(){
 					<div class="row">
 					  	<input type="hidden" value="${member}" id="session"/>
 						<c:forEach var="list" items="${eventList }">
-							<div class="col-lg-4 col-sm-6">
+							<%-- <div class="col-lg-4 col-sm-6">
 								<div class="product-item">
 									<div class="pi-pic">
 										<span>"${list.e_title}"</span>
 									</div>
 								</div>
-							</div>
+							</div> --%>
+							<div class="eventList" style="height: 297px;">
+			                      <div class="img">
+			                      	
+			                        <a href="javascript:moveTemplate('','','238225','','http://book.interpark.com/event/EventFntTemPlate.do?_method=GenTemplate&amp;sc.evtNo=238225&amp;bid1=Eventzone&amp;bid2=Eventbenefit&amp;bid3=mdrecomm&amp;bid4=list','002','','&amp;bid1=Eventzone&amp;bid2=Eventbenefit&amp;bid3=mdrecomm&amp;bid4=list');"></a>
+			                        <a href="javascript:moveTemplate('','','238225','002','http://book.interpark.com/event/EventFntTemPlate.do?_method=GenTemplate&amp;sc.evtNo=238225','002','','&amp;bid1=Eventzone&amp;bid2=Eventbenefit&amp;bid3=mdrecomm&amp;bid4=list');"><img src="http://bimage.interpark.com/milti/renewPark/milti/down/ibss/20210122/0122dbfh65.jpg" style="width:190px;height:65px;" alt=""></a>
+			                         	
+			                      </div>
+			                      <div class="binfo">
+			                        <div class="icon">
+			                          
+			                        </div>
+			                        <div class="text">
+			                          <a class="name" href="javascript:moveTemplate('','','238225','','http://book.interpark.com/event/EventFntTemPlate.do?_method=GenTemplate&amp;sc.evtNo=238225&amp;bid1=Eventzone&amp;bid2=Eventbenefit&amp;bid3=mdrecomm&amp;bid4=list','002','','&amp;bid1=Eventzone&amp;bid2=Eventbenefit&amp;bid3=mdrecomm&amp;bid4=list');">"${list.e_title}"</a>
+			                          
+			                          <p>
+				                          <fmt:formatDate value="${list.e_sdate}" pattern="yyyy-MM-dd"/>
+				                          <span>-</span>
+				                          <fmt:formatDate value="${list.e_edate}" pattern="yyyy-MM-dd"/>
+			                          </p>
+			                          
+			                          <p class="detail">"${list.e_content}"</p>
+			                        </div>
+			                      </div>
+			                    </div>
 						</c:forEach>
 					</div>
         		</div>
