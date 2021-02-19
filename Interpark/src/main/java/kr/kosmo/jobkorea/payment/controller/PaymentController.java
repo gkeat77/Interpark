@@ -164,6 +164,8 @@ public class PaymentController {
 			  paymentService.useCoupon(arr[i]);
 		  }
 	  }
+	  // mileage
+	  System.out.println(vo.getMileage());
 	  paymentService.payment(vo);
 	  mav.addObject("userInfo",vo);
 	  mav.setViewName("payment/paymentResult");
