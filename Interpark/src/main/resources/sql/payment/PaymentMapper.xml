@@ -22,7 +22,6 @@
 <update id="cartUpdate" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
 UPDATE CART
 SET CART_STOCK = #{stock}
-	, MILEAGE = #{stock} * #{mileage} 
 WHERE CART_NO = #{cartNo}
 </update>
 
@@ -33,13 +32,15 @@ SELECT
     , CART_PRICE AS price
     , CART_STOCK AS stock
     , CART_IMG  AS bookImg
+    , MILEAGE AS mileage
 FROM CART 
 <if test="cartNos!=null">
 				WHERE  
 				<foreach collection="cartNos" item="arr" separator="or">
 					CART_NO IN ( #{arr} )
 				</foreach>
-				AND ORDER_YN != 'Y'	
+				AND ORDER_YN != 'Y'
+				AND loginID = #{loginID}	
 </if>
 </select>
 
@@ -55,6 +56,7 @@ INSERT INTO ORDERS
 	, loginID
 	, DC_PRICE
 	, COUPON_NO
+	, MILEAGE
 )
 VALUES
 (
@@ -66,6 +68,7 @@ VALUES
 	, #{loginID}
 	, #{couponPrice}
 	, #{couponNos}
+	, #{mileage}
 )
 </insert>
 
