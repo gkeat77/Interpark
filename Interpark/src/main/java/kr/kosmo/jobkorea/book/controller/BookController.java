@@ -112,8 +112,9 @@ public class BookController {
 		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 		   if(rm != null) {
 			   BookModel bookInfo = booksv.bookInfo(pId);
+			   bookInfo.setLoginID(rm.getLoginID());
 			   // 같은 상품이 있으면 add x
-			   String cartBookTtitle = booksv.cartInfo(pId);
+			   String cartBookTtitle = booksv.cartInfo(bookInfo);
 			   if(bookInfo.getTitle().equals(cartBookTtitle)) {
 				   result="cartAlready";
 			   }else {
