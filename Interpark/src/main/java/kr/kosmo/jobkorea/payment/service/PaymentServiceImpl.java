@@ -1,12 +1,14 @@
 package kr.kosmo.jobkorea.payment.service;
 
 import java.text.DateFormat;
-
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -236,8 +238,63 @@ public class PaymentServiceImpl implements PaymentService{
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("days", days);
 		map.put("total", result);
-		//System.out.println(todayTotal);
+		return map;
+	}
+
+
+
+
+	@Override
+	public Map<String, Object> goChart(Map<String, Object> paramMap) throws Exception {
 		
+		String fromDt = (String) paramMap.get("fromDt");
+		String toDt = (String) paramMap.get("toDt");
+		   
+
+		   
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		String format_time1 = f.format (System.currentTimeMillis());
+		
+		Date d1 = f.parse(fromDt);
+		Date d2 = f.parse(toDt);
+		long diff = d2.getTime() - d1.getTime();
+		long mm = diff / 60000;
+		long hh = diff / 3600000;
+		long day = hh/24;	// 날짜 차이
+		
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		
+		c1.setTime(d1);
+		c2.setTime(d2);
+		
+		ArrayList<String> days = new ArrayList<>();
+		ArrayList<String> result = new ArrayList<>();
+		
+		
+		
+		while( c1.compareTo( c2 ) !=1 ){
+			String strDate = f.format(c1.getTime()); // 2021-02-19이런식으로 출력됌
+			days.add(strDate);
+			//시작날짜 + 1 일
+			c1.add(Calendar.DATE, 1);
+		}
+		
+		for (String ad : days) {
+			PaymentModel vo = new PaymentModel();
+			vo = paymentDao.defaultChart(ad);
+			result.add(vo.getTotalPrice());
+		}
+		
+		System.out.println(day);
+		
+		if(day == 0) {
+			//paymentService.completeDelivery(ad.getPayNo());
+			// d1
+		}
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("days", days);
+		map.put("total", result);
 		return map;
 	}
 
