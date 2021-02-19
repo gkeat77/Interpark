@@ -1,8 +1,10 @@
 package kr.kosmo.jobkorea.payment.controller;
 
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.kosmo.jobkorea.book.model.BookModel;
+import kr.kosmo.jobkorea.book.service.bookService;
 import kr.kosmo.jobkorea.common.comnUtils.ComnUtil;
 import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.model.Criteria;
@@ -37,22 +41,52 @@ public class PaymentController {
 
 	@Autowired
 	PaymentService paymentService;
-   private final Logger logger = LogManager.getLogger(this.getClass());
+	
+	@Autowired
+	bookService booksv;
+	
+	private final Logger logger = LogManager.getLogger(this.getClass());
 
    
    @RequestMapping("/cartList.do")
-   public String index(Model model, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
+   public ModelAndView index(Model model, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
 
+	   ModelAndView mav = new ModelAndView();
 	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
-	   if(rm != null) {
-		   String loginID = rm.getLoginID();
-		   model.addAttribute("cartList", paymentService.getCartList(loginID));
-		   model.addAttribute("cartCnt",paymentService.getCartList(loginID).size());
-	   }
 	   
+	   String pId = request.getParameter("pId");
+	   // 도서상품 -> buy버튼 
+	   if(pId != null) {
+		   // cart에 존재하는지 check 후 insert
+		   BookModel bookInfo = booksv.bookInfo(pId);
+		   bookInfo.setLoginID(rm.getLoginID());
+		   String cartBookTtitle = booksv.cartInfo(bookInfo);
+		   if(bookInfo.getTitle().equals(cartBookTtitle)) { // check
+			   mav.addObject("check", 1);
+			   mav.setViewName("/payment/cartList"); // 빈 카트로 페이지 이동해서 jsp해서 해결
+		   }else {
+			   bookInfo.setLoginID(rm.getLoginID());
+			   booksv.cartAdd(bookInfo);
+			   
+			   // cartList
+			   String loginID = rm.getLoginID();
+			   mav.addObject("cartList", paymentService.getCartList(loginID));
+			   mav.addObject("cartCnt",paymentService.getCartList(loginID).size());
+			   mav.setViewName("/payment/cartList");
+		   }
+	   }else {
+		   if(rm != null) {
+			   String loginID = rm.getLoginID();
+			   mav.addObject("cartList", paymentService.getCartList(loginID));
+			   mav.addObject("cartCnt",paymentService.getCartList(loginID).size());
+			   mav.setViewName("/payment/cartList");
+		   }else {
+			   mav.setViewName("/payment/cartList");
+		   }
+	  }
       logger.info("+ Start Payment.cartList.do");
-      return "/payment/cartList";
+      return mav;
    }
    
    
@@ -72,10 +106,6 @@ public class PaymentController {
 	   logger.info("+ Start Payment.paymentForm.do");
 	   ModelAndView mav = new ModelAndView();
 
-	   System.out.println(req.getParameter("cartNos"));
-	   System.out.println(req.getParameter("cartStocks"));
-	   System.out.println(req.getParameter("mileages"));
-	   
 	   // cartList 값이 수정되었을 수도 있으므로 stock update
 	   String cartNos = req.getParameter("cartNos");
 	   String[] cartNosArray = cartNos.split(",");
@@ -84,13 +114,10 @@ public class PaymentController {
 	   String cartStocks = req.getParameter("cartStocks");
 	   String[] cartStocksArray = cartStocks.split(",");
 	   
-	   String mileages = req.getParameter("mileages");
-	   String[] mileagesArray = mileages.split(",");
 	   for (int i = 0; i < cartStocksArray.length; i++) {
 		   PaymentModel vo = new PaymentModel();
 		   vo.setStock(Integer.parseInt(cartStocksArray[i]));
 		   vo.setCartNo(cartNosArray[i]);
-		   vo.setMileage(mileagesArray[i]);
 		   paymentService.cartUpdate(vo);
 	   }
 	   
@@ -105,6 +132,7 @@ public class PaymentController {
 	   //getCart
 	   HashMap<String, Object> map = new HashMap<String, Object>();
 	   map.put("cartNos", cartNosArray);
+	   map.put("loginID", loginID);
 	   
 	   // 각 카트에 담인 애들 결되되면 카트리스트에 보이지 않게 하기 위해서
 	   mav.addObject("totalPrice",totalPrice);
@@ -136,6 +164,8 @@ public class PaymentController {
 			  paymentService.useCoupon(arr[i]);
 		  }
 	  }
+	  // mileage
+	  System.out.println(vo.getMileage());
 	  paymentService.payment(vo);
 	  mav.addObject("userInfo",vo);
 	  mav.setViewName("payment/paymentResult");
@@ -334,31 +364,15 @@ public class PaymentController {
 	public Map<String, Object> goStatistics(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
 	   Map<String, Object> resultMap = new HashMap<String, Object>();
 	   String result="";
-	   String fromDt = (String) paramMap.get("fromDt");
-	   String toDt = (String) paramMap.get("toDt");
+	   HashMap<String, Object> map = new HashMap<String, Object>();
+	   map = (HashMap<String, Object>) paymentService.goChart(paramMap);
+	   
+	   ArrayList<String> days = (ArrayList<String>) map.get("days");
+	   ArrayList<String> total = (ArrayList<String>) map.get("total");
+	   resultMap.put("days2", days);
+	   resultMap.put("total2", total);
 	   
 	   
-	   //resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
-	   
-	   SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-	   String format_time1 = f.format (System.currentTimeMillis());
-		
-		Date d1 = f.parse(fromDt);
-		Date d2 = f.parse(toDt);
-		long diff = d2.getTime() - d1.getTime();
-		long mm = diff / 60000;
-		long hh = diff / 3600000;
-		long day = hh/24;
-		
-		System.out.println(day);
-		
-		if(day == 0) {
-			//paymentService.completeDelivery(ad.getPayNo());
-			// d1
-			
-		}
-		
-		
 	   result="success";
 	   resultMap.put("resultMsg", result); 
 	   

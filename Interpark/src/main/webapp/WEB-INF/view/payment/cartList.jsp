@@ -28,7 +28,16 @@
     		location.href="/login/login.me";
     	</script>
 
+    </c:when>	
+    <c:when test="${check eq 1}">
+    
+    	<script>
+    		alert("카트에 이미 상품이 있습니다");
+    		location.href="/cartList.do";
+    	</script>
+
     </c:when>
+    
     <c:otherwise>
 
     <section class="shopping-cart spad">
@@ -201,8 +210,8 @@
 		var value = $('#desNum'+""+cartNo).val();
 		var stock = parseInt(value)-1;
 		$('#desNum'+""+cartNo).val(stock);
-		if(stock <0 ) {
-			$('#desNum'+""+cartNo).val("0");
+		if(stock <=0 ) {
+			$('#desNum'+""+cartNo).val("1");
 		}else {
 			var oldPrice =$('#price'+""+cartNo).html();
 	        oldPrice.slice(0,-1);
@@ -236,13 +245,11 @@
 	function goPayment(){
 		let cartNos="";	// 배열로 controller넘기는게 어려워서 string 형식으로 넘김
 		let cartStocks="";
-		let mileages="";
 		var cartNoArr = new Array();
 		
 		<c:forEach items="${cartList}" var="item1">
 			cartNos+=${item1.cartNo}+",";
 			cartNoArr.push("${item1.cartNo}");
-			mileages+=${item1.mileage}+",";
 		</c:forEach>
 		
 		
@@ -276,16 +283,10 @@
 		input3.setAttribute("name", "cartStocks"); 
 		input3.setAttribute("value", cartStocks.slice(0,-1));
 		
-		var input4 = document.createElement('input'); 
-		input4.setAttribute("type", "hidden"); 
-		input4.setAttribute("name", "mileages"); 
-		input4.setAttribute("value", mileages.slice(0,-1));
-		
 		
 		newForm.appendChild(input1);
 		newForm.appendChild(input2);
 		newForm.appendChild(input3);
-		newForm.appendChild(input4);
 		
 		document.body.appendChild(newForm);
 		
@@ -327,7 +328,7 @@
 					}
 			    },
 			    error : function(){
-			     alert("fall");
+			     alert("fail");
 			    }
 			   });
 		}else{
@@ -335,7 +336,7 @@
 		
 		}
 	
-	
+	// 도서 이미지 클릭시 상세정보
 	function bookInfo(pId) {
 		url = "/book/goodsDetail.do?pId=";	
 		location.href = url+pId;

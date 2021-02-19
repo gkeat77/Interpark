@@ -2,7 +2,9 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 
 	
@@ -137,6 +139,12 @@ input[type="radio"]:checked + label span {
                                 <input type="text" class="inputTxt p100"
 												name="userAddress1" id="loginaddr1" />
                             </div>
+                            
+                            <div class="col-lg-12">
+                                <label for="town">마일리지<span>:&nbsp;${userInfo.mileage}</span></label>
+                                <input type="text" class="inputTxt p100"
+												name="" id="userMileage"  onchange="mileageCheck(this.value)" placeholder="사용하실 마일리지를 입력해주세요"/>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -163,14 +171,29 @@ input[type="radio"]:checked + label span {
                             <div class="order-total">
                                 <ul class="order-table">
                                     <li>Product <span>Total</span></li>
+                                    	<c:set var="mileage" value="0" />
+                                    	<c:set var="mileage2" value="0" />
 	                                    <c:forEach var="cartList" items="${cartList}" >
-	                                    	<li class="fw-normal">${cartList.bookName} x ${cartList.stock } <span><fmt:formatNumber pattern="###,###,###" value="${cartList.stock * cartList.price}" />원</span></li>
+	                                    	<li class="fw-normal">
+	                                    	<c:if test="${fn:length(cartList.bookName) > 30}">
+											    <c:out value="${fn:substring(cartList.bookName,0,30)}" />...                    
+											</c:if>
+											<c:if test="${fn:length(cartList.bookName) <= 30}">
+											    ${cartList.bookName}
+											 </c:if>
+	                                    	x ${cartList.stock } 
+	                                    	<span><fmt:formatNumber pattern="###,###,###" value="${cartList.stock * cartList.price}" />원</span></li>
+	                                    	<c:set var="mileage" value="${cartList.mileage * cartList.stock}"/>
+	                                    	<c:set var="mileage2" value="${mileage+ mileage2}"/>
 	                                    </c:forEach>
                                     <!-- <li class="fw-normal">Subtotal <span>$240.00</span></li> -->
                                     <!--bookName, price, stock  -->
                                     <li class="total-price">Total <span id="paymentPrice">원</span>
+                                    <li class="total-price">Mileage<span id="mileage"><c:out value="${mileage2}"/>원</span>
                                     <input type="hidden" value="${totalPrice}" name="totalPrice" id="totalPrice">
                                     <input type="hidden" value="${cartNos}" name="cartNos">
+                                    <input type="hidden" id="totalMileage" value="${userInfo.mileage}">
+                                    <input type="hidden" id="reset" value="">
                                     </li>
                                 </ul>
                                 <!--  
@@ -192,6 +215,7 @@ input[type="radio"]:checked + label span {
                                 </div>
                                 -->
                                 <div class="order-btn">
+                                	<button type="button"  onclick="goCancel()" class="site-btn place-btn">cancel</button>
                                     <button type="button"  onclick="goPayment()" class="site-btn place-btn">Place Order</button>
                                 </div>
                             </div>
@@ -201,6 +225,7 @@ input[type="radio"]:checked + label span {
                 <input type="hidden" value="${userInfo.loginID }" name="loginID" >
                 <input type="hidden" value="" name="couponPrice" id="couponPrice">
                 <input type="hidden" value="" name="couponNos" id="couponNos">
+                <input type="hidden" value="${mileage2}" name="mileage" id="mileage">
             </form>
         </div>
     </section>
@@ -214,6 +239,7 @@ input[type="radio"]:checked + label span {
 
 	<script>
 	
+	var sw=0;
 	
 	
 	$(document).ready(function() {
@@ -328,6 +354,17 @@ input[type="radio"]:checked + label span {
 	    });
 	 
 		
+		
+		// 숫자만 
+		var regExp = /[^0-9]/gi;    
+		$("#userMileage").keyup(function(){ numCheck($(this)); });
+
+		function numCheck(selector) {
+		    var tempVal = selector.val();
+		    selector.val(tempVal.replace(regExp, ""));
+		}
+		
+		
 	    
 	}); // onLoad End
 	
@@ -410,6 +447,10 @@ input[type="radio"]:checked + label span {
 	
 
 	
+	
+	 
+	 
+	
 	// ------------------------
 	// function
 	// ------------------------
@@ -421,54 +462,91 @@ input[type="radio"]:checked + label span {
 
 	
 	function goPayment() {
-		
+		var confirm_val = confirm("결제금액을 확인하셨나요??");
 
-		if(!emailRule.test($("input[id='userEamil']").val())) {            
-					alert("이메일 양식을 확인해주세요");
-		            return false;
-		}
-		
-		if(!regExp.test($("input[id='userPhone']").val())) {            
-			alert("전화번호 양식 확인해주세요");
+		if(confirm_val) {
+			if(!emailRule.test($("input[id='userEamil']").val())) {            
+			alert("이메일 양식을 확인해주세요");
             return false;
-}
+			}
+			
+			if(!regExp.test($("input[id='userPhone']").val())) {            
+				alert("전화번호 양식 확인해주세요");
+		        return false;
+			}
+			
+			// 현재값
+			nowTotal = fn($('#paymentPrice').html());
+			// 최초값
+			oldTotal = $('#totalPrice').val();
+			
+			
+			// couponPrice
+			if(oldTotal - nowTotal == 0) {
+				$('#couponPrice').val(0);
+			}else {//////////////////////이부분 수정이 되어야함 ////(마일리지로 인한 할인이 들어가면 null에러 뜸 )
+				$('#couponPrice').val(oldTotal - nowTotal);
+			}
+			
+			
+			
+			// couponNo
+			let couponNos="";
+			var couponNosArr = new Array();
+				
+			$('input:checkbox[name="cc"]').each(function() {
+		        	if(this.checked){
+		        		var couponNo = fn(this.id); // 함수써서 숫자만 추출
+		        		couponNos+=couponNo+",";
+		        	}
+		        });	
+			$('#couponNos').val(couponNos.slice(0,-1));
 		
-		// 현재값
-		nowTotal = fn($('#paymentPrice').html());
-		// 최초값
-		oldTotal = $('#totalPrice').val();
+			
+			// post
+			$('#totalPrice').val(nowTotal);
+			var form = document.form;
+			form.method="post";
+		    form.action="payment.do";
+	    	form.submit();	
+		    
+				    
+			}else {
+			}
+	}
+	
+	function goCancel() {
+		location.href="/cartList.do";
+	}
+	
+	function mileageCheck(mileage) {
+		var inputMileage = parseInt(mileage);
+		var totalMileage = parseInt($('#totalMileage').val());
 		
-		
-		// couponPrice
-		if(oldTotal - nowTotal == 0) {
-			$('#couponPrice').val(0);
+		if(totalMileage < inputMileage) {
+			alert("현재 마일리지보다 큽니다");
+			$('#userMileage').val(0);
 		}else {
-			$('#couponPrice').val(oldTotal - nowTotal);
+			// total에서 깎아야함
+			var confirm_val = confirm("마일리지"+inputMileage+"사용하시겠습니까??");
+			if(confirm_val) {
+				reset();
+				oldTotal = fn($('#paymentPrice').html());
+				readTotal = oldTotal - inputMileage;
+				$('#paymentPrice').html(comma(readTotal)+"원");
+				$('#reset').val(1);
+			}else {
+			}
+			
 		}
 		
-		
-		
-		// couponNo
-		let couponNos="";
-		var couponNosArr = new Array();
-			
-		$('input:checkbox[name="cc"]').each(function() {
-	        	if(this.checked){
-	        		var couponNo = fn(this.id); // 함수써서 숫자만 추출
-	        		couponNos+=couponNo+",";
-	        	}
-	        });	
-		$('#couponNos').val(couponNos.slice(0,-1));
-
-		
-		// post
-		$('#totalPrice').val(nowTotal);
-		var form = document.form;
-		form.method="post";
-	    form.action="payment.do";
-	    form.submit();
-	    
-	    
+	}
+	
+	function reset(){
+		if($('#reset').val()==1) {
+			alert("마일리지를 다시 입력해주세요");
+			location.reload(true);	
+		}
 	}
 	</script>
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kosmo.jobkorea.event.dao.eventDao">
+
+	<!--카테고리 리스트 -->
+	<select id="cateList" resultType="kr.kosmo.jobkorea.event.model.CategoryModel">
+		<!-- select * FROM CATEGORY WHERE categoryId IN (205, 119, 102, 120, 103, 210, 217, 400) order by categoryId -->
+		
+		<!-- 
+		SELECT * FROM CATEGORY 
+		<where> 
+		level=#{level}
+		<if test="(cateClass != null) and (!cateClass.equals(''))">
+		and cateClass=#{cateClass}
+		</if>
+		</where>
+		 -->
+		 
+		 select * from CATEGORY where categoryName in ('문학', '인문', '예술/대중문화', '해외주문도서', 'DVD', '대학교재/전문서적') and level in (0,1)
+	</select>
+	
+	<select id="eventList" resultType="kr.kosmo.jobkorea.event.model.EventModel">
+		select * from EVENT
+	</select>
+	
+	<!-- 상품 검색 sql -->
+	<sql id="search">
+		<where>
+			display ='y' and sellState='y'
+		<choose>	
+		<when test="(cateClass != null) and (!cateClass.equals(''))">
+			and categoryId like CONCAT(#{cateClass}, '__')
+		</when>	
+		<when test="(cateId != null) and (!cateId.equals(''))">
+			and categoryId=#{cateId}
+		</when>
+		</choose>
+		<if test="(searchKey != null) and (!searchKey.equals(''))">
+		and
+			<choose>
+				<when test="(searchType != null) and (searchType eq 'all'.toString())">
+					(
+					b.P_ID = #{searchKey } or
+					title Like CONCAT('%', #{searchKey }, '%') 
+					)
+				</when>
+				<when test="(searchType != null) and (searchType eq 'title'.toString())">
+					title Like CONCAT('%', #{searchKey }, '%') 
+				</when>
+				<when test="(searchType != null) and (searchType eq 'P_ID'.toString())">
+					b.P_ID = #{searchKey }
+				</when>
+			</choose>	
+		</if>
+		</where>
+	</sql>
+	
+	<!-- 상품 갯수 -->
+	<select id="eventCount" resultType="Integer">
+		SELECT count(P_ID) FROM BOOK_GOODS b
+		<include refid="search"/>
+	</select>
+
+	
+
+
+	
+</mapper>
