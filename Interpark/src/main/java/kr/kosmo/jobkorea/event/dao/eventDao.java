@@ -15,7 +15,7 @@ public interface eventDao {
 	
 	public List<EventModel> eventList(Map<String,Object> paramMap);
 	
-//	public int eventCount(Map<String,Object> paramMap);
+	public int eventCount(Map<String,Object> paramMap);
 //	
 //	public BookModel goodsDetail(Map<String,Object> paramMap);
 //	

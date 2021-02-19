@@ -38,10 +38,10 @@ public class eventServiceImpl implements eventService{
 		return eventDao.eventList(paramMap);
 	}
 
-//	@Override
-//	public int eventCount(Map<String, Object> paramMap) {
-//		return eventDao.eventCount(paramMap);
-//	}
+	@Override
+	public int eventCount(Map<String, Object> paramMap) {
+		return eventDao.eventCount(paramMap);
+	}
 //
 //	@Override
 //	public BookModel goodsDetail(Map<String, Object> paramMap) {

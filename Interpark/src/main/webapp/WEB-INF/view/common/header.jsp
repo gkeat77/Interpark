@@ -214,10 +214,10 @@
 								</c:if>
                             </ul>
                         </li>
-                        <!-- <li><a href="/event/eventListPage.do">이벤트</a>
-                        </li> -->
-                         <li><a href="/event/eventList.do">이벤트</a>
-                        </li>                        
+                        <li><a href="/event/eventListPage.do">이벤트</a>
+                        </li>
+                         <!-- <li><a href="/event/eventList.do">이벤트</a>
+                        </li> -->                        
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>

@@ -37,11 +37,12 @@ public class EventController {
 	
 	
 	@RequestMapping("eventListPage.do")
-	public 	String goodsListPage(Model model, HttpServletRequest request) throws Exception {
+	public 	String eventListPage(Model model, HttpServletRequest request) throws Exception {
 		//상위 카테고리 불러오기
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("level", 0);
 		List<CategoryModel> cateUpperList= eventsv.cateList(paramMap);
+		System.out.println("상위카테고리"+cateUpperList);
 		
 		//상위 카테고리에 하위 카테고리넣기
 		for (int i = 0; i < cateUpperList.size(); i++) {
@@ -51,20 +52,34 @@ public class EventController {
 		}
 		model.addAttribute("cateList", cateUpperList);
 		
-		return "event/list";
+		return "event/eventList";
 	}
 	
 	@RequestMapping("eventList.do")
-	public 	String goodsList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	public 	String eventList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 
+		logger.info(">>>>>>>>>>paramMap"+paramMap);
+		
+		logger.info("파람맵"+paramMap.getClass().getName());
+		logger.info(">>>>>>>>>>>>> 널 체크"+ (String) paramMap.get("currentPage")); // null
+		
 		List<EventModel> eventList = new ArrayList<>();
+//		int currentPage = Integer.parseInt((String) paramMap.get("currentPage"));
+//		int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));		
+//		int pageIndex = (currentPage - 1) * pageSize;
+//		
+//		paramMap.put("pageIndex", pageIndex);
+//		paramMap.put("pageSize", pageSize);
 
 		eventList = eventsv.eventList(paramMap);
 		
+		int totalCnt= eventsv.eventCount(paramMap);
+		
 		model.addAttribute("eventList", eventList);
-
-		return "event/list";
+		model.addAttribute("totalCnt", totalCnt);
+		
+		return "event/eventListCallback";
 	}
 	
 }
