@@ -1,4 +1,4 @@
-﻿ackage kr.kosmo.jobkorea.book.controller;
+﻿package kr.kosmo.jobkorea.book.controller;
 
 
 import org.apache.log4j.LogManager;
