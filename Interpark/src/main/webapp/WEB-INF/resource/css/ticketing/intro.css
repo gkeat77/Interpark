@@ -1,0 +1,185 @@
+@charset "utf-8";
+
+ul {
+	text-decoration: none;
+	list-style-type: none;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 0;
+	padding:0;
+}
+
+a,p { margin: 0; padding: 0; text-decoration: none;}
+img {display: block; margin: auto}
+
+.main {height: 500px;}
+.menu {
+	background: #ccc;
+	padding: 15px 20px;
+}
+
+.main-poster {
+	
+}
+.sub-poster {
+	
+}
+.sub-cate {
+	padding: 0px 15px 10px;
+}
+.ranking {
+	
+}
+.ranking .top {
+	
+} 
+.ranking .bottom {
+	
+}
+.cate > li {
+	font-size: 20px;
+}
+li.clickable {	
+	color: #000;
+}
+li.clickable:hover{
+	cursor: pointer;
+	color: #ff9900;
+	text-shadow: #222 2px 0 4px;
+} 
+.ranking .top{
+	position: relative;
+}
+.ranking .top .title {
+	position: absolute;
+	left: 30px;
+	top: 44px;
+	font-size: 40px;
+	font-weight: bold;
+}
+.ranking .top {
+	width: 100%;
+	margin: 0 auto;
+	display: flex;
+}
+.ranking .top .menu-div {
+	border-bottom: 1px solid #000;
+	margin: 30px 20px;
+	padding: 30px 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.ranking .ranking-menu {
+	display: flex;
+	align-items: center;
+}
+.ranking .ranking-menu li {
+	width: 80px;
+	padding: 5px 10px;
+	border: 1px solid #000;
+	text-align: center;
+}
+.ranking .ranking-menu li.active {
+	border: 2px solid #000;
+	background: #3399ff;
+	cursor: pointer;
+}
+
+.ranking .bottom {
+	height: 500px;
+	width: 100%;
+	position: relative;
+}
+.ranking .bottom .more {
+	position: absolute;
+	top: -20px;
+	right: 20px;
+	font-size: 20px;
+}
+.main-poster {	
+	text-align: center;
+	width: 50%;
+}
+.main-poster img {
+	height: 500px !important;
+}
+.sub-poster {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+.sub-poster div {
+	flex: 0 0 80px;
+	margin-right: 3px;
+}
+.sub-poster img {
+	height: 110px;
+	max-width: 80px;
+}
+
+.ranking .bottom .content {
+	position: absolute;
+	top:0;
+	left:0;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	margin-right: 0px;
+	margin-left: 0px;
+	overflow: auto;
+	height: 450px;
+	align-items: center;
+	justify-content: flex-start;
+	height: 100%;
+}
+.ranking .content .rankItem {
+	
+	flex: 0 0 250px;
+	height: 400px;
+	display: flex;
+	flex-direction: column;
+}
+.content .rankItem .title {
+	text-align: center;
+}
+.ranking .content .rankItem img {
+	
+}
+.wrapper .prev {
+	display: inline-block;
+	position: absolute;
+	top: 140px;
+	left: 20px;
+	border: 1px solid tomato;
+	border-radius: 5px;
+}
+.wrapper .next {
+	display: inline-block;
+	position: absolute;
+	top: 140px;
+	right: 15px;
+	border: 1px solid tomato;
+	border-radius: 5px;
+}
+.wrapper {
+	position: relative;
+	width: 100%;
+	height: 450px;
+	overflow: hidden;
+}
+.prev:hover {
+	cursor: pointer;
+	background: #ddd;
+}
+.next:hover {
+	cursor: pointer;
+	background: #ddd;
+}
+
+
+
+
+

@@ -148,9 +148,7 @@
 		</mvc:interceptor>
 	</mvc:interceptors> -->
 
-
-
-	 		 
+ 		 
 	<!--## 공통 Exception setup ## -->
 	<bean class="kr.kosmo.jobkorea.common.exception.CommonExceptionHandler" />
 
