@@ -117,11 +117,12 @@
 		)
 	</insert>
 	
-	<select id="cartInfo" resultType="String">
+	<select id="cartInfo" resultType="String" parameterType="kr.kosmo.jobkorea.book.model.BookModel">
 		SELECT BOOK_NAME AS title
 		FROM CART
 		WHERE P_ID = #{pId}
 		AND ORDER_YN != 'Y'
+		AND loginID = #{loginID}
 	</select>
 	
 </mapper>

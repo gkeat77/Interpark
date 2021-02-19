@@ -23,5 +23,5 @@ public interface bookService {
 	// ahn
 	public BookModel bookInfo (String pId);
 	public void cartAdd(BookModel vo);
-	public String cartInfo (String pId);
+	public String cartInfo (BookModel vo);
 }

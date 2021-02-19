@@ -59,7 +59,8 @@ public class PaymentController {
 	   if(pId != null) {
 		   // cart에 존재하는지 check 후 insert
 		   BookModel bookInfo = booksv.bookInfo(pId);
-		   String cartBookTtitle = booksv.cartInfo(pId);
+		   bookInfo.setLoginID(rm.getLoginID());
+		   String cartBookTtitle = booksv.cartInfo(bookInfo);
 		   if(bookInfo.getTitle().equals(cartBookTtitle)) { // check
 			   mav.addObject("check", 1);
 			   mav.setViewName("/payment/cartList"); // 빈 카트로 페이지 이동해서 jsp해서 해결
@@ -112,13 +113,10 @@ public class PaymentController {
 	   String cartStocks = req.getParameter("cartStocks");
 	   String[] cartStocksArray = cartStocks.split(",");
 	   
-	   String mileages = req.getParameter("mileages");
-	   String[] mileagesArray = mileages.split(",");
 	   for (int i = 0; i < cartStocksArray.length; i++) {
 		   PaymentModel vo = new PaymentModel();
 		   vo.setStock(Integer.parseInt(cartStocksArray[i]));
 		   vo.setCartNo(cartNosArray[i]);
-		   vo.setMileage(mileagesArray[i]);
 		   paymentService.cartUpdate(vo);
 	   }
 	   
@@ -133,6 +131,7 @@ public class PaymentController {
 	   //getCart
 	   HashMap<String, Object> map = new HashMap<String, Object>();
 	   map.put("cartNos", cartNosArray);
+	   map.put("loginID", loginID);
 	   
 	   // 각 카트에 담인 애들 결되되면 카트리스트에 보이지 않게 하기 위해서
 	   mav.addObject("totalPrice",totalPrice);

@@ -59,8 +59,8 @@ public class bookServiceImpl implements bookService{
 	}
 
 	@Override
-	public String cartInfo(String pId) {
-		return bookDao.cartInfo(pId);
+	public String cartInfo(BookModel vo) {
+		return bookDao.cartInfo(vo);
 	}
 
 }

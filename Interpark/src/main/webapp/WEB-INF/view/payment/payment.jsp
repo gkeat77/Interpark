@@ -163,12 +163,17 @@ input[type="radio"]:checked + label span {
                             <div class="order-total">
                                 <ul class="order-table">
                                     <li>Product <span>Total</span></li>
+                                    	<c:set var="mileage" value="0" />
+                                    	<c:set var="mileage2" value="0" />
 	                                    <c:forEach var="cartList" items="${cartList}" >
 	                                    	<li class="fw-normal">${cartList.bookName} x ${cartList.stock } <span><fmt:formatNumber pattern="###,###,###" value="${cartList.stock * cartList.price}" />원</span></li>
+	                                    	<c:set var="mileage" value="${cartList.mileage * cartList.stock}"/>
+	                                    	<c:set var="mileage2" value="${mileage+ mileage2}"/>
 	                                    </c:forEach>
                                     <!-- <li class="fw-normal">Subtotal <span>$240.00</span></li> -->
                                     <!--bookName, price, stock  -->
                                     <li class="total-price">Total <span id="paymentPrice">원</span>
+                                    <li class="total-price">Mileage<span id="mileage"><c:out value="${mileage2}"/>원</span>
                                     <input type="hidden" value="${totalPrice}" name="totalPrice" id="totalPrice">
                                     <input type="hidden" value="${cartNos}" name="cartNos">
                                     </li>
@@ -202,6 +207,7 @@ input[type="radio"]:checked + label span {
                 <input type="hidden" value="${userInfo.loginID }" name="loginID" >
                 <input type="hidden" value="" name="couponPrice" id="couponPrice">
                 <input type="hidden" value="" name="couponNos" id="couponNos">
+                <input type="hidden" value="${mileage2}" name="mileage" id="mileage">
             </form>
         </div>
     </section>

@@ -24,5 +24,5 @@ public interface bookDao {
 	
 	public void cartAdd(BookModel vo);
 	
-	public String cartInfo (String pId);
+	public String cartInfo (BookModel vo);
 }
