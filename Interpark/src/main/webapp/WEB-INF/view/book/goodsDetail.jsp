@@ -51,11 +51,6 @@ $(document).ready(function() {
 /** 리뷰 저장 */
 function freview_regist() {
 
-	/* // vaildation 체크
-	if (!fValidate_adv()) {
-		return;
-	} */
-
 	var resultCallback = function(data) {
 		freview_regist_result(data);
 	};
