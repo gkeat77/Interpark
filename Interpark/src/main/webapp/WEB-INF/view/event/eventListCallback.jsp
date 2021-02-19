@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	<script>
-		function goCart(pId) {
+		function goCart(P) {
 			var data = {
 					pId : pId
 			     };
