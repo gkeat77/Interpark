@@ -51,7 +51,7 @@ $(document).ready(function() {
 /** 리뷰 저장 */
 function freview_regist() {
 
-	/* 유니크1 */
+	/* 테스트2 */
 	
 	var resultCallback = function(data) {
 		freview_regist_result(data);
