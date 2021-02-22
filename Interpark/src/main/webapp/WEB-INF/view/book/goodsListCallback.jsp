@@ -26,9 +26,32 @@
 			    }
 			   });
 		}
-		function goBuy() {
-			
-		}
+        function goBuy(pId) {
+            var session = $('#session').val();
+            if(session == '' || session == 'null') {
+                alert("로그인 먼저해주세요");
+                location.href='/login/login.me';
+            }else {
+                var confirm_val = confirm("결제를 진행할까요?");
+                if(confirm_val){
+                    
+                    var newForm = document.createElement('form'); 
+                    newForm.name = 'newForm'; 
+                    newForm.method = 'post'; 
+                    newForm.action = '/cartList.do'; 
+                    
+                    var input1 = document.createElement('input'); 
+                    input1.setAttribute("type", "hidden"); 
+                    input1.setAttribute("name", "pId"); 
+                    input1.setAttribute("value", pId); 
+                    
+                    newForm.appendChild(input1);
+                    document.body.appendChild(newForm);
+                    newForm.submit();
+                }else{
+                }
+            }
+        }
 		
 	</script>
 	<c:if test="${totalCnt eq 0 }">
