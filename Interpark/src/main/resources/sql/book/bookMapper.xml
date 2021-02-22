@@ -57,7 +57,7 @@
 		display,
 		DATE_FORMAT(sellStart, '%Y.%m.%d %h:%m') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d
 		%h:%m') as sellEnd,
-		ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
+		ROUND(avg(rStar),1) as rStar,count(rId) as rCount
 		FROM BOOK_GOODS b
 		left join REVIEW r
 		on b.P_ID = r.P_ID
@@ -86,7 +86,7 @@
 		sellState, display,file_nm, file_loc, file_size ,
 		serviceType,mileage,mileageRate,
 		DATE_FORMAT(sellStart, '%Y/%m/%d') as sellStart,DATE_FORMAT(sellEnd, '%Y/%m/%d') as sellEnd, 
-		ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
+		ROUND(avg(rStar),1) as rStar,count(rId) as rCount
 		FROM BOOK_GOODS b
 		left join REVIEW r
 		on b.P_ID = r.P_ID 

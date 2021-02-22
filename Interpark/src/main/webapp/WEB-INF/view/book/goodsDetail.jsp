@@ -111,7 +111,6 @@ function flist_review(currentPage) {
 
 /** 상담 조회 콜백 함수 */
 function flist_review_result(data, currentPage) {
-	alert(data);
 	// 기존 목록 삭제
 	$('.comment-option').empty();
 
@@ -258,7 +257,7 @@ function flist_review_result(data, currentPage) {
                                         리뷰<div class="star"><p>${goods.rStar } ( 총 ${goods.rCount} 건)</p></div><hr>
                                         </h4>
                                         <div class="comment-option"></div>
-                                        <div class="paging_area" id="Pagination_lec"></div>
+                                        <div class="paging_area" id="Pagination"></div>
                                         <div class="personal-rating">
                                             <button type="button" class="site-btn" id="reviewPop">리뷰 작성</button>
                                         </div>

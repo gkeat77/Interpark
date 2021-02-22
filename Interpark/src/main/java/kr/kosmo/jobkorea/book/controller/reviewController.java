@@ -75,15 +75,31 @@ public class reviewController {
 		int totatCnt = revSv.reviewCount(paramMap);
 		
 		model.addAttribute("reviewList", reviewList);
-		model.addAttribute("totatCnt", totatCnt);
+		model.addAttribute("totalCnt", totatCnt);
 		
 		return "book/reviewCallback";
 	}
 	
-	@RequestMapping("goodsDetail.do")
-	public 	String goodsDetail(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	@RequestMapping("likeUnlike.do")
+	@ResponseBody
+	public 	Map<String,Object> goodsDetail(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
-		return "book/goodsDetail";
+		logger.info(">>>>>파람:"+paramMap);
+		revSv.reviewLike(paramMap);
+		
+		String like=((String) paramMap.get("like"));
+		String Msg;
+		
+		if(like.equals("+1")){
+			Msg="좋아요 하셨습니다.";
+		}else{
+			Msg="좋아요 취소하셨습니다.";
+		}
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("Msg", Msg);
+		
+		return resultMap;
 	}
 	
 }

@@ -54,11 +54,12 @@ public class reviewModel {
 	public void setrContent(String rContent) {
 		this.rContent = rContent;
 	}
-	public String getRegDate() {
+
+	public String getrDate() {
 		return rDate;
 	}
-	public void setRegDate(String regDate) {
-		this.rDate = regDate;
+	public void setrDate(String rDate) {
+		this.rDate = rDate;
 	}
 	@Override
 	public String toString() {
