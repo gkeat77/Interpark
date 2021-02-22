@@ -143,7 +143,7 @@ input[type="radio"]:checked + label span {
                             <div class="col-lg-12">
                                 <label for="town">마일리지<span>:&nbsp;</span><span id="applyMileage">${userInfo.mileage}</span></label>
                                 <input type="text" class="inputTxt p100"
-												name="" id="userMileage"  onchange="mileageCheck(this.value)" placeholder="사용하실 마일리지를 입력해주세요"/>
+												name="" id="userMileage"  placeholder="사용하실 마일리지를 입력해주세요"/>
 												<button type="button"  onclick="applyMileage()" class="site-btn place-btn">마일리지 적용</button>
                                     			<button type="button"  onclick="applyCancel()" class="site-btn place-btn">취소</button>
                                     
@@ -198,6 +198,8 @@ input[type="radio"]:checked + label span {
                                     <input type="hidden" id="totalMileage" value="${userInfo.mileage}" name="mileage">
                                     <input type="hidden" id="reset" value="">
                                     <input type="hidden" id="paymentSw" value="" name="paymentSw">
+                                    <input type="hidden" id="balanceMileage" value="" name="balanceMileage">
+                                    <input type="hidden" id="earnedMileage" value="${mileage2}" name="earnedMileage">
                                     </li>
                                 </ul>
                                 <!--  
@@ -245,7 +247,8 @@ input[type="radio"]:checked + label span {
 	
 	var sw=0;
 	var result=0;
-	cnt=0
+	var isSeasonChk=false;
+	
 	
 	$(document).ready(function() {
 		
@@ -261,7 +264,7 @@ input[type="radio"]:checked + label span {
 	        
 	        
 	        // 체크박스 3개 이상 선택 x
-	        
+	        cnt=0
 	        $('input:checkbox[name="cc"]').each(function() {
 	        	if(this.checked){
 	        		cnt++;
@@ -500,7 +503,9 @@ input[type="radio"]:checked + label span {
 				$('#paymentSw').val(1);
 			}else if($('#paymentSw').val()==2){						
 				// mileage o, coupon o
-				if(cnt ==1 || cnt==2) {
+				checkboxCheck();
+		
+				if(isSeasonChk) {
 					var mileage = parseInt($('#totalMileage').val());
 					console.log(mileage);
 					console.log(oldTotal);
@@ -597,6 +602,7 @@ input[type="radio"]:checked + label span {
 				$('#totalMileage').val(inputMileage);
 				dbMileage=(fn($('#applyMileage').html()));
 				$('#applyMileage').html(dbMileage-inputMileage);
+				$('#balanceMileage').val(dbMileage-inputMileage);
 				$('#reset').val(1);
 				$('#paymentSw').val(2);
 			}else {
@@ -610,6 +616,19 @@ input[type="radio"]:checked + label span {
 	
 	function applyCancel(){
 		location.reload(true);
+	}
+	
+	function checkboxCheck(){
+		var arr_Season = document.getElementsByName("cc[]");
+        for(var i=0;i<arr_Season.length;i++){
+            if(arr_Season[i].checked == true) {
+                isSeasonChk = true;
+                break;
+            }
+        }
+        
+        // jquery로 했다면 simple
+        // var isSeasonChk = $("input:checkbox[name='SEASON[]']").is(":checked");
 	}
 	</script>
 

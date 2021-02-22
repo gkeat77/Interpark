@@ -36,6 +36,8 @@ public class PaymentModel {
 	
 	private String pId;
 	
+	private String balanceMileage;
+	private String earnedMileage;
 	
 	
 	
@@ -47,8 +49,18 @@ public class PaymentModel {
 	
 	
 	
-	
-	
+	public String getEarnedMileage() {
+		return earnedMileage;
+	}
+	public void setEarnedMileage(String earnedMileage) {
+		this.earnedMileage = earnedMileage;
+	}
+	public String getBalanceMileage() {
+		return balanceMileage;
+	}
+	public void setBalanceMileage(String balanceMileage) {
+		this.balanceMileage = balanceMileage;
+	}
 	public String getpId() {
 		return pId;
 	}

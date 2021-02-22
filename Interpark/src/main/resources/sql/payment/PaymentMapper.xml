@@ -56,7 +56,8 @@ INSERT INTO ORDERS
 	, loginID
 	, DC_PRICE
 	, COUPON_NO
-	, MILEAGE
+	, EARNED_MILEAGE
+	, USE_MILEAGE
 )
 VALUES
 (
@@ -68,7 +69,8 @@ VALUES
 	, #{loginID}
 	, #{couponPrice}
 	, #{couponNos}
-	, #{mileage}
+	, #{earnedMileage}
+	, #{mileage}	
 )
 </insert>
 
@@ -256,6 +258,25 @@ CART_NO =  #{cartNo}
 <select id="defaultChart" parameterType="String" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
 	SELECT IFNULL(SUM(PAYMENT), 0) AS totalPrice FROM ORDERS
 	WHERE DATE(ORDER_DT)= #{param1}
+</select>
+
+
+<update id="mileageDeduction" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	UPDATE tb_userinfo
+	SET M_MILEAGE = #{balanceMileage}
+	WHERE loginID = #{loginID}
+</update>
+
+
+<select id="userInfo" parameterType="String" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+	SELECT NAME AS name
+			, M_EMAIL AS mail
+			, M_PHONE1 AS phone1
+			, M_PHONE2 AS phone2
+			, M_PHONE3 AS phone3
+			, M_MILEAGE AS mileage
+	FROM tb_userinfo
+	WHERE loginID = #{loginID}
 </select>
 
 

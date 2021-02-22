@@ -2,9 +2,11 @@ package kr.kosmo.jobkorea.payment.dao;
 
 import java.util.HashMap;
 
+
 import java.util.List;
 import java.util.Map;
 
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PaymentModel;
 
@@ -35,4 +37,6 @@ public interface PaymentDao {
 	public void couponCancel (String couponNo);
 	public void cartUpdate3(String cartNo);
 	public PaymentModel defaultChart(String day);
+	public void mileageDeduction(PaymentModel vo);
+	public RegisterInfoModel userInfo(String loginID);
 }

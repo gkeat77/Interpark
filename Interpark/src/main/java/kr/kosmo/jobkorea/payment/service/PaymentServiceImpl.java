@@ -1,6 +1,7 @@
 package kr.kosmo.jobkorea.payment.service;
 
 import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.dao.PaymentDao;
 import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PaymentModel;
@@ -297,6 +299,29 @@ public class PaymentServiceImpl implements PaymentService{
 		map.put("total", result);
 		return map;
 	}
+
+
+
+
+	@Override
+	public void mileageDeduction(PaymentModel vo) {
+		paymentDao.mileageDeduction(vo);
+	}
+
+
+
+
+	@Override
+	public RegisterInfoModel userInfo(String loginID) {
+		return paymentDao.userInfo(loginID);
+	}
+
+
+
+
+
+
+
 
 
 }

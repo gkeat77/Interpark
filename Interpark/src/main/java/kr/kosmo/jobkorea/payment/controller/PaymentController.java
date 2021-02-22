@@ -124,8 +124,11 @@ public class PaymentController {
 	   
 	   
 	   // userInfo
+	   // session으로 뿌렸었는데 마일리지는 실시간으로 적용이 안되는거 같아서 service작성
 	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
-	   mav.addObject("userInfo", rm);
+	   RegisterInfoModel userInfo = new RegisterInfoModel();
+	   userInfo = paymentService.userInfo(rm.getLoginID());
+	   mav.addObject("userInfo", userInfo);
 	   String loginID = rm.getLoginID();
 	   
 	   // total
@@ -157,14 +160,18 @@ public class PaymentController {
 	  ModelAndView mav = new ModelAndView();
 	  
 	  String dcPrice = request.getParameter("couponPrice");
+	  String oldMileage = request.getParameter("oldMileage");
 	  String [] arr = request.getParameterValues("cc");
 	  String paymentSw = request.getParameter("paymentSw");
 	  int result = Integer.parseInt(paymentSw); 
 	  
+	  RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+	  vo.setLoginID(rm.getLoginID());
+	  
 	  if(result==1) {		// mileage x, coupon x
 	  }else if(result==2){ 	// mileage o, coupon x
-		  System.out.println(vo.getMileage());
-		  System.out.println(vo.getTotalPrice());
+		  System.out.println(vo.getBalanceMileage());
+		  paymentService.mileageDeduction(vo);
 	  }else if(result==3){	// mileage x, coupon o
 		  for (int i = 0; i < arr.length; i++) {
 			  System.out.println(dcPrice);

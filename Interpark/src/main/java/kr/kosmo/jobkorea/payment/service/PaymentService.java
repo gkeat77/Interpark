@@ -1,11 +1,13 @@
 package kr.kosmo.jobkorea.payment.service;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
 
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PaymentModel;
 import kr.kosmo.jobkorea.supportD.model.NoticeDModel;
@@ -49,5 +51,7 @@ public interface PaymentService {
 	public void cartUpdate3(String cartNo); // 취소했을 떄 카트리스트 복귀
 	public Map<String, Object> defaultChart();
 	public Map<String, Object> goChart(Map<String, Object> paramMap) throws Exception;
+	public void mileageDeduction(PaymentModel vo);
+	public RegisterInfoModel userInfo(String loginID);
 }
 
