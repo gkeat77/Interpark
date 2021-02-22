@@ -411,13 +411,13 @@ table tbody .bg_gray{background: #e9ebef !important;}
 /* 페이징 */
 .paging_area {height:33px;padding:0 5px;line-height:33px;vertical-align: middle;background: #eeeee;}	
 .paging	{/* float:right; */height:23px;text-align: center;}
-.paging a	{display:inline-block;width:30px;height:27px;line-height:27px;text-align:center;vertical-align: middle;background: url("/images/admin/comm/set_btn.png") -396px -150px no-repeat;}
+.paging a	{display:inline-block;width:30px;height:27px;line-height:27px;text-align:center;vertical-align: middle;background: url("/img/set_btn.png") -396px -150px no-repeat;}
 .paging a.first	{width:28px;background-position:-287px -150px;}
 .paging a.pre	{width:28px;background-position:-320px -150px;margin-right:10px;}
 .paging a.next	{width:28px;background-position:-439px -150px;margin-left:10px;}
 .paging a.last	{width:28px;background-position:-472px -150px;}
 .paging span{display:inline-block;}
-.paging strong {display:inline-block;width:28px;height:27px;line-height:27px;text-align:center;color:#fff;background: url("/images/admin/comm/set_btn.png") -362px -150px no-repeat;}
+.paging strong {display:inline-block;width:28px;height:27px;line-height:27px;text-align:center;color:#fff;background: url("/img/set_btn.png") -362px -150px no-repeat;}
  
 
 
