@@ -110,6 +110,8 @@ public class BookController {
 		   String pId = (String) paramMap.get("pId");
 
 		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		   System.out.println(rm);
+		   System.out.println(rm.getLoginID());
 		   if(rm != null) {
 			   BookModel bookInfo = booksv.bookInfo(pId);
 			   bookInfo.setLoginID(rm.getLoginID());
