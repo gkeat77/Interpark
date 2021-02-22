@@ -157,15 +157,24 @@ public class PaymentController {
 	  
 	  String dcPrice = request.getParameter("couponPrice");
 	  String [] arr = request.getParameterValues("cc");
+	  String paymentSw = request.getParameter("paymentSw");
+	  int result = Integer.parseInt(paymentSw); 
 	  
-	  if(!dcPrice.equals("0")) {
-		  // 할인을 받았다면
+	  if(result==1) {		// mileage x, coupon x
+	  }else if(result==2){ 	// mileage o, coupon x
+		  System.out.println(vo.getMileage());
+		  System.out.println(vo.getTotalPrice());
+	  }else if(result==3){	// mileage x, coupon o
 		  for (int i = 0; i < arr.length; i++) {
+			  System.out.println(dcPrice);
 			  paymentService.useCoupon(arr[i]);
 		  }
+	  }else if(result==4) {	// mileage o, coupon o
+		  System.out.println(vo.getMileage());
+		  System.out.println(vo.getTotalPrice());
+		  System.out.println(dcPrice);
 	  }
-	  // mileage
-	  System.out.println(vo.getMileage());
+	  
 	  paymentService.payment(vo);
 	  mav.addObject("userInfo",vo);
 	  mav.setViewName("payment/paymentResult");
