@@ -15,6 +15,9 @@ var pageBlockSize = 10;
 
 $(document).ready(function() {
 	
+	flist_review();
+	
+	
 	//타이머
 	var timerdate ='${goods.sellEnd}'; 
 	
@@ -44,7 +47,49 @@ $(document).ready(function() {
 		}  
 	});
 
-	flist_review();
+	
+	//좋아요 버튼
+	$(document).on("click",".icon_heart,.icon_heart_alt",function(){
+		
+		if ('${member}' == null || '${member}' =='' ){
+			alert("로그인이 필요합니다.");
+			location.href='/login/login.me';
+		}else{
+			let rId = $(this).closest(".co-item").find(".rId").val();
+			let className= $(this).attr('class');
+			console.log("className:"+className);
+			let likeCount =$(this).closest("div").find(".likeCount").text();
+			let like;
+			if(className == 'icon_heart_alt'){
+				like='+1';
+				$(this).removeClass();
+				$(this).addClass('icon_heart');
+				$(this).closest("div").find(".likeCount").text(parseInt(likeCount)+1);
+				
+			}else if(className == 'icon_heart'){
+				like='-1';
+				$(this).removeClass();
+				$(this).addClass('icon_heart_alt');
+				$(this).closest("div").find(".likeCount").text(parseInt(likeCount)-1);
+			}
+		
+			$.ajax({
+				type: "Post", 
+				url:"/review/likeUnlike.do",
+				data: {
+					rId:rId,
+					like:like
+				},
+				dataType:"Json", 
+				success : function(result){
+				},
+				error : function(){
+					alert("실패");
+				}
+			}); 
+		}
+		console.log("=================================================");
+	});
 });
 
 
