@@ -98,41 +98,4 @@ public class BookController {
 		
 		return "book/goodsDetail";
 	}
-	
-	// -------------ahn start-------------
-	
-	@ResponseBody
-	@RequestMapping(value="/goCart.do" , method = RequestMethod.POST)
-	public Map<String, Object> goCart(@RequestParam Map<String, Object> paramMap, HttpSession session, HttpServletRequest req) throws Exception {
-		   Map<String, Object> resultMap = new HashMap<String, Object>();
-		   String result="";
-		   
-		   String pId = (String) paramMap.get("pId");
-
-		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
-		   System.out.println(rm);
-		   System.out.println(rm.getLoginID());
-		   if(rm != null) {
-			   BookModel bookInfo = booksv.bookInfo(pId);
-			   bookInfo.setLoginID(rm.getLoginID());
-			   // 같은 상품이 있으면 add x
-			   String cartBookTtitle = booksv.cartInfo(bookInfo);
-			   if(bookInfo.getTitle().equals(cartBookTtitle)) {
-				   result="cartAlready";
-			   }else {
-				   bookInfo.setLoginID(rm.getLoginID());
-				   booksv.cartAdd(bookInfo);
-				   result="success";
-			   }
-		   }else {
-			   result="no";
-		   }
-		    
-		   //resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
-		   resultMap.put("resultMsg", result); 
-		   return resultMap;
-	   }
-	
-	// -------------ahn end-------------
-	
 }

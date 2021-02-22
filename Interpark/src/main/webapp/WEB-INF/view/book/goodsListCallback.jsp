@@ -10,7 +10,7 @@
 					pId : pId
 			     };
 			   $.ajax({
-			    url : "/book/goCart.do",
+			    url : "/goCart.do",
 			    type : "post",
 			    data : data,
 			    success : function(result){
@@ -80,8 +80,8 @@
 						</div>
 						<ul>
 						<!--카트 /  구매 버튼 링크  -->
-							<li class="w-icon active"><a href="javascript:void(0);" onclick="goCart(${list.itemId})">CART</a></li>
-							<li class="quick-view"><a href="javascript:void(0);" onclick="goBuy()">BUY</a></li>
+							<li class="w-icon active"><a href="javascript:void(0);" onclick="goCart(${list.pId})">CART</a></li>
+							<li class="quick-view"><a href="javascript:void(0);" onclick="goBuy(${list.pId})">BUY</a></li>
 						</ul>
 					</div>
 					<div class="pi-text">
