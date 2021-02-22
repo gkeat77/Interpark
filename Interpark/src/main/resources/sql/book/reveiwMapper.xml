@@ -9,15 +9,18 @@
 	</insert>
 	
 	<select id="reviewList" resultType="kr.kosmo.jobkorea.book.model.reviewModel">
-		select rId, 
+		select r.rId, 
 		P_ID as pId, 
-		loginID, 
+		r.loginID, 
 		rStar, 
 		`rLike`, 
 		rTitle, 
 		rContent,
-		DATE_FORMAT(rDate, '%Y-%m-%d') as rDate 
-		from REVIEW 
+		DATE_FORMAT(rDate, '%Y-%m-%d') as rDate,
+	    likeChk
+		from REVIEW r left outer join REVEIW_LIKE l 
+	    on  r.rId= l.rId
+	    and l.loginID = #{loginId}
 		where P_ID=#{pId}
 		LIMIT #{pageIndex}, #{pageSize} 
 	</select>
@@ -39,5 +42,20 @@
 		SET `rLike`=`rLike`${like}
 		where rId=#{rId}
 	</update>
+	
+	
+	<insert id="likeChk">
+			INSERT INTO REVEIW_LIKE(
+		      rId
+		    , loginId
+		    , likeChk
+		) VALUES (
+		      #{rId}
+		    , #{loginId}
+		    , #{like}
+		)
+		ON DUPLICATE KEY UPDATE
+		    likeChk = #{like};
+	</insert>
 
 </mapper>

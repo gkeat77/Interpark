@@ -20,4 +20,6 @@ public interface reviewDao {
 	public int reviewDel (Map<String, Object> paramMap);
 	
 	public int reviewLike (Map<String, Object> paramMap);
+	
+	public int likeChk (Map<String, Object> paramMap);
 }

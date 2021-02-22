@@ -127,7 +127,6 @@ function flist_review_result(data, currentPage) {
 
 	// 현재 페이지 설정
 	$("#currentPage").val(currentPage);
-
 }
 
 

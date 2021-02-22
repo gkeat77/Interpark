@@ -16,6 +16,7 @@ import kr.kosmo.jobkorea.book.model.reviewModel;
 import kr.kosmo.jobkorea.book.service.bookService;
 import kr.kosmo.jobkorea.book.service.reviewService;
 import kr.kosmo.jobkorea.book.util.API;
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,11 @@ public class reviewController {
 	@RequestMapping("reviewList.do")
 	public 	String goodsList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		//아이디정보 (좋아요 체크용)
+		RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		if(rm != null) {
+			paramMap.put("loginId", rm.getLoginID());}
 		//페이지 정보 
 		int currentPage = Integer.parseInt((String) paramMap.get("currentPage"));
 		int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
@@ -85,15 +91,17 @@ public class reviewController {
 	public 	Map<String,Object> goodsDetail(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		logger.info(">>>>>파람:"+paramMap);
-		revSv.reviewLike(paramMap);
 		
-		String like=((String) paramMap.get("like"));
-		String Msg;
+		String Msg="";
 		
-		if(like.equals("+1")){
-			Msg="좋아요 하셨습니다.";
+		//아이디정보 (좋아요 체크용)
+		RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		if(rm != null) {
+			revSv.reviewLike(paramMap); //like 업데이트
+			paramMap.put("loginId", rm.getLoginID());
+			revSv.likeChk(paramMap); //like체크 테이블 insert/update
 		}else{
-			Msg="좋아요 취소하셨습니다.";
+			Msg= "로그인이 필요합니다";
 		}
 		
 		Map<String,Object> resultMap = new HashMap<>();
