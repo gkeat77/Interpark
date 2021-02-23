@@ -319,6 +319,22 @@ public class PaymentServiceImpl implements PaymentService{
 
 
 
+	@Override
+	public List<PaymentModel> buyList(String loginID) {
+		return paymentDao.buyList(loginID);
+	}
+
+
+
+
+	@Override
+	public List<PaymentModel> userOrders(String loginID) {
+		return paymentDao.userOrders(loginID);
+	}
+
+
+
+
 
 
 

@@ -195,10 +195,10 @@ input[type="radio"]:checked + label span {
                                     <li class="total-price">Mileage<span id="mileage"><c:out value="${mileage2}"/>원</span>
                                     <input type="hidden" value="${totalPrice}" name="totalPrice" id="totalPrice">
                                     <input type="hidden" value="${cartNos}" name="cartNos">
-                                    <input type="hidden" id="totalMileage" value="${userInfo.mileage}" name="mileage">
+                                    <input type="hidden" id="totalMileage" value="${userInfo.mileage}">
                                     <input type="hidden" id="reset" value="">
                                     <input type="hidden" id="paymentSw" value="" name="paymentSw">
-                                    <input type="hidden" id="balanceMileage" value="" name="balanceMileage">
+                                    <input type="hidden" id="balanceMileage" value="${userInfo.mileage}" name="mileage">
                                     <input type="hidden" id="earnedMileage" value="${mileage2}" name="earnedMileage">
                                     </li>
                                 </ul>
@@ -232,6 +232,7 @@ input[type="radio"]:checked + label span {
                 <input type="hidden" value="" name="couponPrice" id="couponPrice">
                 <input type="hidden" value="" name="couponNos" id="couponNos">
                 <input type="hidden" value="${mileage2}" name="mileage2" id="mileage">
+                <input type="hidden" value="" name="useMileage" id="useMileage">
             </form>
         </div>
     </section>
@@ -247,7 +248,7 @@ input[type="radio"]:checked + label span {
 	
 	var sw=0;
 	var result=0;
-	var isSeasonChk=false;
+	
 	
 	
 	$(document).ready(function() {
@@ -503,13 +504,17 @@ input[type="radio"]:checked + label span {
 				$('#paymentSw').val(1);
 			}else if($('#paymentSw').val()==2){						
 				// mileage o, coupon o
-				checkboxCheck();
-		
+				
+				// 쿠폰 사용 check
+				var isSeasonChk=false;
+				$('input:checkbox[name="cc"]').each(function() {
+		        	if(this.checked){
+		        		isSeasonChk=true;
+		        	}
+		        });
+				
 				if(isSeasonChk) {
-					var mileage = parseInt($('#totalMileage').val());
-					console.log(mileage);
-					console.log(oldTotal);
-					console.log(nowTotal);
+					var mileage = parseInt($('#useMileage').val());
 					$('#couponPrice').val(oldTotal - nowTotal - mileage);
 					$('#paymentSw').val(4);
 				}else {
@@ -599,7 +604,7 @@ input[type="radio"]:checked + label span {
 				oldTotal = fn($('#paymentPrice').html());
 				readTotal = oldTotal - inputMileage;
 				$('#paymentPrice').html(comma(readTotal)+"원");
-				$('#totalMileage').val(inputMileage);
+				$('#useMileage').val(inputMileage);
 				dbMileage=(fn($('#applyMileage').html()));
 				$('#applyMileage').html(dbMileage-inputMileage);
 				$('#balanceMileage').val(dbMileage-inputMileage);
@@ -619,16 +624,6 @@ input[type="radio"]:checked + label span {
 	}
 	
 	function checkboxCheck(){
-		var arr_Season = document.getElementsByName("cc[]");
-        for(var i=0;i<arr_Season.length;i++){
-            if(arr_Season[i].checked == true) {
-                isSeasonChk = true;
-                break;
-            }
-        }
-        
-        // jquery로 했다면 simple
-        // var isSeasonChk = $("input:checkbox[name='SEASON[]']").is(":checked");
 	}
 	</script>
 
