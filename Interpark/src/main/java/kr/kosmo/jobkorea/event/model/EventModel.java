@@ -10,7 +10,8 @@ public class EventModel {
 		private Date e_edate;
 		private String e_content;
 		private int f_id;
-
+		private Date reg_date;
+		
 		private String longinID;
 		private String coupon_no;
 		public int getE_id() {
@@ -48,6 +49,12 @@ public class EventModel {
 		}
 		public void setF_id(int f_id) {
 			this.f_id = f_id;
+		}		
+		public Date getReg_date() {
+			return reg_date;
+		}
+		public void setReg_date(Date reg_date) {
+			this.reg_date = reg_date;
 		}
 		public String getLonginID() {
 			return longinID;
@@ -62,12 +69,12 @@ public class EventModel {
 			this.coupon_no = coupon_no;
 		}
 		
-//		@Override
-//		public String toString() {
-//			return "EventModel [e_id=" + e_id + ", e_title =" + e_title + ", e_sdate=" + e_sdate + ", e_edate="
-//					+ e_edate + ", e_content=" + e_content + ", f_id=" + f_id + ", longinID="
-//					+ longinID + ", coupon_no=" + coupon_no +  "]";
-//		}
+		@Override
+		public String toString() {
+			return "EventModel [e_id=" + e_id + ", e_title =" + e_title + ", e_sdate=" + e_sdate + ", e_edate="
+					+ e_edate + ", e_content=" + e_content + ", f_id=" + f_id + ", reg_date="+ reg_date + ", "
+					+ "longinID=" + longinID + ", coupon_no=" + coupon_no +  "]";
+		}
 		
 		//도서 
 //		private int pId;

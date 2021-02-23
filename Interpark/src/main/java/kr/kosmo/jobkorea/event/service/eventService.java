@@ -15,11 +15,4 @@ public interface eventService {
 	public List<EventModel> eventList(Map<String,Object> paramMap);
 	
 	public int eventCount(Map<String,Object> paramMap);
-//	
-//	public BookModel goodsDetail(Map<String,Object> paramMap);
-	
-	// ahn
-//	public BookModel bookInfo (String pId);
-//	public void cartAdd(BookModel vo);
-//	public String cartInfo (String pId);
 }
