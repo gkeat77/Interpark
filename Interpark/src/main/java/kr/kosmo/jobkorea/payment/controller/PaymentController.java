@@ -169,18 +169,26 @@ public class PaymentController {
 	  vo.setLoginID(rm.getLoginID());
 	  
 	  if(result==1) {		// mileage x, coupon x
+		  vo.setMileage("0");
+		  logger.info("result1");
 	  }else if(result==2){ 	// mileage o, coupon x
-		  System.out.println(vo.getBalanceMileage());
 		  paymentService.mileageDeduction(vo);
+		  vo.setMileage(vo.getUseMileage());
+		  logger.info("result2");
 	  }else if(result==3){	// mileage x, coupon o
+		  logger.info("result3");
 		  for (int i = 0; i < arr.length; i++) {
 			  System.out.println(dcPrice);
 			  paymentService.useCoupon(arr[i]);
 		  }
+		  vo.setMileage("0");
 	  }else if(result==4) {	// mileage o, coupon o
-		  System.out.println(vo.getMileage());
-		  System.out.println(vo.getTotalPrice());
-		  System.out.println(dcPrice);
+		  for (int i = 0; i < arr.length; i++) {
+			  paymentService.useCoupon(arr[i]);
+		  }
+		  paymentService.mileageDeduction(vo); 	 
+		  vo.setMileage(vo.getUseMileage());	// 다시 set
+		  logger.info("result4");
 	  }
 	  
 	  paymentService.payment(vo);
@@ -301,6 +309,7 @@ public class PaymentController {
 	   
 	   result="success";
 	   resultMap.put("cartList",paymentService.orderCarts(map));
+	   resultMap.put("totalPrice",cartNos.getPrice());
 	   resultMap.put("resultMsg", result); 
 		return resultMap;
    }
@@ -397,7 +406,6 @@ public class PaymentController {
    }
    
 
-	// -------------ahn start-------------
 	
 	@ResponseBody
 	@RequestMapping(value="/goCart.do" , method = RequestMethod.POST)
@@ -430,7 +438,39 @@ public class PaymentController {
 		   return resultMap;
 	   }
 	
-	// -------------ahn end-------------
+	
+	@RequestMapping(value="/userInfo.do", method = RequestMethod.GET)
+	   public ModelAndView userInfo (Model mode, HttpSession session, HttpServletRequest req
+			   , @RequestParam(value="userSw", required=false)String userSw
+	   		) throws ParseException {
+	   	
+		ModelAndView mav = new ModelAndView();
+		int result=0;
+		
+		RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		if(ComnUtil.isEmpty(rm)) {
+			mav.setViewName("login/login");
+		}else{
+			if(!ComnUtil.isEmpty(userSw)){
+				int sw = Integer.parseInt(userSw);
+				String loginID = rm.getLoginID();
+				
+				if(sw == 4 ) {
+					mav.addObject("buyList", paymentService.buyList(loginID));
+					result=4;
+				}
+				if(sw == 5 ) {
+					mav.addObject("orders", paymentService.userOrders(loginID));
+					result=5;
+				}
+			}
+			mav.addObject("result", result);
+			
+			mav.setViewName("payment/userInfo");
+		}
+	   	return mav;
+	   }
+	
 	
 	
 }

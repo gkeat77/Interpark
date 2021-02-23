@@ -202,6 +202,7 @@
 		                            <li><a href="/login.me">Login</a></li>
 		                         </c:when>
 		                         <c:otherwise>
+		                            <li><a href="/userInfo.do">userInfo</a></li>
 		                            <li><a href="/login/logOut.do">LOGOUT</a></li>
 		                         </c:otherwise>
 		                         </c:choose>
