@@ -16,7 +16,8 @@
         
             /* Default */
             input[type=text],input[type=password]{font-family:"Malgun Gothic","맑은 고딕",Dotum,"돋움",Arial,sans-serif}
-            *{margin:0;padding:0;font-family:"Malgun Gothic","맑은 고딕",Dotum,"돋움",Arial,sans-serif}
+            /* *{margin:0;padding:0;font-family:"Malgun Gothic","맑은 고딕",Dotum,"돋움",Arial,sans-serif} */
+            *{margin-left:1px;padding:0;font-family:"Malgun Gothic","맑은 고딕",Dotum,"돋움",Arial,sans-serif}
             body{font-size:12px;color:#555;background:transparent;-webkit-user-select:none;-moz-user-select:none;-webkit-text-size-adjust:none;-moz-text-size-adjust:none;-ms-text-size-adjust:none}
             ol,ul{list-style:none} 
             table{table-layout:fixed;width:100%;border-collapse:collapse;border-spacing:0}
@@ -69,7 +70,8 @@
 			
 			.tab ul.title:after {content:""; display:block; clear:both; }
 			
-			.tab ul.panel li{display:none; background:#ccc;height:200px;overflow:hidden; }
+			/* .tab ul.panel li{display:none; background:#ccc;height:200px;overflow:hidden; } */
+			.tab ul.panel li{display:none; background:#ccc;width: 1000px;height:900px;overflow:hidden; }
 
         </style>
 
@@ -185,17 +187,18 @@
         
         /*탭메뉴*/
         function test() {
-        	alert('클릭');
+        	// alert('클릭');
 	        $('.tab').each(function(i) {
-	          alert('탭 선택');	 
+	          // alert('탭 선택');	 
 	          var oTab = $(this);
-	          var tabIndex = $(this).find('.show').attr('id').match(/\d+$/);
+	          var tabIndex = $(this).find('.show').attr('id').match(/\d+$/);	          
 	
 	          $(this).find('.panel').find('#content-' + tabIndex[0]).show();
 	
 	          $(this).find('.title li a').click(function() {
 	
 	            var tabIndex = $(this).attr('id').match(/\d+$/);
+	            //alert(tabIndex);
 	            
 	            oTab.find('.title li a').removeClass('show');
 	            $(this).addClass('show');
@@ -333,15 +336,15 @@ function flist_clean_search(){
     <!-- Breadcrumb Section Begin -->
      <div class="container">
     <div class="breacrumb-section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-text">
-                        <a href="#"><i class="fa fa-home"></i> Home</a>
-                        <span>Shop</span>
-                    </div>
-                </div>
-            </div>
-          </div>  
+         <div class="row">
+             <div class="col-lg-12">
+                 <div class="breadcrumb-text">
+                     <a href="#"><i class="fa fa-home"></i> Home</a>
+                     <span>Shop</span>
+                 </div>
+             </div>
+         </div>
+    </div>  
    <!-- Breadcrumb Section Begin -->
 
      <form>
@@ -399,7 +402,8 @@ function flist_clean_search(){
                                  <input type="radio" name="dateType" id="dateType7" onclick="setSearchDate('6m')"/>
                                  <label for="dateType7">6개월</label>
                              </span>
-                         </li>
+                         </li>                         
+                         <button style="  border: 1px solid black; margin-left: 100px; margin-top: 20px;">조회</button>
                      </ul>
                      
                      <div class="clearfix">
@@ -422,16 +426,28 @@ function flist_clean_search(){
      </table>
      </form>
      
-	 <div  id="row-1" class="container" onclick="test()">
+	 <div  id="" class="" onclick="test()">
 
 		  <div class="tab">
 		    <ul class="title">
-		      <li><a href="#" class="show" id="tab-1">탭메뉴</a></li>
+		      <li><a href="#" class="show" id="tab-1">전체</a></li>
 		      <li><a href="#" id="tab-2">탭메뉴</a></li>
 		      <li><a href="#" id="tab-3">탭메뉴</a></li>
 		    </ul>
+		     <p class="conTitle mt50 text-center">
+				<input type="text"  class="form-control sInput" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
+				<button type="button" id="btnSearch" class="btn sBtn">
+					<span>검색</span>
+				</button>
+			</p>  
 		    <ul class="panel">
-		      <li id="content-1">탭 내용1</li>
+		      <li id="content-1">
+		      			탭 내용1
+		      	        <div class="" style="margin-left:10px;border-leftt: 10px">
+					       	<div class="product-list" id="event_List"></div>            	
+				       	</div>
+		      	
+		      	</li>
 		      <li id="content-2">탭 내용2</li>
 		      <li id="content-3">탭 내용3</li> 
 		    </ul>
@@ -441,20 +457,7 @@ function flist_clean_search(){
 	<!-- Product Shop Section Begin -->
     <input type="hidden" id="cateId">
     <input type="hidden" id="cateClass">
-    <!-- <section class="product-shop spad"> -->
-        <div class="container">
-		     <p class="conTitle mt50 text-center">
-				<input type="text"  class="form-control sInput" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()">
-				<button type="button" id="btnSearch" class="btn sBtn">
-					<span>검색</span>
-				</button>
-			</p>                                 
-            <c:forEach var="list" items="${cateList }" varStatus="status">						 	 
-			 	 <button class="li" value="">${list.categoryName }</button>
-			</c:forEach>
-           	<div class="product-list" id="event_List"></div>            	
-        	</div>
-    <!-- </section> -->
+
   </div>
       
     <!-- Product Shop Section End -->
