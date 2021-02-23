@@ -6,8 +6,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	<script>
 		function goCart(pId) {
+			var bookStock=1;
 			var data = {
 					pId : pId
+					, bookStock : bookStock
 			     };
 			   $.ajax({
 			    url : "/goCart.do",
@@ -31,6 +33,8 @@
 		}
 		function goBuy(pId) {
 			var session = $('#session').val();
+			var bookStock = 1;
+			
 			if(session == '' || session == 'null') {
 				alert("로그인 먼저해주세요");
 				location.href='/login/login.me';
@@ -48,7 +52,14 @@
 					input1.setAttribute("name", "pId"); 
 					input1.setAttribute("value", pId); 
 					
+					var input2 = document.createElement('input'); 
+					input2.setAttribute("type", "hidden"); 
+					input2.setAttribute("name", "bookStock"); 
+					input2.setAttribute("value", bookStock);
+					
 					newForm.appendChild(input1);
+					newForm.appendChild(input2);
+					
 					document.body.appendChild(newForm);
 					newForm.submit();
 				}else{

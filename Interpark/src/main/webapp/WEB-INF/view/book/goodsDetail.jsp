@@ -175,6 +175,73 @@ function flist_review_result(data, currentPage) {
 }
 
 
+function goCart(pId) {
+	var bookStock=1;
+	bookStock = $('#bookStock').val();
+	var data = {
+			pId : pId
+			, bookStock : bookStock
+	     };
+	   $.ajax({
+	    url : "/goCart.do",
+	    type : "post",
+	    data : data,
+	    success : function(result){
+			if(result.resultMsg == "success") {
+				alert("카트에 등록되었습니다");
+				location.reload(true);	// 삭제 후 초기화
+			}else if (result.resultMsg == "cartAlready"){
+				alert("카트에 이미 상품이 있습니다");
+			}else {
+				alert("로그인 먼저해주세요");
+				location.href='/login/login.me'; 
+			}
+	    },
+	    error : function(){
+	     alert("fail");
+	    }
+	   });
+	   
+}
+	   
+		function goBuy(pId) {
+			var bookStock = 1;
+			bookStock = $('#bookStock').val();
+			var session = $('#session').val();
+			
+			if(session == '' || session == 'null') {
+				alert("로그인 먼저해주세요");
+				location.href='/login/login.me';
+			}else {
+				var confirm_val = confirm("결제를 진행할까요?");
+				if(confirm_val){
+					
+					var newForm = document.createElement('form'); 
+					newForm.name = 'newForm'; 
+					newForm.method = 'post'; 
+					newForm.action = '/cartList.do'; 
+					
+					var input1 = document.createElement('input'); 
+					input1.setAttribute("type", "hidden"); 
+					input1.setAttribute("name", "pId"); 
+					input1.setAttribute("value", pId); 
+					
+					var input2 = document.createElement('input'); 
+					input2.setAttribute("type", "hidden"); 
+					input2.setAttribute("name", "bookStock"); 
+					input2.setAttribute("value", bookStock);
+					
+					newForm.appendChild(input1);
+					newForm.appendChild(input2);
+					document.body.appendChild(newForm);
+					newForm.submit();
+				}else{
+				}
+			}
+		}
+
+		
+		
 
 </script>
 	<input type="hidden" id="currentPage" value="1">
@@ -237,7 +304,7 @@ function flist_review_result(data, currentPage) {
                                 <c:if test="${goods.sellState ne null and goods.sellState ne 'N' }">
                                 <div class="quantity">
                                     <div class="pro-qty">
-                                        <input type="text" value="1">
+                                        <input type="text" value="1" id="bookStock">
                                     </div>
                                 </div>
                              	<p><strong>남은 수량: ${goods.stock }</strong></p>
@@ -246,8 +313,8 @@ function flist_review_result(data, currentPage) {
                                 <div class="countdown-timer uBoder" id="countdown">
 				                </div>
 				                </c:if>
-                                <a href="#" class="primary-btn pd-cart text-center" style="background-color:#000000;width:200px;height:50px">카트 담기</a>
-                                <a href="#" class="primary-btn pd-cart text-center" style="width:200px;height:50px">바로 구매</a>
+                                <a href="javascript:void(0);" onclick="goCart(${goods.pId})" class="primary-btn pd-cart text-center" style="background-color:#000000;width:200px;height:50px">카트 담기</a>
+                                <a href="javascript:void(0);" onclick="goBuy(${goods.pId})" class="primary-btn pd-cart text-center" style="width:200px;height:50px">바로 구매</a>
                                 </c:if>
                                 <c:if test="${goods.sellState ne null and goods.sellState eq 'N' }">
                                 	<h3>현재 판매중인 상품이 아닙니다.</h3>
@@ -529,4 +596,5 @@ function flist_review_result(data, currentPage) {
 			</table>
 			</form>
 		</div>
+ 
  

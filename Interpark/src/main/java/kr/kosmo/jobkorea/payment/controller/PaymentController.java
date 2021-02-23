@@ -56,6 +56,7 @@ public class PaymentController {
 	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 	   
 	   String pId = request.getParameter("pId");
+	   String bookStock = request.getParameter("bookStock");
 	   // 도서상품 -> buy버튼 
 	   if(pId != null) {
 		   // cart에 존재하는지 check 후 insert
@@ -68,13 +69,15 @@ public class PaymentController {
 			   mav.setViewName("/payment/cartList"); // 빈 카트로 페이지 이동해서 jsp해서 해결
 		   }else {
 			   bookInfo.setLoginID(rm.getLoginID());
+			   bookInfo.setStock(Integer.parseInt(bookStock));
 			   booksv.cartAdd(bookInfo);
 			   
 			   // cartList
 			   String loginID = rm.getLoginID();
 			   mav.addObject("cartList", paymentService.getCartList(loginID));
 			   mav.addObject("cartCnt",paymentService.getCartList(loginID).size());
-			   mav.setViewName("/payment/cartList");
+			   //mav.setViewName("/payment/cartList");
+			   mav.setViewName("redirect:/cartList.do");
 		   }
 	   }else {
 		   if(rm != null) {
@@ -414,6 +417,7 @@ public class PaymentController {
 		   String result="";
 		   
 		   String pId = (String) paramMap.get("pId");
+		   String bookStock = (String) paramMap.get("bookStock");
 		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 		   if(rm != null) {
 			   BookModel bookInfo = new BookModel();
@@ -426,6 +430,7 @@ public class PaymentController {
 				   result="cartAlready";
 			   }else {
 				   bookInfo.setLoginID(rm.getLoginID());
+				   bookInfo.setStock(Integer.parseInt(bookStock));
 				   booksv.cartAdd(bookInfo);
 				   result="success";
 			   }
@@ -474,4 +479,5 @@ public class PaymentController {
 	
 	
 }
+
 
