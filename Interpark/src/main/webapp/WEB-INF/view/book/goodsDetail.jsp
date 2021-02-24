@@ -6,177 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>
-<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 
-
-<script>
-var pageSize = 5;
-var pageBlockSize = 10;
-
-$(document).ready(function() {
-	
-	flist_review();
-	
-	
-	//타이머
-	var timerdate ='${goods.sellEnd}'; 
-	
-	$("#countdown").countdown(timerdate, function(event) {
-		$(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>일</p> </div>" + "<div class='cd-item'><span>%H</span> <p>시</p> </div>" + "<div class='cd-item'><span>%M</span> <p>분</p> </div>" + "<div class='cd-item'><span>%S</span> <p>초</p> </div>"));
-	});
-	//별점 표시	
-	let rStar ='${goods.rStar}'	
-	displayAvgStar(rStar);
-	
-	//리뷰
-	$("#reviewPop").click(function(event){
-		fInit();
-		gfModalPop("#layer1");
-	});
-	
-	//별점 버튼
-	$('input[name="rStar"]').change(function(){
-		let value = $(this).val();
-		for (var i = 1; i <= $('input[name="rStar"]').length; i++) {
-			$('#star'+i).removeClass("radioStar")
-			$('#star'+i).addClass("radioNoStar")
-		}
-	 	for (var i = 1; i <= value; i++) {
-			$('#star'+i).removeClass("radioNoStar");
-			$('#star'+i).addClass("radioStar");
-		}  
-	});
-
-	
-	//좋아요 버튼
-	$(document).on("click",".icon_heart,.icon_heart_alt",function(){
-		
-		if ('${member}' == null || '${member}' =='' ){
-			alert("로그인이 필요합니다.");
-			location.href='/login/login.me';
-		}else{
-			let rId = $(this).closest(".co-item").find(".rId").val();
-			let className= $(this).attr('class');
-			console.log("className:"+className);
-			let likeCount =$(this).closest("div").find(".likeCount").text();
-			let like;
-			if(className == 'icon_heart_alt'){
-				like='+1';
-				$(this).removeClass();
-				$(this).addClass('icon_heart');
-				$(this).closest("div").find(".likeCount").text(parseInt(likeCount)+1);
-				
-			}else if(className == 'icon_heart'){
-				like='-1';
-				$(this).removeClass();
-				$(this).addClass('icon_heart_alt');
-				$(this).closest("div").find(".likeCount").text(parseInt(likeCount)-1);
-			}
-		
-			$.ajax({
-				type: "Post", 
-				url:"/review/likeUnlike.do",
-				data: {
-					rId:rId,
-					like:like
-				},
-				dataType:"Json", 
-				success : function(result){
-				},
-				error : function(){
-					alert("실패");
-				}
-			}); 
-		}
-		console.log("=================================================");
-	});
-});
-
-
-/** 리뷰 저장 */
-function freview_regist() {
-
-	var resultCallback = function(data) {
-		freview_regist_result(data);
-	};
-
-	callAjax("/review/regist.do", "post", "json", true, $("#modalForm")
-			.serialize(), resultCallback);
-}
-
-/** 리뷰 저장 콜백 함수 */
-function freview_regist_result(data) {
-/* 	// 목록 조회 페이지 번호
-	var currentPage = "1";
-	if ($("#action").val() != "I") {
-		currentPage = $("#currentPage_adv").val();
-	}
- */
-		// 응답 메시지 출력
-		alert(data.resultMsg);
-
-		// 모달 닫기
-		gfCloseModal();
-	// 입력폼 초기화
-	fInit();
-}
-//폼 초기화
-function fInit(){
-	for (var i = 1; i <= $('input[name="rStar"]').length; i++) {
-		$('#star'+i).removeClass("radioStar")
-		$('#star'+i).addClass("radioNoStar")
-	}
-	$("#rtitle").val('');
-	$("#rContent").val('');
-	
-}
-
-
-/** 리뷰 목록 조회 */
-function flist_review(currentPage) {
-
-	currentPage = currentPage || 1;
-
-	// 강의 정보 설정
-	let pId = $("#pId").val();
-
-	var param = {
-		pId : pId,
-		currentPage : currentPage,
-		pageSize : pageSize
-	}
-
-	var resultCallback = function(data) {
-		flist_review_result(data, currentPage);
-	};
-
-	callAjax("/review/reviewList.do", "post", "text", true, param,
-			resultCallback);
-}
-
-/** 상담 조회 콜백 함수 */
-function flist_review_result(data, currentPage) {
-	// 기존 목록 삭제
-	$('.comment-option').empty();
-
-	// 신규 목록 생성
-	$('.comment-option').append(data);
-
-	// 총 개수 추출
-	var totalCnt = $("#totalCnt").val();
-
-	// 페이지 네비게이션 생성
-	var paginationHtml = getPaginationHtml(currentPage, totalCnt,
-			pageSize, pageBlockSize, 'flist_review');
-	$("#Pagination").empty().append(paginationHtml);
-
-	// 현재 페이지 설정
-	$("#currentPage").val(currentPage);
-}
-
-
-
-</script>
 	<input type="hidden" id="currentPage" value="1">
 	
     <!-- Breadcrumb Section Begin -->
@@ -263,7 +93,7 @@ function flist_review_result(data, currentPage) {
                                     <a class="active" data-toggle="tab" href="#tab-1" role="tab">도서 정보</a>
                                 </li>
                                 <li>
-                               		<a data-toggle="tab" href="#tab-2" role="tab">리뷰 (${goods.rCount })</a>
+                               		<a data-toggle="tab" href="#tab-2" role="tab">리뷰 (<span id="tabRcount">${goods.rCount }</span>)</a>
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#tab-3" role="tab">교환/환불/배송</a>
@@ -297,9 +127,16 @@ function flist_review_result(data, currentPage) {
                                 </div>
                                 <div class="tab-pane fade" id="tab-2" role="tabpanel">
                                     <div class="customer-review-option">
+                                    <input type="hidden" id="sort">
+                                    	  <div class="btn-group float-right">
+								      	  <button type="button" class="btn btn-outline-warning" id="newSort">최신순</button>
+										  <button type="button" class="btn btn-outline-warning" id="likeSort">좋아요 순</button>
+										</div>
                                         <h4>
-                                        리뷰<div class="star"><p>${goods.rStar } ( 총 ${goods.rCount} 건)</p></div><hr>
+                                        리뷰<div class="star"><p>${goods.rStar } ( 총 ${goods.rCount} 건)</p>
+                                        </div><hr>
                                         </h4>
+                                        
                                         <div class="comment-option"></div>
                                         <div class="paging_area" id="Pagination"></div>
                                         <div class="personal-rating">
@@ -311,56 +148,44 @@ function flist_review_result(data, currentPage) {
                                     <div class="specification-table">
                                         <table>
                                             <tr>
-                                                <td class="p-catagory">Customer Rating</td>
+                                                <td class="p-catagory">교환/환불 방법</td>
                                                 <td>
                                                     <div class="pd-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <span>(5)</span>
+                                                       마이페이지 > 취소/반품/교환/환불’ 에서 신청함, 1:1 문의 게시판 또는 고객센터(1577-2555) 이용 가능
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="p-catagory">Price</td>
+                                                <td class="p-catagory">교환/환불 가능 기간</td>
                                                 <td>
-                                                    <div class="p-price">$495.00</div>
+                                                    <div class="p-price">고객변심은 출고완료 다음날부터 14일 까지만 교환/환불이 가능함</div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="p-catagory">Add To Cart</td>
+                                                <td class="p-catagory">교환/환불 비용</td>
                                                 <td>
-                                                    <div class="cart-add">+ add to cart</div>
+                                                    <div class="cart-add">고객변심 또는 구매착오의 경우에만 2,500원 택배비를 고객님이 부담함</div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="p-catagory">Availability</td>
+                                                <td class="p-catagory">교환/환불 불가사유</td>
                                                 <td>
-                                                    <div class="p-stock">22 in stock</div>
+                                                    <div class="p-stock">반품접수 없이 반송하거나, 우편으로 보낼 경우 상품 확인이 어려워 환불이 불가할 수 있음<br>
+													배송된 상품의 분실, 상품포장이 훼손된 경우, 비닐랩핑된 상품의 비닐 개봉시 교환/반품이 불가능함</div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="p-catagory">Weight</td>
+                                                <td class="p-catagory">소비자 피해보상</td>
                                                 <td>
-                                                    <div class="p-weight">1,3kg</div>
+                                                    <div class="p-weight">소비자 피해보상의 분쟁처리 등에 관한 사항은 소비자분쟁해결기준(공정거래위원회 고시)에 따라 비해 보상 받을 수 있음
+													교환/반품/보증조건 및 품질보증 기준은 소비자기본법에 따른 소비자 분쟁 해결 기준에 따라 피해를 보상 받을 수 있음</div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="p-catagory">Size</td>
+                                                <td class="p-catagory">기타</td>
                                                 <td>
-                                                    <div class="p-size">Xxl</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">Color</td>
-                                                <td><span class="cs-color"></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">Sku</td>
-                                                <td>
-                                                    <div class="p-code">00012</div>
+                                                    <div class="p-size">도매상 및 제작사 사정에 따라 품절/절판 등의 사유로 주문이 취소될 수 있음<br>(이 경우 인터파크도서에서 고객님께 별도로 연락하여 고지함)
+													</div>
                                                 </td>
                                             </tr>
                                         </table>
@@ -374,121 +199,50 @@ function flist_review_result(data, currentPage) {
     </section>
     <!-- Product Shop Section End -->
 
-    <!-- Related Products Section End -->
+    <!-- 연관 상품 시작 -->
     <div class="related-products spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>Related Products</h2>
+                        <h2>비슷한 카테고리 인기 도서</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="product-item">
-                        <div class="pi-pic">
-                            <img src="img/products/women-1.jpg" alt="">
-                            <div class="sale">Sale</div>
-                            <div class="icon">
-                                <i class="icon_heart_alt"></i>
+                 <div class="col-lg-10 offset-lg-1">
+                    <div class="product-slider owl-carousel">
+                    <c:forEach items="${relate}" var="list">
+                        <div class="product-item">
+                            <div class="pi-pic">
+                                <img src="${list.coverLargeUrl }" alt="" style="width:150px;height:300px">
+                                <c:if test="${list.saleRate > 1 }">
+                                <div class="sale">Sale</div>
+                                </c:if>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
                             </div>
-                            <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="pi-text">
-                            <div class="catagory-name">Coat</div>
-                            <a href="#">
-                                <h5>Pure Pineapple</h5>
-                            </a>
-                            <div class="product-price">
-                                $14.00
-                                <span>$35.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="product-item">
-                        <div class="pi-pic">
-                            <img src="img/products/women-2.jpg" alt="">
-                            <div class="icon">
-                                <i class="icon_heart_alt"></i>
-                            </div>
-                            <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="pi-text">
-                            <div class="catagory-name">Shoes</div>
-                            <a href="#">
-                                <h5>Guangzhou sweater</h5>
-                            </a>
-                            <div class="product-price">
-                                $13.00
+                            <div class="pi-text">
+                                <a href="#">
+                                    <h5>${list.title }</h5>
+                                </a>
+                                <div class="product-price">
+                                    <fmt:formatNumber value="${list.realPrice }" type="number" />원
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="product-item">
-                        <div class="pi-pic">
-                            <img src="img/products/women-3.jpg" alt="">
-                            <div class="icon">
-                                <i class="icon_heart_alt"></i>
-                            </div>
-                            <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="pi-text">
-                            <div class="catagory-name">Towel</div>
-                            <a href="#">
-                                <h5>Pure Pineapple</h5>
-                            </a>
-                            <div class="product-price">
-                                $34.00
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="product-item">
-                        <div class="pi-pic">
-                            <img src="img/products/women-4.jpg" alt="">
-                            <div class="icon">
-                                <i class="icon_heart_alt"></i>
-                            </div>
-                            <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="pi-text">
-                            <div class="catagory-name">Towel</div>
-                            <a href="#">
-                                <h5>Converse Shoes</h5>
-                            </a>
-                            <div class="product-price">
-                                $34.00
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Related Products Section End -->
+    <!-- 연관 상품 끝 -->
  <jsp:include page="/WEB-INF/view/common/footer.jsp"/>
- 
+ <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
  
  		<!-- 모달팝업 -->
 		<div id="mask"></div>
@@ -515,7 +269,7 @@ function flist_review_result(data, currentPage) {
 			    </tr>
 			    <tr>
 			    	<th scope="row">제목</th>
-					<td><input type="text" class="form-control" name="rTitle" id="rTitle"></td>
+					<td><input type="text" class="form-control" name="rTitle" id="rtitle"></td>
 			    </tr>
 			    <tr>
 			    	<th scope="row">내용</th>
@@ -529,4 +283,237 @@ function flist_review_result(data, currentPage) {
 			</table>
 			</form>
 		</div>
+ <script>
+var pageSize = 5;
+var pageBlockSize = 10;
+
+$(document).ready(function() {
+	
+	flist_review();
+	
+	
+	//타이머
+	var timerdate ='${goods.sellEnd}'; 
+	
+	$("#countdown").countdown(timerdate, function(event) {
+		$(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>일</p> </div>" + "<div class='cd-item'><span>%H</span> <p>시</p> </div>" + "<div class='cd-item'><span>%M</span> <p>분</p> </div>" + "<div class='cd-item'><span>%S</span> <p>초</p> </div>"));
+	});
+	//별점 표시	
+	let rStar ='${goods.rStar}'	
+	displayAvgStar(rStar);
+	
+	//리뷰
+	$("#reviewPop").click(function(event){
+		if ('${member}' == null || '${member}' =='' ){
+			alert("로그인이 필요합니다.");
+			location.href='/login/login.me';
+		}else{
+			fInit();
+			gfModalPop("#layer1");
+		}
+	});
+	
+	//별점 버튼
+	$('input[name="rStar"]').change(function(){
+		let value = $(this).val();
+		for (var i = 1; i <= $('input[name="rStar"]').length; i++) {
+			$('#star'+i).removeClass("radioStar")
+			$('#star'+i).addClass("radioNoStar")
+		}
+	 	for (var i = 1; i <= value; i++) {
+			$('#star'+i).removeClass("radioNoStar");
+			$('#star'+i).addClass("radioStar");
+		}  
+	});
+
+	
+	//좋아요 버튼
+	$(document).on("click",".icon_heart,.icon_heart_alt",function(){
+		
+		if ('${member}' == null || '${member}' =='' ){
+			alert("로그인이 필요합니다.");
+			location.href='/login/login.me';
+		}else{
+			let rId = $(this).closest(".co-item").find(".rId").val();
+			let className= $(this).attr('class');
+			let likeCount =$(this).closest("div").find(".likeCount").text();
+			let like;
+			if(className == 'icon_heart_alt'){
+				like='+1';
+				$(this).removeClass();
+				$(this).addClass('icon_heart');
+				$(this).closest("div").find(".likeCount").text(parseInt(likeCount)+1);
+			}else if(className == 'icon_heart'){
+				like='-1';
+				$(this).removeClass();
+				$(this).addClass('icon_heart_alt');
+				$(this).closest("div").find(".likeCount").text(parseInt(likeCount)-1);
+			}
+			$.ajax({
+				type: "Post", 
+				url:"/review/likeUnlike.do",
+				data: {
+					rId:rId,
+					like:like
+				},
+				dataType:"Json", 
+				success : function(result){
+				},
+				error : function(){
+					alert("실패");
+					}
+				}); 
+			}
+		});
+	
+	//정렬 버튼
+	$("#newSort,#likeSort").click(function(){
+		let id=$(this).attr('id'); 
+		console.log("id:"+id);
+		if(id=='newSort'){
+			$("#sort").val("regTime desc");
+		}else if (id=='likeSort'){
+			$("#sort").val("`rLike` desc");	
+		}
+		currentPage = $("#currentPage").val();
+		flist_review(currentPage);
+	});
+	
+	
+	});
+
+
+/** 리뷰 저장 */
+function freview_regist() {
+
+	var resultCallback = function(data) {
+		freview_regist_result(data);
+	};
+
+	callAjax("/review/regist.do", "post", "json", true, $("#modalForm")
+			.serialize(), resultCallback);
+}
+
+/** 리뷰 저장 콜백 함수 */
+function freview_regist_result(data) {
+ 	// 목록 조회 페이지 번호
+		currentPage = $("#currentPage").val();
  
+	// 응답 메시지 출력
+		alert(data.resultMsg);
+
+	// 모달 닫기
+		gfCloseModal();
+		
+ 	 //리뷰숫자 갱신
+		frenewRcount(data);
+		
+	// 입력폼 초기화
+		fInit();
+		flist_review(currentPage);	
+		
+}
+//리뷰 작성창 폼 초기화
+function fInit(){
+	//별점 초기화
+	for (var i = 1; i <= $('input[name="rStar"]').length; i++) {
+		$('#star'+i).removeClass("radioStar")
+		$('#star'+i).addClass("radioNoStar")
+	}
+	$('input[name="rStar"]').prop("checked", false);
+	//내용초기화
+	$("#rtitle").val('');
+	$("#rContent").val('');
+	
+}
+
+//리뷰숫자 갱신
+function frenewRcount(data){
+	console.log(data.goodsInfo.rStar);
+	displayAvgStar(data.goodsInfo.rStar);
+	$("#tabRcount").empty();	
+	$("#tabRcount").append(data.goodsInfo.rCount);
+	$(".star p").empty();
+	$(".star p").append(data.goodsInfo.rStar+' (총 '+ data.goodsInfo.rCount+' 건)');
+}
+
+
+/** 리뷰 목록 조회 */
+function flist_review(currentPage) {
+
+	currentPage = currentPage || 1;
+	let sort=$("#sort").val(); 
+	// 강의 정보 설정
+	let pId = $("#pId").val();
+
+	var param = {
+		pId : pId,
+		currentPage : currentPage,
+		pageSize : pageSize,
+		sort:sort
+	}
+
+	var resultCallback = function(data) {
+		flist_review_result(data, currentPage);
+	};
+
+	callAjax("/review/reviewList.do", "post", "text", true, param,
+			resultCallback);
+}
+
+/** 상담 조회 콜백 함수 */
+function flist_review_result(data, currentPage) {
+	// 기존 목록 삭제
+	$('.comment-option').empty();
+
+	// 신규 목록 생성
+	$('.comment-option').append(data);
+
+	// 총 개수 추출
+	var totalCnt = $("#totalCnt").val();
+
+	// 페이지 네비게이션 생성
+	var paginationHtml = getPaginationHtml(currentPage, totalCnt,
+			pageSize, pageBlockSize, 'flist_review');
+	$("#Pagination").empty().append(paginationHtml);
+
+	// 현재 페이지 설정
+	$("#currentPage").val(currentPage);
+}
+
+
+function freview_del(rId,pId){
+	var result = confirm("리뷰를 삭제하시겠습니까?");
+	
+	if(result){
+		var param = {
+				rId:rId,
+				pId:pId
+			}
+		var resultCallback = function(data) {
+			freview_del_result(data);
+		};
+	
+		callAjax("/review/delete.do", "post", "json", true, param,
+				resultCallback);
+	}else{
+		return
+	}
+	
+}
+
+function freview_del_result(data){
+	// 목록 조회 페이지 번호
+	currentPage = $("#currentPage").val();
+
+	// 응답 메시지 출력
+	alert(data.resultMsg);
+	
+	//리뷰 갱신
+	frenewRcount(data);
+	flist_review(currentPage);
+}
+
+
+
+</script>
