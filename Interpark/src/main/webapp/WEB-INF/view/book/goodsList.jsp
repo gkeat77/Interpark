@@ -212,10 +212,6 @@ function flist_goods_result(data, currentPage) {
 function flist_clean_search(){
 	$("#searchKey").val('');
 }
-// 상품 선택
-	function selectBook(pId){
-		location.href="/book/goodsDetail.do?pId="+pId;
-	};
 
 	function goCart(pId) {
 		var bookStock=1;

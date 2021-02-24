@@ -19,3 +19,9 @@ function displayAvgStar(rStar) {
 	}
 	$(".star").addClass("star"+star);
 }
+
+
+//상품 상세보기
+function selectBook(pId){
+	location.href="/book/goodsDetail.do?pId="+pId;
+};
