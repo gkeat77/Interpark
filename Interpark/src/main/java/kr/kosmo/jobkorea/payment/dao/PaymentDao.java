@@ -39,4 +39,6 @@ public interface PaymentDao {
 	public PaymentModel defaultChart(String day);
 	public void mileageDeduction(PaymentModel vo);
 	public RegisterInfoModel userInfo(String loginID);
+	public List<PaymentModel> buyList(String loginID);
+	public List<PaymentModel> userOrders(String loginID);
 }

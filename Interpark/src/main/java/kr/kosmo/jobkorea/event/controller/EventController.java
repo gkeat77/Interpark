@@ -58,19 +58,8 @@ public class EventController {
 	@RequestMapping("eventList.do")
 	public 	String eventList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
-
-		logger.info(">>>>>>>>>>paramMap"+paramMap);
-		
-		logger.info("파람맵"+paramMap.getClass().getName());
-		logger.info(">>>>>>>>>>>>> 널 체크"+ (String) paramMap.get("currentPage")); // null
 		
 		List<EventModel> eventList = new ArrayList<>();
-//		int currentPage = Integer.parseInt((String) paramMap.get("currentPage"));
-//		int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));		
-//		int pageIndex = (currentPage - 1) * pageSize;
-//		
-//		paramMap.put("pageIndex", pageIndex);
-//		paramMap.put("pageSize", pageSize);
 
 		eventList = eventsv.eventList(paramMap);
 		

@@ -56,6 +56,7 @@ public class PaymentController {
 	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 	   
 	   String pId = request.getParameter("pId");
+	   String bookStock = request.getParameter("bookStock");
 	   // 도서상품 -> buy버튼 
 	   if(pId != null) {
 		   // cart에 존재하는지 check 후 insert
@@ -68,13 +69,15 @@ public class PaymentController {
 			   mav.setViewName("/payment/cartList"); // 빈 카트로 페이지 이동해서 jsp해서 해결
 		   }else {
 			   bookInfo.setLoginID(rm.getLoginID());
+			   bookInfo.setStock(Integer.parseInt(bookStock));
 			   booksv.cartAdd(bookInfo);
 			   
 			   // cartList
 			   String loginID = rm.getLoginID();
 			   mav.addObject("cartList", paymentService.getCartList(loginID));
 			   mav.addObject("cartCnt",paymentService.getCartList(loginID).size());
-			   mav.setViewName("/payment/cartList");
+			   //mav.setViewName("/payment/cartList");
+			   mav.setViewName("redirect:/cartList.do");
 		   }
 	   }else {
 		   if(rm != null) {
@@ -169,18 +172,26 @@ public class PaymentController {
 	  vo.setLoginID(rm.getLoginID());
 	  
 	  if(result==1) {		// mileage x, coupon x
+		  vo.setMileage("0");
+		  logger.info("result1");
 	  }else if(result==2){ 	// mileage o, coupon x
-		  System.out.println(vo.getBalanceMileage());
 		  paymentService.mileageDeduction(vo);
+		  vo.setMileage(vo.getUseMileage());
+		  logger.info("result2");
 	  }else if(result==3){	// mileage x, coupon o
+		  logger.info("result3");
 		  for (int i = 0; i < arr.length; i++) {
 			  System.out.println(dcPrice);
 			  paymentService.useCoupon(arr[i]);
 		  }
+		  vo.setMileage("0");
 	  }else if(result==4) {	// mileage o, coupon o
-		  System.out.println(vo.getMileage());
-		  System.out.println(vo.getTotalPrice());
-		  System.out.println(dcPrice);
+		  for (int i = 0; i < arr.length; i++) {
+			  paymentService.useCoupon(arr[i]);
+		  }
+		  paymentService.mileageDeduction(vo); 	 
+		  vo.setMileage(vo.getUseMileage());	// 다시 set
+		  logger.info("result4");
 	  }
 	  
 	  paymentService.payment(vo);
@@ -301,6 +312,7 @@ public class PaymentController {
 	   
 	   result="success";
 	   resultMap.put("cartList",paymentService.orderCarts(map));
+	   resultMap.put("totalPrice",cartNos.getPrice());
 	   resultMap.put("resultMsg", result); 
 		return resultMap;
    }
@@ -397,7 +409,6 @@ public class PaymentController {
    }
    
 
-	// -------------ahn start-------------
 	
 	@ResponseBody
 	@RequestMapping(value="/goCart.do" , method = RequestMethod.POST)
@@ -406,6 +417,7 @@ public class PaymentController {
 		   String result="";
 		   
 		   String pId = (String) paramMap.get("pId");
+		   String bookStock = (String) paramMap.get("bookStock");
 		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 		   if(rm != null) {
 			   BookModel bookInfo = new BookModel();
@@ -418,6 +430,7 @@ public class PaymentController {
 				   result="cartAlready";
 			   }else {
 				   bookInfo.setLoginID(rm.getLoginID());
+				   bookInfo.setStock(Integer.parseInt(bookStock));
 				   booksv.cartAdd(bookInfo);
 				   result="success";
 			   }
@@ -430,8 +443,41 @@ public class PaymentController {
 		   return resultMap;
 	   }
 	
-	// -------------ahn end-------------
+	
+	@RequestMapping(value="/userInfo.do", method = RequestMethod.GET)
+	   public ModelAndView userInfo (Model mode, HttpSession session, HttpServletRequest req
+			   , @RequestParam(value="userSw", required=false)String userSw
+	   		) throws ParseException {
+	   	
+		ModelAndView mav = new ModelAndView();
+		int result=0;
+		
+		RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		if(ComnUtil.isEmpty(rm)) {
+			mav.setViewName("login/login");
+		}else{
+			if(!ComnUtil.isEmpty(userSw)){
+				int sw = Integer.parseInt(userSw);
+				String loginID = rm.getLoginID();
+				
+				if(sw == 4 ) {
+					mav.addObject("buyList", paymentService.buyList(loginID));
+					result=4;
+				}
+				if(sw == 5 ) {
+					mav.addObject("orders", paymentService.userOrders(loginID));
+					result=5;
+				}
+			}
+			mav.addObject("result", result);
+			
+			mav.setViewName("payment/userInfo");
+		}
+	   	return mav;
+	   }
+	
 	
 	
 }
+
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+﻿<!DOCTYPE html> 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,6 +7,241 @@
 
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>
 
+/** 리뷰 저장 */
+function freview_regist() {
+
+	var resultCallback = function(data) {
+		freview_regist_result(data);
+	};
+
+	callAjax("/review/regist.do", "post", "json", true, $("#modalForm")
+			.serialize(), resultCallback);
+}
+
+/** 리뷰 저장 콜백 함수 */
+function freview_regist_result(data) {
+/* 	// 목록 조회 페이지 번호
+	var currentPage = "1";
+	if ($("#action").val() != "I") {
+		currentPage = $("#currentPage_adv").val();
+	}
+ */
+		// 응답 메시지 출력
+		alert(data.resultMsg);
+
+		// 모달 닫기
+		gfCloseModal();
+	// 입력폼 초기화
+	fInit();
+}
+//폼 초기화
+function fInit(){
+	for (var i = 1; i <= $('input[name="rStar"]').length; i++) {
+		$('#star'+i).removeClass("radioStar")
+		$('#star'+i).addClass("radioNoStar")
+	}
+	$("#rtitle").val('');
+	$("#rContent").val('');
+	
+}
+
+
+/** 리뷰 목록 조회 */
+function flist_review(currentPage) {
+
+	currentPage = currentPage || 1;
+
+	// 강의 정보 설정
+	let pId = $("#pId").val();
+
+	var param = {
+		pId : pId,
+		currentPage : currentPage,
+		pageSize : pageSize
+	}
+
+	var resultCallback = function(data) {
+		flist_review_result(data, currentPage);
+	};
+
+	callAjax("/review/reviewList.do", "post", "text", true, param,
+			resultCallback);
+}
+
+/** 상담 조회 콜백 함수 */
+function flist_review_result(data, currentPage) {
+	// 기존 목록 삭제
+	$('.comment-option').empty();
+
+	// 신규 목록 생성
+	$('.comment-option').append(data);
+
+	// 총 개수 추출
+	var totalCnt = $("#totalCnt").val();
+
+	// 페이지 네비게이션 생성
+	var paginationHtml = getPaginationHtml(currentPage, totalCnt,
+			pageSize, pageBlockSize, 'flist_review');
+	$("#Pagination").empty().append(paginationHtml);
+
+	// 현재 페이지 설정
+	$("#currentPage").val(currentPage);
+}
+
+
+
+</script>
+/** 리뷰 저장 */
+function freview_regist() {
+
+	var resultCallback = function(data) {
+		freview_regist_result(data);
+	};
+
+	callAjax("/review/regist.do", "post", "json", true, $("#modalForm")
+			.serialize(), resultCallback);
+}
+
+/** 리뷰 저장 콜백 함수 */
+function freview_regist_result(data) {
+/* 	// 목록 조회 페이지 번호
+	var currentPage = "1";
+	if ($("#action").val() != "I") {
+		currentPage = $("#currentPage_adv").val();
+	}
+ */
+		// 응답 메시지 출력
+		alert(data.resultMsg);
+
+		// 모달 닫기
+		gfCloseModal();
+	// 입력폼 초기화
+	fInit();
+}
+//폼 초기화
+function fInit(){
+	for (var i = 1; i <= $('input[name="rStar"]').length; i++) {
+		$('#star'+i).removeClass("radioStar")
+		$('#star'+i).addClass("radioNoStar")
+	}
+	$("#rtitle").val('');
+	$("#rContent").val('');
+	
+}
+
+
+/** 리뷰 목록 조회 */
+function flist_review(currentPage) {
+
+	currentPage = currentPage || 1;
+
+	// 강의 정보 설정
+	let pId = $("#pId").val();
+
+	var param = {
+		pId : pId,
+		currentPage : currentPage,
+		pageSize : pageSize
+	}
+
+	var resultCallback = function(data) {
+		flist_review_result(data, currentPage);
+	};
+
+	callAjax("/review/reviewList.do", "post", "text", true, param,
+			resultCallback);
+}
+
+/** 상담 조회 콜백 함수 */
+function flist_review_result(data, currentPage) {
+	// 기존 목록 삭제
+	$('.comment-option').empty();
+
+	// 신규 목록 생성
+	$('.comment-option').append(data);
+
+	// 총 개수 추출
+	var totalCnt = $("#totalCnt").val();
+
+	// 페이지 네비게이션 생성
+	var paginationHtml = getPaginationHtml(currentPage, totalCnt,
+			pageSize, pageBlockSize, 'flist_review');
+	$("#Pagination").empty().append(paginationHtml);
+
+	// 현재 페이지 설정
+	$("#currentPage").val(currentPage);
+}
+
+
+function goCart(pId) {
+	var bookStock=1;
+	bookStock = $('#bookStock').val();
+	var data = {
+			pId : pId
+			, bookStock : bookStock
+	     };
+	   $.ajax({
+	    url : "/goCart.do",
+	    type : "post",
+	    data : data,
+	    success : function(result){
+			if(result.resultMsg == "success") {
+				alert("카트에 등록되었습니다");
+				location.reload(true);	// 삭제 후 초기화
+			}else if (result.resultMsg == "cartAlready"){
+				alert("카트에 이미 상품이 있습니다");
+			}else {
+				alert("로그인 먼저해주세요");
+				location.href='/login/login.me'; 
+			}
+	    },
+	    error : function(){
+	     alert("fail");
+	    }
+	   });
+	   
+}
+	   
+		function goBuy(pId) {
+			var bookStock = 1;
+			bookStock = $('#bookStock').val();
+			var session = $('#session').val();
+			
+			if(session == '' || session == 'null') {
+				alert("로그인 먼저해주세요");
+				location.href='/login/login.me';
+			}else {
+				var confirm_val = confirm("결제를 진행할까요?");
+				if(confirm_val){
+					
+					var newForm = document.createElement('form'); 
+					newForm.name = 'newForm'; 
+					newForm.method = 'post'; 
+					newForm.action = '/cartList.do'; 
+					
+					var input1 = document.createElement('input'); 
+					input1.setAttribute("type", "hidden"); 
+					input1.setAttribute("name", "pId"); 
+					input1.setAttribute("value", pId); 
+					
+					var input2 = document.createElement('input'); 
+					input2.setAttribute("type", "hidden"); 
+					input2.setAttribute("name", "bookStock"); 
+					input2.setAttribute("value", bookStock);
+					
+					newForm.appendChild(input1);
+					newForm.appendChild(input2);
+					document.body.appendChild(newForm);
+					newForm.submit();
+				}else{
+				}
+			}
+		}
+
+		
+		
+
+</script>
 	<input type="hidden" id="currentPage" value="1">
 	
     <!-- Breadcrumb Section Begin -->
@@ -67,7 +302,7 @@
                                 <c:if test="${goods.sellState ne null and goods.sellState ne 'N' }">
                                 <div class="quantity">
                                     <div class="pro-qty">
-                                        <input type="text" value="1">
+                                        <input type="text" value="1" id="bookStock">
                                     </div>
                                 </div>
                              	<p><strong>남은 수량: ${goods.stock }</strong></p>
@@ -76,8 +311,8 @@
                                 <div class="countdown-timer uBoder" id="countdown">
 				                </div>
 				                </c:if>
-                                <a href="#" class="primary-btn pd-cart text-center" style="background-color:#000000;width:200px;height:50px">카트 담기</a>
-                                <a href="#" class="primary-btn pd-cart text-center" style="width:200px;height:50px">바로 구매</a>
+                                <a href="javascript:void(0);" onclick="goCart(${goods.pId})" class="primary-btn pd-cart text-center" style="background-color:#000000;width:200px;height:50px">카트 담기</a>
+                                <a href="javascript:void(0);" onclick="goBuy(${goods.pId})" class="primary-btn pd-cart text-center" style="width:200px;height:50px">바로 구매</a>
                                 </c:if>
                                 <c:if test="${goods.sellState ne null and goods.sellState eq 'N' }">
                                 	<h3>현재 판매중인 상품이 아닙니다.</h3>
@@ -514,6 +749,72 @@ function freview_del_result(data){
 	flist_review(currentPage);
 }
 
+function goCart(pId) {
+	var bookStock=1;
+	bookStock = $('#bookStock').val();
+	var data = {
+			pId : pId
+			, bookStock : bookStock
+	     };
+	   $.ajax({
+	    url : "/goCart.do",
+	    type : "post",
+	    data : data,
+	    success : function(result){
+			if(result.resultMsg == "success") {
+				alert("카트에 등록되었습니다");
+				location.reload(true);	// 삭제 후 초기화
+			}else if (result.resultMsg == "cartAlready"){
+				alert("카트에 이미 상품이 있습니다");
+			}else {
+				alert("로그인 먼저해주세요");
+				location.href='/login/login.me'; 
+			}
+	    },
+	    error : function(){
+	     alert("fail");
+	    }
+	   });
+	   
+}
+	   
+		function goBuy(pId) {
+			var bookStock = 1;
+			bookStock = $('#bookStock').val();
+			var session = $('#session').val();
+			
+			if(session == '' || session == 'null') {
+				alert("로그인 먼저해주세요");
+				location.href='/login/login.me';
+			}else {
+				var confirm_val = confirm("결제를 진행할까요?");
+				if(confirm_val){
+					
+					var newForm = document.createElement('form'); 
+					newForm.name = 'newForm'; 
+					newForm.method = 'post'; 
+					newForm.action = '/cartList.do'; 
+					
+					var input1 = document.createElement('input'); 
+					input1.setAttribute("type", "hidden"); 
+					input1.setAttribute("name", "pId"); 
+					input1.setAttribute("value", pId); 
+					
+					var input2 = document.createElement('input'); 
+					input2.setAttribute("type", "hidden"); 
+					input2.setAttribute("name", "bookStock"); 
+					input2.setAttribute("value", bookStock);
+					
+					newForm.appendChild(input1);
+					newForm.appendChild(input2);
+					document.body.appendChild(newForm);
+					newForm.submit();
+				}else{
+				}
+			}
+		}
+
 
 
 </script>
+ 

@@ -53,5 +53,7 @@ public interface PaymentService {
 	public Map<String, Object> goChart(Map<String, Object> paramMap) throws Exception;
 	public void mileageDeduction(PaymentModel vo);
 	public RegisterInfoModel userInfo(String loginID);
+	public List<PaymentModel> buyList(String loginID);
+	public List<PaymentModel> userOrders(String loginID);
 }
 

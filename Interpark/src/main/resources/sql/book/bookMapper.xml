@@ -136,7 +136,7 @@
 		)
 		VALUES
 		(
-			#{title},1,#{realPrice},NOW(),'N',#{loginID},#{coverLargeUrl},#{mileage},#{pId}
+			#{title},#{stock},#{realPrice},NOW(),'N',#{loginID},#{coverLargeUrl},#{mileage},#{pId}
 		)
 	</insert>
 	

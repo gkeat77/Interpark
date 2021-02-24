@@ -4,19 +4,17 @@
 
 	<!--카테고리 리스트 -->
 	<select id="cateList" resultType="kr.kosmo.jobkorea.event.model.CategoryModel">
-		<!-- select * FROM CATEGORY WHERE categoryId IN (205, 119, 102, 120, 103, 210, 217, 400) order by categoryId -->
 		
-		<!-- 
-		SELECT * FROM CATEGORY 
-		<where> 
-		level=#{level}
-		<if test="(cateClass != null) and (!cateClass.equals(''))">
-		and cateClass=#{cateClass}
-		</if>
-		</where>
-		 -->
-		 
-		 select * from CATEGORY where categoryName in ('문학', '인문', '예술/대중문화', '해외주문도서', 'DVD', '대학교재/전문서적') and level in (0,1)
+		SELECT categoryName
+		FROM   CATEGORY
+		WHERE  categoryId = 999
+		UNION ALL
+		SELECT categoryName
+		FROM   CATEGORY
+		WHERE  categoryName IN (SELECT categoryName
+		                        FROM   CATEGORY
+		                        WHERE  categoryId IN ( 205, 119, 217, 211, 400 )
+		                        ORDER  BY Binary(categoryId)) 
 	</select>
 	
 	<select id="eventList" resultType="kr.kosmo.jobkorea.event.model.EventModel">

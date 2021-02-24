@@ -38,6 +38,9 @@ public class PaymentModel {
 	
 	private String balanceMileage;
 	private String earnedMileage;
+	private String useMileage;
+	
+	private String state;
 	
 	
 	
@@ -49,6 +52,18 @@ public class PaymentModel {
 	
 	
 	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getUseMileage() {
+		return useMileage;
+	}
+	public void setUseMileage(String useMileage) {
+		this.useMileage = useMileage;
+	}
 	public String getEarnedMileage() {
 		return earnedMileage;
 	}

@@ -42,25 +42,5 @@ public class eventServiceImpl implements eventService{
 	public int eventCount(Map<String, Object> paramMap) {
 		return eventDao.eventCount(paramMap);
 	}
-//
-//	@Override
-//	public BookModel goodsDetail(Map<String, Object> paramMap) {
-//		return bookDao.goodsDetail(paramMap);
-//	}
-//
-//	@Override
-//	public BookModel bookInfo(String pId) {
-//		return bookDao.bookInfo(pId);
-//	}
-
-//	@Override
-//	public void cartAdd(BookModel vo) {
-//		bookDao.cartAdd(vo);
-//	}
-//
-//	@Override
-//	public String cartInfo(String pId) {
-//		return bookDao.cartInfo(pId);
-//	}
 
 }

@@ -176,6 +176,7 @@ VALUES
 	SELECT CART_NO AS cartNos
 			, loginID AS loginID
 			, ORDER_DT AS regDt
+			, PAYMENT AS price
 	FROM ORDERS
 	WHERE ORDER_NO = #{payNo}
 </select>
@@ -263,7 +264,7 @@ CART_NO =  #{cartNo}
 
 <update id="mileageDeduction" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
 	UPDATE tb_userinfo
-	SET M_MILEAGE = #{balanceMileage}
+	SET M_MILEAGE = #{mileage}
 	WHERE loginID = #{loginID}
 </update>
 
@@ -277,6 +278,42 @@ CART_NO =  #{cartNo}
 			, M_MILEAGE AS mileage
 	FROM tb_userinfo
 	WHERE loginID = #{loginID}
+</select>
+
+<select id="buyList" parameterType="String" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	SELECT ORDER_DT AS regDt	
+		, ORDER_NO AS payNo
+		, (
+            CASE ORDER_STATE
+			WHEN 0 THEN '입금대기중'
+			WHEN 1 THEN '결제완료'
+			WHEN 2 THEN '배송완료'
+			WHEN 3 THEN '관리자 결재취소'
+			END
+            ) AS state
+	FROM ORDER_HST
+	WHERE ORDER_NO IN (
+	        SELECT ORDER_NO
+	        FROM ORDERS
+	        WHERE loginID = #{loginID}
+	    )
+	 ORDER BY ORDER_DT DESC
+</select>
+
+<select id="userOrders" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+		SELECT ORDER_DT AS regDt	
+		, ORDER_NO AS payNo
+		, (
+            CASE ORDER_STATE
+			WHEN 0 THEN '입금대기중'
+			WHEN 1 THEN '결제완료'
+			WHEN 2 THEN '배송완료'
+			WHEN 3 THEN '관리자 결재취소'
+			END
+            ) AS state
+	FROM ORDERS
+	WHERE loginID = #{loginID}
+	 ORDER BY ORDER_DT DESC
 </select>
 
 
