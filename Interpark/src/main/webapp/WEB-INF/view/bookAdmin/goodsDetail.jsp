@@ -6,141 +6,10 @@
 <html lang="ko">
 <head>
 <title>!!!!</title>
-<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>    
 </head>
 
-<script>
-$(document).ready(function() {
-	
-//초기 페이지 세팅
-	let sellStart ='${goods.sellStart}';
-	if(sellStart != null && sellStart != ''){
-		$("#limit").show();
-	}else{
-		$("#limit").hide();
-	}
-	let file ='${goods.file_nm}';
-	if(file == null || file == ""){
-		$(".select_img").hide();
-	}else{
-		$(".select_img").append('<img src="${CTX_PATH}/file/${goods.itemId}/${goods.file_nm}">');
-	}
-	$("#display").val("${goods.display}").prop("selected", true);
-	$("#sellState").val("${goods.sellState}").prop("selected", true);
-	$("#serviceType").val("${goods.serviceType}").prop("selected", true);
-	
-// end 
-	
-	//버튼
-	$('#updateBtn').click(function(e) {
-		updateGoodsInfo();
-	});
-	
-	$('#deleteBtn').click(function(e) {
-		deleteGoods();
-	});
-	
-	$('#delImgBtn').click(function(e) {
-		deleteImg();
-	});
-	
-	$('#listBtn').click(function(e) {
-		location.href="/book/goodsListPage.do";
-	});
-	
-	//할인 적용가 계산
-	$('input[name=salePrice],input[name=saleRate],input[name=mileageRate]').change(function(){
-		
-		let salePrice= $('input[name=salePrice]').val();
-		let saleRate= $('input[name=saleRate]').val();
-		let realPrice = salePrice * ((100-saleRate)/100);
-		let mileageRate =$('input[name=mileageRate]').val();
-		let mileage = realPrice * (mileageRate/100);
-		
-		if(saleRate >100||mileageRate >100 ){
-			alert("할인율이나 적립율이 100%를 넘을수 없습니다.")
-			return
-		}else{
-			$('input[name=realPrice]').val(realPrice);
-			$('input[name=mileage]').val(mileage);
-		}
-	});
-	
-	
-});
 
-//상시 or 기간판매 
-function selectLimit(time) {
-	if(time=="all"){
-		$("#limit").hide();
-		$("#sellStart").val("");
-		$("#sellEnd").val("");
-		$("#radio1").prop("checked",true);
-		$("#radio2").prop("checked",false);
-	}else if(time=="limit"){
-		$("#limit").show();
-		$("#radio2").prop("checked",true);
-		$("#radio1").prop("checked",false);
-	}
-}
-
-/*  상품 수정 */
-
-function updateGoodsInfo(){
-	var frm = document.getElementById("myForm");
-	frm.enctype = 'multipart/form-data';
-	var fileData = new FormData(frm);
-	
-	var resultCallback = function(param) {
-		updateGoodsInfoCallback(param);
-	};
-	callAjaxFileUploadSetFormData("/bookAdmin/updateGoodsInfo.do", "post", "json", true, fileData, resultCallback);
-}
-
-function updateGoodsInfoCallback(param){
-	const pId=$("#pId").val();
-	alert(param.result);
-	location.href="/bookAdmin/goodsDetail.do?pId="+pId;
-}
-
-
-/* 상품 삭제 */
-function deleteGoods(){
-	var frm = document.getElementById("myForm");
-	frm.enctype = 'multipart/form-data';
-	var fileData = new FormData(frm);
-	
-	var resultCallback = function(param) {
-		deleteGoodsCallback(param);
-	};
-	callAjaxFileUploadSetFormData("/bookAdmin/deleteGoods.do", "post", "json", true, fileData, resultCallback);
-}
-
-function deleteGoodsCallback(param){
-	alert(param.result);
-	location.href="/bookAdmin/goodsListPage.do"
-}
-
-/* 이미지만 삭제 */
-function deleteImg(){
-	$(".select_img").hide();
-	$("#gdsImg").val('');
-	var frm = document.getElementById("myForm");
-	frm.enctype = 'multipart/form-data';
-	var fileData = new FormData(frm);
-	
-	var resultCallback = function(param) {
-		deleteImgCallback(param);
-	};
-	callAjaxFileUploadSetFormData("/bookAdmin/deleteImg.do", "post", "json", true, fileData, resultCallback);
-}
-
-function deleteImgCallback(param){
-	alert(param.result);
-}
-
-</script>
 
 <input type="hidden" id="action"> 
 	<form id="myForm">
@@ -215,13 +84,13 @@ function deleteImgCallback(param){
 											<div class="input-group-prepend">
 												<span class="input-group-text"><strong>출판사</strong></span>
 											</div>
-											<input type="text" class="form-control" value="	${goods.publisher}" name="publisher" readonly>
+											<input type="text" class="form-control" value="${goods.publisher}" name="publisher" readonly>
 										</div>
 											<div class="input-group mb-3 input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text"><strong>출판일</strong></span>
 											</div>
-											<input type="text" class="form-control" value="	${goods.pubDate}" name="publisher" readonly>
+											<input type="text" class="form-control" value="${goods.pubDate}" name="pubDate" readonly>
 										</div>
 										<div class="input-group mb-3 input-group">
 											<div class="input-group-prepend">
@@ -382,3 +251,136 @@ function deleteImgCallback(param){
    </form>
 
    <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
+   
+   <script>
+$(document).ready(function() {
+	
+//초기 페이지 세팅
+	let sellStart ='${goods.sellStart}';
+	if(sellStart != null && sellStart != ''){
+		$("#limit").show();
+	}else{
+		$("#limit").hide();
+	}
+	let file ='${goods.file_nm}';
+	if(file == null || file == ""){
+		$(".select_img").hide();
+	}else{
+		$(".select_img").append('<img src="${CTX_PATH}/file/${goods.itemId}/${goods.file_nm}">');
+	}
+	$("#display").val("${goods.display}").prop("selected", true);
+	$("#sellState").val("${goods.sellState}").prop("selected", true);
+	$("#serviceType").val("${goods.serviceType}").prop("selected", true);
+	
+// end 
+	
+	//버튼
+	$('#updateBtn').click(function(e) {
+		updateGoodsInfo();
+	});
+	
+	$('#deleteBtn').click(function(e) {
+		deleteGoods();
+	});
+	
+	$('#delImgBtn').click(function(e) {
+		deleteImg();
+	});
+	
+	$('#listBtn').click(function(e) {
+		location.href="/book/goodsListPage.do";
+	});
+	
+	//할인 적용가 계산
+	$('input[name=salePrice],input[name=saleRate],input[name=mileageRate]').change(function(){
+		
+		let salePrice= $('input[name=salePrice]').val();
+		let saleRate= $('input[name=saleRate]').val();
+		let realPrice = salePrice * ((100-saleRate)/100);
+		let mileageRate =$('input[name=mileageRate]').val();
+		let mileage = realPrice * (mileageRate/100);
+		
+		if(saleRate >100||mileageRate >100 ){
+			alert("할인율이나 적립율이 100%를 넘을수 없습니다.")
+			return
+		}else{
+			$('input[name=realPrice]').val(realPrice);
+			$('input[name=mileage]').val(mileage);
+		}
+	});
+	
+	
+});
+
+//상시 or 기간판매 
+function selectLimit(time) {
+	if(time=="all"){
+		$("#limit").hide();
+		$("#sellStart").val("");
+		$("#sellEnd").val("");
+		$("#radio1").prop("checked",true);
+		$("#radio2").prop("checked",false);
+	}else if(time=="limit"){
+		$("#limit").show();
+		$("#radio2").prop("checked",true);
+		$("#radio1").prop("checked",false);
+	}
+}
+
+/*  상품 수정 */
+
+function updateGoodsInfo(){
+	var frm = document.getElementById("myForm");
+	frm.enctype = 'multipart/form-data';
+	var fileData = new FormData(frm);
+	
+	var resultCallback = function(param) {
+		updateGoodsInfoCallback(param);
+	};
+	callAjaxFileUploadSetFormData("/bookAdmin/updateGoodsInfo.do", "post", "json", true, fileData, resultCallback);
+}
+
+function updateGoodsInfoCallback(param){
+	const pId=$("#pId").val();
+	alert(param.result);
+	location.href="/bookAdmin/goodsDetail.do?pId="+pId;
+}
+
+
+/* 상품 삭제 */
+function deleteGoods(){
+	var frm = document.getElementById("myForm");
+	frm.enctype = 'multipart/form-data';
+	var fileData = new FormData(frm);
+	
+	var resultCallback = function(param) {
+		deleteGoodsCallback(param);
+	};
+	callAjaxFileUploadSetFormData("/bookAdmin/deleteGoods.do", "post", "json", true, fileData, resultCallback);
+}
+
+function deleteGoodsCallback(param){
+	alert(param.result);
+	location.href="/bookAdmin/goodsListPage.do"
+}
+
+/* 이미지만 삭제 */
+function deleteImg(){
+	$(".select_img").hide();
+	$("#gdsImg").val('');
+	var frm = document.getElementById("myForm");
+	frm.enctype = 'multipart/form-data';
+	var fileData = new FormData(frm);
+	
+	var resultCallback = function(param) {
+		deleteImgCallback(param);
+	};
+	callAjaxFileUploadSetFormData("/bookAdmin/deleteImg.do", "post", "json", true, fileData, resultCallback);
+}
+
+function deleteImgCallback(param){
+	alert(param.result);
+}
+
+</script>

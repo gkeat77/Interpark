@@ -86,7 +86,7 @@
 		author,coverSmallUrl, categoryId, categoryName,
 		publisher, sellCount, stock, 
 		saleRate, salePrice,realPrice, 
-		DATE_FORMAT(regDate, '%Y-%m-%d') as regDate, sellState,
+		DATE_FORMAT(regDate, '%Y-%m-%d') as regDate,regDate as regTime ,sellState,
 		display,
 		DATE_FORMAT(sellStart, '%Y.%m.%d') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d') as sellEnd
 		FROM BOOK_GOODS

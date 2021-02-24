@@ -20,6 +20,8 @@ public interface bookDao {
 	
 	public BookModel goodsDetail(Map<String,Object> paramMap);
 	
+	public List<BookModel> relateGoods(Map<String,Object> paramMap);
+	
 	public BookModel bookInfo (String pId);  
 	
 	public void cartAdd(BookModel vo);

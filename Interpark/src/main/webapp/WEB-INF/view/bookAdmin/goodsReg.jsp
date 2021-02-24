@@ -6,74 +6,9 @@
 <html lang="ko">
 <head>
 <title>!!!!</title>    
-<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
 </head>
 
-<script>
-$(document).ready(function() {
-	$("#limit").hide();
-	
-	$('#regBtn').click(function(e) {
-		registGoods();
-	});
-	
-	//할인 적용가 계산
-	$('input[name=salePrice],input[name=saleRate],input[name=mileageRate]').change(function(){
-		
-		let salePrice= $('input[name=salePrice]').val();
-		let saleRate= $('input[name=saleRate]').val();
-		let realPrice = salePrice * ((100-saleRate)/100);
-		let mileageRate =$('input[name=mileageRate]').val();
-		let mileage = realPrice * (mileageRate/100);
-		
-		if(saleRate >100||mileageRate >100 ){
-			alert("할인율이나 적립율이 100%를 넘을수 없습니다.")
-			return
-		}else{
-			$('input[name=realPrice]').val(realPrice);
-			$('input[name=mileage]').val(mileage);
-		}
-	});
-	
-	
-	
-});
 
-//상시 or 기간판매 
-function selectLimit(time) {
-	if(time=="all"){
-		$("#limit").hide();
-		$("#sellStart").val("");
-		$("#sellEnd").val("");
-		$("#radio1").prop("checked",true);
-		$("#radio2").prop("checked",false);
-	}else if(time=="limit"){
-		$("#limit").show();
-		$("#radio2").prop("checked",true);
-		$("#radio1").prop("checked",false);
-	}
-}
-
-function registGoods(){
-	
-	var frm = document.getElementById("myForm");
-	frm.enctype = 'multipart/form-data';
-	var fileData = new FormData(frm);
-	
-	var resultCallback = function(param) {
-		makeProjectCallback(param);
-	};
-	callAjaxFileUploadSetFormData("/bookAdmin/regist.do", "post", "json", true, fileData, resultCallback);
-}
-
-function makeProjectCallback(param){
-	alert(param.result);
-	location.href="/bookAdmin/regPage.do";
-}
-
-
-
-</script>
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 <input type="hidden" id="action"> 
 	<form id="myForm">
@@ -151,13 +86,13 @@ function makeProjectCallback(param){
 											<div class="input-group-prepend">
 												<span class="input-group-text"><strong>출판사</strong></span>
 											</div>
-											<input type="text" class="form-control" value="	${book.publisher}" name="publisher">
+											<input type="text" class="form-control" value="${book.publisher}" name="publisher">
 										</div>
 											<div class="input-group mb-3 input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text"><strong>출판일</strong></span>
 											</div>
-											<input type="text" class="form-control" value="	${book.pubDate}" name="publisher">
+											<input type="text" class="form-control" value="${book.pubDate}" name="pubDate">
 										</div>
 										<div class="input-group mb-3 input-group">
 											<div class="input-group-prepend">
@@ -296,3 +231,69 @@ function makeProjectCallback(param){
        </div>
    </form>
    <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
+   <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
+   <script>
+$(document).ready(function() {
+	$("#limit").hide();
+	
+	$('#regBtn').click(function(e) {
+		registGoods();
+	});
+	
+	//할인 적용가 계산
+	$('input[name=salePrice],input[name=saleRate],input[name=mileageRate]').change(function(){
+		
+		let salePrice= $('input[name=salePrice]').val();
+		let saleRate= $('input[name=saleRate]').val();
+		let realPrice = salePrice * ((100-saleRate)/100);
+		let mileageRate =$('input[name=mileageRate]').val();
+		let mileage = realPrice * (mileageRate/100);
+		
+		if(saleRate >100||mileageRate >100 ){
+			alert("할인율이나 적립율이 100%를 넘을수 없습니다.")
+			return
+		}else{
+			$('input[name=realPrice]').val(realPrice);
+			$('input[name=mileage]').val(mileage);
+		}
+	});
+	
+	
+	
+});
+
+//상시 or 기간판매 
+function selectLimit(time) {
+	if(time=="all"){
+		$("#limit").hide();
+		$("#sellStart").val("");
+		$("#sellEnd").val("");
+		$("#radio1").prop("checked",true);
+		$("#radio2").prop("checked",false);
+	}else if(time=="limit"){
+		$("#limit").show();
+		$("#radio2").prop("checked",true);
+		$("#radio1").prop("checked",false);
+	}
+}
+
+function registGoods(){
+	
+	var frm = document.getElementById("myForm");
+	frm.enctype = 'multipart/form-data';
+	var fileData = new FormData(frm);
+	
+	var resultCallback = function(param) {
+		makeProjectCallback(param);
+	};
+	callAjaxFileUploadSetFormData("/bookAdmin/regist.do", "post", "json", true, fileData, resultCallback);
+}
+
+function makeProjectCallback(param){
+	alert(param.result);
+	location.href="/bookAdmin/regPage.do";
+}
+
+
+
+</script>

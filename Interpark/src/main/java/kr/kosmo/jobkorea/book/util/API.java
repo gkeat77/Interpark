@@ -133,7 +133,6 @@ public class API {
 				}
 				//목록을 page size만큼만 가져옴
 				for (int j = (pageNum - 1) * pageSize; j < pageNum * pageSize; j++) {
-					logger.info("j" + j);
 					JSONObject jsonobj = (JSONObject) parse_listArr.get(j);
 					BookModel book = new BookModel();
 					book.setItemId(String.valueOf(jsonobj.get("itemId")));

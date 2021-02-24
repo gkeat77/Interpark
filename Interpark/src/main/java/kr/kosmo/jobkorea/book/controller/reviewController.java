@@ -40,13 +40,15 @@ public class reviewController {
 	@Autowired
 	reviewService revSv;
 	
+	@Autowired
+	bookService booksv;
+	
 	
 	@RequestMapping("regist.do")
 	@ResponseBody
 	public 	Map<String,Object> goodsListPage(Model model,@RequestParam Map<String, Object> paramMap, HttpServletRequest request) throws Exception {
 		
 		int count=revSv.reviewReg(paramMap);
-		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>count:"+count);
 		String Msg;
 		if (count > 0){
 			Msg="등록 되었습니다.";
@@ -56,6 +58,7 @@ public class reviewController {
 		
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("resultMsg", Msg);
+		resultMap.put("goodsInfo", booksv.goodsDetail(paramMap));
 		
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>등록완료");
 		return resultMap;
@@ -65,7 +68,7 @@ public class reviewController {
 	public 	String goodsList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		
-		//아이디정보 (좋아요 체크용)
+		//아이디정보 (좋아요 체크확인용)
 		RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
 		if(rm != null) {
 			paramMap.put("loginId", rm.getLoginID());}
@@ -109,5 +112,26 @@ public class reviewController {
 		
 		return resultMap;
 	}
+	
+	@RequestMapping("delete.do")
+	@ResponseBody
+	public 	Map<String,Object> deleteReview(Model model,@RequestParam Map<String, Object> paramMap, HttpServletRequest request) throws Exception {
+		
+		int count=revSv.reviewDel(paramMap);
+		String Msg;
+		if (count > 0){
+			Msg="삭제 되었습니다.";
+		}else{
+			Msg="삭제 실패.";
+		}
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("resultMsg", Msg);
+		resultMap.put("goodsInfo", booksv.goodsDetail(paramMap));
+		
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>삭제완료");
+		return resultMap;
+	}
+	
 	
 }

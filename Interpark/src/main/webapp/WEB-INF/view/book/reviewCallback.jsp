@@ -5,17 +5,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<script>
-
-
-$(document).ready(function() {
-	
-	
-});
-
-
-</script>
-
 	
 	<c:if test="${totalCnt eq 0 }">
 		<div style="padding:100px">
@@ -33,16 +22,22 @@ $(document).ready(function() {
 				<c:if test="${list.rStar == 3}"><img src="${CTX_PATH }/img/star/star3.png" class="starImg"></c:if>
 				<c:if test="${list.rStar == 4}"><img src="${CTX_PATH }/img/star/star4.png" class="starImg"></c:if>
 				<c:if test="${list.rStar == 5}"><img src="${CTX_PATH }/img/star/star5.png" class="starImg"></c:if>
+				<c:if test="${list.loginId eq member.loginID or member.loginID eq 'admin' }">
+              	<button type="button" class="btn btn-warning" onclick="freview_del('${list.rId}',${list.pId })" style="color:white	">삭제</button>
+              	</c:if>
              </div>
              <h5>${list.rTitle} <span>${list.loginId } │ ${list.rDate }</span></h5>
              <div class="at-reply">${list.rContent}</div>
-              <div class="at-reply"><strong>좋아요 (<span class="likeCount">${list.rLike}</span>)</strong> │ 
-              <span class="spanLike"><c:if test="${list.likeChk == '+1'}"> <i class="icon_heart" style="color:red"></i></c:if>
+              <div class="at-reply"><strong>좋아요 (<span class="likeCount">${list.rLike}</span>)</strong> 
+              <c:if test="${list.loginId ne member.loginID}">
+              │
+              <c:if test="${list.likeChk == '+1'}"> <i class="icon_heart" style="color:red"></i></c:if>
               <c:if test="${list.likeChk eq '-1' or list.likeChk eq null}"> <i class="icon_heart_alt" style="color:red"></i></c:if>
-              </span>
+              </c:if>
               </div>
          </div>
      </div>
+     <hr>
 	</c:forEach>
 </c:if>
 

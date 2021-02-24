@@ -93,8 +93,21 @@ public class BookController {
 	@RequestMapping("goodsDetail.do")
 	public 	String goodsDetail(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
+		//상품 상세정보
+		BookModel goods= booksv.goodsDetail(paramMap);
+		model.addAttribute("goods", goods);
+		//연관 상품 리스트
+/*		paramMap.put("categoryId", goods.getCategoryId());
+		List<BookModel> relateGoods = booksv.relateGoods(paramMap);
 		
-		model.addAttribute("goods", booksv.goodsDetail(paramMap));
+		if(relateGoods.size() < 3 ){
+			logger.info(">>>>>>>해당 카테고리 목록이 3개보다 적습니다. 대분류로 불러옵니다");
+			paramMap.put("cateClass", goods.getCategoryId().substring(0, 1));
+			relateGoods =booksv.relateGoods(paramMap);
+		}
+		
+		
+		model.addAttribute("relate",relateGoods );*/
 		
 		return "book/goodsDetail";
 	}

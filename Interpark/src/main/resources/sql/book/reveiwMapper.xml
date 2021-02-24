@@ -17,11 +17,19 @@
 		rTitle, 
 		rContent,
 		DATE_FORMAT(rDate, '%Y-%m-%d') as rDate,
-	    likeChk
+		rDate as regTime
+		<if test="(loginId != null) and (!loginId.equals(''))">
+	    ,likeChk
+	    </if>
 		from REVIEW r left outer join REVEIW_LIKE l 
 	    on  r.rId= l.rId
+	    <if test="(loginId != null) and (!loginId.equals(''))">
 	    and l.loginID = #{loginId}
+	    </if>
 		where P_ID=#{pId}
+		<if test="(sort != null) and (!sort.equals(''))">
+		order by ${sort}
+		</if>
 		LIMIT #{pageIndex}, #{pageSize} 
 	</select>
 	
@@ -32,7 +40,7 @@
 	
 	
 	<delete id="reviewDel">
-		delete * from REVIEW where P_ID=#{pId}
+		delete from REVIEW where rId=#{rId}
 	</delete>
 	
 	
