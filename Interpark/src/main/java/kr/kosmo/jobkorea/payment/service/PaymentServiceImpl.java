@@ -336,11 +336,46 @@ public class PaymentServiceImpl implements PaymentService{
 
 
 	@Override
-	public void userCancel(Map<String, Object> paramMap) {
+	public void userCancel(Map<String, Object> paramMap,String loginID) {
 		String payNo = (String) paramMap.get("payNo");
-//		PaymentModel = paymentDao.orderShow(payNo);
+		PaymentModel orderDetail = paymentDao.orderShow(payNo);
+		orderDetail.setLoginID(loginID);
+		System.out.println("사용된 마일리지 " + orderDetail.getUseMileage());
+		System.out.println("적립된 마일리지 " + orderDetail.getEarnedMileage());
+		System.out.println("카트번호 " + orderDetail.getCartNos());
+		System.out.println("쿠폰번호 " + orderDetail.getCouponNo());
 		
+		// revertMileage
+		RegisterInfoModel userMileage =paymentDao.userInfo(loginID);
+		int oldMileage =userMileage.getMileage();
+		int useMileage = Integer.parseInt(orderDetail.getUseMileage());
+		orderDetail.setMileage(Integer.toString(oldMileage+useMileage));
+		paymentDao.mileageDeduction(orderDetail); // 사용한거 다시 복구
+		orderDetail.setBalanceMileage(Integer.toString(oldMileage- Integer.parseInt(orderDetail.getEarnedMileage())));
+		paymentDao.mileageSet(orderDetail);	// 적립된거 revert user테이블에
+		// cart
+		String[] cartNosArray = orderDetail.getCartNos().split(",");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("cartNos", cartNosArray);
+		paymentDao.userCancelCart(map);	// cart order_yn =n
+		// coupon
+		paymentDao.couponCancel(orderDetail.getCouponNo());
+		// state
+		paymentDao.userCancelState(payNo);
+		orderDetail.setUserState(5);
+	    paymentDao.regOderHst(orderDetail);
 	}
+
+
+
+
+	@Override
+	public void mileageSet(PaymentModel vo) {
+		paymentDao.mileageSet(vo);
+	}
+
+
+
 
 
 

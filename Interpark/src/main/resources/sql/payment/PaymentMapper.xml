@@ -14,7 +14,7 @@
 	, P_ID AS pId
 	FROM CART
 	WHERE 
-	ORDER_YN != 'Y'
+	ORDER_YN NOT IN ('Y','C')
 	AND loginID = #{loginID}
 </select>
 
@@ -180,7 +180,7 @@ VALUES
 			, USE_MILEAGE AS useMileage
 			, EARNED_MILEAGE AS earnedMileage
 			, COUPON_NO AS couponNo
-			, CART_NO AS cartNos
+			, ORDER_NO AS payNo 
 	FROM ORDERS
 	WHERE ORDER_NO = #{payNo}
 </select>
@@ -198,7 +198,7 @@ FROM CART
 				<foreach collection="cartNos" item="arr" separator="or">
 					CART_NO IN ( #{arr} )
 				</foreach>
-				AND ORDER_YN = 'Y'	
+				AND ORDER_YN IN ('C','Y')	
 </if>
 </select>
 
@@ -293,6 +293,7 @@ CART_NO =  #{cartNo}
 			WHEN 1 THEN '결제완료'
 			WHEN 2 THEN '배송완료'
 			WHEN 3 THEN '관리자 결재취소'
+			WHEN 5 THEN '결재취소'
 			END
             ) AS state
 	FROM ORDER_HST
@@ -313,6 +314,7 @@ CART_NO =  #{cartNo}
 			WHEN 1 THEN '결제완료'
 			WHEN 2 THEN '배송완료'
 			WHEN 3 THEN '관리자 결재취소'
+			WHEN 5 THEN '결재취소'
 			END
             ) AS state
 	FROM ORDERS 
@@ -321,5 +323,29 @@ CART_NO =  #{cartNo}
 	 ORDER BY ORDER_DT DESC
 </select>
 
+
+<update id="mileageSet" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	UPDATE tb_userinfo
+	SET M_MILEAGE = #{balanceMileage}
+	WHERE loginID = #{loginID}
+</update>
+
+<update id="userCancelCart" parameterType="hashmap" >
+	
+	UPDATE CART
+	SET ORDER_YN = 'C'
+	WHERE
+	CART_NO IN (
+	<foreach collection="cartNos" item="arr" separator=","> 
+	 #{arr} 
+	</foreach>
+	)
+</update>
+
+<update id="userCancelState" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	UPDATE ORDERS
+	SET ORDER_STATE = '5'
+	WHERE ORDER_NO = #{payNo}
+</update>
 
 </mapper>

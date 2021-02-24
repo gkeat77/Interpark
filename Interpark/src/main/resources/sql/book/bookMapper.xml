@@ -144,7 +144,7 @@
 		SELECT BOOK_NAME AS title
 		FROM CART
 		WHERE P_ID = #{pId}
-		AND ORDER_YN != 'Y'
+		AND ORDER_YN NOT IN ('Y','C')
 		AND loginID = #{loginID}
 	</select>
 	

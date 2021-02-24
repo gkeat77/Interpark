@@ -7,7 +7,12 @@
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 
 	<style>
-		a:link{ color:black;
+		a:link{ 
+		color:black;
+		}
+		
+		#pay{
+		  	color: blue;
 		}
 		
 		#payNo {
@@ -282,6 +287,8 @@
 	 function close_pop(flag) {
         $('#myModal').hide();         
         $('body').css("overflow", "scroll");
+        let elm = document.getElementById('paging-ul');
+        elm.style.visibility = "visible";
    };
 
 	
@@ -349,6 +356,8 @@
 								State="배송완료";
 							}else if (item.userState=="3") {
 								State="관리자 취소";
+							}else if (item.userState=="5") {
+								State="취소";
 							}
 							var proQty = $('.user-orders');
 							
@@ -356,7 +365,7 @@
 							proQty.append('<li id="payNo">결제번호'+""+"<span>"+item.payNo+"</span>"+'</li>');
 									href="#layer2" class="btn-example"
 							*/
-							 proQty.append('<li id="payNo">결제번호'+""+"<span><a href='javascript:void(0);' class='btn-example' onclick='orderCart("+item.payNo+")''>"+item.payNo+"</a></span>"+'</li>');  
+							 proQty.append('<li id="payNo">결제번호'+""+"<span><a href='javascript:void(0);' id='pay' class='btn-example' onclick='orderCart("+item.payNo+")''>"+item.payNo+"</a></span>"+'</li>');  
 							proQty.append('<li id="payPrice">결제금액'+""+"<span>"+comma(item.price)+"</span>"+'</li>');
 							proQty.append('<li id="payState" >상태'+""+"<span>"+State+"</span>"+'</li>');
 							if(State == "입금대기") {
@@ -375,6 +384,9 @@
 	
 	
     function orderCart(payNo){
+    	let elm = document.getElementById('paging-ul');
+   		elm.style.visibility = "hidden";
+    	
     	 var data = {
     			 payNo : payNo
  			     };

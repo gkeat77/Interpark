@@ -55,6 +55,7 @@ public interface PaymentService {
 	public RegisterInfoModel userInfo(String loginID);
 	public List<PaymentModel> buyList(String loginID);
 	public List<PaymentModel> userOrders(String loginID);
-	public void userCancel(Map<String, Object> paramMap);
+	public void userCancel(Map<String, Object> paramMap, String loginID);
+	public void mileageSet(PaymentModel vo);
 }
 

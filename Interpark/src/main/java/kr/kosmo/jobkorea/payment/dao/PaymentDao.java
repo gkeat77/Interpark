@@ -41,4 +41,7 @@ public interface PaymentDao {
 	public RegisterInfoModel userInfo(String loginID);
 	public List<PaymentModel> buyList(String loginID);
 	public List<PaymentModel> userOrders(String loginID);
+	public void mileageSet(PaymentModel vo);
+	public void userCancelCart(HashMap<String, Object> map); // user가 취소했을 떄 카트 목록 복구
+	public void userCancelState(String payNo);	// state =5으로 
 }
