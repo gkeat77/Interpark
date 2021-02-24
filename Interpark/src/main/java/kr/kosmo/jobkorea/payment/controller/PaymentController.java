@@ -195,6 +195,11 @@ public class PaymentController {
 	  }
 	  
 	  paymentService.payment(vo);
+	  // userTable 반영 (적립되는애 그냥 더해주면 되네)
+	  RegisterInfoModel userInfo = paymentService.userInfo(vo.getLoginID());
+	  vo.setBalanceMileage(Integer.toString(userInfo.getMileage()+ Integer.parseInt(vo.getEarnedMileage())));
+	  paymentService.mileageSet(vo);
+	  
 	  mav.addObject("userInfo",vo);
 	  mav.setViewName("payment/paymentResult");
       return mav;
@@ -487,7 +492,8 @@ public class PaymentController {
 		   String result="";
 		   
 		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
-		   //String loginID= 
+		   String loginID = rm.getLoginID();
+		   paymentService.userCancel(paramMap, loginID);
 		   
 		   result="success";
 		   resultMap.put("resultMsg", result); 
