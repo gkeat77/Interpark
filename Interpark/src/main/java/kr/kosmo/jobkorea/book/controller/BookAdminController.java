@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kosmo.jobkorea.book.model.BookModel;
+import kr.kosmo.jobkorea.book.model.CategoryModel;
 import kr.kosmo.jobkorea.book.service.bookAdminService;
 import kr.kosmo.jobkorea.book.util.API;
 
@@ -35,6 +36,7 @@ public class BookAdminController {
 	
 	@Autowired
 	bookAdminService booksv;
+	
 	
 	//책 등록 페이지 이동
 	@RequestMapping("regPage.do")

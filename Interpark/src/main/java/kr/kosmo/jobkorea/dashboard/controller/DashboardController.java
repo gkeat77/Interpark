@@ -1,5 +1,6 @@
 package kr.kosmo.jobkorea.dashboard.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.kosmo.jobkorea.book.model.BookModel;
+import kr.kosmo.jobkorea.book.model.CategoryModel;
+import kr.kosmo.jobkorea.book.service.bookService;
+import kr.kosmo.jobkorea.book.util.API;
 import kr.kosmo.jobkorea.payment.service.PaymentService;
 import kr.kosmo.jobkorea.supportD.model.NoticeDModel;
 import kr.kosmo.jobkorea.supportD.service.NoticeDService;
@@ -24,24 +29,83 @@ import kr.kosmo.jobkorea.supportD.service.NoticeDService;
 @Controller
 public class DashboardController {
 
-	@Autowired
+	/*@Autowired
 	NoticeDService noticeDService;
 	@Autowired
-	PaymentService paymentService;
+	PaymentService paymentService;*/
 
 	private final Logger logger = LogManager.getLogger(this.getClass());
 
 	// Get class name for logger
 	private final String className = this.getClass().toString();
+	
+	@Autowired
+	bookService booksv;
+	
+	
+	@RequestMapping("index.do")
+	public String initDashboard(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		logger.info("+ Start " + className + ".initDashboard");
+		/* ############## set input data################# */
+		paramMap.put("loginId", session.getAttribute("loginId")); // 제목
+		paramMap.put("userType", session.getAttribute("userType")); // 오피스 구분 //
+																	// 코드
+		paramMap.put("reg_date", session.getAttribute("reg_date")); // 등록 일자
+		logger.info("   - paramMap : " + paramMap);
+		
+		//카테고리
+		paramMap.put("level",0);
+		List<CategoryModel> cateList= booksv.cateList(paramMap);
+		model.addAttribute("cateList", cateList);
 
-	@RequestMapping("/index.do")
+		logger.info("+ end " + className + ".initDashboard");
+		
+		//model.addAttribute("cartCnt",paymentService.getCartList().size());
+		//model.addAttribute("cartList",paymentService.getCartList());
+		return "/index";
+	}
+	
+	@RequestMapping("rank.do")
+	@ResponseBody
+	public Map<String, Object> rank(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		logger.info(">>>>>>>랭크컨트롤러");
+		
+		API api = new API();
+		List<BookModel> rankList = new ArrayList<>();
+		logger.info("contoller paramap: "+paramMap);
+		
+		rankList=(List<BookModel>)api.searchBook(paramMap).get("bookArr");
+		
+	
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("rankList", rankList);
+		
+		
+		return resultMap;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/*	@RequestMapping("/index.do")
 	public String initDashboard(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		
 		
 		
 		logger.info("+ Start " + className + ".initDashboard");
-		/* ############## set input data################# */
+		 ############## set input data################# 
 		paramMap.put("loginId", session.getAttribute("loginId")); // 제목
 		paramMap.put("userType", session.getAttribute("userType")); // 오피스 구분 //
 																	// 코드
@@ -55,9 +119,9 @@ public class DashboardController {
 		//model.addAttribute("cartCnt",paymentService.getCartList().size());
 		//model.addAttribute("cartList",paymentService.getCartList());
 		return returnType;
-	}
+	}*/
 
-	/* 공지사항 리스트 뿌리기 */
+/*	 공지사항 리스트 뿌리기 
 	@RequestMapping("noticeList.do")
 	public String noticeList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
@@ -93,7 +157,7 @@ public class DashboardController {
 		return "supportD/noticeListD";
 	}
 
-	/* 공지사항 상세 정보 뿌리기 */
+	 공지사항 상세 정보 뿌리기 
 	@RequestMapping("detailNoticeList.do")
 	@ResponseBody
 	public Map<String, Object> detailList(Model model, @RequestParam Map<String, Object> paramMap,
@@ -110,10 +174,10 @@ public class DashboardController {
 
 		if (detailNotice != null) {
 
-			/*
+			
 			 * comments = qnaService.selectComments(paramMap); // 댓글 가지고오기
 			 * if(comments != null) { System.out.println("댓글도 소환완료!"); }
-			 */
+			 
 			result = "SUCCESS"; // 성공시 찍습니다.
 
 		} else {
@@ -131,6 +195,6 @@ public class DashboardController {
 		logger.info("+ End " + className + ".detailList");
 
 		return resultMap;
-	}
+	}*/
 
 }

@@ -816,7 +816,7 @@ ol {
 -----------------------*/
 
 .hero-items .single-hero-items {
-	height: 725px;
+	height: 650px;
 	padding-top: 210px;
 }
 
@@ -974,11 +974,11 @@ ol {
 	z-index: 1;
 }
 
-.single-banner:hover::before {
+/* .single-banner:hover::before {
 	-webkit-transform: scale(1);
 	-ms-transform: scale(1);
 	transform: scale(1);
-}
+} */
 
 .single-banner::before {
 	position: absolute;

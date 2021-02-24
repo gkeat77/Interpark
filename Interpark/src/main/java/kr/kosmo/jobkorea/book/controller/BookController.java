@@ -46,7 +46,6 @@ public class BookController {
 	@Autowired
 	bookService booksv;
 	
-	
 	@RequestMapping("goodsListPage.do")
 	public 	String goodsListPage(Model model, HttpServletRequest request) throws Exception {
 		//상위 카테고리 불러오기
