@@ -335,6 +335,16 @@ public class PaymentServiceImpl implements PaymentService{
 
 
 
+	@Override
+	public void userCancel(Map<String, Object> paramMap) {
+		String payNo = (String) paramMap.get("payNo");
+//		PaymentModel = paymentDao.orderShow(payNo);
+		
+	}
+
+
+
+
 
 
 

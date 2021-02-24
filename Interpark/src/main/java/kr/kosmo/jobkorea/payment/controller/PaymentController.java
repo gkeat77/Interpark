@@ -476,6 +476,24 @@ public class PaymentController {
 	   	return mav;
 	   }
 	
+
+	
+
+	
+	@ResponseBody
+	@RequestMapping(value="/userCancel.do" , method = RequestMethod.POST)
+	public Map<String, Object> userCancel(@RequestParam Map<String, Object> paramMap, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+		   
+		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		   //String loginID= 
+		   
+		   result="success";
+		   resultMap.put("resultMsg", result); 
+		   return resultMap;
+	   }
+	
 	
 	
 }
