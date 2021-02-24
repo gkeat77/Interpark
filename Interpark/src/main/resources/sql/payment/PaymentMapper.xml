@@ -177,6 +177,10 @@ VALUES
 			, loginID AS loginID
 			, ORDER_DT AS regDt
 			, PAYMENT AS price
+			, USE_MILEAGE AS useMileage
+			, EARNED_MILEAGE AS earnedMileage
+			, COUPON_NO AS couponNo
+			, CART_NO AS cartNos
 	FROM ORDERS
 	WHERE ORDER_NO = #{payNo}
 </select>
@@ -311,8 +315,9 @@ CART_NO =  #{cartNo}
 			WHEN 3 THEN '관리자 결재취소'
 			END
             ) AS state
-	FROM ORDERS
+	FROM ORDERS 
 	WHERE loginID = #{loginID}
+	  AND ORDER_STATE IN (0,1)
 	 ORDER BY ORDER_DT DESC
 </select>
 

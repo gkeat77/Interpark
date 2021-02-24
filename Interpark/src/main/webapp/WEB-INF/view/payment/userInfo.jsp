@@ -210,7 +210,7 @@
 					
 					<c:choose>
 						<c:when test="${orders.state eq '입금대기중'}">
-							<button type="button"  id="userInfo" onclick="AA()" class="site-btn place-btn">결제취소</button>
+							<button type="button"  id="userInfo" onclick="userCancel(${orders.payNo})" class="site-btn place-btn">결제취소</button>
 						</c:when>
 						<c:otherwise>
 							<button type="button"  id="userInfo2" onclick="aa()" class="site-btn place-btn">aa</button>
@@ -343,7 +343,29 @@
 	 function close_pop(flag) {
         $('#myModal').hide();         
         $('body').css("overflow", "scroll");
-   };
+   }
+   
+   
+   function userCancel(payNo) {
+		var data = {
+				payNo : payNo
+		     };
+		   $.ajax({
+		    url : "/userCancel.do",
+		    type : "post",
+		    data : data,
+		    success : function(result){
+				if(result.resultMsg == "success") {
+					alert("결제가 취소 되었습니다");
+					location.reload(true);
+				}
+		    },
+		    error : function(){
+		     alert("fail");
+		    }
+		   });
+		   
+   }
 
 </script>
 
