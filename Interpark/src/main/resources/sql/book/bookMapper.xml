@@ -106,7 +106,7 @@
 				<when test="(cateClass != null) and (!cateClass.equals(''))">
 					categoryId like CONCAT(#{cateClass}, '__') 
 			    </when>
-			    <when test="(cateClass == null) and (cateClass.equals(''))">
+			    <when test="(cateClass == null) or (cateClass.equals(''))">
 			    	categoryId=#{categoryId}
 			    </when>	
 			    </choose>

@@ -97,7 +97,7 @@ public class BookController {
 		BookModel goods= booksv.goodsDetail(paramMap);
 		model.addAttribute("goods", goods);
 		//연관 상품 리스트
-/*		paramMap.put("categoryId", goods.getCategoryId());
+		paramMap.put("categoryId", goods.getCategoryId());
 		List<BookModel> relateGoods = booksv.relateGoods(paramMap);
 		
 		if(relateGoods.size() < 3 ){
@@ -106,8 +106,7 @@ public class BookController {
 			relateGoods =booksv.relateGoods(paramMap);
 		}
 		
-		
-		model.addAttribute("relate",relateGoods );*/
+		model.addAttribute("relate",relateGoods);
 		
 		return "book/goodsDetail";
 	}

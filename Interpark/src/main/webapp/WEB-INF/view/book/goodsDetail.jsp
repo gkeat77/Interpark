@@ -220,9 +220,7 @@
                                 <div class="sale">Sale</div>
                                 </c:if>
                                 <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                    <li class="quick-view"><a href="#" onclick="selectBook('${list.pId}')">상세보기</a></li>
                                 </ul>
                             </div>
                             <div class="pi-text">
