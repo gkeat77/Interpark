@@ -14,7 +14,7 @@
 <c:if test="${totalCnt > 0 }">
 	<c:forEach var="list" items="${reviewList }">
        <div class="co-item">
-         <div class="avatar-text">
+         <div class="float-right"><strong>${list.loginId } </strong> <span id="reviewDate" style=""> ${list.rDate } </span></div>
          <input type="hidden" class="rId"  value="${list.rId}" />     
              <div class="at-rating">
 				<c:if test="${list.rStar == 1}"><img src="${CTX_PATH }/img/star/star1.png" class="starImg"></c:if>
@@ -23,20 +23,19 @@
 				<c:if test="${list.rStar == 4}"><img src="${CTX_PATH }/img/star/star4.png" class="starImg"></c:if>
 				<c:if test="${list.rStar == 5}"><img src="${CTX_PATH }/img/star/star5.png" class="starImg"></c:if>
 				<c:if test="${list.loginId eq member.loginID or member.loginID eq 'admin' }">
-              	<button type="button" class="btn btn-warning" onclick="freview_del('${list.rId}',${list.pId })" style="color:white	">삭제</button>
+              	<button type="button" class="btn btn-warning" onclick="freview_del('${list.rId}',${list.pId })" style="color:white">삭제</button>
               	</c:if>
              </div>
-             <h5>${list.rTitle} <span>${list.loginId } │ ${list.rDate }</span></h5>
-             <div class="at-reply">${list.rContent}</div>
-              <div class="at-reply"><strong>좋아요 (<span class="likeCount">${list.rLike}</span>)</strong> 
+             <h5 id="reviewTitle">${list.rTitle} </h5>
+             <div class="at-reply" >${list.rContent}</div>
+              <div class="at-reply"><strong style="font-size: 14px">좋아요 (<span class="likeCount">${list.rLike}</span>)</strong> 
               <c:if test="${list.loginId ne member.loginID}">
               │
-              <c:if test="${list.likeChk == '+1'}"> <i class="icon_heart" style="color:red"></i></c:if>
-              <c:if test="${list.likeChk eq '-1' or list.likeChk eq null}"> <i class="icon_heart_alt" style="color:red"></i></c:if>
+              <c:if test="${list.likeChk == '+1'}"> <i class="icon_heart"></i></c:if>
+              <c:if test="${list.likeChk eq '-1' or list.likeChk eq null}"> <i class="icon_heart_alt"></i></c:if>
               </c:if>
               </div>
          </div>
-     </div>
      <hr>
 	</c:forEach>
 </c:if>

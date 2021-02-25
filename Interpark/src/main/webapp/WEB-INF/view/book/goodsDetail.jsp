@@ -105,7 +105,7 @@
                                 <div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
                                     <div class="product-content">
                                         <div class="row">
-                                             <div class="col-lg-12">
+                                             <div class="col-lg-10">
                                                 <h5>책소개</h5><hr>
                                                 <pre>${goods.description }</pre>
                                                 <h5>목차</h5><hr>
@@ -126,70 +126,73 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-2" role="tabpanel">
-                                    <div class="customer-review-option">
-                                    <input type="hidden" id="sort">
-                                    	  <div class="btn-group float-right">
-								      	  <button type="button" class="btn btn-outline-warning" id="newSort">최신순</button>
-										  <button type="button" class="btn btn-outline-warning" id="likeSort">좋아요 순</button>
-										</div>
-                                        <h4>
-                                        리뷰<div class="star"><p>${goods.rStar } ( 총 ${goods.rCount} 건)</p>
-                                        </div><hr>
-                                        </h4>
-                                        
-                                        <div class="comment-option"></div>
-                                        <div class="paging_area" id="Pagination"></div>
-                                        <div class="personal-rating">
-                                            <button type="button" class="site-btn" id="reviewPop">리뷰 작성</button>
-                                        </div>
+                                  	<div class="col-lg-10">
+                                    	<div class="customer-review-option">
+	                                    	<input type="hidden" id="sort">
+	                                    	<div class="btn-group float-right">
+										      	 <button type="button" class="btn btn-outline-warning" id="newSort">최신순</button>
+												 <button type="button" class="btn btn-outline-warning" id="likeSort">좋아요 순</button>
+											</div>
+	                                        <h4>
+	                                        리뷰<div class="star"><p>${goods.rStar } ( 총 ${goods.rCount} 건)</p>
+	                                        </div><hr>
+	                                        </h4>
+	                                        <div class="comment-option"></div>
+	                                        <div class="paging_area" id="Pagination"></div>
+	                                        <div class="personal-rating">
+	                                            <button type="button" class="site-btn" id="reviewPop">리뷰 작성</button>
+	                                        </div>
                                     </div>
                                 </div>
+                                </div>
                                      <div class="tab-pane fade" id="tab-3" role="tabpanel">
-                                    <div class="specification-table">
-                                        <table>
-                                            <tr>
-                                                <td class="p-catagory">교환/환불 방법</td>
-                                                <td>
-                                                    <div class="pd-rating">
-                                                       마이페이지 > 취소/반품/교환/환불’ 에서 신청함, 1:1 문의 게시판 또는 고객센터(1577-2555) 이용 가능
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">교환/환불 가능 기간</td>
-                                                <td>
-                                                    <div class="p-price">고객변심은 출고완료 다음날부터 14일 까지만 교환/환불이 가능함</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">교환/환불 비용</td>
-                                                <td>
-                                                    <div class="cart-add">고객변심 또는 구매착오의 경우에만 2,500원 택배비를 고객님이 부담함</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">교환/환불 불가사유</td>
-                                                <td>
-                                                    <div class="p-stock">반품접수 없이 반송하거나, 우편으로 보낼 경우 상품 확인이 어려워 환불이 불가할 수 있음<br>
-													배송된 상품의 분실, 상품포장이 훼손된 경우, 비닐랩핑된 상품의 비닐 개봉시 교환/반품이 불가능함</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">소비자 피해보상</td>
-                                                <td>
-                                                    <div class="p-weight">소비자 피해보상의 분쟁처리 등에 관한 사항은 소비자분쟁해결기준(공정거래위원회 고시)에 따라 비해 보상 받을 수 있음
-													교환/반품/보증조건 및 품질보증 기준은 소비자기본법에 따른 소비자 분쟁 해결 기준에 따라 피해를 보상 받을 수 있음</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">기타</td>
-                                                <td>
-                                                    <div class="p-size">도매상 및 제작사 사정에 따라 품절/절판 등의 사유로 주문이 취소될 수 있음<br>(이 경우 인터파크도서에서 고객님께 별도로 연락하여 고지함)
-													</div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                     <div class="col-lg-10">
+                                    	<div class="specification-table">
+	                                        <table>
+	                                            <tr>
+	                                                <td class="p-catagory">교환/환불 방법</td>
+	                                                <td>
+	                                                    <div class="pd-rating">
+	                                                       마이페이지 > 취소/반품/교환/환불’ 에서 신청함, 1:1 문의 게시판 또는 고객센터(1577-2555) 이용 가능
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <td class="p-catagory">교환/환불 가능 기간</td>
+	                                                <td>
+	                                                    <div class="p-price">고객변심은 출고완료 다음날부터 14일 까지만 교환/환불이 가능함</div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <td class="p-catagory">교환/환불 비용</td>
+	                                                <td>
+	                                                    <div class="cart-add">고객변심 또는 구매착오의 경우에만 2,500원 택배비를 고객님이 부담함</div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <td class="p-catagory">교환/환불 불가사유</td>
+	                                                <td>
+	                                                    <div class="p-stock">반품접수 없이 반송하거나, 우편으로 보낼 경우 상품 확인이 어려워 환불이 불가할 수 있음<br>
+														배송된 상품의 분실, 상품포장이 훼손된 경우, 비닐랩핑된 상품의 비닐 개봉시 교환/반품이 불가능함</div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <td class="p-catagory">소비자 피해보상</td>
+	                                                <td>
+	                                                    <div class="p-weight">소비자 피해보상의 분쟁처리 등에 관한 사항은 소비자분쟁해결기준(공정거래위원회 고시)에 따라 비해 보상 받을 수 있음
+														교환/반품/보증조건 및 품질보증 기준은 소비자기본법에 따른 소비자 분쟁 해결 기준에 따라 피해를 보상 받을 수 있음</div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <td class="p-catagory">기타</td>
+	                                                <td>
+	                                                    <div class="p-size">도매상 및 제작사 사정에 따라 품절/절판 등의 사유로 주문이 취소될 수 있음<br>(이 경우 인터파크도서에서 고객님께 별도로 연락하여 고지함)
+														</div>
+	                                                </td>
+	                                            </tr>
+	                                        </table>
+                                    	</div>
+                                  	</div>  
                                 </div>
                             </div>
                         </div>
