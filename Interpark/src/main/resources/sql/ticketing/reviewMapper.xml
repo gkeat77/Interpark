@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kosmo.jobkorea.ticketing.dao.ReviewDao">
+	
+	<!-- 관람후기 데이터 가져오기 -->
+	<select id="getReviews" parameterType="String" resultType="kr.kosmo.jobkorea.ticketing.model.Review">
+		SELECT * FROM ticket_review WHERE mt20id = #{mt20id}
+	</select>
+	
+	<!-- 관람후기 데이터 삭제 -->
+	<delete id="deletetReview" parameterType="int" >
+		DELETE FROM ticket_review WHERE uid = #{uid}
+	</delete>
+	
+	<!-- 관람후기 데이터 입력 -->
+	<insert id="insertReview" parameterType="kr.kosmo.jobkorea.ticketing.model.Review" >
+		INSERT INTO ticket_review ( loginID, mt20id, content )
+		VALUES ( #{loginID}, #{mt20id}, #{content} )
+	</insert>
+	
+</mapper>

@@ -29,7 +29,9 @@ import kr.kosmo.jobkorea.ticketing.model.Boxof;
 import kr.kosmo.jobkorea.ticketing.model.Db;
 import kr.kosmo.jobkorea.ticketing.model.Qna;
 import kr.kosmo.jobkorea.ticketing.model.Review;
+import kr.kosmo.jobkorea.ticketing.service.DetailService;
 import kr.kosmo.jobkorea.ticketing.service.IntroService;
+import kr.kosmo.jobkorea.ticketing.service.ListService;
 import kr.kosmo.jobkorea.ticketing.service.QnaService;
 import kr.kosmo.jobkorea.ticketing.service.ReviewService;
 import kr.kosmo.jobkorea.ticketing.util.Helper;
@@ -38,7 +40,7 @@ import kr.kosmo.jobkorea.ticketing.util.XmlParse;
 
 @Controller
 @RequestMapping("/ticketing")
-public class IntroController {
+public class DetailController {
 	
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
@@ -46,30 +48,22 @@ public class IntroController {
 	private final String className = this.getClass().toString();	
 	
 	@Autowired
-	IntroService introService;
+	DetailService detailService;
 	
-	@RequestMapping("/intro.do")
-	public String intro(Model model) throws Exception {
+	@RequestMapping("/detail.do")
+	public String detail(@ModelAttribute("mt20id") String mt20id, Model model  ){
 		
-		String date = Helper.getDateStr(LocalDate.now());
-		System.out.println("date: "+date);
-		// 예매상황판 데이터 가져오기 args =>(String stsType, String date, String cateCode, String area)
-		LocalTime startBoxofs = LocalTime.now();
-		List<Boxof> boxofs = introService.getBoxofs(LocalDate.now());
+		Db db = detailService.getDetail(mt20id);
+		Gson gson = new Gson();
+		String dbStr = gson.toJson(db);
 		
-		LocalTime endBoxofs = LocalTime.now();
-		ObjectMapper mapper = new ObjectMapper();
-		String boxofsStr = mapper.writeValueAsString(boxofs);
-		LocalTime mappingTime = LocalTime.now();
+		System.out.println("gson string: "+dbStr);
 		
-		System.out.println("박스오피스로딩타임: "+Duration.between(startBoxofs, endBoxofs).getSeconds());
-		System.out.println("매퍼변환타임: "+Duration.between(endBoxofs, mappingTime).getSeconds());
-
-		model.addAttribute("boxofs", boxofs);
-		model.addAttribute("boxofsStr", boxofsStr);
-
+		model.addAttribute("db", db);
+		model.addAttribute("dbStr", dbStr);
 		
-		return "ticketing/intro";
+		return "ticketing/detail";
 	}
+	
 	
 }

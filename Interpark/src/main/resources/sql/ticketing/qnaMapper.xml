@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kosmo.jobkorea.ticketing.dao.QnaDao">
+	
+	<!-- Q&A 데이터 가져오기 -->
+	<select id="getQna" resultType="kr.kosmo.jobkorea.ticketing.model.Qna">
+		SELECT * FROM ticket_qna
+	</select>
+	
+	<!-- Q&A 데이터 삭제 -->
+	<delete id="deletetQna" parameterType="int" >
+		DELETE FROM ticket_qna WHERE uid = #{uid}
+	</delete>
+	
+	<!-- Q&A 데이터 입력 -->
+	<insert id="insertQna" parameterType="kr.kosmo.jobkorea.ticketing.model.Qna" >
+		INSERT INTO ticket_review ( loginID, qora, ref_uid, content )
+		VALUES ( #{loginID}, #{qora}, #{ref_uid}, #{content} )
+	</insert>
+	
+</mapper>

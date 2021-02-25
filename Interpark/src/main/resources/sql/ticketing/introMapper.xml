@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kosmo.jobkorea.ticketing.dao.IntroDao">
+
+	<!-- 예매상황판 데이터 가져오기 -->
+	<select id="getBoxofs" parameterType="String" resultType="kr.kosmo.jobkorea.ticketing.model.Boxof">
+		SELECT * FROM ticket_boxofs WHERE day = #{day}
+	</select>
+	
+	<!-- 예매상황판 데이터 저장하기  -->
+	<insert id="insertBoxofs" parameterType="java.util.List">
+		INSERT INTO ticket_boxofs 
+		  ( mt20id,day,area,prfdtcnt,prfpd,cate,  prfplcnm,prfnm,rnum,seatcnt,poster )
+		VALUES
+			<foreach collection="list" item="item" separator=",">
+	        (
+	        #{item.mt20id},#{item.day},#{item.area},#{item.prfdtcnt},#{item.prfpd},#{item.cate},
+	        #{item.prfplcnm},#{item.prfnm},#{item.rnum},#{item.seatcnt},#{item.poster}
+	        ) 
+	    	</foreach>
+    	ON DUPLICATE KEY UPDATE 
+    		day = VALUES(day), 
+    		prfdtcnt = VALUES(prfdtcnt), 
+    		prfpd = VALUES(prfpd),	
+    		rnum = VALUES(rnum)
+	</insert>
+	
+	
+	
+</mapper>

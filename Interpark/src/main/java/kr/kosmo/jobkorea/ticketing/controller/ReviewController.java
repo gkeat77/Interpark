@@ -1,9 +1,7 @@
 package kr.kosmo.jobkorea.ticketing.controller;
 
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +36,7 @@ import kr.kosmo.jobkorea.ticketing.util.XmlParse;
 
 @Controller
 @RequestMapping("/ticketing")
-public class IntroController {
+public class ReviewController {
 	
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
@@ -46,30 +44,17 @@ public class IntroController {
 	private final String className = this.getClass().toString();	
 	
 	@Autowired
-	IntroService introService;
+	ReviewService reviewService;
 	
-	@RequestMapping("/intro.do")
-	public String intro(Model model) throws Exception {
+	@RequestMapping("/review.do")
+	@ResponseBody
+	public List<Review> getReviews(@RequestParam("mt20id") String mt20id)  {
+		List<Review> reviews = null;
 		
-		String date = Helper.getDateStr(LocalDate.now());
-		System.out.println("date: "+date);
-		// 예매상황판 데이터 가져오기 args =>(String stsType, String date, String cateCode, String area)
-		LocalTime startBoxofs = LocalTime.now();
-		List<Boxof> boxofs = introService.getBoxofs(LocalDate.now());
+		reviews = reviewService.getReviews(mt20id);
 		
-		LocalTime endBoxofs = LocalTime.now();
-		ObjectMapper mapper = new ObjectMapper();
-		String boxofsStr = mapper.writeValueAsString(boxofs);
-		LocalTime mappingTime = LocalTime.now();
-		
-		System.out.println("박스오피스로딩타임: "+Duration.between(startBoxofs, endBoxofs).getSeconds());
-		System.out.println("매퍼변환타임: "+Duration.between(endBoxofs, mappingTime).getSeconds());
-
-		model.addAttribute("boxofs", boxofs);
-		model.addAttribute("boxofsStr", boxofsStr);
-
-		
-		return "ticketing/intro";
+		return reviews;
 	}
+	
 	
 }

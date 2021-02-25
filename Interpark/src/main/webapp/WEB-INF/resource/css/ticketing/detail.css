@@ -1,0 +1,89 @@
+@CHARSET "UTF-8";
+
+a { margin: 0; padding:0; text-decoration: none;}
+ul, li { margin:0; padding:0; list-style: none;}
+.ui-datepicker {
+	
+	height: auto;
+	margin: 5px auto 0;
+	
+}
+.ui-datepicker a {
+	text-decoration: none;
+}
+.ui-datepicker table {
+	
+}
+
+.container > .title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 15px 10px;
+	border-bottom: 1px solid #000;
+}
+.container > .main {
+	display: flex;
+	margin-bottom: 20px;
+}
+.main > .poster {
+	flex: 2;
+	padding: 10px;
+}
+.main > .feature {
+	flex: 3;
+	padding: 30px 10px;
+}
+.main > .feature > div {
+	display: flex;
+	
+}
+.main > .feature > div > div:first-child {
+	width: 70px;
+	text-align: left;
+	flex: 0 0 auto;
+	margin-right: 10px;
+}
+.main > .booking {
+	flex: 2;
+	padding: 0px 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.main > .booking .calendar {
+	
+}
+.main > .booking .dtguidance {
+	width: 300px;
+	padding: 10px;
+	border: 1px solid #bbb;
+	margin-bottom: 15px;
+}
+.main > .booking button {
+	width: 300px;
+	background: #9e2b16;
+	height: 50px;
+	color: white;
+}
+.container > .tabs {
+	margin-bottom: 10px;
+	padding: 10px 20px;
+}
+.container > .tabs > ul {
+	display: flex;
+}
+.container > .tabs > ul > li {
+	flex: 1;
+	border: 1px solid #000;
+	line-height:50px;
+	text-align: center;
+}
+.container > .tab-content > div {
+	height: 300px;
+	width: 95%;
+	background: #bbb;
+	margin: 0px auto 30px;
+	padding: 20px;
+	overflow: auto;
+}

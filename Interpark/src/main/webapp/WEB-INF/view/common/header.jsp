@@ -192,8 +192,7 @@
                         </li>
                         <li><a href="/ticketing/intro.do">공연</a>
                             <ul class="dropdown">
-                                <li><a href="#">공연예매</a></li>
-                                <li><a href="#">공연검색</a></li>
+                                
                               
                             </ul>
                         </li>

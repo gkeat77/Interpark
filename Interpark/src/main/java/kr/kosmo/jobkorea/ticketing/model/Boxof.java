@@ -1,5 +1,7 @@
 package kr.kosmo.jobkorea.ticketing.model;
 
+import java.time.LocalDate;
+
 import lombok.Data;
 
 /*
@@ -18,8 +20,10 @@ import lombok.Data;
 
 @Data
 public class Boxof {
-	public String area;//
-	public int prfdtcnt;//
+	public String mt20id;	//공연코드(PK)
+	public String day;		//저장일
+	public String area;		//공연지역
+	public int prfdtcnt;	//
 	public String prfpd;
 	public String cate;
 	public String prfplcnm;
@@ -27,5 +31,5 @@ public class Boxof {
 	public int rnum;
 	public int seatcnt;
 	public String poster;
-	public String mt20id;
+	
 }
