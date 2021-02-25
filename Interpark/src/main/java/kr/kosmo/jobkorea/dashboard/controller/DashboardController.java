@@ -55,15 +55,15 @@ public class DashboardController {
 		paramMap.put("reg_date", session.getAttribute("reg_date")); // 등록 일자
 		logger.info("   - paramMap : " + paramMap);
 		
+		/* hegoog */
+		
 		//카테고리
 		paramMap.put("level",0);
 		List<CategoryModel> cateList= booksv.cateList(paramMap);
 		model.addAttribute("cateList", cateList);
-
+		
 		logger.info("+ end " + className + ".initDashboard");
 		
-		//model.addAttribute("cartCnt",paymentService.getCartList().size());
-		//model.addAttribute("cartList",paymentService.getCartList());
 		return "/index";
 	}
 	
@@ -87,6 +87,36 @@ public class DashboardController {
 		return resultMap;
 	}
 	
+	
+	@RequestMapping("mainGoods.do")
+	@ResponseBody
+	public Map<String, Object> mainGoods(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		String type=(String)(paramMap.get("type"));
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		
+		List<BookModel> goodsList= booksv.goodsList(paramMap);
+		
+	/*	switch(type){
+			case "hotGoods":
+				resultMap.put("hotGoods", goodsList );
+				break;
+			case "newGoods":
+				resultMap.put("newGoods", goodsList );
+				break;	
+			case "limitGoods":
+				resultMap.put("limitGoods", goodsList );
+				break;		
+		
+		}*/
+		
+		
+		resultMap.put("mainGoods", goodsList );
+		
+		return resultMap;
+	}
 	
 	
 	

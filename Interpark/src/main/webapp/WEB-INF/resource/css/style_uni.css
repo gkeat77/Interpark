@@ -10,7 +10,7 @@
 background-color:rgb(255, 204, 0); 
 } 
 
-
+/*  상품 수정창*/
 .input-group {
 	width:500px;
 }
@@ -26,6 +26,7 @@ background-color:rgb(255, 204, 0);
 	margin: 20px;
 }
 
+/*  상품 리스트 */
 
 .catagory-name {
   overflow:hidden;
@@ -60,11 +61,10 @@ background-color:rgb(255, 204, 0);
 
 .list-group-item:hover{ color:#e6b800; }
 
-
 input[readonly]{
     background-color: yellow;
 }
-
+/* 검색 */
 
 .sSelect{
 	width:150px;
