@@ -465,6 +465,15 @@ public class PaymentController {
 				int sw = Integer.parseInt(userSw);
 				String loginID = rm.getLoginID();
 				
+				if(sw == 2 ) {
+					String addressCheck = paymentService.addressCheck(loginID);
+					if(addressCheck.equals("X")) {
+						mav.addObject("address", paymentService.userInfo(loginID));
+					}else {
+						mav.addObject("addressS", paymentService.userAddressS(loginID));
+					}
+					result=2;
+				}
 				if(sw == 4 ) {
 					mav.addObject("buyList", paymentService.buyList(loginID));
 					result=4;
@@ -499,6 +508,50 @@ public class PaymentController {
 		   resultMap.put("resultMsg", result); 
 		   return resultMap;
 	   }
+	
+	
+
+	
+	@ResponseBody
+	@RequestMapping(value="/addAddress.do" , method = RequestMethod.POST)
+	public Map<String, Object> addAddress(@RequestParam Map<String, Object> paramMap, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+		   
+		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		   String loginID = rm.getLoginID();
+		   paramMap.put("loginID",loginID);
+		   paymentService.addAddress(paramMap);
+		   
+		   result="success";
+		   resultMap.put("resultMsg", result); 
+		   return resultMap;
+	   }
+	
+
+	@ResponseBody
+	@RequestMapping(value="/delAddress.do" , method = RequestMethod.POST)
+	public Map<String, Object> delAddress(@RequestParam Map<String, Object> paramMap, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+		   
+		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		   String loginID = rm.getLoginID();
+		   paramMap.put("loginID",loginID);
+
+		   int check = paymentService.delAddress(paramMap);
+		   if(check == 1) {
+			   result="user테이블의 주소입니다";
+		   }else {
+			   result="success";
+		   }
+		   
+		   resultMap.put("resultMsg", result); 
+		   return resultMap;
+	   }
+	
+	
+	
 	
 	
 	

@@ -7,4 +7,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/common.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/commonAjax.js"></script>
- <script src="${CTX_PATH}/js/goods.js"></script>
+ <script src="/js/goods.js"></script>

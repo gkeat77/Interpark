@@ -377,6 +377,52 @@ public class PaymentServiceImpl implements PaymentService{
 
 
 
+	@Override
+	public String addressCheck(String loginID) {
+		return paymentDao.addressCheck(loginID);
+	}
+
+
+
+
+	@Override
+	public List<RegisterInfoModel> userAddressS(String loginID) {
+		return paymentDao.userAddressS(loginID);
+	}
+
+
+
+
+
+
+	@Override
+	public void addAddress(Map<String, Object> paramMap) {
+		paymentDao.addAddress(paramMap);
+	}
+
+
+
+
+	@Override
+	public int delAddress(Map<String, Object> paramMap) {
+		
+		int result = 0; 
+		String addressCheck = paymentDao.addressTableCheck(paramMap);
+		if(addressCheck.equals("X")) {	// address 테이블이 아니면
+			// user삭제
+			result=1;
+		}else {
+			// address테이블이 맞다면
+			// address삭제
+			paymentDao.delAddress(paramMap);
+		}
+		return result;
+	}
+
+
+	// address테이블인지 확인
+
+
 
 
 

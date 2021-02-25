@@ -44,4 +44,12 @@ public interface PaymentDao {
 	public void mileageSet(PaymentModel vo);
 	public void userCancelCart(HashMap<String, Object> map); // user가 취소했을 떄 카트 목록 복구
 	public void userCancelState(String payNo);	// state =5으로 
+	public String addressCheck(String loginID);
+	public List<RegisterInfoModel> userAddressS(String loginID);
+	public void addAddress(Map<String, Object> paramMap);
+	public String addressTableCheck(Map<String, Object> paramMap);	// address테이블꺼인지 확인
+	public void delAddress(Map<String, Object> paramMap); // address테이블꺼 삭제.. user테이블은 지울수가 없네
+	
+	 
+	
 }

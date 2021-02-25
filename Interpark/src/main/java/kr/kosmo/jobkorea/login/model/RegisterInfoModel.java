@@ -30,9 +30,73 @@ public class RegisterInfoModel {
 	private String grade;		//G_ID 회원등급
 	private String a_TITLE;		//주소록 제목
 
+	private String addressTitle;
+	private String address1;
+	private String address2;
+	private String address3;
+	
 	private int che;
 	
 	public RegisterInfoModel(){}
+
+	
+	
+	
+	public String getAddressTitle() {
+		return addressTitle;
+	}
+
+
+
+
+	public void setAddressTitle(String addressTitle) {
+		this.addressTitle = addressTitle;
+	}
+
+
+
+
+	public String getAddress1() {
+		return address1;
+	}
+
+
+
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+
+
+
+	public String getAddress2() {
+		return address2;
+	}
+
+
+
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+
+
+
+	public String getAddress3() {
+		return address3;
+	}
+
+
+
+
+	public void setAddress3(String address3) {
+		this.address3 = address3;
+	}
+
+
+
 
 	public String getA_TITLE() {
 		return a_TITLE;
@@ -270,3 +334,4 @@ public class RegisterInfoModel {
 
 	
 }
+
