@@ -77,9 +77,12 @@
             width: 50%; /* Could be more or less, depending on screen size */
             -webkit-overflow-scrolling: touch;   
         }
+        
+        
  		
  
 	</style>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	
     <!-- Breadcrumb Section Begin -->
      <div class="breacrumb-section">
@@ -117,8 +120,8 @@
 		 <aside>
 		 <ul>
 		  <li><a href="">회원정보</a></li>
-		  <li><a href="">쿠폰 </a></li>
-		  <li><a href="">마일리지</a></li>
+		  <li><a href="/userInfo.do?userSw=2">주소록</a></li>
+		  <li><a href="">쿠폰  & 마일리지</a></li>
 		  <li><a href="/userInfo.do?userSw=4">구매이력</a></li>
 		  <li><a href="/userInfo.do?userSw=5">ORDER</a></li>
 		 </ul>
@@ -128,9 +131,74 @@
 			<c:choose>
 				
 				
+				<c:when test = "${result eq 2}">
+					
+
+					<c:if test="${empty addressS}">
+					<div class="contact-widget">
+		               <div class="cw-item">
+		                   <div class="ci-icon">
+		                       <i class="ti-cloud"></i>
+		                   </div>
+		                   <div class="ci-text">
+		                       <span>title:</span>
+		                       <p><a href="javascript:void(0);" id="pay">${address.addressTitle}</a></p>
+		                   </div>
+		               </div>
+		             </div>
+		             <ul>
+		             	<li>우편번호 : ${address.address1}</li>
+		             	<li>주소 : ${address.address2}</li>
+		             	<li>상세주소 : ${address.address3}</li>
+		             </ul>
+		             <button type="button"  id="userInfo" onclick="addressModify()" class="site-btn place-btn">수정하기</button>
+		             <br>
+		             <button type="button"  id="userInfo" onclick="addAddress()" class="site-btn place-btn">주소 추가</button>
+					</c:if>
+					
+					<c:if test="${not empty addressS}">
+							<c:forEach var="addressS" items="${addressS}" varStatus="status">
+								<div class="contact-widget">
+					               <div class="cw-item">
+					                   <div class="ci-icon">
+					                       <i class="ti-cloud"></i>
+					                   </div>
+					                   <div class="ci-text">
+					                       <span>title:</span>
+					                       <p><a href="javascript:void(0);" id="pay">
+					                       <c:if test="${status.first}">( 기 본  배 송 지  ) </c:if>
+					                       ${addressS.addressTitle}</a></p>
+					                   </div>
+					               </div>
+					             </div>
+					             <ul>
+					             	<li>우편번호 : ${addressS.address1}</li>
+					             	<li>주소 : ${addressS.address2}</li>
+					             	<li>상세주소 : ${addressS.address3}</li>
+					             </ul>
+					             
+					             <c:choose>
+									<c:when test="${status.first}">
+										<button type="button"  id="userInfo" onclick="delAddress2('${addressS.address3}','${addressS.addressTitle}')" class="site-btn place-btn">삭제하기</button>
+										<button type="button"  id="userInfo2" onclick="" class="site-btn place-btn">AA</button>
+									</c:when>
+									<c:otherwise>
+										<button type="button"  id="userInfo" onclick="chooseDefault()" class="site-btn place-btn">기본 배송지 선택하기</button>
+										<button type="button"  id="userInfo" onclick="delAddress2('${addressS.address3}','${addressS.addressTitle}')" class="site-btn place-btn">삭제하기</button>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<br>
+							<button type="button"  id="userInfo" onclick="addAddress()" class="site-btn place-btn">주소 추가</button>
+					</c:if>
+					
+					
+				</c:when>
+				
+				
+				
 				<c:when test = "${result eq 4}">
 					<p>**최신순으로 보입니다</p>
-					
 					<c:if test="${empty buyList}">
 						<div class="contact-widget">
 		               <div class="cw-item">
@@ -255,6 +323,117 @@
       		</div>
 	    </div>
 		<!--End Modal-->
+		
+		<!-- The Modal -->
+	    <div id="myModal2" class="modal">
+	      <!-- Modal content -->
+	      <div class="modal-content">
+	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주수록 추가</span></b></span></p>
+	                <p style="text-align: center; line-height: 1.5;"><br /></p>
+	                
+	                <form id="frm">
+	                <div class="col-lg-12">
+                         <label for="town">주소title<span>*</span></label>
+                         <input type="text" class="inputTxt p100" name="title" id="title" />
+                     </div>
+                            
+                            
+	                <div class="col-lg-12">
+                           <label for="zip" style=visibility:hidden;>우편번호</label>
+                       </div>
+                            <div class="col-lg-6">
+                                <label for="zip"></label><br>
+                                <input type="text" name="userAddress1" id="detailaddr" />
+                                <input type="button" value="우편번호"
+												onclick="execDaumPostcode()"
+													style="width: 150px; height: 50px; margin-left:2px;" />
+                            </div>
+                            
+                            
+                            <div class="col-lg-12">
+                                <label for="town">주소<span>*</span></label>
+                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" />
+                                
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="town">상세주소<span>*</span></label>
+                                <input type="text" class="inputTxt p100"
+												name="userAddress1" id="loginaddr1" />
+                            </div>
+                            <br>
+                            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="addAddressButton()">
+	                <span class="pop_bt" style="font-size: 13pt;" >
+	                     	추가하기
+	                </span>
+	            </div>
+                            
+					</form>                            
+	                <p><br /></p>
+	            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+	                <span class="pop_bt" style="font-size: 13pt;" >
+	                     	닫기
+	                </span>
+	            </div>
+      		</div>
+	    </div>
+		<!--End Modal-->
+		
+		
+		<!-- The Modal -->
+	    <div id="myModal3" class="modal">
+	      <!-- Modal content -->
+	      <div class="modal-content">
+	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주수록 수정</span></b></span></p>
+	                <p style="text-align: center; line-height: 1.5;"><br /></p>
+	                
+	                <form id="frm2">
+	                <div class="col-lg-12">
+                         <label for="town">주소title<span>*</span></label>
+                         <input type="text" class="inputTxt p100" name="title" id="title" />
+                     </div>
+                            
+                            
+	                <div class="col-lg-12">
+                           <label for="zip" style=visibility:hidden;>우편번호</label>
+                       </div>
+                            <div class="col-lg-6">
+                                <label for="zip"></label><br>
+                                <input type="text" name="userAddress1" id="detailaddr" />
+                                <input type="button" value="우편번호"
+												onclick="execDaumPostcode()"
+													style="width: 150px; height: 50px; margin-left:2px;" />
+                            </div>
+                            
+                            
+                            <div class="col-lg-12">
+                                <label for="town">주소<span>*</span></label>
+                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" />
+                                
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="town">상세주소<span>*</span></label>
+                                <input type="text" class="inputTxt p100"
+												name="userAddress1" id="loginaddr1" />
+                            </div>
+                            <br>
+                            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="setAddress()">
+	                <span class="pop_bt" style="font-size: 13pt;" >
+	                     	수정하기
+	                </span>
+	            </div>
+                            
+					</form>                            
+	                <p><br /></p>
+	            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+	                <span class="pop_bt" style="font-size: 13pt;" >
+	                     	닫기
+	                </span>
+	            </div>
+      		</div>
+	    </div>
+		<!--End Modal-->
+		
+		
         							
         							
     </section>
@@ -279,6 +458,56 @@
 	// ------------------------
 
 
+	
+	
+	
+
+	// 주소 api
+	function execDaumPostcode(q) {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+				var extraAddr = ''; // 참고항목 변수
+
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', '
+								+ data.buildingName : data.buildingName);
+					}
+				}	
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('detailaddr').value = data.zonecode;
+				document.getElementById("loginaddr").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				document.getElementById("loginaddr1").focus();
+			}
+		}).open({
+			q : q
+		});
+	}
+	
+
+	
+	
 	function comma(num){
     var len, point, str; 
     num = num + ""; 
@@ -294,6 +523,48 @@
     return str;
 }
 	
+	
+	
+
+	// null check
+	function txtFieldCheck() {
+	
+	    // form안의 모든 text type 조회
+	
+	    var txtEle = $("#frm input[type=text]");
+	
+	    for (var i = 0; i < txtEle.length; i++) {
+	
+	        // console.log($(txtEle[i]).val());
+	
+	        if ("" == $(txtEle[i]).val() || null == $(txtEle[i]).val()) {
+	
+	            var ele_id = $(txtEle[i]).attr("id");
+	
+	            var label_txt = $("label[for='" + ele_id + "']").text();
+	
+	            console.log("id : " + ele_id + ", label : " + label_txt);
+	
+	            showAlert(ele_id, label_txt);
+	
+	            return true;
+	
+	        }
+	
+	    }
+	
+	}
+	
+	// null check
+	function showAlert(ele_id, label_txt) {
+	
+	    alert(label_txt + " 빈값입니다 ");
+	
+	    // 해당 id에 focus.
+	
+	    $("#" + ele_id).focus();
+	
+	}
 	
 	
 	
@@ -341,7 +612,9 @@
 
 	// 모달 닫기	
 	 function close_pop(flag) {
-        $('#myModal').hide();         
+        $('#myModal').hide();
+        $('#myModal2').hide();
+        $('#myModal3').hide();
         $('body').css("overflow", "scroll");
    }
    
@@ -366,7 +639,95 @@
 		   });
 		   
    }
+   
+   function addAddress() {
+	   $('#myModal2').show();
+	   
+   }
+   
+   function addAddressButton() {
+	   // 빈값 확인
+	   var result = txtFieldCheck() == true ? true : false;
+	
+	   console.log(result);
+	   if(!result) {
+		   
+		   var title = $('#title').val();
+		   var detailadr = $('#detailaddr').val();
+		   var address = $('#loginaddr').val();
+		   var address2 = $('#loginaddr1').val();
+		   
+		   var data = {
+				   title : title
+				   , detailadr : detailadr
+				   , address : address
+				   , address2 : address2
+		     };
+		   $.ajax({
+		    url : "/addAddress.do",
+		    type : "post",
+		    data : data,
+		    success : function(result){
+				if(result.resultMsg == "success") {
+					alert("주소가 등록이 되었습니다");
+					location.reload(true);
+				}
+		    },
+		    error : function(){
+		     alert("fail");
+		    }
+		   });
+		   
+	   }
+			   
+	 
+   }
 
+   
+
+	function addressModify() {
+		$('#myModal3').show();
+	}	
+
+
+
+	function addressModify2(detail, title) {
+	}
+	
+	
+	function setAddress() {
+		alert("ad");
+	}
+
+	function delAddress2(detail, title) {
+		// delAddress
+	   
+	   var data = {
+			   detail : detail
+			   , title : title
+	     };
+	   $.ajax({
+	    url : "/delAddress.do",
+	    type : "post",
+	    data : data,
+	    success : function(result){
+			if(result.resultMsg == "success") {
+				alert("삭제되었습니다");
+				location.reload(true);
+			}else {
+				alert("기본 주소는 삭제할 수 없습니다");
+			}
+	    },
+	    error : function(){
+	     alert("fail");
+	    }
+	   });
+	   
+		
+		
+	}
+   
+   
 </script>
 
 

@@ -280,6 +280,10 @@ CART_NO =  #{cartNo}
 			, M_PHONE2 AS phone2
 			, M_PHONE3 AS phone3
 			, M_MILEAGE AS mileage
+			, CONCAT('(기 본 배 송 지 ) ',A_TITLE) AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
 	FROM tb_userinfo
 	WHERE loginID = #{loginID}
 </select>
@@ -347,5 +351,89 @@ CART_NO =  #{cartNo}
 	SET ORDER_STATE = '5'
 	WHERE ORDER_NO = #{payNo}
 </update>
+
+<select id="addressCheck" resultType="String">
+	SELECT IFNULL(MAX(A.A_TITLE),'X') AS TITLE
+	FROM tb_userinfo A 
+	RIGHT OUTER JOIN ADDRESS B
+	ON A.loginID = B.loginID
+	WHERE A.loginID = #{loginID}
+</select>
+
+
+
+
+<select id="userAddressS" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+	
+	SELECT *
+	FROM (
+	SELECT t2.* FROM 
+	(
+	    SELECT * FROM 
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `tb_userinfo` WHERE loginID = #{loginID}
+	    )
+	    AS t22
+	    GROUP BY t22.addressTitle
+	    ORDER BY t22.A_VAL DESC
+	) AS t2
+	
+	UNION
+	
+	SELECT t1.* FROM 
+	(
+	    SELECT * FROM
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `ADDRESS` WHERE loginID = #{loginID}
+	    )
+	    AS t11
+	    GROUP BY t11.addressTitle
+	    ORDER BY t11.A_VAL
+	) AS t1
+	) ADAD
+	ORDER BY A_VAL DESC
+</select>
+
+
+<insert id="addAddress" parameterType="hashmap">
+	INSERT INTO ADDRESS
+	(
+		A_TITLE, A_AD1, A_AD2, A_AD3, loginID
+	)
+	VALUES
+	(
+		#{title},#{detailadr},#{address},#{address2}, #{loginID}
+	)
+	
+</insert>
+
+
+
+<delete id="delAddress" parameterType="hashmap">
+	DELETE FROM ADDRESS
+	WHERE loginID = #{loginID}
+	AND A_TITLE = #{title}
+	AND A_AD3 = #{detail}
+</delete>
+
+
+<select id="addressTableCheck" parameterType="hashmap" resultType="String">
+	SELECT IFNULL(MAX(A_VAL),'X') FROM ADDRESS
+	WHERE loginID = #{loginID}
+	AND A_TITLE = #{title}
+	AND A_AD3 = #{detail}
+</select>
+
+
 
 </mapper>
