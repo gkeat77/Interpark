@@ -18,7 +18,7 @@
 					<div class="pi-pic">
 						<img src="${list.coverLargeUrl}"  style="width: 300px; height: 320px;" onClick="selectBook('${list.pId}')">
 						<c:if test="${list.saleRate > 1 }">
-							<div class="sale pp-sale">Sale</div>
+							<div class="sale pp-sale">${list.saleRate}% 할인</div>
 						</c:if>
 						<div class="icon">
 							<i class="icon_heart_alt"></i>
@@ -38,9 +38,6 @@
 						<div class="author">${list.author}저│ ${list.publisher}</div>
 						<div class="product-price">
 							<fmt:formatNumber value="${list.realPrice }" type="number" />원
-							<c:if test="${list.saleRate > 1 }">
-							(${list.saleRate}% ↓)
-							</c:if>
 						</div>
 						<div class="author">
 						<c:set var="rStar" value="${list.rStar+((list.rStar%1>0.5)?(1-(list.rStar%1))%1:-(list.rStar%1))}"/>

@@ -12,7 +12,7 @@
 		</div>		 
 	</c:if>
 <c:if test="${totalCnt > 0 }">
-	<c:forEach var="list" items="${reviewList }">
+	<c:forEach var="list" items="${reviewList }" varStatus="i">
        <div class="co-item">
          <div class="float-right"><strong>${list.loginId } </strong> <span id="reviewDate" style=""> ${list.rDate } </span></div>
          <input type="hidden" class="rId"  value="${list.rId}" />     
@@ -27,7 +27,23 @@
               	</c:if>
              </div>
              <h5 id="reviewTitle">${list.rTitle} </h5>
-             <div class="at-reply" >${list.rContent}</div>
+             <div class="at-reply" >
+             	<div class="faq-accordin">
+            	 <div class="accordion" id="accordionExample">
+           	 	          <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapse${i.count }" id="rcon">
+                                        ${list.rContent}
+                                    </a>
+                                </div>
+                                <div id="collapse${i.count }" class="collapse" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <pre>${list.rContent}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                   </div>
+               </div>
               <div class="at-reply"><strong style="font-size: 14px">좋아요 (<span class="likeCount">${list.rLike}</span>)</strong> 
               <c:if test="${list.loginId ne member.loginID}">
               │

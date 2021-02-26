@@ -3,6 +3,8 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html lang="ko">
 <head>
 <title>인터파크~</title>    
@@ -19,10 +21,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-5">
-                          <span>Bag,kids</span>
-                            <h1>Black friday</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore</p>
+                          <span>씨엘정보기술</span>
+                            <h1 style="color:white">미니 인터파크</h1>
+                            <p style="color:white">남의 책을 읽는 데 시간을 보내라. <br>남이 고생한 것에 의해 쉽게 자기를 개선할 수 있다. <br>-소크라테스-</p>
                             <a href="#" class="primary-btn">Shop Now</a>
                         </div>
                     </div>
@@ -32,10 +33,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-5">
-                          <span>Bag,kids</span>
-                            <h1>Black friday</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore</p>
+                          <span>씨엘정보기술</span>
+                            <h1 style="color:white">미니 인터파크</h1>
+                            <p style="color:white">오늘의 나를 있게 한 것은 우리 마을 도서관이었다.  <br>하버드 졸업장보다 소중한 것이 독서하는 습관이다. <br>-빌 게이츠-</p>
                             <a href="#" class="primary-btn">Shop Now</a>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
 								</th>						   
 							</tr>
 						</table>
-					<div style="height:400px; overflow: auto;margin-top: -20px">	
+					<div style="height:350px; overflow: auto;margin-top: -20px">	
                     <table class="table table-bordered">
                     	<colgroup>
 							<col width="10%">
@@ -103,7 +103,7 @@
 								</th>						   
 							</tr>
 						</table>
-					<div style="height:400px; overflow: auto;margin-top: -20px">	
+					<div style="height:350px; overflow: auto;margin-top: -20px">	
                     <table class="table table-bordered">
                     	<colgroup>
 							<col width="10%">
@@ -136,7 +136,7 @@
 								</th>						   
 							</tr>
 						</table>
-					<div style="height:400px; overflow: auto;margin-top: -20px">	
+					<div style="height:350px; overflow: auto;margin-top: -20px">	
                     <table class="table table-bordered">
                     	<colgroup>
 							<col width="10%">
@@ -181,7 +181,7 @@
     <!-- Women Banner Section End -->
 
     <!-- Deal Of The Week Section Begin-->
-    <section class="deal-of-week set-bg spad" data-setbg="img/time-bg.jpg">
+    <section class="deal-of-week set-bg spad" data-setbg="">
         <div class="container">
             <div class="col-lg-6 text-center">
                 <div class="section-title">
@@ -244,6 +244,7 @@
     <!-- Man Banner Section End -->
     
     <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
+     <script src="/js/goods.js"></script>
     <!-- Partner Logo Section End -->
 <script>
 
@@ -370,15 +371,16 @@ function fdisplay_goods_result(data,type) {
 		product+=  '<div class="product-item">';
 		product+=   '<div class="pi-pic">'
 		product+=   '<img src="'+item.coverLargeUrl+'" style="width:150px;height:300px">'
-		product+=   '<div class="sale">Sale</div>'
-		product+=   '<ul><li class="quick-view"><a href="#">상세보기</a></li></ul>'
+		if(item.saleRate > 1){
+			product+=   '<div class="sale">'+item.saleRate+'% 할인</div>'
+		}
+		product+=   '<ul><li class="quick-view" onclick="selectBook('+item.pId+')"><a href="javascript:void(0);">상세보기</a></li></ul>'
 		product+=   '</div>'
 		product+=   '<div class="pi-text">'
-		product+=   '<a href="#">'
-		product+=   ' <h5>'+item.title+'</h5>'
-		product+=   ' </a>'
+		product+=   '<a href="javascript:void(0);"> <h5 onclick="selectBook('+item.pId+')">'+item.title+'</h5> </a>'
 		product+=   '<div class="product-price">'
-		product+=     item.realPrice+'</div></div></div>'
+		product+=    item.realPrice.toLocaleString()+"원"
+		product+=   '</div></div></div>'
 		});
 		
 	 console.log(product);

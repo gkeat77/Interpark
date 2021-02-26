@@ -220,7 +220,7 @@
                             <div class="pi-pic">
                                 <img src="${list.coverLargeUrl }" alt="" style="width:150px;height:300px">
                                 <c:if test="${list.saleRate > 1 }">
-                                <div class="sale">Sale</div>
+                                <div class="sale">${list.saleRate}% 할인</div>
                                 </c:if>
                                 <ul>
                                     <li class="quick-view"><a href="#" onclick="selectBook('${list.pId}')">상세보기</a></li>
@@ -422,7 +422,7 @@ function fInit(){
 	}
 	$('input[name="rStar"]').prop("checked", false);
 	//내용초기화
-	$("#rtitle").val('');
+	$("#rtitle").val('${goods.title }');
 	$("#rContent").val('');
 	
 }
