@@ -80,7 +80,7 @@
                             <input type="text" placeholder="Enter Your Coupon Code">
                         </div>
                         -->
-                        <div class="place-order">
+                        <div class="place-order" style=visibility:hidden;>
                             <h4>매출</h4>
                             <div class="order-total">
                                 <ul class="order-table">

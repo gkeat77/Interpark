@@ -134,6 +134,8 @@ public class PaymentController {
 	   mav.addObject("userInfo", userInfo);
 	   String loginID = rm.getLoginID();
 	   
+	   // address
+	   mav.addObject("userAddress",paymentService.getUserAddress(userInfo));
 	   // total
 	   String totalPrice = req.getParameter("totalPrice");
 	   //getCart
@@ -550,6 +552,60 @@ public class PaymentController {
 		   return resultMap;
 	   }
 	
+	
+
+	@ResponseBody
+	@RequestMapping(value="/defaultAddress.do" , method = RequestMethod.POST)
+	public Map<String, Object> defaultAddress(@RequestParam Map<String, Object> paramMap, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+		   
+		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		   String loginID = rm.getLoginID();
+		   paramMap.put("loginID",loginID);
+
+		   paymentService.defaultAddress(paramMap);
+		   
+		   result="success";
+		   resultMap.put("resultMsg", result); 
+		   return resultMap;
+	   }
+	
+
+	@RequestMapping(value="/adminOrders.do", method = RequestMethod.GET)
+	   public ModelAndView adminOrders (Model mode, HttpSession session, HttpServletRequest req
+			   , @RequestParam(value="adminSw", required=false)String adminSw
+	   		) throws ParseException {
+	   	
+		ModelAndView mav = new ModelAndView();
+		int result=0;
+		
+		RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		if(ComnUtil.isEmpty(rm)) {
+			mav.setViewName("login/login");
+		}else if(rm.getLoginID().equals("admin")) {
+		
+			if(!ComnUtil.isEmpty(adminSw)){
+				int sw = Integer.parseInt(adminSw);
+				String loginID = rm.getLoginID();
+				
+				if(sw == 1 ) {
+					mav.addObject("orders", paymentService.adminOrders());
+					result=1;
+				}
+				if(sw == 4 ) {
+					result=4;
+				}
+				if(sw == 5 ) {
+					result=5;
+				}
+			}
+			}else {
+			}
+			mav.addObject("result", result);
+			mav.setViewName("payment/adminInfo");
+	   	return mav;
+	   }
 	
 	
 	

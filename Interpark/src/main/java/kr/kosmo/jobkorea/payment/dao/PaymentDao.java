@@ -49,7 +49,13 @@ public interface PaymentDao {
 	public void addAddress(Map<String, Object> paramMap);
 	public String addressTableCheck(Map<String, Object> paramMap);	// address테이블꺼인지 확인
 	public void delAddress(Map<String, Object> paramMap); // address테이블꺼 삭제.. user테이블은 지울수가 없네
+	public int maxVal(Map<String, Object> paramMap);				// max값 가져옴 (기본 주소 설정하기 위해서)
+	public void setUserTable(Map<String, Object> paramMap);		// user테이블 set A_VAL update
+	public void setAddressTable(Map<String, Object> paramMap);	// address테이블 set A_VAL update
+	public void bookStockUpdate(PaymentModel vo);				// book 재고 update
+	public int maxVal2(RegisterInfoModel vo);
+	public RegisterInfoModel userMaxAddress(RegisterInfoModel vo);
+	public List<PaymentModel> adminOrders();
 	
-	 
 	
 }

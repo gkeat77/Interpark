@@ -113,10 +113,11 @@
                                     <span>1</span>
                                 </a>
                             </li>
-                            <li class="cart-icon"><a href="#">
+                            <li class="cart-icon"><a href="/cartList.do">
                                     <i class="icon_bag_alt"></i>
                                     <span>${cartCnt }</span>
                                 </a>
+                               <%-- 
                                 <div class="cart-hover" >
                                     <div class="select-items">
                                         <table>
@@ -152,7 +153,8 @@
                                         <a href="#" class="primary-btn view-card">VIEW CARD</a>
                                         <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
                                     </div>
-                                </div>
+                                </div> 
+                                --%>
                             </li>
                              <li class="cart-price" style=visibility:hidden;>$150.00</li>
                         </ul>
@@ -208,7 +210,10 @@
 		                         </c:choose>
 		                         <!-- admin  -->
                                 <c:if test="${member.loginID eq 'admin'}">
-                                	<li><a href="/adminInfo.do">ADMIN</a></li>
+                                	<li>
+	                                	<a href="/adminOrders.do">ADMIN INFO</a>
+	                                	<a href="/adminInfo.do">ADMIN</a>
+                                	</li>
 								</c:if>
 								<c:if test="${member.loginID eq 'admin'}">
                                 	<li><a href="/statistics.do">통계</a></li>

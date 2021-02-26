@@ -109,7 +109,7 @@
          <div class="row">
                 <div class="col-lg-12">
                     <div class="contact-title">
-                        <h4>회원정보</h4>
+                        <h4>ADMIN</h4>
                         <p>아래 정보를 확인해주시기 바랍니다.</p>
                     </div>
                     
@@ -119,11 +119,7 @@
 	   <section id="container">    
 		 <aside>
 		 <ul>
-		  <li><a href="">회원정보</a></li>
-		  <li><a href="/userInfo.do?userSw=2">주소록</a></li>
-		  <li><a href="">쿠폰  & 마일리지</a></li>
-		  <li><a href="/userInfo.do?userSw=4">구매이력</a></li>
-		  <li><a href="/userInfo.do?userSw=5">ORDER</a></li>
+		  <li><a href="/adminOrders.do?adminSw=1">ORDERS</a></li>
 		 </ul>
 		</aside>
 		<!-- content -->
@@ -131,75 +127,10 @@
 			<c:choose>
 				
 				
-				<c:when test = "${result eq 2}">
-					
-
-					<c:if test="${empty addressS}">
-					<div class="contact-widget">
-		               <div class="cw-item">
-		                   <div class="ci-icon">
-		                       <i class="ti-cloud"></i>
-		                   </div>
-		                   <div class="ci-text">
-		                       <span>title:</span>
-		                       <p><a href="javascript:void(0);" id="pay">${address.addressTitle}</a></p>
-		                   </div>
-		               </div>
-		             </div>
-		             <ul>
-		             	<li>우편번호 : ${address.address1}</li>
-		             	<li>주소 : ${address.address2}</li>
-		             	<li>상세주소 : ${address.address3}</li>
-		             </ul>
-		             <button type="button"  id="userInfo" onclick="addressModify()" class="site-btn place-btn">수정하기</button>
-		             <br>
-		             <button type="button"  id="userInfo" onclick="addAddress()" class="site-btn place-btn">주소 추가</button>
-					</c:if>
-					
-					<c:if test="${not empty addressS}">
-							<c:forEach var="addressS" items="${addressS}" varStatus="status">
-								<div class="contact-widget">
-					               <div class="cw-item">
-					                   <div class="ci-icon">
-					                       <i class="ti-cloud"></i>
-					                   </div>
-					                   <div class="ci-text">
-					                       <span>title:</span>
-					                       <p><a href="javascript:void(0);" id="pay">
-					                       <c:if test="${status.first}">( 기 본  배 송 지  ) </c:if>
-					                       ${addressS.addressTitle}</a></p>
-					                   </div>
-					               </div>
-					             </div>
-					             <ul>
-					             	<li>우편번호 : ${addressS.address1}</li>
-					             	<li>주소 : ${addressS.address2}</li>
-					             	<li>상세주소 : ${addressS.address3}</li>
-					             </ul>
-					             
-					             <c:choose>
-									<c:when test="${status.first}">
-										<button type="button"  id="userInfo" onclick="delAddress2('${addressS.address3}','${addressS.addressTitle}')" class="site-btn place-btn">삭제하기</button>
-										<button type="button"  id="userInfo2" onclick="" class="site-btn place-btn">AA</button>
-									</c:when>
-									<c:otherwise>
-										<button type="button"  id="userInfo" onclick="chooseDefault('${addressS.address3}','${addressS.addressTitle}')" class="site-btn place-btn">기본 배송지 선택하기</button>
-										<button type="button"  id="userInfo" onclick="delAddress2('${addressS.address3}','${addressS.addressTitle}')" class="site-btn place-btn">삭제하기</button>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-							<br>
-							<button type="button"  id="userInfo" onclick="addAddress()" class="site-btn place-btn">주소 추가</button>
-					</c:if>
-					
-					
-				</c:when>
-				
-				
-				
-				<c:when test = "${result eq 4}">
+			
+				<c:when test = "${result eq 1}">
 					<p>**최신순으로 보입니다</p>
-					<c:if test="${empty buyList}">
+					<c:if test="${empty orders}">
 						<div class="contact-widget">
 		               <div class="cw-item">
 		                   <div class="ci-icon">
@@ -213,53 +144,7 @@
 		             </div>
 					</c:if>
 					
-				 	<c:forEach var="buyList" items="${buyList}">
-					<div class="contact-widget">
-		               <div class="cw-item">
-		                   <div class="ci-icon">
-		                       <i class="ti-cloud"></i>
-		                   </div>
-		                   <div class="ci-text">
-		                       <span>결제번호:</span>
-		                       <p><a href="javascript:void(0);" id="pay" onclick="orderCart(${buyList.payNo})">${buyList.payNo}</a></p>
-		                   </div>
-		               </div>
-		             </div>
-		             <ul>
-						<li>구매일자: ${buyList.regDt }</li>
-						<li>결제상태: ${buyList.state}</li>
-					</ul>
-					
-					<c:choose>
-						<c:when test="${buyList.state eq '입금대기중'}">
-							<button type="button"  id="userInfo2" onclick="AA()" class="site-btn place-btn">AA</button>
-						</c:when>
-						<c:otherwise>
-							<button type="button"  id="userInfo2" onclick="aa()" class="site-btn place-btn">aa</button>
-						</c:otherwise>
-					</c:choose>
-						
-					
-					</c:forEach>
-				</c:when>
-				 <c:when test = "${result eq 5}">
-				 	<p>**입금대기중인 상태만 취소 가능합니다</p>
-				 	
-				 	<c:if test="${empty orders}">
-						<div class="contact-widget">
-		               <div class="cw-item">
-		                   <div class="ci-icon">
-		                       <i class="ti-cloud"></i>
-		                   </div>
-		                   <div class="ci-text">
-		                       <span>결제번호:</span>
-		                       <p><a href="" id="pay">구매내역이 없습니다</a></p>
-		                   </div>
-		               </div>
-		             </div>
-					</c:if>
-					
-					<c:forEach var="orders" items="${orders}">
+				 	<c:forEach var="orders" items="${orders}">
 					<div class="contact-widget">
 		               <div class="cw-item">
 		                   <div class="ci-icon">
@@ -272,26 +157,16 @@
 		               </div>
 		             </div>
 		             <ul>
-						<li>구매일자: ${orders.regDt }</li>
+						<li>구매일자: ${orders.regDt}</li>
 						<li>결제상태: ${orders.state}</li>
 					</ul>
-					
-					<c:choose>
-						<c:when test="${orders.state eq '입금대기중'}">
-							<button type="button"  id="userInfo" onclick="userCancel(${orders.payNo})" class="site-btn place-btn">결제취소</button>
-						</c:when>
-						<c:otherwise>
-							<button type="button"  id="userInfo2" onclick="aa()" class="site-btn place-btn">aa</button>
-						</c:otherwise>
-					</c:choose>
-						
+					<button type="button"  id="userInfo2" onclick="" class="site-btn place-btn">AA</button>
 					
 					</c:forEach>
-					
-					
-					
-					
-				 </c:when>
+				</c:when>
+				
+				
+				
 				 <c:otherwise>
 				 </c:otherwise>
 			</c:choose>
@@ -324,114 +199,7 @@
 	    </div>
 		<!--End Modal-->
 		
-		<!-- The Modal -->
-	    <div id="myModal2" class="modal">
-	      <!-- Modal content -->
-	      <div class="modal-content">
-	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주수록 추가</span></b></span></p>
-	                <p style="text-align: center; line-height: 1.5;"><br /></p>
-	                
-	                <form id="frm">
-	                <div class="col-lg-12">
-                         <label for="town">주소title<span>*</span></label>
-                         <input type="text" class="inputTxt p100" name="title" id="title" />
-                     </div>
-                            
-                            
-	                <div class="col-lg-12">
-                           <label for="zip" style=visibility:hidden;>우편번호</label>
-                       </div>
-                            <div class="col-lg-6">
-                                <label for="zip"></label><br>
-                                <input type="text" name="userAddress1" id="detailaddr" />
-                                <input type="button" value="우편번호"
-												onclick="execDaumPostcode()"
-													style="width: 150px; height: 50px; margin-left:2px;" />
-                            </div>
-                            
-                            
-                            <div class="col-lg-12">
-                                <label for="town">주소<span>*</span></label>
-                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" />
-                                
-                            </div>
-                            <div class="col-lg-12">
-                                <label for="town">상세주소<span>*</span></label>
-                                <input type="text" class="inputTxt p100"
-												name="userAddress1" id="loginaddr1" />
-                            </div>
-                            <br>
-                            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="addAddressButton()">
-	                <span class="pop_bt" style="font-size: 13pt;" >
-	                     	추가하기
-	                </span>
-	            </div>
-                            
-					</form>                            
-	                <p><br /></p>
-	            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
-	                <span class="pop_bt" style="font-size: 13pt;" >
-	                     	닫기
-	                </span>
-	            </div>
-      		</div>
-	    </div>
-		<!--End Modal-->
 		
-		
-		<!-- The Modal -->
-	    <div id="myModal3" class="modal">
-	      <!-- Modal content -->
-	      <div class="modal-content">
-	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주수록 수정</span></b></span></p>
-	                <p style="text-align: center; line-height: 1.5;"><br /></p>
-	                
-	                <form id="frm2">
-	                <div class="col-lg-12">
-                         <label for="town">주소title<span>*</span></label>
-                         <input type="text" class="inputTxt p100" name="title" id="title" />
-                     </div>
-                            
-                            
-	                <div class="col-lg-12">
-                           <label for="zip" style=visibility:hidden;>우편번호</label>
-                       </div>
-                            <div class="col-lg-6">
-                                <label for="zip"></label><br>
-                                <input type="text" name="userAddress1" id="detailaddr" />
-                                <input type="button" value="우편번호"
-												onclick="execDaumPostcode()"
-													style="width: 150px; height: 50px; margin-left:2px;" />
-                            </div>
-                            
-                            
-                            <div class="col-lg-12">
-                                <label for="town">주소<span>*</span></label>
-                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" />
-                                
-                            </div>
-                            <div class="col-lg-12">
-                                <label for="town">상세주소<span>*</span></label>
-                                <input type="text" class="inputTxt p100"
-												name="userAddress1" id="loginaddr1" />
-                            </div>
-                            <br>
-                            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="setAddress()">
-	                <span class="pop_bt" style="font-size: 13pt;" >
-	                     	수정하기
-	                </span>
-	            </div>
-                            
-					</form>                            
-	                <p><br /></p>
-	            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
-	                <span class="pop_bt" style="font-size: 13pt;" >
-	                     	닫기
-	                </span>
-	            </div>
-      		</div>
-	    </div>
-		<!--End Modal-->
 		
 		
         							
@@ -585,7 +353,7 @@
  			    success : function(result){
  					if(result.resultMsg == "success") {
  						var userCarts =result.cartList;
- 						
+ 						var userId = ""
  						var proQty = $('#cartList');
  						proQty.empty();	// append전에 비운다
  						userCarts.forEach(function (item, index, array) {
@@ -594,9 +362,10 @@
 							//proQty.append('<p><img id="cartImg" src='+item.bookImg+'></img></p>');
 							//proQty.append('<p>'+item.bookName+'</p>');
 							//proQty.append('<p>'+item.stock+'권</p>');
-							
+							userId=item.loginID;
  						})
 					proQty.append('<p>결제된 금액: '+comma(result.totalPrice)+'</p>');
+					proQty.append('<p>아이디: '+userId+'</p>');
  					$('body').css("overflow", "hidden"); // 기존 body스크롤 hidden처리	
 					$('#myModal').show();
  					}else {
@@ -715,7 +484,7 @@
 				alert("삭제되었습니다");
 				location.reload(true);
 			}else {
-				alert("최초 가입한 주소는 삭제할 수 없습니다");
+				alert("기본 주소는 삭제할 수 없습니다");
 			}
 	    },
 	    error : function(){
@@ -740,7 +509,6 @@
 		    success : function(result){
 				if(result.resultMsg == "success") {
 					alert("기본 주소로 설정이 되었습니다");
-					location.reload(true);
 				}
 		    },
 		    error : function(){
