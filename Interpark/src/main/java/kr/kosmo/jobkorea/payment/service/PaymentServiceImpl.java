@@ -65,6 +65,20 @@ public class PaymentServiceImpl implements PaymentService{
 		paymentDao.payment(vo);
 		// userUPdate
 		
+		
+		 // book stock update
+	    // public List<PaymentModel> getCartList(String loginID);
+	    List<PaymentModel> bookStock = getCartList(vo.getLoginID());
+	    for(PaymentModel ad : bookStock) {
+	    	PaymentModel bookUpdate = new PaymentModel();
+	    	bookUpdate.setStock(ad.getStock());
+	    	bookUpdate.setpId(ad.getpId());
+	    	paymentDao.bookStockUpdate(bookUpdate);
+	    }
+	    
+	    
+	    
+	    
 		// cartUPdate
 		String[] cartNosArray = vo.getCartNos().split(",");
 	    for (int i = 0; i < cartNosArray.length; i++) {
@@ -75,6 +89,9 @@ public class PaymentServiceImpl implements PaymentService{
 	    // order_hst
 	    vo.setUserState(0);
 	    paymentDao.regOderHst(vo);
+	    
+	   
+	    
 	}
 
 
@@ -420,14 +437,45 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 
-	// address테이블인지 확인
+
+
+	@Override
+	public void defaultAddress(Map<String, Object> paramMap) {
+		int maxNum = paymentDao.maxVal(paramMap);
+		maxNum +=1;
+		paramMap.put("maxNum", maxNum);
+		
+		String addressCheck = paymentDao.addressTableCheck(paramMap);
+		if(addressCheck.equals("X")) {	// address 테이블이 아니면
+			// user테이블 +1
+			paymentDao.setUserTable(paramMap);
+		}else {
+			// address테이블 +1
+			paymentDao.setAddressTable(paramMap);
+		}
+	}
 
 
 
 
+	@Override
+	public RegisterInfoModel getUserAddress(RegisterInfoModel vo) {
+		RegisterInfoModel address = new RegisterInfoModel();
+		
+		// max값을 가져와 
+		int maxNum = paymentDao.maxVal2(vo);
+		vo.setVal(Integer.toString(maxNum));
+		address = paymentDao.userMaxAddress(vo);
+		return address;
+	}
 
 
 
+
+	@Override
+	public List<PaymentModel> adminOrders() {
+		return paymentDao.adminOrders();
+	}
 
 
 

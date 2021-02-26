@@ -34,6 +34,7 @@ public class RegisterInfoModel {
 	private String address1;
 	private String address2;
 	private String address3;
+	private String val;			// 기본배송지 check
 	
 	private int che;
 	
@@ -42,6 +43,20 @@ public class RegisterInfoModel {
 	
 	
 	
+	public String getVal() {
+		return val;
+	}
+
+
+
+
+	public void setVal(String val) {
+		this.val = val;
+	}
+
+
+
+
 	public String getAddressTitle() {
 		return addressTitle;
 	}

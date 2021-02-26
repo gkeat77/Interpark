@@ -104,44 +104,45 @@ input[type="radio"]:checked + label span {
                         <div class="row">
                             <div class="col-lg-12">
                                 <label for="fir">이름<span>*</span></label>
-                                <input type="text" name="userName" value="${userInfo.name}">
+                                <input type="text" name="userName" value="${userInfo.name}" readonly>
                             </div>
                             <div class="col-lg-6">
                                 <label for="email">Email Address<span>*</span></label>
-                                <input type="text" name="userEmail" id="userEamil" value="${userInfo.mail}">
+                                <input type="text" name="userEmail" id="userEamil" value="${userInfo.mail}" readonly>
                             </div>
                             <div class="col-lg-6">
                                 <label for="phone">Phone<span>*</span></label>
-                                <input type="text" name="userPhone" id="userPhone" value="${userInfo.phone1}-${userInfo.phone2}-${userInfo.phone3}">
+                                <input type="text" name="userPhone" id="userPhone" value="${userInfo.phone1}-${userInfo.phone2}-${userInfo.phone3}" readonly>
                             </div>
                             <div class="col-lg-12">
-                                <label for="zip" style=visibility:hidden;>우편번호</label>
+                                <label for="zip" >우편번호</label>
                             </div>
                             <div class="col-lg-6">
                                 <label for="zip"></label><br>
-                                <input type="text" name="userAddress1" id="detailaddr" />
+                                <input type="text" name="userAddress1" id="detailaddr" value="${userAddress.address1}" readonly/>
                             </div>
                             
                             <div class="col-lg-6">
                                 <label for="zip"></label>
                                 <input type="button" value="우편번호"
 												onclick="execDaumPostcode()"
-													style="width: 150px; height: 50px; margin-left:2px;" />
+													style="width: 150px; height: 50px; margin-left:2px; visibility:hidden;" />
                             </div>
                             
                             <div class="col-lg-12">
                                 <label for="town">주소<span>*</span></label>
-                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" />
+                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" value="${userAddress.address2}" readonly/>
                                 
                             </div>
                             <div class="col-lg-12">
                                 <label for="town">상세주소<span>*</span></label>
                                 <input type="text" class="inputTxt p100"
-												name="userAddress1" id="loginaddr1" />
+												name="userAddress1" id="loginaddr1" value="${userAddress.address3}" readonly/>
                             </div>
                             
                             <div class="col-lg-12">
-                                <label for="town">마일리지<span>:&nbsp;</span><span id="applyMileage">${userInfo.mileage}</span></label>
+                                <%-- <label for="town">마일리지<span>:&nbsp;</span><span id="applyMileage">${userInfo.mileage}</span></label> --%>
+                                <label for="town">마일리지<span>:&nbsp;</span><span id="applyMileage"><fmt:formatNumber pattern="###,###,###" value="${userInfo.mileage}"/></span></label>
                                 <input type="text" class="inputTxt p100"
 												name="" id="userMileage"  placeholder="사용하실 마일리지를 입력해주세요"/>
 												<button type="button"  onclick="applyMileage()" class="site-btn place-btn">마일리지 적용</button>
@@ -192,7 +193,8 @@ input[type="radio"]:checked + label span {
                                     <!-- <li class="fw-normal">Subtotal <span>$240.00</span></li> -->
                                     <!--bookName, price, stock  -->
                                     <li class="total-price">Total <span id="paymentPrice">원</span>
-                                    <li class="total-price">Mileage<span id="mileage"><c:out value="${mileage2}"/>원</span>
+                                    <li class="total-price">총 할인금액 <span id="dc">원</span>
+                                    <li class="total-price">적립될 마일리지<span id="mileage"><c:out value="${mileage2}"/>원</span>
                                     <input type="hidden" value="${totalPrice}" name="totalPrice" id="totalPrice">
                                     <input type="hidden" value="${cartNos}" name="cartNos">
                                     <input type="hidden" id="totalMileage" value="${userInfo.mileage}">
@@ -259,6 +261,8 @@ input[type="radio"]:checked + label span {
 		var oldTotal2 = $('#totalPrice').val();
 		var oldTotal3 = 0;
         var TotalRem = 0;
+        var dcPrc = 0
+        var dcPrc2 = 0
 		// check box 동적
 		$("body").on("change", "[id^=coupon]", function(event) {
 	        //console.log(this.id);		coupon2
@@ -275,6 +279,7 @@ input[type="radio"]:checked + label span {
 	        		}
 	        	}
 	        });	
+	        
 	        
 	        
 	        if($("#"+this.id).is(":checked")){
@@ -298,6 +303,18 @@ input[type="radio"]:checked + label span {
 				                	TotalRem = oldTotal-dcPrice;
 				                	oldTotal3 = fn($('#paymentPrice').html());
 				                	$('#paymentPrice').html(comma(TotalRem)+"원");
+				                	
+				                	// 화면에 할인금액 표시
+									var dcshow = 0
+									var dcValue = 0
+									var dcValue2 = 0
+									dcValue = parseInt((fn($('#dc').html())));
+									dcValue = dcValue ? dcValue : 0;
+									dcValue2 = parseInt(dcPrice);
+									$('#dc').html(comma(dcValue+dcValue2)+"원");
+									
+									dcPrc2 =dcPrice;
+									
 								}else {
 									// dc할인 일 겨우
 									var dcRate = userCoupon.couponRate;
@@ -305,6 +322,17 @@ input[type="radio"]:checked + label span {
 				                	TotalRem = oldTotal-oldTotal * dcRate / 100;
 				                	oldTotal3 = fn($('#paymentPrice').html());
 									$('#paymentPrice').html(comma(TotalRem)+"원");
+									
+									// 화면에 할인금액 표시
+									var dcshow = 0
+									var dcValue = 0
+									var dcValue2 = 0
+									dcValue = parseInt((fn($('#dc').html())));
+									dcValue = dcValue ? dcValue : 0;
+									dcValue2 = parseInt(oldTotal * dcRate / 100);
+									$('#dc').html(comma(dcValue+dcValue2)+"원");
+									
+									dcPrc = oldTotal * dcRate / 100;
 								}
 							}
 					    },
@@ -317,6 +345,7 @@ input[type="radio"]:checked + label span {
 	            var couponNo = fn(this.id); // 함수써서 숫자만 추출
 	            
 	            sw=0;
+	            
 	            
 	            $('input:checkbox[name="cc"]').each(function() {
 	                if(this.checked){//체크박스 해제 했을 때 남아있는 체크박스에서 체크된 애들
@@ -338,12 +367,33 @@ input[type="radio"]:checked + label span {
 	    									oldTotal = oldTotal2;
 	    				                	TotalRem = oldTotal-dcPrice;
 	    				                	$('#paymentPrice').html(comma(TotalRem)+"원");
+	    				                	
+	    				                	// 화면에 할인금액 표시
+	    									var dcValue = parseInt((fn($('#dc').html())));
+	    									var dcValue2 = parseInt((fn($('#userMileage').val())));
+	    									dcValue = dcValue ? dcValue : 0;
+	    									dcValue2 = dcValue2 ? dcValue2 : 0;	
+	    									$('#dc').html(comma(dcValue-dcPrc+dcValue2)+"원");
+	    									
 	    								}else {
 	    									// dc할인 일 겨우
+	    									
+	    									
+	    									// 화면에 할인금액 표시
+	    									var dcValue = parseInt((fn($('#dc').html())));
+	    									var dcValue2 = parseInt((fn($('#userMileage').val())));
+	    									dcValue = dcValue ? dcValue : 0;
+	    									dcValue2 = dcValue2 ? dcValue2 : 0;	
+	    									alert(dcPrc2);
+	    									$('#dc').html(comma(dcValue-dcPrc2+dcValue2)+"원");
+	    									
+	    									
 	    									var dcRate = userCoupon.couponRate;
 	    									oldTotal = oldTotal2;
 	    									TotalRem = oldTotal-oldTotal * dcRate / 100;
-	    									$('#paymentPrice').html(comma(TotalRem)+"원");
+	    									$('#paymentPrice').html(comma(TotalRem+dcValue2)+"원");
+	    									
+	    									
 	    								}
 	    							}
 	    					    },
@@ -355,9 +405,22 @@ input[type="radio"]:checked + label span {
 	                }
 	           });
 				if(sw != 1) {
-					$('#paymentPrice').html(comma(oldTotal2)+"원");
+					// 체크박스 해제가 되었을 떄 !!
+					
+					// 화면에 할인금액 표시
+					var dcValue = parseInt((fn($('#dc').html())));
+					var dcValue2 = parseInt((fn($('#userMileage').val())));
+					dcValue = dcValue ? dcValue : 0;
+					dcValue2 = dcValue2 ? dcValue2 : 0;	
+					$('#dc').html(comma(dcValue-dcValue+dcValue2)+"원");
+					$('#paymentPrice').html(comma(parseInt(oldTotal2)-dcValue2)+"원");
+					
+					
+					
 				}else {
-					$('#paymentPrice').html(comma(oldTotal3)+"원");
+					var dcValue2 = parseInt((fn($('#userMileage').val())));
+					dcValue2 = dcValue2 ? dcValue2 : 0;
+					$('#paymentPrice').html(comma(oldTotal3-dcValue2)+"원");
 				}
 	        }
 	    });
@@ -606,7 +669,17 @@ input[type="radio"]:checked + label span {
 				$('#paymentPrice').html(comma(readTotal)+"원");
 				$('#useMileage').val(inputMileage);
 				dbMileage=(fn($('#applyMileage').html()));
-				$('#applyMileage').html(dbMileage-inputMileage);
+				$('#applyMileage').html(comma(dbMileage-inputMileage));
+				
+				// 화면에 할인금액 표시
+				var dcshow = 0
+				var dcValue = 0
+				var dcValue2 = 0
+				dcValue = parseInt((fn($('#dc').html())));
+				dcValue = dcValue ? dcValue : 0;
+				dcValue2 = parseInt(inputMileage);
+				$('#dc').html(comma(dcValue+dcValue2)+"원");
+				
 				$('#balanceMileage').val(dbMileage-inputMileage);
 				$('#reset').val(1);
 				$('#paymentSw').val(2);

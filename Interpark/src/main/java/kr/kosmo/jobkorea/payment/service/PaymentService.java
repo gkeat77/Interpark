@@ -61,5 +61,8 @@ public interface PaymentService {
 	public List<RegisterInfoModel> userAddressS(String loginID);
 	public void addAddress(Map<String, Object> paramMap);
 	public int delAddress(Map<String, Object> paramMap);
+	public void defaultAddress(Map<String, Object> paramMap);
+	public RegisterInfoModel getUserAddress(RegisterInfoModel vo); // 유저 기본 주소 
+	public List<PaymentModel> adminOrders();
 }
 
