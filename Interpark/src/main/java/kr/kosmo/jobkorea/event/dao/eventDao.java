@@ -13,7 +13,7 @@ public interface eventDao {
 	
 	public List<CategoryModel> cateList(Map<String,Object> paramMap);
 	
-	public List<EventModel> eventList(String e_title);
-		
+	public List<EventModel> eventList(Map<String,Object> paramMap);
+	
 	public int eventCount(Map<String,Object> paramMap);
 }

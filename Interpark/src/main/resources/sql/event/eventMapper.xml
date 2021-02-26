@@ -17,9 +17,9 @@
 		                        ORDER  BY Binary(categoryId)) 
 	</select>
 	
-	<select id="eventList" resultType="kr.kosmo.jobkorea.event.model.EventModel"  parameterType="String">
-		select * from EVENT where e_title = #{e_title}
-	</select>	
+	<select id="eventList" resultType="kr.kosmo.jobkorea.event.model.EventModel">
+		select * from EVENT
+	</select>
 	
 	<!-- 상품 검색 sql -->
 	<sql id="search">
