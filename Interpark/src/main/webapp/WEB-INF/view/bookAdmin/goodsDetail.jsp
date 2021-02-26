@@ -152,7 +152,7 @@
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"><strong>할인율</strong></span>
+						<span class="input-group-text"><strong>할인율 %</strong></span>
 					</div>
 					<input type="number" class="form-control" name="saleRate" value="${goods.saleRate }">
 				</div>
@@ -164,9 +164,9 @@
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"><strong>적립율</strong></span>
+						<span class="input-group-text"><strong>적립율 %</strong></span>
 					</div>
-					<input type="number" min="0" max="100" class="form-control" name="mileageRate" value="${goods.mileageRate }">
+					<input type="number" min="0" max="100" class="form-control" name="mileageRate" value="${goods.mileageRate }"> 
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">

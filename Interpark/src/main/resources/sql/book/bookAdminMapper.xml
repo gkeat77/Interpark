@@ -127,7 +127,7 @@
 		salePrice=#{salePrice},saleRate=#{saleRate},realPrice=#{realPrice},
 		sellState=#{sellState},display=#{display},stock=#{stock},
 		`index`=#{index},authorInfo=#{authorInfo},description=#{description},
-		serviceType=#{serviceType},mileageRate=#{mileageRate},mileage=#{mileageRate} 
+		serviceType=#{serviceType},mileageRate=#{mileageRate},mileage=#{mileage} 
 		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
 			,sellStart=#{sellStart},sellEnd=#{sellEnd}
 		</if>

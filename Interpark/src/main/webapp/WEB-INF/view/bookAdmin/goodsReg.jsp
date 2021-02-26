@@ -62,7 +62,7 @@
 											<div class="input-group-prepend">
 												<span class="input-group-text"><strong>카테고리명</strong></span>
 											</div>
-											<input type="text" class="form-control" value="${book.categoryName}" name="categoryName" readonly>
+											<input type="text" class="form-control" value="${book.categoryName}" name="categoryName">
 										</div> 	
 										<div class="input-group mb-3 input-group">
 											<div class="input-group-prepend">
@@ -155,7 +155,7 @@
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"><strong>할인율</strong></span>
+						<span class="input-group-text"><strong>할인율 %</strong></span>
 					</div>
 					<input type="number" class="form-control" name="saleRate">
 				</div>
@@ -167,15 +167,15 @@
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text"><strong>적립율</strong></span>
+						<span class="input-group-text"><strong>적립율 %</strong></span>
 					</div>
-					<input type="number" min="0" max="100" class="form-control" name="mileageRate" value=5>
+					<input type="number" min="0" max="100" class="form-control" name="mileageRate" value=5> 
 				</div>
 					<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><strong>적립금</strong></span>
 					</div>
-					<input type="number" class="form-control" name="mileage" readonly>
+					<input type="number" class="form-control" name="mileage" readonly> %
 				</div>
 				<div class="input-group mb-3 input-group">
 					<div class="input-group-prepend">

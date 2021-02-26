@@ -380,8 +380,7 @@ $(document).ready(function() {
 		flist_review(currentPage);
 	});
 	
-	
-	});
+});
 
 
 /** 리뷰 저장 */
@@ -516,70 +515,86 @@ function freview_del_result(data){
 }
 
 function goCart(pId) {
-	var bookStock=1;
-	bookStock = $('#bookStock').val();
-	var data = {
-			pId : pId
-			, bookStock : bookStock
-	     };
-	   $.ajax({
-	    url : "/goCart.do",
-	    type : "post",
-	    data : data,
-	    success : function(result){
-			if(result.resultMsg == "success") {
-				alert("카트에 등록되었습니다");
-				location.reload(true);	// 삭제 후 초기화
-			}else if (result.resultMsg == "cartAlready"){
-				alert("카트에 이미 상품이 있습니다");
-			}else {
-				alert("로그인 먼저해주세요");
-				location.href='/login/login.me'; 
-			}
-	    },
-	    error : function(){
-	     alert("fail");
-	    }
-	   });
+	if(chkQty()){
+		var bookStock=1;
+		bookStock = $('#bookStock').val();
+		var data = {
+				pId : pId
+				, bookStock : bookStock
+		     };
+		   $.ajax({
+		    url : "/goCart.do",
+		    type : "post",
+		    data : data,
+		    success : function(result){
+				if(result.resultMsg == "success") {
+					alert("카트에 등록되었습니다");
+					location.reload(true);	// 삭제 후 초기화
+				}else if (result.resultMsg == "cartAlready"){
+					alert("카트에 이미 상품이 있습니다");
+				}else {
+					alert("로그인 먼저해주세요");
+					location.href='/login/login.me'; 
+				}
+		    },
+		    error : function(){
+		     alert("fail");
+		    }
+		   });
+	}
 	   
 }
 	   
-		function goBuy(pId) {
-			var bookStock = 1;
-			bookStock = $('#bookStock').val();
-			var session = $('#session').val();
-			
-			if(session == '' || session == 'null') {
-				alert("로그인 먼저해주세요");
-				location.href='/login/login.me';
-			}else {
-				var confirm_val = confirm("결제를 진행할까요?");
-				if(confirm_val){
-					
-					var newForm = document.createElement('form'); 
-					newForm.name = 'newForm'; 
-					newForm.method = 'post'; 
-					newForm.action = '/cartList.do'; 
-					
-					var input1 = document.createElement('input'); 
-					input1.setAttribute("type", "hidden"); 
-					input1.setAttribute("name", "pId"); 
-					input1.setAttribute("value", pId); 
-					
-					var input2 = document.createElement('input'); 
-					input2.setAttribute("type", "hidden"); 
-					input2.setAttribute("name", "bookStock"); 
-					input2.setAttribute("value", bookStock);
-					
-					newForm.appendChild(input1);
-					newForm.appendChild(input2);
-					document.body.appendChild(newForm);
-					newForm.submit();
-				}else{
-				}
+function goBuy(pId) {
+	if(chkQty()){
+		var bookStock = 1;
+		bookStock = $('#bookStock').val();
+		var session = $('#session').val();
+		
+		if(session == '' || session == 'null') {
+			alert("로그인 먼저해주세요");
+			location.href='/login/login.me';
+		}else {
+			var confirm_val = confirm("결제를 진행할까요?");
+			if(confirm_val){
+				
+				var newForm = document.createElement('form'); 
+				newForm.name = 'newForm'; 
+				newForm.method = 'post'; 
+				newForm.action = '/cartList.do'; 
+				
+				var input1 = document.createElement('input'); 
+				input1.setAttribute("type", "hidden"); 
+				input1.setAttribute("name", "pId"); 
+				input1.setAttribute("value", pId); 
+				
+				var input2 = document.createElement('input'); 
+				input2.setAttribute("type", "hidden"); 
+				input2.setAttribute("name", "bookStock"); 
+				input2.setAttribute("value", bookStock);
+				
+				newForm.appendChild(input1);
+				newForm.appendChild(input2);
+				document.body.appendChild(newForm);
+				newForm.submit();
+			}else{
 			}
 		}
+	}	
+}
 
+//재고값 체크
+function chkQty(){
+	var selectQty = $("#bookStock").val();
+	var stock = parseFloat('${goods.stock}');
+	if(selectQty > stock){
+		alert("상품 재고가 부족합니다. 현재수량: ${goods.stock}" );
+			return false;
+		}else{
+			return true;
+		}
+}
+			
 
 
 </script>

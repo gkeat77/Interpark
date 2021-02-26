@@ -8,3 +8,4 @@
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/common.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/commonAjax.js"></script>
  <script src="/js/goods.js"></script>
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.model.js"></script>
