@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+
+a { margin: 0; padding:0; text-decoration: none;}
+ul, li { margin:0; padding:0; list-style: none;}
+
+.container >.top {
+	display: flex;
+}
+
+.container >.top > .title {
+	width: 150px;
+	background: red;
+	height: 70px;
+	text-align: center;
+	line-height: 70px;
+	color: white;
+	border: 1px solid #000;
+}
+.container >.top .chose-date {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background: yellow;
+	flex: 1;
+	padding: 10px 20px;
+	border: 1px solid #999;
+	height: 70px;
+}
+.container >.top .chose-date .date-time {
+	display: flex;
+	align-items: center;
+}
+.container >.top .chose-date .date-time span {
+	margin-right: 30px;
+}
+.container >.top .chose-date .date-time input {
+	margin-right: 20px;
+}
+.container >.main {
+	display: flex;
+}
+.container >.main >.seats {
+	flex: 2;
+	background: #ddd;
+	height: 700px;
+}
+.container >.main >.side {
+	flex: 1;
+	background: #yellow;
+}

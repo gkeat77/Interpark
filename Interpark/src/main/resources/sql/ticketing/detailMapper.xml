@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.kosmo.jobkorea.ticketing.dao.ReviewDao">
+<mapper namespace="kr.kosmo.jobkorea.ticketing.dao.DetailDao">
+	
+	<insert id="insertPrf" parameterType="kr.kosmo.jobkorea.ticketing.model.Db">
+		INSERT INTO ticket_prf
+		( 
+		  mt20id,prfnm,genrenm,prfstate,prfpdfrom,prfpdto
+		 ,poster,fcltynm,openrun,prfcast,prfcrew,prfruntime
+		 ,prfage,entrpsnm,pcseguidance,sty,dtguidance,mt10id 
+		 )
+		VALUES
+		(
+		#{mt20id},#{prfnm},#{genrenm},#{prfstate},#{prfpdfrom},#{prfpdto}
+		,#{poster},#{fcltynm},#{openrun},#{prfcast},#{prfcrew},#{prfruntime}
+		,#{prfage},#{entrpsnm},#{pcseguidance},#{sty},#{dtguidance},#{mt10id}
+		)
+	</insert>
+	<select id="getDetail" parameterType="String" resultType="kr.kosmo.jobkorea.ticketing.model.Db">
+		SELECT * FROM ticket_prf WHERE mt20id = #{mt20id}
+	</select>
+	
+	<insert id="insertSeats" parameterType="java.util.List">
+		INSERT INTO ticket_seat
+		 ( mt20id, name, price )
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.mt20id}, #{item.name}, #{item.price}
+		)
+		</foreach>
+	</insert>
+	<select id="getSeats" parameterType="String" resultType="kr.kosmo.jobkorea.ticketing.model.Seat">
+		SELECT * FROM ticket_seat WHERE mt20id = #{mt20id}
+	</select>
+	
+	<insert id="insertRuntimes" parameterType="java.util.List">
+		INSERT INTO ticket_runtime
+		 ( mt20id, dayOfWeek, time )
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.mt20id}, #{item.dayOfWeek}, #{item.time}
+		)
+		</foreach>	
+	</insert>
+	<select id="getRuntimes" parameterType="String" resultType="kr.kosmo.jobkorea.ticketing.model.Runtime">
+		SELECT * FROM ticket_runtime WHERE mt20id = #{mt20id}
+	</select>
 	
 	
 	

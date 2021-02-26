@@ -43,7 +43,7 @@
 		<div class="booking">
 			<div class="calendar"></div>
 			<div class="dtguidance">${db.dtguidance }</div>
-			<button>예매하기</button>
+			<button class="booking-btn">예매하기</button>
 		</div>
 	</div>
 	<div class="tabs">

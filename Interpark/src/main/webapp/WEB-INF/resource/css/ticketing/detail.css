@@ -60,6 +60,27 @@ ul, li { margin:0; padding:0; list-style: none;}
 	border: 1px solid #bbb;
 	margin-bottom: 15px;
 }
+.main > .booking .dtguidance .date-info {
+	margin-bottom: 5px;
+}
+.main > .booking .dtguidance .times  {
+	margin-bottom: 3px;
+}
+.main > .booking .dtguidance .times span.active {
+	background: #236adb;
+	color: white;
+}
+.main > .booking .dtguidance .times span {
+	display: inline-block;
+	width: 100px;
+	padding: 3px 10px;
+	border: 1px solid #999;
+	background: #ddd;
+	border-radius: 20px;
+	color: black;
+}
+
+
 .main > .booking button {
 	width: 300px;
 	background: #9e2b16;

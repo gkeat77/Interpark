@@ -84,7 +84,7 @@ $(document).ready(function () {
 	console.log(maxDate);
 	$('.calendar').datepicker({
 		inline: true,
-		dateFormat: 'yymmdd',
+		dateFormat: 'yy.mm.dd',
 		yearSuffix: '년',
 		minDate: minDate,
 		maxDate: maxDate,
@@ -93,37 +93,76 @@ $(document).ready(function () {
 		dayNamesMin: ['일','월','화','수','목','금','토'],
 		monthNames: ['1월', '2월', '3월', '4월','5월','6월', '7월', '8월', '9월', '10월', '11월', '12월'],
 		onSelect: function(dateText, inst){
-			console.log('dateText='+dateText);
+			const runtimes = dbJson.runtimes;
+			const dayOfWeek = days[new Date(dateText).getDay()];
+			
+			// 날짜에 해당하는 상영시간 보여줌
+			const timesForDate = runtimes.filter( item => item.dayOfWeek === dayOfWeek);
+			console.log('<timesForDate>');
+			console.log(timesForDate);
+			console.log()
+			 let html = `
+			 	<div class="date-info" style="text-align: center;">
+			 		<span class="date">${dateText}</span>&nbsp;&nbsp;<span class="day">${dayOfWeek}</span>
+			 	</div>
+			 `;
+			 timesForDate.forEach(item => {
+				html += `
+				<div class="times" style="text-align: center;">
+					<span>${item.time}</span>
+				</div>
+				`; 
+			 });
+			
+			$('.booking .dtguidance').html(html);
+					
 		},
 		beforeShowDay: function(date){
-			console.log('beforeShowDay(date)=> '+date.getDay());
+			
 			let dayOfWeek = days[date.getDay()];
-			console.log('day~~'+dayOfWeek);
-			const runtimes = dbJson.runtimes;
-			console.log('runtimes: ');
-			console.log(runtimes);
+			const runtimes = dbJson.runtimes;	
 			let flag = false;
+			
 			for( const item of runtimes){
-				console.log('item');
-				console.log(item);
+				
 				if(item.dayOfWeek === dayOfWeek) {
 					flag = true;
 					break;
 				};
-			}
-			
+			}	
 			return [flag,"",""];
 		},
+	});//datepicker end
 	
-	
-	});
-	
+	// 탭화면 컨트롤
 	$('.tabs ul li').click(function(){
 		const temp = $(this).attr('class');
 		$('.tabs ul li').css({background: '#fff', color: 'black'})
 		$(this).css({background: '#bbb', color: 'white'});
 		$('.tab-content > div').hide();
 		$('.tab-content .'+temp).show();
+	});
+	
+	// 다음(좌석선택) 화면으로...
+	$('button').click(function(){
+		// 예약정보 모으기
+		// 공연ID(mt20id), 예약일자(date), 요일(day), 상영시간(times)
+		const mt20id = dbJson.mt20id;
+		const date = $('.booking .dtguidance .date-info .date').text();
+		const day = $('.booking .dtguidance .date-info .day').text();
+		const times = $('.booking .dtguidance .times span.active').text() || 'N';
+		location.href = `/ticketing/booking.do?mt20id=${mt20id}&date=${date}&day=${day}&times=${times}`;
+		console.log('location : clicked!!!');
+	});
+	
+	// 상영시간 선택하기
+	$('.booking .dtguidance').on('click', '.times span', function(){
+		if($(this).hasClass('active')) {
+			$(this).removeClass('active');
+		} else {
+			$('.booking .dtguidance .times span').removeClass('active');
+			$(this).addClass('active');
+		}
 	});
 	
 

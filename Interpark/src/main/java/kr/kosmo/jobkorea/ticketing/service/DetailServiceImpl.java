@@ -27,12 +27,11 @@ public class DetailServiceImpl implements DetailService{
 		
 		try{
 		// 내부서버에 등록되어 있는지 확인 후
-		//db = detailDao.getDetail(mt20id);
-		//if(db == null){
-		if(true){
+		db = detailDao.getDetail(mt20id);
+		if(db == null){
 			// 안되있으면 외부 API로 받아오기
 			db = XmlParse.getDetailPfr(mt20id);
-			// 내부서버에 가공저장
+			
 			// 상연일정,좌석가격 DB 별도 생성
 			// 티켓가격(pcseguidance)=> seats
 			String pcseguide = db.getPcseguidance();
@@ -41,6 +40,7 @@ public class DetailServiceImpl implements DetailService{
 			String[] priceArr = pcseguide.split(", ");//[ "VIP석 15,000원", , ,...]
 			for(int i=0; i<priceArr.length; i++){
 				Seat seat = new Seat();
+				seat.setMt20id(mt20id);
 				String seatName = priceArr[i].split(" ")[0];
 				Integer seatPrice = Integer.parseInt(priceArr[i].split(" ")[1].replaceAll("[^0-9]", ""));
 				seat.setName(seatName);
@@ -62,7 +62,7 @@ public class DetailServiceImpl implements DetailService{
 			String dtguide = db.getDtguidance();
 			List<Runtime> runtimes = new ArrayList<>();
 			String[] runtimeArr = dtguide.split(", ");
-			// 화요일(19:30), 목요일 ~ 금요일(19:30)
+			// 화요일(19:30), 목요일~금요일(19:30)
 			for(int i=0; i<runtimeArr.length; i++){
 				if(runtimeArr[i].contains("~")){
 					
@@ -82,6 +82,7 @@ public class DetailServiceImpl implements DetailService{
 						
 						for(int j=0; j<timesArr.length; j++){
 							Runtime rt = new Runtime();
+							rt.setMt20id(mt20id);
 							System.out.println(days.get(k%7)+"/"+timesArr[j]);
 							rt.setDayOfWeek(days.get(k%7));
 							rt.setTime(timesArr[j]);
@@ -98,6 +99,7 @@ public class DetailServiceImpl implements DetailService{
 					String[] timesArr = times.split(",");
 					for(int j=0; j< timesArr.length; j++){
 						Runtime rt = new Runtime();
+						rt.setMt20id(mt20id);
 						System.out.println("day: "+day+" times: "+timesArr[j]);
 						rt.setDayOfWeek(day);
 						rt.setTime(timesArr[j]);
@@ -110,12 +112,19 @@ public class DetailServiceImpl implements DetailService{
 			db.setSeats(seats);
 			db.setRuntimes(runtimes);
 			
-			System.out.println("runtimes: ");
-			System.out.println(runtimes);
-			//detailDao.insertDb(db);
+			// 내부서버에 저장
+			detailDao.insertSeats(seats);
+			detailDao.insertRuntimes(runtimes);
+			detailDao.insertPrf(db);
 			
-		}// if end
-			
+		} else {
+			List<Seat> seats = detailDao.getSeats(mt20id);
+			List<Runtime> runtimes = detailDao.getRuntimes(mt20id);
+			db.setSeats(seats);
+			db.setRuntimes(runtimes);
+		}//if end
+		
+		
 		} catch(Exception e){
 			System.out.println("Exception: parsing error~~"+e);
 		}
