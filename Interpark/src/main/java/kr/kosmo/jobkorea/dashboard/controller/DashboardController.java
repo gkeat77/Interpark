@@ -92,10 +92,19 @@ public class DashboardController {
 	@ResponseBody
 	public Map<String, Object> mainGoods(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
-		String type=(String)(paramMap.get("type"));
+		//String type=(String)(paramMap.get("type"));
+		
+		
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>> 메인상품>>>>>>>>>>>>>>>>>>>>>>>>>>>> ");
+		logger.info(paramMap);
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		
+		int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); 
+		int pageIndex = 0;
+
+		paramMap.put("pageIndex", pageIndex);
+		paramMap.put("pageSize", pageSize);
 		
 		List<BookModel> goodsList= booksv.goodsList(paramMap);
 		
@@ -111,6 +120,9 @@ public class DashboardController {
 				break;		
 		
 		}*/
+		
+		
+		
 		
 		
 		resultMap.put("mainGoods", goodsList );

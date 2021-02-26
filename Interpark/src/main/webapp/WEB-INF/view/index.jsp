@@ -8,6 +8,7 @@
 <title>인터파크~</title>    
 </head>
 
+
 <body>
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
     <!-- Breadcrumb Section Begin -->
@@ -155,25 +156,24 @@
     <!-- Women Banner Section Begin -->
     
     <section class="women-banner spad">
-        <div class="container-fluid">
+             <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="product-large set-bg" data-setbg="img/index/hotBook.jpg">
-                        <h2>인기 도서</h2>
+                        <h2>인기도서</h2>
                         <a href="#">Discover More</a>
                     </div>
                 </div>
                 <div class="col-lg-8 offset-lg-1">
                     <div class="filter-control">
-                        <ul class="ulCate" id="hotGoods">
+                         <ul class="ulCate" id="hotGoods">
                             <li class="active" value="1">국내도서</li>
                             <li value="2">외국도서</li>
                             <li value="3">DVD</li>
                             <li value="4">음반</li>
                         </ul>
                     </div>
-                    </div>
-                    <div class="product-slider owl-carousel" id="divhotGoods">
+                    <div class="product-slider owl-carousel" id="divhotGoods"></div>
                 </div>
             </div>
         </div>
@@ -219,113 +219,22 @@
 
     <!-- Man Banner Section Begin -->
     <section class="man-banner spad">
-        <div class="container-fluid">
+                <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8 offset-lg-1">
                     <div class="filter-control">
-                        <ul class="ulCate">
-                            <li class="active">Clothings</li>
-                            <li>HandBag</li>
-                            <li>Shoes</li>
-                            <li>Accessories</li>
+                         <ul class="ulCate" id="newGoods">
+                            <li class="active" value="1">국내도서</li>
+                            <li value="2">외국도서</li>
+                            <li value="3">DVD</li>
+                            <li value="4">음반</li>
                         </ul>
                     </div>
-                    <div class="product-slider owl-carousel">
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img src="img/products/man-1.jpg" alt="">
-                                <div class="sale">Sale</div>
-                                <div class="icon">
-                                    <i class="icon_heart_alt"></i>
-                                </div>
-                                <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="pi-text">
-                                <div class="catagory-name">Coat</div>
-                                <a href="#">
-                                    <h5>Pure Pineapple</h5>
-                                </a>
-                                <div class="product-price">
-                                    $14.00
-                                    <span>$35.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img src="img/products/man-2.jpg" alt="">
-                                <div class="icon">
-                                    <i class="icon_heart_alt"></i>
-                                </div>
-                                <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="pi-text">
-                                <div class="catagory-name">Shoes</div>
-                                <a href="#">
-                                    <h5>Guangzhou sweater</h5>
-                                </a>
-                                <div class="product-price">
-                                    $13.00
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img src="img/products/man-3.jpg" alt="">
-                                <div class="icon">
-                                    <i class="icon_heart_alt"></i>
-                                </div>
-                                <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="pi-text">
-                                <div class="catagory-name">Towel</div>
-                                <a href="#">
-                                    <h5>Pure Pineapple</h5>
-                                </a>
-                                <div class="product-price">
-                                    $34.00
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img src="img/products/man-4.jpg" alt="">
-                                <div class="icon">
-                                    <i class="icon_heart_alt"></i>
-                                </div>
-                                <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="pi-text">
-                                <div class="catagory-name">Towel</div>
-                                <a href="#">
-                                    <h5>Converse Shoes</h5>
-                                </a>
-                                <div class="product-price">
-                                    $34.00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="product-slider owl-carousel" id="divnewGoods"></div>
                 </div>
-                <div class="col-lg-3 offset-lg-1">
-                    <div class="product-large set-bg m-large" data-setbg="img/products/man-large.jpg">
-                        <h2>Men’s</h2>
+                  <div class="col-lg-3">
+                    <div class="product-large set-bg" data-setbg="img/index/newBook.jpg">
+                        <h2>신간 도서</h2>
                         <a href="#">Discover More</a>
                     </div>
                 </div>
@@ -336,14 +245,16 @@
     
     <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
     <!-- Partner Logo Section End -->
-	
 <script>
 
 $(document).ready(function() {
-	
+	//랭킹함수
 	flist_rank("bestSeller");
  	flist_rank("recommend");
 	flist_rank("newBook"); 
+	//전시 상품
+	fdisplay_goods(1,"hotGoods");
+	fdisplay_goods(1,"newGoods");
 	
 	//랭킹 카테고리 선택
 	$(".cateSelect").change(function(){
@@ -357,7 +268,8 @@ $(document).ready(function() {
 	 $(this).siblings().removeClass("active");
 	 $(this).addClass("active");
 	 let cateClass =$(this).val();
-	 let type= $(this).attr('id'); 
+	 let type= $(this).parent("ul").attr('id'); 
+	 console.log("타입:"+type);
 	 fdisplay_goods(cateClass,type);
  })	;
 	
@@ -394,11 +306,8 @@ function flist_rank_result(data,service) {
 	let tr;
 	let code;
 	let rankList= data.rankList;
-	console.log(tableId);
-	console.log(rankList);
 	
 	$(tableId).empty();
-	
 	
 	rankList.forEach(function(item, index){
 		tr +=  '<tr>';
@@ -408,20 +317,29 @@ function flist_rank_result(data,service) {
 		tr += '</tr>';
 		})
 	 
-	 console.log(tr);
 	$(tableId).append(tr);
 	
 }
 
 //메인 추천 상품 리스트
 function fdisplay_goods(cateClass,type) {
+	console.log("type:"+type);
 	let pageSize = 12; //보여줄 상품 갯수
+	let sort="";
 	
+	switch(type){
+	case "hotGoods":
+		sort="sellCount desc";
+		break;
+	case "newGoods":
+		sort="regDate desc";
+		break;	
+	}
 		var data = {
-			 type : type,
 			 cateClass : cateClass,
 			 pageIndex:0,
-			 pageSize:displayCount
+			 pageSize:pageSize,
+			 sort:sort
 		     };
 		
 		   $.ajax({
@@ -440,34 +358,60 @@ function fdisplay_goods(cateClass,type) {
 
 function fdisplay_goods_result(data,type) {
 	let divId= "#div"+type;
-	let product;
+	let product ='';
 	let mainGoods= data.mainGoods;
 	console.log(divId);
 	console.log(mainGoods);
 	
-	$(divId).empty();
 	
+	$(divId).empty();
 	
 	mainGoods.forEach(function(item, index){
 		product+=  '<div class="product-item">';
 		product+=   '<div class="pi-pic">'
-		product+=   '<img src="img/products/women-1.jpg" alt="">'
+		product+=   '<img src="'+item.coverLargeUrl+'" style="width:150px;height:300px">'
 		product+=   '<div class="sale">Sale</div>'
+		product+=   '<ul><li class="quick-view"><a href="#">상세보기</a></li></ul>'
 		product+=   '</div>'
-		product+=   '<ul><li class="quick-view"><a href="#">+ Quick View</a></li></ul></div>'
 		product+=   '<div class="pi-text">'
-		product+=   ' <h5>Pure Pineapple</h5>'
+		product+=   '<a href="#">'
+		product+=   ' <h5>'+item.title+'</h5>'
+		product+=   ' </a>'
 		product+=   '<div class="product-price">'
-		product+=   '$14.00</div></div></div>'
-		})
-	 
-	 console.log(tr);
-	$(tableId).append(tr);
+		product+=     item.realPrice+'</div></div></div>'
+		});
+		
+	 console.log(product);
+	$(divId).append(product);
 	
+	//슬라이드 재 적용  
+	$(divId).trigger('destroy.owl.carousel');
+	$(divId).owlCarousel({
+        loop: true,
+        margin: 25,
+        nav: true,
+        items: 4,
+        dots: true,
+        navText: ['<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>'],
+        smartSpeed: 1200,
+        autoHeight: false,
+        autoplay: true,
+        responsive: {
+            0: {
+                items: 1,
+            },
+            576: {
+                items: 2,
+            },
+            992: {
+                items: 2,
+            },
+            1200: {
+                items: 3,
+            }
+        }
+    });
 }
 
-
-
-
-
 </script>
+
