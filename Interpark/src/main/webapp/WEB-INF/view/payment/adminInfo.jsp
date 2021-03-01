@@ -130,7 +130,7 @@
 			
 				<c:when test = "${result eq 1}">
 					<p>**최신순으로 보입니다</p>
-					<c:if test="${empty orders}">
+					<c:if test="${empty list}">
 						<div class="contact-widget">
 		               <div class="cw-item">
 		                   <div class="ci-icon">
@@ -144,7 +144,7 @@
 		             </div>
 					</c:if>
 					
-				 	<c:forEach var="orders" items="${orders}">
+				 	<c:forEach var="list" items="${list}">
 					<div class="contact-widget">
 		               <div class="cw-item">
 		                   <div class="ci-icon">
@@ -152,24 +152,58 @@
 		                   </div>
 		                   <div class="ci-text">
 		                       <span>결제번호:</span>
-		                       <p><a href="javascript:void(0);" id="pay" onclick="orderCart(${orders.payNo})">${orders.payNo}</a></p>
+		                       <p><a href="javascript:void(0);" id="pay" onclick="orderCart(${list.payNo})">${list.payNo}</a></p>
 		                   </div>
 		               </div>
 		             </div>
 		             <ul>
-						<li>구매일자: ${orders.regDt}</li>
-						<li>결제상태: ${orders.state}</li>
+						<li>구매일자: ${list.regDt}</li>
+						<li>결제상태: ${list.state}</li>
 					</ul>
 					<button type="button"  id="userInfo2" onclick="" class="site-btn place-btn">AA</button>
 					
 					</c:forEach>
+					
+					
+				 <ul class="btn-group pagination justify-content-center" id="paging-ul">
+			    <c:if test="${pageMaker.prev }">
+			    <li id="paging-li">
+			        <a class="page-link" href='<c:url value="/adminOrders.do?adminSw=1&page=${pageMaker.startPage-1 }"/>'>Previous</a>
+			    </li>
+			    </c:if>
+			    <!--
+			    when, search일 때 페이징 적용 하지 않기 위함
+			    when, active 페이징 설정하기 위함
+			      -->
+			    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+					<c:choose>
+						<c:when test="${not empty param.searchKey}"></c:when>
+						<c:when test="${param.page eq pageNum }"> 
+							<li id="paging-li" class="page-item active "><a class="page-link" href='<c:url value="/adminOrders.do?adminSw=1&page=${pageNum }"/>'>${pageNum }</a></li>
+						</c:when>
+						<c:otherwise>
+			        			<li id="paging-li" class="page-item "><a class="page-link" href='<c:url value="/adminOrders.do?adminSw=1&page=${pageNum }"/>'>${pageNum }</a></li>											
+						</c:otherwise>
+					</c:choose>
+			    </c:forEach>
+			    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+			    <li id="paging-li" class="page-item">
+			        <a class="page-link" href='<c:url value="/adminOrders.do?adminSw=1&page=${pageMaker.endPage+1 }"/>'>Next</a>
+			    </li>
+			    </c:if>
+			</ul>
+						
+						
+						
 				</c:when>
-				
-				
+					
 				
 				 <c:otherwise>
 				 </c:otherwise>
 			</c:choose>
+			
+				
+								
 			
 		</div>
 		
@@ -343,6 +377,9 @@
 	
 	
     function orderCart(payNo){
+    	let elm = document.getElementById('paging-ul');
+   		elm.style.visibility = "hidden";
+   			
     	 var data = {
     			 payNo : payNo
  			     };
@@ -382,141 +419,20 @@
 	// 모달 닫기	
 	 function close_pop(flag) {
         $('#myModal').hide();
-        $('#myModal2').hide();
-        $('#myModal3').hide();
         $('body').css("overflow", "scroll");
+        let elm = document.getElementById('paging-ul');
+        elm.style.visibility = "visible";
+        
    }
    
    
-   function userCancel(payNo) {
-		var data = {
-				payNo : payNo
-		     };
-		   $.ajax({
-		    url : "/userCancel.do",
-		    type : "post",
-		    data : data,
-		    success : function(result){
-				if(result.resultMsg == "success") {
-					alert("결제가 취소 되었습니다");
-					location.reload(true);
-				}
-		    },
-		    error : function(){
-		     alert("fail");
-		    }
-		   });
-		   
-   }
-   
-   function addAddress() {
-	   $('#myModal2').show();
-	   
-   }
-   
-   function addAddressButton() {
-	   // 빈값 확인
-	   var result = txtFieldCheck() == true ? true : false;
-	
-	   console.log(result);
-	   if(!result) {
-		   
-		   var title = $('#title').val();
-		   var detailadr = $('#detailaddr').val();
-		   var address = $('#loginaddr').val();
-		   var address2 = $('#loginaddr1').val();
-		   
-		   var data = {
-				   title : title
-				   , detailadr : detailadr
-				   , address : address
-				   , address2 : address2
-		     };
-		   $.ajax({
-		    url : "/addAddress.do",
-		    type : "post",
-		    data : data,
-		    success : function(result){
-				if(result.resultMsg == "success") {
-					alert("주소가 등록이 되었습니다");
-					location.reload(true);
-				}
-		    },
-		    error : function(){
-		     alert("fail");
-		    }
-		   });
-		   
-	   }
-			   
-	 
-   }
-
-   
-
-	function addressModify() {
-		$('#myModal3').show();
-	}	
 
 
 
-	function addressModify2(detail, title) {
-	}
 	
 	
-	function setAddress() {
-		alert("ad");
-	}
-
-	function delAddress2(detail, title) {
-		// delAddress
-	   
-	   var data = {
-			   detail : detail
-			   , title : title
-	     };
-	   $.ajax({
-	    url : "/delAddress.do",
-	    type : "post",
-	    data : data,
-	    success : function(result){
-			if(result.resultMsg == "success") {
-				alert("삭제되었습니다");
-				location.reload(true);
-			}else {
-				alert("기본 주소는 삭제할 수 없습니다");
-			}
-	    },
-	    error : function(){
-	     alert("fail");
-	    }
-	   });
-	   
-		
-		
-	}
    
 
-	function chooseDefault(detail, title) {
-		var data = {
-				   detail : detail
-				   , title : title
-		     };
-		   $.ajax({
-		    url : "/defaultAddress.do",
-		    type : "post",
-		    data : data,
-		    success : function(result){
-				if(result.resultMsg == "success") {
-					alert("기본 주소로 설정이 되었습니다");
-				}
-		    },
-		    error : function(){
-		     alert("fail");
-		    }
-		   });
-		   
-	}
 	
 </script>
 

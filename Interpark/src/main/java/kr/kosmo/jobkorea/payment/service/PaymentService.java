@@ -64,5 +64,10 @@ public interface PaymentService {
 	public void defaultAddress(Map<String, Object> paramMap);
 	public RegisterInfoModel getUserAddress(RegisterInfoModel vo); // 유저 기본 주소 
 	public List<PaymentModel> adminOrders();
+	public int countOrders(); // forPaging
+	public List<Map<String, Object>> adminOrdersPaging(Criteria cri);
+	public List<PaymentModel>showCoupon();
+	public String couponCheck(Map<String, Object> paramMap);	// 쿠폰 지급 확인
+	public void insertCoupon(Map<String, Object> paramMap);
 }
 

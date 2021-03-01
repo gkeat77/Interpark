@@ -615,6 +615,62 @@ SELECT *
 </select>
 
 
+<select id="countOrders" resultType="int">
+	SELECT COUNT(*)
+		FROM ORDER_HST
+		WHERE ORDER_NO IN (
+		        SELECT ORDER_NO
+		        FROM ORDERS
+		    )
+</select>
+
+<select id="adminOrdersPaging" resultType="hashmap" parameterType="hashmap">
+    <![CDATA[
+        SELECT ORDER_DT AS regDt	
+			, ORDER_NO AS payNo
+			, (
+	            CASE ORDER_STATE
+				WHEN 0 THEN '입금대기중'
+				WHEN 1 THEN '결제완료'
+				WHEN 2 THEN '배송완료'
+				WHEN 3 THEN '관리자 결재취소'
+				WHEN 5 THEN '결재취소'
+				END
+	            ) AS state
+		FROM ORDER_HST
+		WHERE ORDER_NO IN (
+		        SELECT ORDER_NO
+		        FROM ORDERS
+		    )
+		 ORDER BY ORDER_DT DESC
+        LIMIT #{pageStart}, #{perPageNum}
+    ]]>
+</select>
 	 
+<select id="showCoupon" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	SELECT COUPON_NO AS couponNo
+	, COUPON_NAME AS couponName
+	, IFNULL(DC_RATE,0) AS couponRate
+	, IFNULL(DC_PRICE,0) AS couponPrice
+	FROM COUPON
+</select>
+
+
+
+<select id="couponCheck" parameterType="hashmap" resultType="String">
+	SELECT IFNULL(MAX(COUPON_HST_NO),'X')
+	FROM COUPON_HST
+	WHERE loginID = #{loginID}
+	AND COUPON_NO = #{couponNo}
+	AND DATE(COUPON_USE_DT) = '0000-00-00 00:00:00'
+</select>
+
+
+<insert id="insertCoupon" parameterType="hashmap">
+	INSERT INTO COUPON_HST
+	( COUPON_NO, COUPON_REG_DT, loginID)
+	VALUES
+	(#{couponNo}, NOW(), #{loginID})
+</insert>
 	 
 </mapper>

@@ -209,15 +209,23 @@
 		                         </c:otherwise>
 		                         </c:choose>
 		                         <!-- admin  -->
+		                         
+		                         
+								<c:if test="${member.loginID eq 'admin'}">
+                                	<li><a href="/adminInfo.do">ADMIN</a></li>
+								</c:if>
+								
                                 <c:if test="${member.loginID eq 'admin'}">
-                                	<li>
-	                                	<a href="/adminOrders.do">ADMIN INFO</a>
-	                                	<a href="/adminInfo.do">ADMIN</a>
-                                	</li>
+                                	<li><a href="/adminOrders.do">ADMIN INFO</a></li>
 								</c:if>
 								<c:if test="${member.loginID eq 'admin'}">
                                 	<li><a href="/statistics.do">통계</a></li>
 								</c:if>
+								
+								<c:if test="${member.loginID eq 'admin'}">
+                                	<li><a href="/adminCoupon.do">쿠폰지급</a></li>
+								</c:if>
+								
                             </ul>
                         </li>
                         <li><a href="/event/eventListPage.do">이벤트</a>
