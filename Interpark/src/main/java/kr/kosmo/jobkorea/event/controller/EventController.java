@@ -57,9 +57,6 @@ public class EventController {
 	@ResponseBody
 	public 	List<EventModel>  eventList(Model model, @RequestParam(value="e_title", required=false) String e_title
 			) throws Exception {
-		List<EventModel> result = eventsv.eventList(e_title);
-		System.out.println("결과"+result); // 정상
-		model.addAttribute("result", result);		
 		
 		return  eventsv.eventList(e_title);
 	}

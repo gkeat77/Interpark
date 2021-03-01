@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>
 <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 
-<!-- 모멘트 라이브러리  -->
+<!-- 모멘트  -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <head>
@@ -157,26 +157,23 @@ function flist_clean_search(){
 	};
     
     function getEventData(e_title) {
-    	
    	   $.ajax({
-   	    url : "eventList.do?e_title"+e_title,
-   	    type : "get",
+   	    url : "eventList.do",
+   	    type : "post",
    	    data : {e_title:e_title},
    	    dataType: "json",
-   	    success : function(result){       	    	
+   	    success : function(result){
+   	    	//console.log(result);
 			var str = "";
         	$.each(result , function(i){
         			let s_date = new Date(result[i].e_sdate);
-        			let e_date = new Date(result[i].e_edate);
-        			
+        			let e_date = new Date(result[i].e_edate);        			
         			var nDate = moment(s_date).format("YYYY-MM-DD");
-        			var mDate = moment(e_date).format("YYYY-MM-DD");
-        		
+        			var mDate = moment(e_date).format("YYYY-MM-DD");        		
             		str += '<tr><td>' + result[i].e_title + '</td></tr>';
             		str += '<tr><td>' + nDate + '-' +mDate+'</td></tr>';
             		str += '<tr><td>' + result[i].e_content +'</td></tr>';
-       		});
-        	
+       		});        	
         	if(e_title == '문학'){        		
        			$(".tx1").append(str); 
         	} else if (e_title == ('인문' || '교양' || '종교' || '예술')) {
@@ -202,8 +199,7 @@ function flist_clean_search(){
 	<div class="container" id="contents">		
          <ul class="tabs" style="margin: 50px auto 0;">
              <li class="active" data-panel="panel1">전체</li>
-             <li data-panel="panel2" onclick="getEventData('문학');"><a href="#">문학</a></li>
-             <%-- <li data-panel="panel2" onclick=""><a href="/event/eventListPage.do?e_title=${e_title}">문학</a></li> --%>
+             <li data-panel="panel2" onclick="getEventData('문학');"><a href="#">문학</a></li>             
              <li data-panel="panel3"><a href="#" onclick="getEventData('인문');">인문/교양/종교/예술</a></li>
              <li data-panel="panel4"><a href="#" onclick="getEventData('외국도서');">외국도서</a></li>
              <li data-panel="panel5"><a href="#" onclick="getEventData('eBook');">eBook</a></li>
@@ -211,12 +207,7 @@ function flist_clean_search(){
              <li data-panel="panel7"><a href="#" onclick="getEventData('중고도서');">중고도서</a></li>
          </ul>
          <div id="panel1" class="panel active">-</div>
-         <div id="panel2" class="panel">-
-         	<c:forEach var="list" items="${result }">
-         		<!-- <div class="tx1"></div> -->
-         		<a href="/event/eventListPage.do?e_title=${e_title}">${list.e_title }</a>
-         	</c:forEach>
-         </div>
+         <div id="panel2" class="panel">-<div class="tx1"></div></div>
          <div id="panel3" class="panel">-<div class="tx2"></div></div>
          <div id="panel4" class="panel">-<div class="tx3"></div></div>
          <div id="panel5" class="panel">-<div class="tx4"></div></div>
