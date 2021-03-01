@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>
 <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 
-<!-- 모멘트  -->
+<!-- moment  -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <head>
@@ -19,8 +19,9 @@
             .tabs li { list-style-type: none; display: inline-block; background: #c7c7c7; padding: 3px 10px; color: #fff; cursor: pointer; }
             .tabs li:hover { color: #fff; background: #5294de; }
             .tabs li.active { color: #fff; background: #5294de; }
-            .panel { display:none; background: #fff; border: 1px solid #c7c7c7; padding: 30px; }
-            .panel.active { display:block; }
+            .panel { display:none; background: #fff; border: 1px solid #c7c7c7; padding: 30px; height: 800px;}
+            .panel.active { display:block; }            
+			.li {float:left; list-style:none; margin:1px;}/* 가로정렬 */
       </style>
  </head>
 
@@ -163,19 +164,25 @@ function flist_clean_search(){
    	    data : {e_title:e_title},
    	    dataType: "json",
    	    success : function(result){
-   	    	//console.log(result);
 			var str = "";
         	$.each(result , function(i){
         			let s_date = new Date(result[i].e_sdate);
         			let e_date = new Date(result[i].e_edate);        			
         			var nDate = moment(s_date).format("YYYY-MM-DD");
-        			var mDate = moment(e_date).format("YYYY-MM-DD");        		
-            		str += '<tr><td>' + result[i].e_title + '</td></tr>';
-            		str += '<tr><td>' + nDate + '-' +mDate+'</td></tr>';
-            		str += '<tr><td>' + result[i].e_content +'</td></tr>';
+        			var mDate = moment(e_date).format("YYYY-MM-DD");
+        			str += '<div>';
+        				str += '<ul>';
+        					str += '<li class="li">';
+        						str += '<div><a href="#">'+'<img src =' + result[i].thumnail_img + '>'+'</a></div>';
+			        			str += '<div><span>'+ result[i].e_title +'</span></div>';
+			        			str += '<div><span>'+ nDate + '-' +mDate+'</span></div>';
+			        			str += '<div><span>'+ result[i].e_content+'</span></div>';
+        					str += '</li>';
+            			str += '</ul>';
+            		str += '</div>';
        		});        	
         	if(e_title == '문학'){        		
-       			$(".tx1").append(str); 
+       			$(".tx1").append(str);
         	} else if (e_title == ('인문' || '교양' || '종교' || '예술')) {
         		$(".tx2").append(str);
         	} else if (e_title == '외국도서') {

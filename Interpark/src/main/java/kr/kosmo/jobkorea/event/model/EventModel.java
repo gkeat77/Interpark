@@ -14,6 +14,7 @@ public class EventModel {
 		
 		private String longinID;
 		private String coupon_no;
+		private String thumnail_img;
 		public int getE_id() {
 			return e_id;
 		}
@@ -68,12 +69,17 @@ public class EventModel {
 		public void setCoupon_no(String coupon_no) {
 			this.coupon_no = coupon_no;
 		}
-		
+		public String getThumnail_img() {
+			return thumnail_img;
+		}
+		public void setThumnail_img(String thumnail_img) {
+			this.thumnail_img = thumnail_img;
+		}
 		@Override
 		public String toString() {
 			return "EventModel [e_id=" + e_id + ", e_title =" + e_title + ", e_sdate=" + e_sdate + ", e_edate="
 					+ e_edate + ", e_content=" + e_content + ", f_id=" + f_id + ", reg_date="+ reg_date + ", "
-					+ "longinID=" + longinID + ", coupon_no=" + coupon_no +  "]";
+					+ "longinID=" + longinID + ", coupon_no=" + coupon_no +  ", thumnail_img=" + thumnail_img +  "]";
 		}
 		
 		//도서 
