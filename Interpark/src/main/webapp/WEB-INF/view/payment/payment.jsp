@@ -384,7 +384,6 @@ input[type="radio"]:checked + label span {
 	    									var dcValue2 = parseInt((fn($('#userMileage').val())));
 	    									dcValue = dcValue ? dcValue : 0;
 	    									dcValue2 = dcValue2 ? dcValue2 : 0;	
-	    									alert(dcPrc2);
 	    									$('#dc').html(comma(dcValue-dcPrc2+dcValue2)+"원");
 	    									
 	    									

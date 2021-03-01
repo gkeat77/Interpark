@@ -479,4 +479,44 @@ public class PaymentServiceImpl implements PaymentService{
 
 
 
+
+	@Override
+	public int countOrders() {
+		return paymentDao.countOrders();
+	}
+
+
+
+
+	@Override
+	public List<Map<String, Object>> adminOrdersPaging(Criteria cri) {
+		return paymentDao.adminOrdersPaging(cri);
+	}
+
+
+
+
+	@Override
+	public List<PaymentModel> showCoupon() {
+		return paymentDao.showCoupon();
+	}
+
+
+
+
+	@Override
+	public String couponCheck(Map<String, Object> paramMap) {
+		return paymentDao.couponCheck(paramMap);
+	}
+
+
+
+
+	@Override
+	public void insertCoupon(Map<String, Object> paramMap) {
+		paymentDao.insertCoupon(paramMap);
+	}
+
+
+
 }

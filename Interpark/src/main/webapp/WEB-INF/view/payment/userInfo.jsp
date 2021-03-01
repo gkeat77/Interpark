@@ -620,24 +620,29 @@
    
    
    function userCancel(payNo) {
-		var data = {
-				payNo : payNo
-		     };
-		   $.ajax({
-		    url : "/userCancel.do",
-		    type : "post",
-		    data : data,
-		    success : function(result){
-				if(result.resultMsg == "success") {
-					alert("결제가 취소 되었습니다");
-					location.reload(true);
-				}
-		    },
-		    error : function(){
-		     alert("fail");
-		    }
-		   });
-		   
+	   
+	   var confirm_val = confirm("결제를 정말 취소하시겠습니까???");
+
+		if(confirm_val) {
+			var data = {
+					payNo : payNo
+			     };
+			   $.ajax({
+			    url : "/userCancel.do",
+			    type : "post",
+			    data : data,
+			    success : function(result){
+					if(result.resultMsg == "success") {
+						alert("결제가 취소 되었습니다");
+						location.reload(true);
+					}
+			    },
+			    error : function(){
+			     alert("fail");
+			    }
+			   });
+		}
+		
    }
    
    function addAddress() {
@@ -700,31 +705,31 @@
 	}
 
 	function delAddress2(detail, title) {
-		// delAddress
-	   
-	   var data = {
-			   detail : detail
-			   , title : title
-	     };
-	   $.ajax({
-	    url : "/delAddress.do",
-	    type : "post",
-	    data : data,
-	    success : function(result){
-			if(result.resultMsg == "success") {
-				alert("삭제되었습니다");
-				location.reload(true);
-			}else {
-				alert("최초 가입한 주소는 삭제할 수 없습니다");
-			}
-	    },
-	    error : function(){
-	     alert("fail");
-	    }
-	   });
-	   
-		
-		
+
+		 var confirm_val = confirm("주소록을 정말로 삭제하시겠습니까???");
+
+		if(confirm_val) {
+			var data = {
+					   detail : detail
+					   , title : title
+			     };
+			   $.ajax({
+			    url : "/delAddress.do",
+			    type : "post",
+			    data : data,
+			    success : function(result){
+					if(result.resultMsg == "success") {
+						alert("삭제되었습니다");
+						location.reload(true);
+					}else {
+						alert("최초 가입한 주소는 삭제할 수 없습니다");
+					}
+			    },
+			    error : function(){
+			     alert("fail");
+			    }
+			   });
+		}
 	}
    
 

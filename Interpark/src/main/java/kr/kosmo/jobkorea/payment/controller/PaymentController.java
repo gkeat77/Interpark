@@ -573,7 +573,7 @@ public class PaymentController {
 	
 
 	@RequestMapping(value="/adminOrders.do", method = RequestMethod.GET)
-	   public ModelAndView adminOrders (Model mode, HttpSession session, HttpServletRequest req
+	   public ModelAndView adminOrders (Model mode, HttpSession session, HttpServletRequest req, Criteria cri
 			   , @RequestParam(value="adminSw", required=false)String adminSw
 	   		) throws ParseException {
 	   	
@@ -590,7 +590,14 @@ public class PaymentController {
 				String loginID = rm.getLoginID();
 				
 				if(sw == 1 ) {
-					mav.addObject("orders", paymentService.adminOrders());
+					//mav.addObject("orders", paymentService.adminOrders());
+					PageMaker pageMaker = new PageMaker();
+			        pageMaker.setCri(cri);
+			        pageMaker.setTotalCount(paymentService.countOrders());
+			        
+			        List<Map<String,Object>> list = paymentService.adminOrdersPaging(cri);
+			        mav.addObject("list", list);
+			        mav.addObject("pageMaker", pageMaker);
 					result=1;
 				}
 				if(sw == 4 ) {
@@ -608,8 +615,87 @@ public class PaymentController {
 	   }
 	
 	
+
+	@RequestMapping(value="/adminCoupon.do", method = RequestMethod.GET)
+	   public ModelAndView adminCoupon(Criteria cri, Model mode, HttpSession session
+	   		, @RequestParam(value="searchKey", required=false)String searchKey
+	   		) throws ParseException {
+	   	
+		ModelAndView mav = new ModelAndView();
+		
+		RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		if(ComnUtil.isEmpty(rm)) {
+			mav.setViewName("login/login");
+		}else if(rm.getLoginID().equals("admin")) {
+			// 배송중 -> 배송완료 처리
+					List<PaymentModel> regDt = paymentService.getRegDt();
+					SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd-HH:mm", Locale.KOREA);
+					String format_time1 = f.format (System.currentTimeMillis());
+					for(PaymentModel ad :regDt) {
+						Date d1 = f.parse(format_time1);
+						Date d2 = f.parse(ad.getRegDt());
+						long diff = d1.getTime() - d2.getTime();
+						long mm = diff / 60000;
+						long hh = diff / 3600000;
+						if(hh>48) {
+							paymentService.completeDelivery(ad.getPayNo());
+						}
+					}
+				    // search
+				    if(searchKey != null) {
+				    	mav.addObject("list", paymentService.goSearch(searchKey));
+				    }else {    // paging
+				    	PageMaker pageMaker = new PageMaker();
+				        pageMaker.setCri(cri);
+				        pageMaker.setTotalCount(paymentService.countUser());
+				        
+				        List<Map<String,Object>> list = paymentService.pagingUser(cri);
+				        mav.addObject("list", list);
+				        mav.addObject("pageMaker", pageMaker);
+				    }
+				   	// cart
+				   	//mav.addObject("cartList", paymentService.getCartList());
+				   	//mav.addObject("cartCnt",paymentService.getCartList().size());
+				   	mav.setViewName("payment/adminCoupon");
+		}
+		else {
+			mav.setViewName("index");
+		}
+	   	return mav;
+	   }
+
 	
+
+	   @ResponseBody
+	   @RequestMapping(value="/showCoupon.do" , method = RequestMethod.POST)
+		public Map<String, Object> showCoupon(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+		   resultMap.put("showCoupon", paymentService.showCoupon());
+		   result="success";
+		   resultMap.put("resultMsg", result); 
+			return resultMap;
+	   }
 	
+
+	   @ResponseBody
+	   @RequestMapping(value="/payCoupon.do" , method = RequestMethod.POST)
+		public Map<String, Object> payCoupon(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+		   //resultMap.put("showCoupon", paymentService.showCoupon());
+		   String couponCheck= paymentService.couponCheck(paramMap);
+			if(couponCheck.equals("X")) {
+				// 쿠폰을 지급받지 않았다면
+				paymentService.insertCoupon(paramMap);
+				result="success";
+			}else {
+				result="쿠폰을 지급 받았습니다";
+			}
+		   
+		   resultMap.put("resultMsg", result); 
+			return resultMap;
+	   }
 	
 }
 
