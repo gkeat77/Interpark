@@ -15,6 +15,9 @@ public interface eventService {
 	
 	public List<EventModel> eventList(String e_title);
 	
+	public List<EventModel> listAll();
+	
 	public int eventCount(Map<String,Object> paramMap);
+
 	
 }
