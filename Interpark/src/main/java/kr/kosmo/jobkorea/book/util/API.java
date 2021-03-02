@@ -56,6 +56,7 @@ public class API {
 			urlStr += service + ".api";
 			urlStr += "?" + URLEncoder.encode("key", "UTF-8") + "=" + Key;
 			urlStr += "&" + URLEncoder.encode("output", "UTF-8") + "=json";
+			urlStr += "&" + URLEncoder.encode("adultImageExposure", "UTF-8") + "=y";
 
 			// 상세 검색요청 변수
 			urlStr += (query == null ? ""

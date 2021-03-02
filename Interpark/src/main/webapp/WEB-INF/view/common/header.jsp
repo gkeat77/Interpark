@@ -93,16 +93,24 @@
                             </a>
                         </div>
                     </div>
+                    <!-- 검색 -->
                     <div class="col-lg-7 col-md-7">
                         <div class="advanced-search">
-                            <button type="button" class="category-btn">All Categories</button>
-                            <form action="#" class="input-group">
-                                <input type="text" placeholder="What do you need?">
-                                <button type="button"><i class="ti-search"></i></button>
+                            <button type="button" class="category-btn"> 전체 검색 </button>
+                            <form action="/book/goodsListPage.do" class="input-group">
+                            <c:choose>
+                            <c:when test="${searchKey ne null and searchKey ne ''}">
+                                <input type="text" id="mainSearchKey" name="searchKey" value="${searchKey }">
+                             </c:when>
+                             <c:when test="${searchKey eq null or searchKey eq ''}">
+                                <input type="text" id="mainSearchKey" name="searchKey">
+                             </c:when>
+                             </c:choose>
+                                <button type="submit" id="mainSearch"><i class="ti-search"></i></button>
                             </form>
                         </div>
                     </div>
-                    
+                    <!-- 검색 끝 -->
                     <!------------------------------------------------------------------ cart---------------------------------------------------------------->
                     <c:set var="cnt" value="1"/>
                     
@@ -232,11 +240,7 @@
 		                         </c:choose>
                             </ul>
                         </li>
-                        
-                        
                         </c:if>
-                        
-                        
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>
@@ -244,4 +248,3 @@
         </div>
     </header>
     <!-- Header End -->		
-

@@ -112,7 +112,12 @@ var pageBlockSize = 10;
 
 
 $(document).ready(function() {
-	flist_goods();
+	if('${searchKey}' != null){
+		fmain_search();
+	}else	
+		flist_goods();
+	
+	
 	
 	$(".cateHedaer").click(function() {
 		$("#cateId").val('');
@@ -157,8 +162,43 @@ $(document).ready(function() {
 function flist_goods(currentPage) {
 	currentPage = currentPage || 1;
 	
+	const searchKey= $("#searchKey").val();
+	console.log(searchKey);
  	const searchType=$("#searchType").val();
-	const searchKey=$("#searchKey").val();
+	const sort =$("#sort").val();
+	
+	const cateClass=$("#cateClass").val();
+	const cateId=$("#cateId").val();
+	
+	console.log("cateClass:"+cateClass);
+	console.log("cateId:"+cateId);
+	
+	var param = {
+			currentPage : currentPage,
+			pageSize:pageSize,
+			cateClass:cateClass,
+			cateId:cateId,
+			searchType:searchType,
+			searchKey:searchKey,
+			sort:sort 
+	}
+
+	var resultCallback = function(data) {
+		$("#mainSearchKey").val('');
+		flist_goods_result(data, currentPage);
+	};
+
+	callAjax("/book/goodsList.do", "post", "text", true, param,
+			resultCallback);
+}
+
+
+function fmain_search(currentPage) {
+	currentPage = currentPage || 1;
+	
+	const searchKey= '${searchKey}';
+	console.log(searchKey);
+ 	const searchType=$("#searchType").val();
 	const sort =$("#sort").val();
 	
 	const cateClass=$("#cateClass").val();
@@ -211,6 +251,8 @@ function flist_goods_result(data, currentPage) {
 //검색어 초기화
 function flist_clean_search(){
 	$("#searchKey").val('');
+	$("#mainSearchKey").val('');
+	
 }
 
 	function goCart(pId) {

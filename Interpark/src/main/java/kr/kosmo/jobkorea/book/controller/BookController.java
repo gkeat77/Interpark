@@ -47,9 +47,14 @@ public class BookController {
 	bookService booksv;
 	
 	@RequestMapping("goodsListPage.do")
-	public 	String goodsListPage(Model model, HttpServletRequest request) throws Exception {
+	public 	String goodsListPage(Model model, HttpServletRequest request ,@RequestParam Map<String, Object> paramMap) throws Exception {
+		String searchKey = (String)paramMap.get("searchKey");
+		
+		if(searchKey !=null){
+			model.addAttribute("searchKey",searchKey );
+		}
+		
 		//상위 카테고리 불러오기
-		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("level", 0);
 		List<CategoryModel> cateUpperList= booksv.cateList(paramMap);
 		

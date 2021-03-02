@@ -113,28 +113,22 @@ public class DashboardController {
 		
 		List<BookModel> goodsList= booksv.goodsList(paramMap);
 		
-	/*	switch(type){
-			case "hotGoods":
-				resultMap.put("hotGoods", goodsList );
-				break;
-			case "newGoods":
-				resultMap.put("newGoods", goodsList );
-				break;	
-			case "limitGoods":
-				resultMap.put("limitGoods", goodsList );
-				break;		
-		
-		}*/
-		
-		
-		
-		
-		
 		resultMap.put("mainGoods", goodsList );
 		
 		return resultMap;
 	}
 	
+	
+/*	@RequestMapping("mainSearch.do")
+	public String mainSearch(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		//String type=(String)(paramMap.get("type"));
+		logger.info(paramMap);
+		
+		model.addAttribute("searchKey", (String)paramMap.get("searchKey"));
+		
+		return "book/goodsList";
+	}*/
 	
 	
 	
