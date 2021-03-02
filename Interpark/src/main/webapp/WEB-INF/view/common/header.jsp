@@ -201,37 +201,42 @@
                                 <li><a href="./register.html">Register</a></li>
                                 <c:choose>
 		                         <c:when test="${empty member}">
-		                            <li><a href="/login.me">Login</a></li>
+		                            <li><a href="/login/login.me">Login</a></li>
 		                         </c:when>
 		                         <c:otherwise>
-		                            <li><a href="/userInfo.do">userInfo</a></li>
+		                         	<li><a href="/userInfo.do">userInfo</a></li>
 		                            <li><a href="/login/logOut.do">LOGOUT</a></li>
 		                         </c:otherwise>
 		                         </c:choose>
-		                         <!-- admin  -->
-		                         
-		                         
-								<c:if test="${member.loginID eq 'admin'}">
-                                	<li><a href="/adminInfo.do">ADMIN</a></li>
-								</c:if>
-								
-                                <c:if test="${member.loginID eq 'admin'}">
-                                	<li><a href="/adminOrders.do">ADMIN INFO</a></li>
-								</c:if>
-								<c:if test="${member.loginID eq 'admin'}">
-                                	<li><a href="/statistics.do">통계</a></li>
-								</c:if>
-								
-								<c:if test="${member.loginID eq 'admin'}">
-                                	<li><a href="/adminCoupon.do">쿠폰지급</a></li>
-								</c:if>
-								
                             </ul>
                         </li>
                         <li><a href="/event/eventListPage.do">이벤트</a>
                         </li>
                          <!-- <li><a href="/event/eventList.do">이벤트</a>
-                        </li> -->                        
+                        </li> -->
+                        
+                        <c:if test="${member.loginID eq 'admin'}">
+                        	<li><a href="#">ADMIN</a>
+                            <ul class="dropdown">
+		                         <!-- admin  -->
+		                        <c:choose>
+		                         <c:when test="${member.loginID eq 'admin'}">
+		                         	<li><a href="/adminInfo.do">ADMIN</a></li>
+		                         	<li><a href="/statistics.do">통계</a></li>
+		                         	<li><a href="/adminCoupon.do">쿠폰지급</a></li>
+		                         	<li><a href="/adminOrders.do">ORDERS</a></li>
+		                         </c:when>
+		                         <c:otherwise>
+		                         </c:otherwise>
+		                         
+		                         </c:choose>
+                            </ul>
+                        </li>
+                        
+                        
+                        </c:if>
+                        
+                        
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>
