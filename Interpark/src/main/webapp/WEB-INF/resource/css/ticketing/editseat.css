@@ -52,12 +52,16 @@ table td {
 .seats .contents table {
 	
 }
+
 .seats .contents table td {
 	border: 1px solid #333;
 	border-collapse: collapse;
 	width: 22px;
 	height: 22px;
 
+}
+.seats .contents table td.selected {
+	border: 2px solid #000;
 }
 .seats .contents .current {
 	background: #green;

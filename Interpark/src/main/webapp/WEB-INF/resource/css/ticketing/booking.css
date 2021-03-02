@@ -9,7 +9,7 @@ ul, li { margin:0; padding:0; list-style: none;}
 
 .container >.top > .title {
 	width: 150px;
-	background: red;
+	background: #d1290f;
 	height: 70px;
 	text-align: center;
 	line-height: 70px;
@@ -20,7 +20,7 @@ ul, li { margin:0; padding:0; list-style: none;}
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	background: yellow;
+	
 	flex: 1;
 	padding: 10px 20px;
 	border: 1px solid #999;
@@ -46,7 +46,7 @@ ul, li { margin:0; padding:0; list-style: none;}
 }
 .container >.main >.side {
 	flex: 1;
-	background: #yellow;
+	
 }
 .container >.main >.side .legend {
 	padding: 30px 0;
@@ -74,5 +74,5 @@ ul, li { margin:0; padding:0; list-style: none;}
 	margin-bottom: 20px;
 }
  .fa-square { margin-right: 5px;}
-
+button {background: #d1290f; color: white;}
 

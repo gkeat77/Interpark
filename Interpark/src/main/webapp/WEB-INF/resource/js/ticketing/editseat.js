@@ -1,6 +1,6 @@
 
 $(function(){
-	const state = {};
+	let state = {};//에디터 상태값 저장객체
 	//공연검색버튼 클릭시
 	$('#search-btn').click(function(){
 		
@@ -26,7 +26,9 @@ $(function(){
 				html += "</tr>"
 			});
 			html += "</tbody></table></div>";
-			html += "<div style='text-align:center; padding: 10px;'><input type='button' value='선택완료' id='select-btn'></div>"
+			html += "<div style='text-align:center; padding: 10px;'>" +
+						"<button id='select-btn'>선택완료</button>" +
+					"</div>"
 			$('.edit > .search-result').html(html);
 			
 			$('table .search-row').mouseover(function(){
@@ -68,12 +70,14 @@ $(function(){
 		for(let i=0;i<20;i++){
 			html += "<tr>";
 			for( let j=0; j<30; j++){
+				let current = (i===1 && j===1) ? 'current' : '';
 				if( i === 0 || j === 0){
+					
 					html += "<td class='secondary' style='position:relative;' data-row='"+i+"' data-col='"+j+"'>";
 					html += "<input type='text' style='width:17px;'/>";
 					html += "</td>";
 				} else {
-					html += "<td  class='primary' style='position:relative;' data-row='"+i+"' data-col='"+j+"'>";
+					html += "<td  class='primary "+ current +"' style='position:relative;' data-row='"+i+"' data-col='"+j+"'>";
 					html += "</td>";
 				}
 				
@@ -94,7 +98,7 @@ $(function(){
 		html += `
 		<div class="tdInfo">
 		    <div class="current-pos" style="display:flex; justify-content:center;align-items:center;margin-bottom: 10px;">
-		        <p class="row-col" style=" text-align:center; color: #000; width: 150px; border: 1px solid #999; border-radius: 20px; background: #ddd;" ></p>
+		        <p class="row-col" style=" text-align:center; color: #000; width: 150px; border: 1px solid #999; border-radius: 20px; background: #ddd;" >1행1열</p>
 		    </div>
 		    <div class="pcse-guide" style="padding: 10px; border: 1px solid #999;margin-bottom:10px;">${pcseguidance}</div>
 		    <div class="cate" style="margin-bottom:10px;">
@@ -130,7 +134,7 @@ $(function(){
 		    </div>
 		    <div>
 			    <label>좌석이름</label><br>
-		        <input type="text" name="name" id="">
+		        <input type="text" name="name" id="" value="">
 		    </div>
 		</div>
 		`;
@@ -148,10 +152,11 @@ $(function(){
 		$(this).addClass('current');
 		
 		//상태값 변경
-		state.row = row;
-		state.col = col;
-		
-		//리프레시 
+		setState({
+			row: row,
+			col: col,
+		});
+	
 	});
 	
 	// inputSelect 내부 클릭시...
@@ -161,12 +166,10 @@ $(function(){
 		$currentTd.attr('data-'+inputName, $(this).val());
 		
 		//상태값 변경
-		state[inputName] = $(this).val();
-		
-		//리프레시
-		refreshSeatName();
-		
-		
+		setState({
+			[inputName] : $(this).val(),
+		});	
+
 	});
 	
 	//secondary 
@@ -215,8 +218,44 @@ $(function(){
 			$currentTd.attr('data-name', cate);
 		}
 		*/
+		for(let key in state){
+			let tag = $('.seats .contents td');
+			let value = state[key];
+			if(key === 'cate' && value === '예약'){
+				
+			} else {
+				switch(value){
+				case '비예약':
+					
+					
+					break;
+				case '복도':
+					
+					
+					break;
+				case '없음':
+					
+					
+					
+					break;
+				default:
+					
+				}
+			}
+		}
 	}//refreshSeatName end
 	
-	
+	function setState(options){
+		if( !options instanceof Object ) return;
+		state = {...state, ...options};
+		
+		//state에 따른 css 변경 및 tag에 데이터 저장
+		/*-------  CSS  -------*/
+		// cate: 없음      -> cate-none
+		//       복도      -> cate-alley
+		//       비예약   -> cate-no-booking
+		//       예약      -> cate-booking
+		refreshSeatName();
+	};
 	
 });
