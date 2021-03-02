@@ -672,5 +672,24 @@ SELECT *
 	VALUES
 	(#{couponNo}, NOW(), #{loginID})
 </insert>
+
+<update id="modifyAddress" parameterType="hashmap">
+	UPDATE tb_userinfo
+	SET A_TITLE = #{title}
+	, A_AD1 = #{detailadr}
+	, A_AD2 = #{address}
+	, A_AD3 = #{address2} 
+	WHERE loginID = #{loginID}  
+
+</update>
+
+<select id="getAddress" parameterType="hashmap" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+	SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+	FROM tb_userinfo
+	WHERE loginID = #{loginID}   			
+</select>
 	 
 </mapper>

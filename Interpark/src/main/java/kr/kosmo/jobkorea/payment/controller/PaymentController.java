@@ -696,6 +696,38 @@ public class PaymentController {
 		   resultMap.put("resultMsg", result); 
 			return resultMap;
 	   }
+	   
+	   @ResponseBody
+	   @RequestMapping(value="/modifyAddress.do" , method = RequestMethod.POST)
+		public Map<String, Object> modifyAddress(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+
+		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+		   String loginID = rm.getLoginID();
+		   paramMap.put("loginID",loginID);
+		   
+		   paymentService.modifyAddress(paramMap);
+		   
+		   result="success";
+		   
+		   resultMap.put("resultMsg", result); 
+			return resultMap;
+	   }
+	   
+	   @ResponseBody
+	   @RequestMapping(value="/getAddress.do" , method = RequestMethod.POST)
+		public Map<String, Object> getAddress(@RequestParam Map<String, Object> paramMap, PaymentModel vo, HttpSession session, HttpServletRequest req) throws Exception {
+		   Map<String, Object> resultMap = new HashMap<String, Object>();
+		   String result="";
+		   
+		   resultMap.put("userAddress", paymentService.getAddress(paramMap));
+		   
+		   result="success";
+		   resultMap.put("resultMsg", result); 
+			return resultMap;
+	   }
+	   
 	
 }
 

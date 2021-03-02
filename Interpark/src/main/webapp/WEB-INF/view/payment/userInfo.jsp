@@ -99,7 +99,7 @@
         </div>
     </div>
     
-    
+    <input type="hidden" id="loginID" value="${member.loginID}">
 	<input type="hidden" id="uploadState" name = "uploadState" value="" />
 	<!-- Contact Section Begin -->
     <section class="contact-section spad">
@@ -119,9 +119,9 @@
 	   <section id="container">    
 		 <aside>
 		 <ul>
-		  <li><a href="">회원정보</a></li>
+		  <!-- <li><a href="">회원정보</a></li> -->
 		  <li><a href="/userInfo.do?userSw=2">주소록</a></li>
-		  <li><a href="">쿠폰  & 마일리지</a></li>
+		  <!-- <li><a href="">쿠폰  & 마일리지</a></li> -->
 		  <li><a href="/userInfo.do?userSw=4">구매이력</a></li>
 		  <li><a href="/userInfo.do?userSw=5">ORDER</a></li>
 		 </ul>
@@ -386,10 +386,10 @@
 	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주수록 수정</span></b></span></p>
 	                <p style="text-align: center; line-height: 1.5;"><br /></p>
 	                
-	                <form id="frm2">
+	                <form id="modifyForm">
 	                <div class="col-lg-12">
                          <label for="town">주소title<span>*</span></label>
-                         <input type="text" class="inputTxt p100" name="title" id="title" />
+                         <input type="text" class="inputTxt p100" name="title2" id="title2" />
                      </div>
                             
                             
@@ -398,22 +398,22 @@
                        </div>
                             <div class="col-lg-6">
                                 <label for="zip"></label><br>
-                                <input type="text" name="userAddress1" id="detailaddr" />
+                                <input type="text" name="userAddress1" id="detailaddr2" />
                                 <input type="button" value="우편번호"
-												onclick="execDaumPostcode()"
+												onclick="execDaumPostcode2()"
 													style="width: 150px; height: 50px; margin-left:2px;" />
                             </div>
                             
                             
                             <div class="col-lg-12">
                                 <label for="town">주소<span>*</span></label>
-                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" />
+                                <input type="text" class="inputTxt p100" name="userAddress2" id="loginaddr2" />
                                 
                             </div>
                             <div class="col-lg-12">
                                 <label for="town">상세주소<span>*</span></label>
                                 <input type="text" class="inputTxt p100"
-												name="userAddress1" id="loginaddr1" />
+												name="userAddress2" id="loginaddr12" />
                             </div>
                             <br>
                             <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="setAddress()">
@@ -506,6 +506,49 @@
 	}
 	
 
+	function execDaumPostcode2(q) {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+				var extraAddr = ''; // 참고항목 변수
+
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', '
+								+ data.buildingName : data.buildingName);
+					}
+				}	
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('detailaddr2').value = data.zonecode;
+				document.getElementById("loginaddr2").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				document.getElementById("loginaddr12").focus();
+			}
+		}).open({
+			q : q
+		});
+	}
+	
+	
 	
 	
 	function comma(num){
@@ -566,6 +609,34 @@
 	
 	}
 	
+	
+	function txtFieldCheck2() {
+		
+	    // form안의 모든 text type 조회
+	
+	    var txtEle = $("#modifyForm input[type=text]");
+	
+	    for (var i = 0; i < txtEle.length; i++) {
+	
+	        // console.log($(txtEle[i]).val());
+	
+	        if ("" == $(txtEle[i]).val() || null == $(txtEle[i]).val()) {
+	
+	            var ele_id = $(txtEle[i]).attr("id");
+	
+	            var label_txt = $("label[for='" + ele_id + "']").text();
+	
+	            console.log("id : " + ele_id + ", label : " + label_txt);
+	
+	            showAlert(ele_id, label_txt);
+	
+	            return true;
+	
+	        }
+	
+	    }
+	
+	}
 	
 	
 	// ------------------------
@@ -691,6 +762,8 @@
    
 
 	function addressModify() {
+		// getAddress
+		getAddress();
 		$('#myModal3').show();
 	}	
 
@@ -700,8 +773,41 @@
 	}
 	
 	
+	// 기본배송지 수정
 	function setAddress() {
-		alert("ad");
+		
+		var result = txtFieldCheck2() == true ? true : false;
+		
+		   if(!result) {
+			   
+			   var title = $('#title2').val();
+			   var detailadr = $('#detailaddr2').val();
+			   var address = $('#loginaddr2').val();
+			   var address2 = $('#loginaddr12').val();
+			   
+			   var data = {
+					   title : title
+					   , detailadr : detailadr
+					   , address : address
+					   , address2 : address2
+			     };
+			   $.ajax({
+			    url : "/modifyAddress.do",
+			    type : "post",
+			    data : data,
+			    success : function(result){
+					if(result.resultMsg == "success") {
+						alert("주소가 수정되었습니다");
+						location.reload(true);
+					}
+			    },
+			    error : function(){
+			     alert("fail");
+			    }
+			   });
+			   
+			   
+		   }
 	}
 
 	function delAddress2(detail, title) {
@@ -754,7 +860,31 @@
 		   });
 		   
 	}
-	
+
+	// 기본배송지 정보를 가져온다 for 수정하기 전에 사용자에게 보여주기 위해
+	function getAddress() {
+		var loginID = $('#loginID').val();
+		var data = {
+				loginID : loginID
+		     };
+		   $.ajax({
+		    url : "/getAddress.do",
+		    type : "post",
+		    data : data,
+		    success : function(result){
+				if(result.resultMsg == "success") {
+					var userAddress = result.userAddress;
+					$('#title2').val(userAddress.addressTitle);
+					$('#detailaddr2').val(userAddress.address1);
+					$('#loginaddr2').val(userAddress.address2);
+					$('#loginaddr12').val(userAddress.address3);
+				}
+		    },
+		    error : function(){
+		     alert("fail");
+		    }
+		   });
+	}
 </script>
 
 

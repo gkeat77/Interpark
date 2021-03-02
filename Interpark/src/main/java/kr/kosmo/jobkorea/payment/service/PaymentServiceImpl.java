@@ -519,4 +519,20 @@ public class PaymentServiceImpl implements PaymentService{
 
 
 
+
+	@Override
+	public void modifyAddress(Map<String, Object> paramMap) {
+		paymentDao.modifyAddress(paramMap);
+	}
+
+
+
+
+	@Override
+	public RegisterInfoModel getAddress(Map<String, Object> paramMap) {
+		return paymentDao.getAddress(paramMap);
+	}
+
+
+
 }

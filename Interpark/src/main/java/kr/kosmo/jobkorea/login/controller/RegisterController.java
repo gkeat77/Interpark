@@ -60,7 +60,7 @@ public class RegisterController {
 			
 			re = registerService.aregister(paramMap);
 			if(re >0){
-				registerService.aregister2(paramMap);
+				//registerService.aregister2(paramMap);
 			}
 			logger.info("+ End aregister.do");
 			return null;
