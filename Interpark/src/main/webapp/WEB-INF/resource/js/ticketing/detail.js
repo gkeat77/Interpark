@@ -67,13 +67,6 @@ $(document).ready(function () {
 		console.log(data);
 	});
 	
-	
-	
-	
-	
-	
-	
-	
 	// 달력설정
 	const today = new Date();
 	let minDate = new Date(dbJson.prfpdfrom); //시작일
@@ -98,9 +91,7 @@ $(document).ready(function () {
 			
 			// 날짜에 해당하는 상영시간 보여줌
 			const timesForDate = runtimes.filter( item => item.dayOfWeek === dayOfWeek);
-			console.log('<timesForDate>');
-			console.log(timesForDate);
-			console.log()
+			
 			 let html = `
 			 	<div class="date-info" style="text-align: center;">
 			 		<span class="date">${dateText}</span>&nbsp;&nbsp;<span class="day">${dayOfWeek}</span>

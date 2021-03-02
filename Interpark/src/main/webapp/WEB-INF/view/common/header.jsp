@@ -190,10 +190,10 @@
                                 <li><a href="/book/goodsListPage.do">도서목록</a></li>
                             </ul>
                         </li>
-                        <li><a href="/ticketing/intro.do">공연</a>
+                        <li><a href="#">공연</a>
                             <ul class="dropdown">
-                                
-                              
+                              <li><a href="/ticketing/intro.do">티켓팅</a></li>  
+                              <li><a href="/ticketing/admin/editseat.do">공연좌석배치(관리자)</a></li> 
                             </ul>
                         </li>
                         <li><a href="#">Pages</a>

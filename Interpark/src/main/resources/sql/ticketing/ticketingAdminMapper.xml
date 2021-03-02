@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kosmo.jobkorea.ticketing.dao.TicketingAdminDao">
+	
+	<select id="searchPrf" parameterType="String" resultType="kr.kosmo.jobkorea.ticketing.model.Db">
+		SELECT * FROM ticket_prf 
+		WHERE prfnm LIKE CONCAT('%',#{searchStr},'%') 
+		ORDER BY mt20id DESC
+		LIMIT 50
+	</select>
+	
+	
+	
+	
+	
+</mapper>
