@@ -5,8 +5,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 	<thead>
 		<tr>
-			<th>이미지</th>
-			<th>정보</th>
+			<th class="thead">이미지</th>
+			<th class="thead">정보</th>
 		</tr> 
 	</thead>
 	<tbody id="book_list">

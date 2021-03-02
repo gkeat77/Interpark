@@ -74,10 +74,10 @@
 							   </colgroup>
 								<thead> 
 									<tr>
-										<th>이미지</th>
-										<th>도서 정보</th>
-										<th>상품 정보</th>
-										<th>상품 상태</th>
+										<th class="thead">이미지</th>
+										<th class="thead">도서 정보</th>
+										<th class="thead">상품 정보</th>
+										<th class="thead">상품 상태</th>
 									</tr>
 								</thead>
 								<tbody id="goods_list"></tbody>

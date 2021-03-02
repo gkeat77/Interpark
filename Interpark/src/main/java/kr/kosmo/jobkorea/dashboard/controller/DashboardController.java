@@ -62,6 +62,11 @@ public class DashboardController {
 		List<CategoryModel> cateList= booksv.cateList(paramMap);
 		model.addAttribute("cateList", cateList);
 		
+		//한정 상품
+		BookModel limitGoods = booksv.limitGoods(paramMap);
+		logger.info(">>>>>>>>>limitGoods"+limitGoods);
+		model.addAttribute("limitGoods", limitGoods);
+		
 		logger.info("+ end " + className + ".initDashboard");
 		
 		return "/index";

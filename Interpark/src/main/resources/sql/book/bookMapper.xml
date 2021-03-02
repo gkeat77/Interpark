@@ -97,10 +97,9 @@
 	
 	<!--연관 상품보기  -->
 	<select id="relateGoods" resultType="kr.kosmo.jobkorea.book.model.BookModel">
-				SELECT A.P_ID as pId,A.title,A.coverLargeUrl,A.realPrice,
-				A.saleRate
-				 FROM (
-				SELECT * FROM `BOOK_GOODS`
+				SELECT *
+				FROM (
+				SELECT P_ID as pId,title,coverLargeUrl,realPrice, saleRate FROM `BOOK_GOODS`
 				<where>
 				<choose>
 				<when test="(cateClass != null) and (!cateClass.equals(''))">
@@ -111,11 +110,22 @@
 			    </when>	
 			    </choose>
 			    </where>
-			    ORDER BY realPrice desc     
+			    ORDER BY sellCount desc     
 			    LIMIT 12
 			) as A 
 			ORDER BY rand()
-	</select>			
+	</select>
+	
+	<select id="limitGoods" resultType="kr.kosmo.jobkorea.book.model.BookModel">
+	 SELECT * FROM 
+	     ( SELECT P_ID as pId,title,coverLargeUrl,realPrice, saleRate,sellStart,sellEnd,description 
+	     FROM `BOOK_GOODS` 
+	     WHERE sellState='y' and sellEnd is not null 
+	     ORDER BY sellEnd 
+	     LIMIT 12 ) 
+	     as A ORDER BY rand() LIMIT 1 
+	</select>
+				
 
 	<!-- ahn -->
 	<select id="bookInfo" resultType="kr.kosmo.jobkorea.book.model.BookModel">

@@ -181,39 +181,27 @@
     <!-- Women Banner Section End -->
 
     <!-- Deal Of The Week Section Begin-->
-    <section class="deal-of-week set-bg spad" data-setbg="">
+    <section class="deal-of-week set-bg spad" data-setbg="" style="background-color: #fff7e6">
         <div class="container">
+        <div class="row">
             <div class="col-lg-6 text-center">
                 <div class="section-title">
-                    <h2>Deal Of The Week</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed<br /> do ipsum dolor sit amet,
-                        consectetur adipisicing elit </p>
-                    <div class="product-price">
-                        $35.00
-                        <span>/ HanBag</span>
+                    <h2>${limitGoods.title }</h2>
+                    <pre class="limitText"> ${limitGoods.description } </pre>
+                    <div class="product-price limitText">
+                         <fmt:formatNumber value="${limitGoods.realPrice }" type="number" />원
+                        <!-- <span>/ HanBag</span> -->
                     </div>
                 </div>
-                <div class="countdown-timer" id="countdown">
-                    <div class="cd-item">
-                        <span>56</span>
-                        <p>Days</p>
-                    </div>
-                    <div class="cd-item">
-                        <span>12</span>
-                        <p>Hrs</p>
-                    </div>
-                    <div class="cd-item">
-                        <span>40</span>
-                        <p>Mins</p>
-                    </div>
-                    <div class="cd-item">
-                        <span>52</span>
-                        <p>Secs</p>
-                    </div>
-                </div>
-                <a href="#" class="primary-btn">Shop Now</a>
+                <div class="countdown-timer" id="countdown"></div>
+                <a href="#" class="primary-btn" onclick="selectBook(${limitGoods.pId})">사러가기</a>
             </div>
+            <div class="col-lg-4 text-center" style="position:relative; height:360px;">
+           		<img src="${limitGoods.coverLargeUrl }" style="position:absolute; top:50%; margin-top:-100px; width:250px;height:330px;">
+        	</div>
+        </div>	
         </div>
+      	
     </section>
     <!-- Deal Of The Week Section End -->
 
@@ -244,7 +232,7 @@
     <!-- Man Banner Section End -->
     
     <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
-     <script src="/js/goods.js"></script>
+    <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"></jsp:include>
     <!-- Partner Logo Section End -->
 <script>
 
@@ -273,7 +261,14 @@ $(document).ready(function() {
 	 console.log("타입:"+type);
 	 fdisplay_goods(cateClass,type);
  })	;
+ 
+	//타이머
+	var timerdate ='${limitGoods.sellEnd}'; 
 	
+	$("#countdown").countdown(timerdate, function(event) {
+		$(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>일</p> </div>" + "<div class='cd-item'><span>%H</span> <p>시</p> </div>" + "<div class='cd-item'><span>%M</span> <p>분</p> </div>" + "<div class='cd-item'><span>%S</span> <p>초</p> </div>"));
+	});
+
 	
 
 });
