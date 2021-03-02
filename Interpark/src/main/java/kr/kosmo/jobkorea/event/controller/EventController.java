@@ -61,4 +61,11 @@ public class EventController {
 		return  eventsv.eventList(e_title);
 	}
 	
+	@RequestMapping("eventListAll.do")
+	@ResponseBody
+	public 	List<EventModel>  listAll(Model model) throws Exception {
+		
+		return eventsv.listAll();
+	}
+	
 }

@@ -37,6 +37,11 @@ public class eventServiceImpl implements eventService{
 	public List<EventModel> eventList(String e_title) {
 		return eventDao.eventList(e_title);
 	}
+	
+	@Override
+	public List<EventModel> listAll() {	
+		return eventDao.listAll();
+	}
 
 	@Override
 	public int eventCount(Map<String, Object> paramMap) {

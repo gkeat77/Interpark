@@ -6,7 +6,7 @@
 	width:0px;
 }
 
- thead{
+ .thead{
 background-color:rgb(255, 204, 0); 
 } 
 
@@ -161,7 +161,7 @@ pre{
 	font-family: 'Muli', sans-serif;
 	line-height: 30px;
 	overflow: auto;
-	white-space: pre-wrap;
+	white-space: pre-wrap; !important
 }
 
 
@@ -225,4 +225,10 @@ pre{
 }
 
 
-      
+ /* 한정상품 */
+ .limitText{
+ 	 background-color: white; 
+ 	 padding: 30px;
+ 	 border-radius:20px;    
+ }
+ 
