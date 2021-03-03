@@ -38,47 +38,34 @@
         <div class="header-top">
             <div class="container">
                 <div class="ht-left">
-                    <div class="mail-service">
-                        <i class=" fa fa-envelope"></i>
-                        hello.colorlib@gmail.com
-                    </div>
-                    <div class="phone-service">
-                        <i class=" fa fa-phone"></i>
-                        +65 11.188.888
+                    <div class="mail-service" style="padding:0">
+                      <div class="btn-group btn-group-lg">
+					    <button type="button" class="btn-outline-dark active" style="height:54px">도서</button>
+					    <button type="button" class="btn-outline-dark" style="height:54px">공연</button>
+					    <c:if test="${member.user_type eq 'A'}">
+					    <button type="button" class="btn-outline-dark" style="height:54px">관리자</button>
+					    </c:if>
+					  </div>
                     </div>
                 </div>
                 <div class="ht-right">
 					<c:choose >
 						<c:when test="${not empty member}">
-						<div class="lan-selector">
-							<div id="login-panel">
-								<a href="/mypage/my.my" class="login-panel"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
-								<a href="/login/logOut.do" class="login-panel">LogOut</a>
-								<a href="/index.do" class="login-panel">home</a>
-								<br>
-							</div>
-						</div>					
+						   <a href="/login/logOut.do" class="login-panel"><i class="fa fa-sign-out"></i>LogOut</a>
+						   <a href="/mypage/my.my" class="login-panel" style="margin-right:20px"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
 						</c:when>
 						<c:when test="${empty member}">
 						 <a href="/login/login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
 						</c:when>					
 					</c:choose>
-                    <!-- 
-                    <div class="lan-selector">
+              <!--       <div class="lan-selector">
                         <select class="language_drop" name="countries" id="countries" style="width:300px;">
                             <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
                                 data-title="English">English</option>
                             <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
                                 data-title="Bangladesh">German </option>
                         </select>
-                    </div>
-                     -->
-                    <div class="top-social">
-                        <a href="#"><i class="ti-facebook"></i></a>
-                        <a href="#"><i class="ti-twitter-alt"></i></a>
-                        <a href="#"><i class="ti-linkedin"></i></a>
-                        <a href="#"><i class="ti-pinterest"></i></a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -96,14 +83,14 @@
                     <!-- 검색 -->
                     <div class="col-lg-7 col-md-7">
                         <div class="advanced-search">
-                            <button type="button" class="category-btn"> 전체 검색 </button>
+                            <button type="button" class="category-btn" style="width:500px !important"> 전체 검색 </button>
                             <form action="/book/goodsListPage.do" class="input-group">
                             <c:choose>
                             <c:when test="${searchKey ne null and searchKey ne ''}">
-                                <input type="text" id="mainSearchKey" name="searchKey" value="${searchKey }">
+                                <input type="text" id="mainSearchKey" name="searchKey" value="${searchKey }" style="width:1000px">
                              </c:when>
                              <c:when test="${searchKey eq null or searchKey eq ''}">
-                                <input type="text" id="mainSearchKey" name="searchKey">
+                                <input type="text" id="mainSearchKey" name="searchKey" style="width:1000px">
                              </c:when>
                              </c:choose>
                                 <button type="submit" id="mainSearch"><i class="ti-search"></i></button>

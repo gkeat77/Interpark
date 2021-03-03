@@ -91,10 +91,10 @@ public class LoginController {
       String redirectUrl = (String) session.getAttribute("prevPage");
       logger.info(">>>>>>>>>>>>>>>>>>>>>>>referer2 : " + redirectUrl);
       
-      if (redirectUrl != null) {
+   /*   if (redirectUrl != null) {
           session.removeAttribute("prevPage");
       }
-      
+      */
       
       // 사용자 로그인!
       RegisterInfoModel rm = loginService.loginProc(paramMap);
@@ -142,13 +142,14 @@ public class LoginController {
     */
    @RequestMapping(value = "/logOut.do")
    public ModelAndView logOut(SessionStatus sessionStatus, HttpSession session) {
-       
+	   String redirectUrl = (String) session.getAttribute("prevPage");
+	   
 		   logger.info("+ Start " + className + "logOut");
 	      ModelAndView mav = new ModelAndView();
 	      sessionStatus.setComplete();
 	      session.invalidate();
 	      logger.info("+ End " + className + "logOut");
-	      mav.setViewName("redirect:/login/login.me");
+	      mav.setViewName("redirect:"+redirectUrl);
 
       return mav;
    }
