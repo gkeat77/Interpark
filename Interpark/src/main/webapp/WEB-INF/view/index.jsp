@@ -248,7 +248,6 @@ $(document).ready(function() {
 	//랭킹 카테고리 선택
 	$(".cateSelect").change(function(){
 		let service=$(this).attr('id'); 
-		console.log("selectId:"+service);
 		flist_rank(service);
 	});
 	
@@ -258,7 +257,6 @@ $(document).ready(function() {
 	 $(this).addClass("active");
 	 let cateClass =$(this).val();
 	 let type= $(this).parent("ul").attr('id'); 
-	 console.log("타입:"+type);
 	 fdisplay_goods(cateClass,type);
  })	;
  
@@ -356,9 +354,6 @@ function fdisplay_goods_result(data,type) {
 	let divId= "#div"+type;
 	let product ='';
 	let mainGoods= data.mainGoods;
-	console.log(divId);
-	console.log(mainGoods);
-	
 	
 	$(divId).empty();
 	
@@ -377,8 +372,6 @@ function fdisplay_goods_result(data,type) {
 		product+=    item.realPrice.toLocaleString()+"원"
 		product+=   '</div></div></div>'
 		});
-		
-	 console.log(product);
 	$(divId).append(product);
 	
 	//슬라이드 재 적용  
