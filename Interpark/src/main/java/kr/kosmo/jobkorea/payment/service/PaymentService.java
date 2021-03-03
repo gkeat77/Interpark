@@ -71,5 +71,6 @@ public interface PaymentService {
 	public void insertCoupon(Map<String, Object> paramMap);
 	public void modifyAddress(Map<String, Object> paramMap); // 기본배송지 수정
 	public RegisterInfoModel getAddress(Map<String, Object> paramMap);
+	public void directPay(PaymentModel vo, String sw); 
 }
 
