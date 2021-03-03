@@ -535,4 +535,50 @@ public class PaymentServiceImpl implements PaymentService{
 
 
 
+
+	@Override
+	public void directPay(PaymentModel vo, String sw) {
+
+		 // book stock update
+	    List<PaymentModel> bookStock = getCartList(vo.getLoginID());
+	    for(PaymentModel ad : bookStock) {
+	    	PaymentModel bookUpdate = new PaymentModel();
+	    	bookUpdate.setStock(ad.getStock());
+	    	bookUpdate.setpId(ad.getpId());
+	    	paymentDao.bookStockUpdate(bookUpdate);
+	    }
+	    
+	    String cartNo = "";
+	    if(sw.equals("1")) {
+	    	String bookName = vo.getBookName();
+	    	List<PaymentModel> getCartInfo = getCartList(vo.getLoginID());
+		    for(PaymentModel ad : getCartInfo) {
+		    	if(bookName.equals(ad.getBookName())) {
+		    		// 카트내역에서 바로 구매하는 상품을 선택
+			    	paymentDao.cartUpdate2(ad);
+			    	cartNo = ad.getCartNo();
+		    	}
+		    }
+		    
+			// payNo
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+			Date date = new Date();
+			int ram =(int)(Math.random()*100);
+			
+			vo.setPayNo(dateFormat.format(date)+ "" + Integer.toString(ram));
+			vo.setCartNos(cartNo);
+			paymentDao.payment(vo);
+			
+		    // order_hst
+		    vo.setUserState(0);
+		    paymentDao.regOderHst(vo);
+		    
+
+	    }else {
+	    }
+	    
+	}
+
+
+
 }

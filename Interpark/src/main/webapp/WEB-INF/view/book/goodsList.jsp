@@ -282,38 +282,32 @@ function flist_clean_search(){
 		   });
 	}
 	function goBuy(pId) {
-		var session = $('#session').val();
 		var bookStock = 1;
 		
-		if(session == '' || session == 'null') {
-			alert("로그인 먼저해주세요");
-			location.href='/login/login.me';
-		}else {
-			var confirm_val = confirm("결제를 진행할까요?");
-			if(confirm_val){
-				
-				var newForm = document.createElement('form'); 
-				newForm.name = 'newForm'; 
-				newForm.method = 'post'; 
-				newForm.action = '/cartList.do'; 
-				
-				var input1 = document.createElement('input'); 
-				input1.setAttribute("type", "hidden"); 
-				input1.setAttribute("name", "pId"); 
-				input1.setAttribute("value", pId); 
-				
-				var input2 = document.createElement('input'); 
-				input2.setAttribute("type", "hidden"); 
-				input2.setAttribute("name", "bookStock"); 
-				input2.setAttribute("value", bookStock);
-				
-				newForm.appendChild(input1);
-				newForm.appendChild(input2);
-				
-				document.body.appendChild(newForm);
-				newForm.submit();
-			}else{
-			}
+		var confirm_val = confirm("결제를 진행할까요?");
+		if(confirm_val){
+			
+			var newForm = document.createElement('form'); 
+			newForm.name = 'newForm'; 
+			newForm.method = 'post'; 
+			newForm.action = '/directPayment.do'; 
+			
+			var input1 = document.createElement('input'); 
+			input1.setAttribute("type", "hidden"); 
+			input1.setAttribute("name", "pId"); 
+			input1.setAttribute("value", pId); 
+			
+			var input2 = document.createElement('input'); 
+			input2.setAttribute("type", "hidden"); 
+			input2.setAttribute("name", "stock"); 
+			input2.setAttribute("value", bookStock);
+			
+			newForm.appendChild(input1);
+			newForm.appendChild(input2);
+			
+			document.body.appendChild(newForm);
+			newForm.submit();
+		}else{
 		}
 	}
 	

@@ -561,7 +561,7 @@ function goBuy(pId) {
 				var newForm = document.createElement('form'); 
 				newForm.name = 'newForm'; 
 				newForm.method = 'post'; 
-				newForm.action = '/cartList.do'; 
+				newForm.action = '/directPayment.do'; 
 				
 				var input1 = document.createElement('input'); 
 				input1.setAttribute("type", "hidden"); 
@@ -570,7 +570,7 @@ function goBuy(pId) {
 				
 				var input2 = document.createElement('input'); 
 				input2.setAttribute("type", "hidden"); 
-				input2.setAttribute("name", "bookStock"); 
+				input2.setAttribute("name", "stock"); 
 				input2.setAttribute("value", bookStock);
 				
 				newForm.appendChild(input1);

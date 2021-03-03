@@ -59,26 +59,32 @@ public class PaymentController {
 	   String bookStock = request.getParameter("bookStock");
 	   // 도서상품 -> buy버튼 
 	   if(pId != null) {
-		   // cart에 존재하는지 check 후 insert
-		   BookModel bookInfo = new BookModel();
-		   bookInfo = booksv.bookInfo(pId);
-		   bookInfo.setLoginID(rm.getLoginID());
-		   String cartBookTtitle = booksv.cartInfo(bookInfo);
-		   if(bookInfo.getTitle().equals(cartBookTtitle)) { // check
-			   mav.addObject("check", 1);
-			   mav.setViewName("/payment/cartList"); // 빈 카트로 페이지 이동해서 jsp해서 해결
+		   // session이 없을 떄
+		   if(ComnUtil.isEmpty(rm)) {
+			   mav.setViewName("/payment/cartList");
 		   }else {
+			   // cart에 존재하는지 check 후 insert
+			   BookModel bookInfo = new BookModel();
+			   bookInfo = booksv.bookInfo(pId);
 			   bookInfo.setLoginID(rm.getLoginID());
-			   bookInfo.setStock(Integer.parseInt(bookStock));
-			   booksv.cartAdd(bookInfo);
-			   
-			   // cartList
-			   String loginID = rm.getLoginID();
-			   mav.addObject("cartList", paymentService.getCartList(loginID));
-			   mav.addObject("cartCnt",paymentService.getCartList(loginID).size());
-			   //mav.setViewName("/payment/cartList");
-			   mav.setViewName("redirect:/cartList.do");
+			   String cartBookTtitle = booksv.cartInfo(bookInfo);
+			   if(bookInfo.getTitle().equals(cartBookTtitle)) { // check
+				   mav.addObject("check", 1);
+				   mav.setViewName("/payment/cartList"); // 빈 카트로 페이지 이동해서 jsp해서 해결
+			   }else {
+				   bookInfo.setLoginID(rm.getLoginID());
+				   bookInfo.setStock(Integer.parseInt(bookStock));
+				   booksv.cartAdd(bookInfo);
+				   
+				   // cartList
+				   String loginID = rm.getLoginID();
+				   mav.addObject("cartList", paymentService.getCartList(loginID));
+				   mav.addObject("cartCnt",paymentService.getCartList(loginID).size());
+				   //mav.setViewName("/payment/cartList");
+				   mav.setViewName("redirect:/cartList.do");
+			   }
 		   }
+		 
 	   }else {
 		   if(rm != null) {
 			   String loginID = rm.getLoginID();
@@ -104,7 +110,49 @@ public class PaymentController {
 	}
    
 
+   // book to payment
+   // 기존꺼는 쓰면 카트에 담긴 애들도 같이 payment에 떠서
+   // 카트에 담지 않고 결제 다 되면 카트에 담는다??
+   // 결제 버튼 눌렸을 떄 카트 insert구현되게 payment또 따로
    
+   @RequestMapping(value="/directPayment.do" , method = RequestMethod.POST)
+	public ModelAndView directPayment(HttpSession session, HttpServletRequest req, PaymentModel vo) throws Exception {
+	   logger.info("+ Start Payment.directPayment.do");
+	   ModelAndView mav = new ModelAndView();
+
+	   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+   
+	   // session이 없을 떄
+	   if(ComnUtil.isEmpty(rm)) {
+		   mav.setViewName("/payment/cartList");
+	   }else {
+		   // userInfo
+		   RegisterInfoModel userInfo = new RegisterInfoModel();
+		   userInfo = paymentService.userInfo(rm.getLoginID());
+		   mav.addObject("userInfo", userInfo);
+		   String loginID = rm.getLoginID();
+		   // address
+		   mav.addObject("userAddress",paymentService.getUserAddress(userInfo));
+		   // coupon
+		   mav.addObject("getCoupon",paymentService.getCoupon(loginID));
+		   // book
+		   BookModel bookInfo = new BookModel();
+		   bookInfo = booksv.bookInfo(vo.getpId());
+		   bookInfo.setStock(vo.getStock());
+		   mav.addObject("bookInfo",bookInfo);
+		   // 카트 insert
+		   bookInfo.setLoginID(rm.getLoginID());
+		   booksv.cartAdd(bookInfo);
+		   
+		   mav.setViewName("payment/directPayment");
+	   }
+	   return mav;
+	}
+  
+   
+   
+   
+   // cart to payment
    @RequestMapping(value="/paymentForm.do" , method = RequestMethod.POST)
 	public ModelAndView paymentForm(HttpSession session, HttpServletRequest req) throws Exception {
 	   logger.info("+ Start Payment.paymentForm.do");
@@ -157,7 +205,65 @@ public class PaymentController {
    
    
    
-
+   // book to pay
+   @RequestMapping(value="/directPay.do", method = RequestMethod.POST)
+   public ModelAndView directPay(Model model, @RequestParam Map<String, String> paramMap, HttpServletRequest request, PaymentModel vo,
+         HttpServletResponse response, HttpSession session) throws Exception {
+	  logger.info("+ Start Payment.payment.do"); 
+	  ModelAndView mav = new ModelAndView();
+	  
+	  String dcPrice = request.getParameter("couponPrice");
+	  String oldMileage = request.getParameter("oldMileage");
+	  String [] arr = request.getParameterValues("cc");
+	  String paymentSw = request.getParameter("paymentSw");
+	  int result = Integer.parseInt(paymentSw); 
+	  
+	  RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
+	  vo.setLoginID(rm.getLoginID());
+	  
+	  if(result==1) {		// mileage x, coupon x
+		  vo.setMileage("0");
+		  logger.info("result1");
+	  }else if(result==2){ 	// mileage o, coupon x
+		  paymentService.mileageDeduction(vo);
+		  vo.setMileage(vo.getUseMileage());
+		  logger.info("result2");
+	  }else if(result==3){	// mileage x, coupon o
+		  logger.info("result3");
+		  for (int i = 0; i < arr.length; i++) {
+			  System.out.println(dcPrice);
+			  paymentService.useCoupon(arr[i]);
+		  }
+		  vo.setMileage("0");
+	  }else if(result==4) {	// mileage o, coupon o
+		  for (int i = 0; i < arr.length; i++) {
+			  paymentService.useCoupon(arr[i]);
+		  }
+		  paymentService.mileageDeduction(vo); 	 
+		  vo.setMileage(vo.getUseMileage());	// 다시 set
+		  logger.info("result4");
+	  }
+	  
+	  // direct
+	  // 카트에서 p_id에 해당애는 애 1개
+	  String sw = request.getParameter("sw");
+	  paymentService.directPay(vo, sw);
+	  
+	  
+	  // userTable 반영 (적립되는애 그냥 더해주면 되네)
+	  RegisterInfoModel userInfo = paymentService.userInfo(vo.getLoginID());
+	  vo.setBalanceMileage(Integer.toString(userInfo.getMileage()+ Integer.parseInt(vo.getEarnedMileage())));
+	  paymentService.mileageSet(vo);
+	  
+	  mav.addObject("userInfo",vo);
+	  mav.setViewName("payment/paymentResult");
+      return mav;
+   }
+   
+   
+   
+   
+   //cart to pay
    @RequestMapping(value="/payment.do", method = RequestMethod.POST)
    public ModelAndView payment(Model model, @RequestParam Map<String, String> paramMap, HttpServletRequest request, PaymentModel vo,
          HttpServletResponse response, HttpSession session) throws Exception {
