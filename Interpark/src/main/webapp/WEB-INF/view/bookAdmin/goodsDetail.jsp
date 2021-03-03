@@ -231,7 +231,7 @@
 					    	reader.onload = function(data) {
 					    	$(".select_img").show();
 					    	$(".select_img").empty();
-					    	$(".select_img").append('<img src="${CTX_PATH}/file/${goods.itemId}/${goods.file_nm}">');
+					    	$(".select_img").append('<img src="/imgFile/${goods.itemId}/${goods.file_nm}">');
 					     	$(".select_img img").attr("src", data.target.result).width(500);        
 					    }
 					    	reader.readAsDataURL(this.files[0]);
@@ -267,7 +267,7 @@ $(document).ready(function() {
 	if(file == null || file == ""){
 		$(".select_img").hide();
 	}else{
-		$(".select_img").append('<img src="${CTX_PATH}/file/${goods.itemId}/${goods.file_nm}">');
+		$(".select_img").append('<img src="/imgFile/${goods.itemId}/${goods.file_nm}">');
 	}
 	$("#display").val("${goods.display}").prop("selected", true);
 	$("#sellState").val("${goods.sellState}").prop("selected", true);

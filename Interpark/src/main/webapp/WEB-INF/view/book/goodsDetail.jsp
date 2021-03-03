@@ -116,7 +116,7 @@
                                                 </c:if>
                                                 <c:if test="${goods.file_nm ne null and goods.file_nm ne '' }">
                                                 <h5>관련 이미지</h5><hr>
-                                                <p><img src="${CTX_PATH}/file/${goods.itemId}/${goods.file_nm}"></p>
+                                                <p><img src="/imgFile/${goods.itemId}/${goods.file_nm}"></p>
                                                 </c:if>
                                             </div>
                                             <div>
