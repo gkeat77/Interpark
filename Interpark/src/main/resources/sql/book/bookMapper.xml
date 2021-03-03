@@ -5,8 +5,10 @@
 	<!--카테고리 리스트 -->
 	<select id="cateList" resultType="kr.kosmo.jobkorea.book.model.CategoryModel">
 		SELECT * FROM CATEGORY 
-		<where> 
+		<where>
+		<if test="(level!= null) and (!level.equals(''))"> 
 		level=#{level}
+		</if>
 		<if test="(cateClass != null) and (!cateClass.equals(''))">
 		and cateClass=#{cateClass}
 		</if>

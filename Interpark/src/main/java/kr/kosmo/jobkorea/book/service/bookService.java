@@ -22,7 +22,7 @@ public interface bookService {
 	
 	public List<BookModel> relateGoods(Map<String,Object> paramMap);
 	
-	public BookModel limitGoods(Map<String,Object> paramMap);
+	public BookModel limitGoods();
 	
 	// ahn
 	public BookModel bookInfo (String pId);

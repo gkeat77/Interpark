@@ -89,3 +89,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
  </body>
 
 </html>   
+
+<script>
+$(".column h3").click(function(){
+	location.href="/book/goodsListPage.do?cateClass="+$(this).data("categoryid");
+});
+
+
+
+$(".column a").click(function(){
+	location.href="/book/goodsListPage.do?categoryId="+$(this).data("categoryid");
+});
+
+</script>

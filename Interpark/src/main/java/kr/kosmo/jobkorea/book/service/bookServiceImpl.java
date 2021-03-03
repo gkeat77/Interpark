@@ -69,8 +69,8 @@ public class bookServiceImpl implements bookService{
 	}
 
 	@Override
-	public BookModel limitGoods(Map<String, Object> paramMap) {
-		return bookDao.limitGoods(paramMap);
+	public BookModel limitGoods() {
+		return bookDao.limitGoods();
 	}
 
 }

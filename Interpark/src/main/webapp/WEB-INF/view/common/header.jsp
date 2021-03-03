@@ -26,7 +26,8 @@
     <link rel="stylesheet" href="${CTX_PATH}/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${CTX_PATH}/css/style.css" type="text/css">
     <link rel="stylesheet" href="${CTX_PATH}/css/common.css" type="text/css" />
-</head>    
+</head>
+
 <body>    
     <!-- Page Preloder -->
     <!-- <div id="preloder">
@@ -163,16 +164,35 @@
                 <div class="nav-depart">
                     <div class="depart-btn">
                         <i class="ti-menu"></i>
-                        <span>All departments</span>
+                        <span>전체 카테고리</span>
                         <ul class="depart-hover">
-                            <li class="active"><a href="#">Women’s Clothing</a></li>
-                            <li><a href="#">Men’s Clothing</a></li>
-                            <li><a href="#">Underwear</a></li>
-                            <li><a href="#">Kid's Clothing</a></li>
-                            <li><a href="#">Brand Fashion</a></li>
-                            <li><a href="#">Accessories/Shoes</a></li>
-                            <li><a href="#">Luxury Brands</a></li>
-                            <li><a href="#">Brand Outdoor Apparel</a></li>
+				         <c:set value="${megaMenu }" var="mega"/>
+		                     <div class="row">
+						        <div class="column">
+						          <h3 data-categoryid="100">국내도서</h3>
+						           <c:forEach items="${mega.domesticList }" var="list">
+						          		<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          </c:forEach>
+						        </div>
+						        <div class="column">
+						          <h3 data-categoryid="200">외국도서</h3>
+						           <c:forEach items="${mega.foreignList  }" var="list">
+						          		<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          </c:forEach>
+						        </div>
+						        <div class="column">
+						          <h3 data-categoryid="300">음반</h3>
+						          <c:forEach items="${mega.cdList }" var="list">
+						          	<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          </c:forEach>
+						        </div>
+						        <div class="column">
+						          <h3 data-categoryid="400">DVD</h3>
+						          <c:forEach items="${mega.dvdList }" var="list">
+						          	<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          </c:forEach>
+						        </div>
+						      </div>
                         </ul>
                     </div>
                 </div>
@@ -234,4 +254,4 @@
             </div>
         </div>
     </header>
-    <!-- Header End -->		
+    <!-- Header End -->	

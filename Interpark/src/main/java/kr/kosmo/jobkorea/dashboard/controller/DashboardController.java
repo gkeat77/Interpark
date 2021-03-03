@@ -57,13 +57,30 @@ public class DashboardController {
 		
 		/* hegoog */
 		
-		//카테고리
+		
+		//헤더 메가메뉴 카테고리
+		CategoryModel megaMenu = new CategoryModel();
+		paramMap.put("cateClass","국내도서");
+		megaMenu.setDomesticList(booksv.cateList(paramMap));
+		paramMap.put("cateClass","외국도서");
+		megaMenu.setForeignList(booksv.cateList(paramMap));
+		paramMap.put("cateClass","음반");
+		megaMenu.setCdList(booksv.cateList(paramMap));
+		paramMap.put("cateClass","DVD");
+		megaMenu.setDvdList(booksv.cateList(paramMap));
+		
+		session.setAttribute("megaMenu", megaMenu);
+		logger.info("   - >>>>>>>>>>>>>>megaMenu : " + megaMenu);
+		
+		//랭킹 카테고리
+		paramMap.clear();
 		paramMap.put("level",0);
 		List<CategoryModel> cateList= booksv.cateList(paramMap);
 		model.addAttribute("cateList", cateList);
 		
+		
 		//한정 상품
-		BookModel limitGoods = booksv.limitGoods(paramMap);
+		BookModel limitGoods = booksv.limitGoods();
 		logger.info(">>>>>>>>>limitGoods"+limitGoods);
 		model.addAttribute("limitGoods", limitGoods);
 		

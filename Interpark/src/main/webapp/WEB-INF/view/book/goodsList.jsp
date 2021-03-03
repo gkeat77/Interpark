@@ -112,6 +112,17 @@ var pageBlockSize = 10;
 
 
 $(document).ready(function() {
+	
+	// 헤더 메뉴에서 접근
+	if('${cateClass}' != null && '${cateClass}' != ''){
+		$("#cateClass").val('${cateClass}'.substring(0,1));
+	}
+	
+	if('${categoryId}' != null  && '${categoryId}' != ''){
+		$("#cateId").val('${categoryId}');
+	}
+	
+	//헤더에서 검색
 	if('${searchKey}' != null){
 		fmain_search();
 	}else	

@@ -48,15 +48,27 @@ public class BookController {
 	
 	@RequestMapping("goodsListPage.do")
 	public 	String goodsListPage(Model model, HttpServletRequest request ,@RequestParam Map<String, Object> paramMap) throws Exception {
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>리스트 스타트>>>>>>>>>>>>>>>>>>"+paramMap);
 		String searchKey = (String)paramMap.get("searchKey");
-		
 		if(searchKey !=null){
 			model.addAttribute("searchKey",searchKey );
 		}
+		String cateClass = (String)paramMap.get("cateClass");
+		if(cateClass !=null){
+			model.addAttribute("cateClass",cateClass );
+			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>카테클래스 세팅>>>>>>>>>>>>>>>>>>");
+		}
+		String categoryId = (String)paramMap.get("categoryId");
+		if(categoryId !=null){
+			model.addAttribute("categoryId",categoryId );
+			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>카테아이디 세팅>>>>>>>>>>>>>>>>>>");
+		}
 		
+		paramMap.clear();
 		//상위 카테고리 불러오기
 		paramMap.put("level", 0);
 		List<CategoryModel> cateUpperList= booksv.cateList(paramMap);
+		
 		
 		//상위 카테고리에 하위 카테고리넣기
 		for (int i = 0; i < cateUpperList.size(); i++) {
@@ -65,6 +77,8 @@ public class BookController {
 			cateUpperList.get(i).setLowerCateList(booksv.cateList(paramMap));
 		}
 		model.addAttribute("cateList", cateUpperList);
+		
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>리스트 끝>>>>>>>>>>>>>>>>>>");
 		
 		return "book/goodsList";
 	}

@@ -22,7 +22,7 @@ public interface bookDao {
 	
 	public List<BookModel> relateGoods(Map<String,Object> paramMap);
 	
-	public BookModel limitGoods(Map<String,Object> paramMap);
+	public BookModel limitGoods();
 	
 	public BookModel bookInfo (String pId);  
 	
