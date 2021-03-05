@@ -23,7 +23,11 @@
 	
 	<select id="listAll" resultType="kr.kosmo.jobkorea.event.model.EventModel">
 		select * from EVENT ORDER BY Binary(e_title)
-	</select>	
+	</select>
+	
+	<select id="eventDetail" resultType="kr.kosmo.jobkorea.event.model.EventModel"  parameterType="int">
+		select * from EVENT where e_id = #{e_id} GROUP BY e_id
+	</select>
 	
 	<!-- 상품 검색 sql -->
 	<sql id="search">

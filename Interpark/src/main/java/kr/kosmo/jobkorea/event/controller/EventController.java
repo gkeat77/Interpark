@@ -12,10 +12,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.kosmo.jobkorea.book.model.BookModel;
+import kr.kosmo.jobkorea.book.service.bookService;
 import kr.kosmo.jobkorea.event.model.CategoryModel;
 import kr.kosmo.jobkorea.event.model.EventModel;
 import kr.kosmo.jobkorea.event.service.eventService;
@@ -23,6 +26,9 @@ import kr.kosmo.jobkorea.event.service.eventService;
 @Controller
 @RequestMapping("/event/")
 public class EventController {
+	
+	@Autowired
+	bookService booksv;
 	
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
@@ -66,6 +72,17 @@ public class EventController {
 	public 	List<EventModel>  listAll(Model model) throws Exception {
 		
 		return eventsv.listAll();
+	}
+	
+	@RequestMapping("eventDetail.do")
+	public 	String getEventDetail(Model model, @ModelAttribute EventModel e_id
+			) throws Exception {
+		List<EventModel> evBannerById = eventsv.eventDetail(e_id);
+		System.out.println("## evBannerById 값은 ? ##"+evBannerById);
+		model.addAttribute("evBannerById", evBannerById);
+		
+		return "event/eventDetail";
+
 	}
 	
 }

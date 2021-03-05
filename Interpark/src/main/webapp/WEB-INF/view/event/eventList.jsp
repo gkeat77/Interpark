@@ -102,7 +102,7 @@ $(document).ready(function() {
  			str += '<div>';
  				str += '<ul>';
  					str += '<li class="li">';
- 						str += '<div><a href="#">'+'<img class="img" src =' + result[i].thumnail_img + '>'+'</a></div>';
+ 						str += '<div><a href="#">'+'<img class="img" src =' + result[i].thumnail_img + ' onclick="getEventDetail('+result[i].e_id+ ');">'+'</a></div>';
  	        			str += '<div><span>'+ result[i].e_title +'</span></div>';
  	        			str += '<div><span>'+ nDate + '-' +mDate+'</span></div>';
  	        			str += '<div><span>'+ result[i].e_content+'</span></div>';
@@ -203,7 +203,9 @@ function getEventData(e_title) {
        			str += '<div>';
        				str += '<ul>';
        					str += '<li class="li">';
-       						str += '<div><a href="#">'+'<img class="img" src =' + result[i].thumnail_img + '>'+'</a></div>';
+       					/* str += '<li class="li" data-id=" '+  result[i].e_id + ' "'>'; */      							
+       					str += '<li class="li">';
+       						str += '<div><a href="#">'+'<img class="img" src =' + result[i].thumnail_img + ' onclick="getEventDetail('+ result[i].e_id+');">'+'</a></div>';
 		        			str += '<div><span>'+ result[i].e_title +'</span></div>';
 		        			str += '<div><span>'+ nDate + '-' +mDate+'</span></div>';
 		        			str += '<div><span>'+ result[i].e_content+'</span></div>';
@@ -236,6 +238,11 @@ function getEventData(e_title) {
    	    }
   });        	   
 }
+
+// 상세
+function getEventDetail(e_id) {
+		location.href="/event/eventDetail.do?e_id="+e_id;
+}
  
 </script>
 
@@ -255,7 +262,7 @@ function getEventData(e_title) {
          <div id="panel4" class="panel"><div class="tx3"></div></div>
          <div id="panel5" class="panel"><div class="tx4"></div></div>
          <div id="panel6" class="panel"><div class="tx5"></div></div>
-         <div id="panel7" class="panel"><div class="tx6"></div></div>
+         <div id="panel7" class="panel"><div class="tx6"></div></div>         
      </div>
 		
 	<!-- Product Shop Section Begin -->

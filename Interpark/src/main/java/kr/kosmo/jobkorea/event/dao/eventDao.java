@@ -17,5 +17,9 @@ public interface eventDao {
 	
 	public List<EventModel> listAll();
 		
+	public List<EventModel> eventDetail(EventModel e_id);
+	
 	public int eventCount(Map<String,Object> paramMap);
+
+
 }
