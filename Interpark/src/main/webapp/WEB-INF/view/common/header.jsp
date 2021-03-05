@@ -26,59 +26,47 @@
     <link rel="stylesheet" href="${CTX_PATH}/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${CTX_PATH}/css/style.css" type="text/css">
     <link rel="stylesheet" href="${CTX_PATH}/css/common.css" type="text/css" />
-</head>    
+</head>
+
 <body>    
     <!-- Page Preloder -->
-    <div id="preloder">
+    <!-- <div id="preloder">
         <div class="loader"></div>
-    </div>
+    </div> -->
 
     <!-- Header Section Begin -->
     <header class="header-section">
         <div class="header-top">
             <div class="container">
                 <div class="ht-left">
-                    <div class="mail-service">
-                        <i class=" fa fa-envelope"></i>
-                        hello.colorlib@gmail.com
-                    </div>
-                    <div class="phone-service">
-                        <i class=" fa fa-phone"></i>
-                        +65 11.188.888
+                    <div class="mail-service" style="padding:0">
+                      <div class="btn-group btn-group-lg">
+					    <button type="button" class="btn-outline-dark active" style="height:54px">도서</button>
+					    <button type="button" class="btn-outline-dark" style="height:54px">공연</button>
+					    <c:if test="${member.user_type eq 'A'}">
+					    <button type="button" class="btn-outline-dark" style="height:54px">관리자</button>
+					    </c:if>
+					  </div>
                     </div>
                 </div>
                 <div class="ht-right">
 					<c:choose >
 						<c:when test="${not empty member}">
-						<div class="lan-selector">
-							<div id="login-panel">
-								<a href="/mypage/my.my" class="login-panel"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
-								<a href="/login/logOut.do" class="login-panel">LogOut</a>
-								<a href="/index.do" class="login-panel">home</a>
-								<br>
-							</div>
-						</div>					
+						   <a href="/login/logOut.do" class="login-panel"><i class="fa fa-sign-out"></i>LogOut</a>
+						   <a href="/mypage/my.my" class="login-panel" style="margin-right:20px"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
 						</c:when>
 						<c:when test="${empty member}">
 						 <a href="/login/login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>
 						</c:when>					
 					</c:choose>
-                    <!-- 
-                    <div class="lan-selector">
+              <!--       <div class="lan-selector">
                         <select class="language_drop" name="countries" id="countries" style="width:300px;">
                             <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
                                 data-title="English">English</option>
                             <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
                                 data-title="Bangladesh">German </option>
                         </select>
-                    </div>
-                     -->
-                    <div class="top-social">
-                        <a href="#"><i class="ti-facebook"></i></a>
-                        <a href="#"><i class="ti-twitter-alt"></i></a>
-                        <a href="#"><i class="ti-linkedin"></i></a>
-                        <a href="#"><i class="ti-pinterest"></i></a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -93,16 +81,24 @@
                             </a>
                         </div>
                     </div>
+                    <!-- 검색 -->
                     <div class="col-lg-7 col-md-7">
                         <div class="advanced-search">
-                            <button type="button" class="category-btn">All Categories</button>
-                            <form action="#" class="input-group">
-                                <input type="text" placeholder="What do you need?">
-                                <button type="button"><i class="ti-search"></i></button>
+                            <button type="button" class="category-btn" style="width:500px !important"> 전체 검색 </button>
+                            <form action="/book/goodsListPage.do" class="input-group">
+                            <c:choose>
+                            <c:when test="${searchKey ne null and searchKey ne ''}">
+                                <input type="text" id="mainSearchKey" name="searchKey" value="${searchKey }" style="width:1000px">
+                             </c:when>
+                             <c:when test="${searchKey eq null or searchKey eq ''}">
+                                <input type="text" id="mainSearchKey" name="searchKey" style="width:1000px">
+                             </c:when>
+                             </c:choose>
+                                <button type="submit" id="mainSearch"><i class="ti-search"></i></button>
                             </form>
                         </div>
                     </div>
-                    
+                    <!-- 검색 끝 -->
                     <!------------------------------------------------------------------ cart---------------------------------------------------------------->
                     <c:set var="cnt" value="1"/>
                     
@@ -113,10 +109,11 @@
                                     <span>1</span>
                                 </a>
                             </li>
-                            <li class="cart-icon"><a href="#">
+                            <li class="cart-icon"><a href="/cartList.do">
                                     <i class="icon_bag_alt"></i>
                                     <span>${cartCnt }</span>
                                 </a>
+                               <%-- 
                                 <div class="cart-hover" >
                                     <div class="select-items">
                                         <table>
@@ -152,7 +149,8 @@
                                         <a href="#" class="primary-btn view-card">VIEW CARD</a>
                                         <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
                                     </div>
-                                </div>
+                                </div> 
+                                --%>
                             </li>
                              <li class="cart-price" style=visibility:hidden;>$150.00</li>
                         </ul>
@@ -166,16 +164,35 @@
                 <div class="nav-depart">
                     <div class="depart-btn">
                         <i class="ti-menu"></i>
-                        <span>All departments</span>
+                        <span>전체 카테고리</span>
                         <ul class="depart-hover">
-                            <li class="active"><a href="#">Women’s Clothing</a></li>
-                            <li><a href="#">Men’s Clothing</a></li>
-                            <li><a href="#">Underwear</a></li>
-                            <li><a href="#">Kid's Clothing</a></li>
-                            <li><a href="#">Brand Fashion</a></li>
-                            <li><a href="#">Accessories/Shoes</a></li>
-                            <li><a href="#">Luxury Brands</a></li>
-                            <li><a href="#">Brand Outdoor Apparel</a></li>
+				         <c:set value="${megaMenu }" var="mega"/>
+		                     <div class="row">
+						        <div class="column">
+						          <h3 data-categoryid="100">국내도서</h3>
+						           <c:forEach items="${mega.domesticList }" var="list">
+						          		<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          </c:forEach>
+						        </div>
+						        <div class="column">
+						          <h3 data-categoryid="200">외국도서</h3>
+						           <c:forEach items="${mega.foreignList  }" var="list">
+						          		<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          </c:forEach>
+						        </div>
+						        <div class="column">
+						          <h3 data-categoryid="300">음반</h3>
+						          <c:forEach items="${mega.cdList }" var="list">
+						          	<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          </c:forEach>
+						        </div>
+						        <div class="column">
+						          <h3 data-categoryid="400">DVD</h3>
+						          <c:forEach items="${mega.dvdList }" var="list">
+						          	<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          </c:forEach>
+						        </div>
+						      </div>
                         </ul>
                     </div>
                 </div>
@@ -199,30 +216,42 @@
                                 <li><a href="./register.html">Register</a></li>
                                 <c:choose>
 		                         <c:when test="${empty member}">
-		                            <li><a href="/login.me">Login</a></li>
+		                            <li><a href="/login/login.me">Login</a></li>
 		                         </c:when>
 		                         <c:otherwise>
+		                         	<li><a href="/userInfo.do">userInfo</a></li>
 		                            <li><a href="/login/logOut.do">LOGOUT</a></li>
 		                         </c:otherwise>
 		                         </c:choose>
-		                         <!-- admin  -->
-                                <c:if test="${member.loginID eq 'admin'}">
-                                	<li><a href="/adminInfo.do">ADMIN</a></li>
-								</c:if>
-								<c:if test="${member.loginID eq 'admin'}">
-                                	<li><a href="/statistics.do">통계</a></li>
-								</c:if>
                             </ul>
                         </li>
                         <li><a href="/event/eventListPage.do">이벤트</a>
                         </li>
                          <!-- <li><a href="/event/eventList.do">이벤트</a>
-                        </li> -->                        
+                        </li> -->
+                        
+                        <c:if test="${member.loginID eq 'admin'}">
+                        	<li><a href="#">ADMIN</a>
+                            <ul class="dropdown">
+		                         <!-- admin  -->
+		                        <c:choose>
+		                         <c:when test="${member.loginID eq 'admin'}">
+		                         	<li><a href="/adminInfo.do">ADMIN</a></li>
+		                         	<li><a href="/statistics.do">통계</a></li>
+		                         	<li><a href="/adminCoupon.do">쿠폰지급</a></li>
+		                         	<li><a href="/adminOrders.do">ORDERS</a></li>
+		                         </c:when>
+		                         <c:otherwise>
+		                         </c:otherwise>
+		                         
+		                         </c:choose>
+                            </ul>
+                        </li>
+                        </c:if>
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>
             </div>
         </div>
     </header>
-    <!-- Header End -->		
-
+    <!-- Header End -->	

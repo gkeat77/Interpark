@@ -11,6 +11,8 @@ public class reviewModel {
 	private String rTitle;
 	private String rContent;
 	private String rDate;
+	private String likeChk;
+	
 	
 	public int getrId() {
 		return rId;
@@ -54,16 +56,27 @@ public class reviewModel {
 	public void setrContent(String rContent) {
 		this.rContent = rContent;
 	}
-	public String getRegDate() {
+
+	public String getrDate() {
 		return rDate;
 	}
-	public void setRegDate(String regDate) {
-		this.rDate = regDate;
+	public void setrDate(String rDate) {
+		this.rDate = rDate;
+	}
+	
+	public String getLikeChk() {
+		return likeChk;
+	}
+	public void setLikeChk(String likeChk) {
+		this.likeChk = likeChk;
 	}
 	@Override
 	public String toString() {
 		return "reviewModel [rId=" + rId + ", pId=" + pId + ", loginId=" + loginId + ", rStar=" + rStar + ", rLike="
-				+ rLike + ", rTitle=" + rTitle + ", rContent=" + rContent + ", rDate=" + rDate + "]";
+				+ rLike + ", rTitle=" + rTitle + ", rContent=" + rContent + ", rDate=" + rDate + ", likeChk=" + likeChk
+				+ "]";
 	}
+	
+	
 	
 }

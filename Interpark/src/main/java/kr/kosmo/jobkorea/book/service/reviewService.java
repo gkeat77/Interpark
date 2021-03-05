@@ -21,4 +21,6 @@ public interface reviewService {
 	
 	public int reviewLike (Map<String, Object> paramMap);
 	
+	public int likeChk (Map<String, Object> paramMap);
+	
 }

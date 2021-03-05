@@ -50,6 +50,11 @@ public class reviewServiceImpl implements reviewService{
 	public int reviewCount(Map<String, Object> paramMap) {
 		return revDao.reviewCount(paramMap);
 	}
+
+	@Override
+	public int likeChk(Map<String, Object> paramMap) {
+		return revDao.likeChk(paramMap);
+	}
 	
 	
 	

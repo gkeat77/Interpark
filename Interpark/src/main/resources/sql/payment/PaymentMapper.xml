@@ -14,7 +14,7 @@
 	, P_ID AS pId
 	FROM CART
 	WHERE 
-	ORDER_YN != 'Y'
+	ORDER_YN NOT IN ('Y','C')
 	AND loginID = #{loginID}
 </select>
 
@@ -56,7 +56,9 @@ INSERT INTO ORDERS
 	, loginID
 	, DC_PRICE
 	, COUPON_NO
-	, MILEAGE
+	, EARNED_MILEAGE
+	, USE_MILEAGE
+	, ORDER_ADDRESS
 )
 VALUES
 (
@@ -68,7 +70,9 @@ VALUES
 	, #{loginID}
 	, #{couponPrice}
 	, #{couponNos}
+	, #{earnedMileage}
 	, #{mileage}
+	, #{userAddress1}		
 )
 </insert>
 
@@ -134,6 +138,7 @@ VALUES
 					, CART_NO AS cartNos
 	FROM ORDERS
 	WHERE loginID = #{loginID}
+	ORDER BY ORDER_DT DESC
 </select>
 
 <delete id="cartDel">
@@ -174,6 +179,11 @@ VALUES
 	SELECT CART_NO AS cartNos
 			, loginID AS loginID
 			, ORDER_DT AS regDt
+			, PAYMENT AS price
+			, USE_MILEAGE AS useMileage
+			, EARNED_MILEAGE AS earnedMileage
+			, COUPON_NO AS couponNo
+			, ORDER_NO AS payNo 
 	FROM ORDERS
 	WHERE ORDER_NO = #{payNo}
 </select>
@@ -185,13 +195,14 @@ SELECT
     , CART_PRICE AS price
     , CART_STOCK AS stock
     , CART_IMG  AS bookImg
+    , loginID
 FROM CART 
 <if test="cartNos!=null">
 				WHERE  
 				<foreach collection="cartNos" item="arr" separator="or">
 					CART_NO IN ( #{arr} )
 				</foreach>
-				AND ORDER_YN = 'Y'	
+				AND ORDER_YN IN ('C','Y')	
 </if>
 </select>
 
@@ -259,4 +270,426 @@ CART_NO =  #{cartNo}
 </select>
 
 
+<update id="mileageDeduction" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	UPDATE tb_userinfo
+	SET M_MILEAGE = #{mileage}
+	WHERE loginID = #{loginID}
+</update>
+
+
+<select id="userInfo" parameterType="String" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+	SELECT NAME AS name
+			, M_EMAIL AS mail
+			, M_PHONE1 AS phone1
+			, M_PHONE2 AS phone2
+			, M_PHONE3 AS phone3
+			, M_MILEAGE AS mileage
+			, CONCAT('(기 본 배 송 지 ) ',A_TITLE) AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, loginID AS loginID
+	FROM tb_userinfo
+	WHERE loginID = #{loginID}
+</select>
+
+<select id="buyList" parameterType="String" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	SELECT ORDER_DT AS regDt	
+		, ORDER_NO AS payNo
+		, (
+            CASE ORDER_STATE
+			WHEN 0 THEN '입금대기중'
+			WHEN 1 THEN '결제완료'
+			WHEN 2 THEN '배송완료'
+			WHEN 3 THEN '관리자 결재취소'
+			WHEN 5 THEN '결재취소'
+			END
+            ) AS state
+	FROM ORDER_HST
+	WHERE ORDER_NO IN (
+	        SELECT ORDER_NO
+	        FROM ORDERS
+	        WHERE loginID = #{loginID}
+	    )
+	 ORDER BY ORDER_DT DESC
+</select>
+
+<select id="userOrders" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+		SELECT ORDER_DT AS regDt	
+		, ORDER_NO AS payNo
+		, (
+            CASE ORDER_STATE
+			WHEN 0 THEN '입금대기중'
+			WHEN 1 THEN '결제완료'
+			WHEN 2 THEN '배송완료'
+			WHEN 3 THEN '관리자 결재취소'
+			WHEN 5 THEN '결재취소'
+			END
+            ) AS state
+	FROM ORDERS 
+	WHERE loginID = #{loginID}
+	  AND ORDER_STATE IN (0,1)
+	 ORDER BY ORDER_DT DESC
+</select>
+
+
+<update id="mileageSet" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	UPDATE tb_userinfo
+	SET M_MILEAGE = #{balanceMileage}
+	WHERE loginID = #{loginID}
+</update>
+
+<update id="userCancelCart" parameterType="hashmap" >
+	
+	UPDATE CART
+	SET ORDER_YN = 'C'
+	WHERE
+	CART_NO IN (
+	<foreach collection="cartNos" item="arr" separator=","> 
+	 #{arr} 
+	</foreach>
+	)
+</update>
+
+<update id="userCancelState" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	UPDATE ORDERS
+	SET ORDER_STATE = '5'
+	WHERE ORDER_NO = #{payNo}
+</update>
+
+<select id="addressCheck" resultType="String">
+	SELECT IFNULL(MAX(A.A_TITLE),'X') AS TITLE
+	FROM tb_userinfo A 
+	RIGHT OUTER JOIN ADDRESS B
+	ON A.loginID = B.loginID
+	WHERE A.loginID = #{loginID}
+</select>
+
+
+
+
+<select id="userAddressS" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+	
+	SELECT *
+	FROM (
+	SELECT t2.* FROM 
+	(
+	    SELECT * FROM 
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `tb_userinfo` WHERE loginID = #{loginID}
+	    )
+	    AS t22
+	    GROUP BY t22.addressTitle
+	    ORDER BY t22.A_VAL DESC
+	) AS t2
+	
+	UNION
+	
+	SELECT t1.* FROM 
+	(
+	    SELECT * FROM
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `ADDRESS` WHERE loginID = #{loginID}
+	    )
+	    AS t11
+	    GROUP BY t11.addressTitle
+	    ORDER BY t11.A_VAL
+	) AS t1
+	) ADAD
+	ORDER BY A_VAL DESC
+</select>
+
+
+<insert id="addAddress" parameterType="hashmap">
+	INSERT INTO ADDRESS
+	(
+		A_TITLE, A_AD1, A_AD2, A_AD3, loginID
+	)
+	VALUES
+	(
+		#{title},#{detailadr},#{address},#{address2}, #{loginID}
+	)
+	
+</insert>
+
+
+
+<delete id="delAddress" parameterType="hashmap">
+	DELETE FROM ADDRESS
+	WHERE loginID = #{loginID}
+	AND A_TITLE = #{title}
+	AND A_AD3 = #{detail}
+</delete>
+
+
+<select id="addressTableCheck" parameterType="hashmap" resultType="String">
+	SELECT IFNULL(MAX(A_VAL),'X') FROM ADDRESS
+	WHERE loginID = #{loginID}
+	AND A_TITLE = #{title}
+	AND A_AD3 = #{detail}
+</select>
+
+<select id="maxVal" parameterType="hashmap" resultType="int">
+	SELECT MAX(A_VAL)
+	FROM (
+	SELECT t2.* FROM 
+	(
+	    SELECT * FROM 
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `tb_userinfo` WHERE loginID = #{loginID}
+	    )
+	    AS t22
+	    GROUP BY t22.addressTitle
+	    ORDER BY t22.A_VAL DESC
+	) AS t2
+	
+	UNION
+	
+	SELECT t1.* FROM 
+	(
+	    SELECT * FROM
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `ADDRESS` WHERE loginID = #{loginID}
+	    )
+	    AS t11
+	    GROUP BY t11.addressTitle
+	    ORDER BY t11.A_VAL
+	) AS t1
+	) ADAD
+	ORDER BY A_VAL DESC
+</select>
+
+
+<update id="setUserTable" parameterType="hashmap">
+	UPDATE tb_userinfo
+	SET A_VAL = #{maxNum}
+	WHERE loginID = #{loginID}
+	AND A_TITLE = #{title}
+	AND A_AD3 = #{detail}
+</update>
+
+<update id="setAddressTable" parameterType="hashmap">
+	UPDATE ADDRESS
+	SET A_VAL = #{maxNum}
+	WHERE loginID = #{loginID}
+	AND A_TITLE = #{title}
+	AND A_AD3 = #{detail}
+
+</update>
+
+<update id="bookStockUpdate" parameterType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	UPDATE
+		BOOK_GOODS A, (SELECT stock FROM BOOK_GOODS WHERE P_ID= #{pId}) B
+	SET A.sellCount = IFNULL(A.sellcount,0)+ #{stock}
+		, A.stock = B.stock - #{stock}
+	WHERE A.P_ID = #{pId}	
+</update>
+
+
+
+<select id="maxVal2" parameterType="kr.kosmo.jobkorea.login.model.RegisterInfoModel" resultType="int">
+	SELECT MAX(A_VAL)
+	FROM (
+	SELECT t2.* FROM 
+	(
+	    SELECT * FROM 
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `tb_userinfo` WHERE loginID = #{loginID}
+	    )
+	    AS t22
+	    GROUP BY t22.addressTitle
+	    ORDER BY t22.A_VAL DESC
+	) AS t2
+	
+	UNION
+	
+	SELECT t1.* FROM 
+	(
+	    SELECT * FROM
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `ADDRESS` WHERE loginID = #{loginID}
+	    )
+	    AS t11
+	    GROUP BY t11.addressTitle
+	    ORDER BY t11.A_VAL
+	) AS t1
+	) ADAD
+	ORDER BY A_VAL DESC
+</select>
+
+
+<select id="userMaxAddress" parameterType="kr.kosmo.jobkorea.login.model.RegisterInfoModel" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+
+SELECT *
+	FROM (
+	SELECT t2.* FROM 
+	(
+	    SELECT * FROM 
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `tb_userinfo` WHERE loginID = #{loginID}
+	    )
+	    AS t22
+	    GROUP BY t22.addressTitle
+	    ORDER BY t22.A_VAL DESC
+	) AS t2
+	
+	UNION
+	
+	SELECT t1.* FROM 
+	(
+	    SELECT * FROM
+	    (
+	        SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+			, A_VAL  
+			FROM `ADDRESS` WHERE loginID = #{loginID}
+	    )
+	    AS t11
+	    GROUP BY t11.addressTitle
+	    ORDER BY t11.A_VAL
+	) AS t1
+	) ADAD
+	WHERE A_VAL = #{val}
+	ORDER BY A_VAL DESC
+	
+</select>
+
+
+<select id="adminOrders" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+
+	SELECT ORDER_DT AS regDt	
+			, ORDER_NO AS payNo
+			, (
+	            CASE ORDER_STATE
+				WHEN 0 THEN '입금대기중'
+				WHEN 1 THEN '결제완료'
+				WHEN 2 THEN '배송완료'
+				WHEN 3 THEN '관리자 결재취소'
+				WHEN 5 THEN '결재취소'
+				END
+	            ) AS state
+		FROM ORDER_HST
+		WHERE ORDER_NO IN (
+		        SELECT ORDER_NO
+		        FROM ORDERS
+		    )
+		 ORDER BY ORDER_DT DESC
+
+</select>
+
+
+<select id="countOrders" resultType="int">
+	SELECT COUNT(*)
+		FROM ORDER_HST
+		WHERE ORDER_NO IN (
+		        SELECT ORDER_NO
+		        FROM ORDERS
+		    )
+</select>
+
+<select id="adminOrdersPaging" resultType="hashmap" parameterType="hashmap">
+    <![CDATA[
+        SELECT ORDER_DT AS regDt	
+			, ORDER_NO AS payNo
+			, (
+	            CASE ORDER_STATE
+				WHEN 0 THEN '입금대기중'
+				WHEN 1 THEN '결제완료'
+				WHEN 2 THEN '배송완료'
+				WHEN 3 THEN '관리자 결재취소'
+				WHEN 5 THEN '결재취소'
+				END
+	            ) AS state
+		FROM ORDER_HST
+		WHERE ORDER_NO IN (
+		        SELECT ORDER_NO
+		        FROM ORDERS
+		    )
+		 ORDER BY ORDER_DT DESC
+        LIMIT #{pageStart}, #{perPageNum}
+    ]]>
+</select>
+	 
+<select id="showCoupon" resultType="kr.kosmo.jobkorea.payment.model.PaymentModel">
+	SELECT COUPON_NO AS couponNo
+	, COUPON_NAME AS couponName
+	, IFNULL(DC_RATE,0) AS couponRate
+	, IFNULL(DC_PRICE,0) AS couponPrice
+	FROM COUPON
+</select>
+
+
+
+<select id="couponCheck" parameterType="hashmap" resultType="String">
+	SELECT IFNULL(MAX(COUPON_HST_NO),'X')
+	FROM COUPON_HST
+	WHERE loginID = #{loginID}
+	AND COUPON_NO = #{couponNo}
+	AND DATE(COUPON_USE_DT) = '0000-00-00 00:00:00'
+</select>
+
+
+<insert id="insertCoupon" parameterType="hashmap">
+	INSERT INTO COUPON_HST
+	( COUPON_NO, COUPON_REG_DT, loginID)
+	VALUES
+	(#{couponNo}, NOW(), #{loginID})
+</insert>
+
+<update id="modifyAddress" parameterType="hashmap">
+	UPDATE tb_userinfo
+	SET A_TITLE = #{title}
+	, A_AD1 = #{detailadr}
+	, A_AD2 = #{address}
+	, A_AD3 = #{address2} 
+	WHERE loginID = #{loginID}  
+
+</update>
+
+<select id="getAddress" parameterType="hashmap" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel">
+	SELECT A_TITLE AS addressTitle
+			, A_AD1 AS address1
+			, A_AD2 AS address2
+			, A_AD3 AS address3
+	FROM tb_userinfo
+	WHERE loginID = #{loginID}   			
+</select>
+	 
 </mapper>

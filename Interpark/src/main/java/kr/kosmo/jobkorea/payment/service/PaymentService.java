@@ -1,11 +1,13 @@
 package kr.kosmo.jobkorea.payment.service;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
 
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PaymentModel;
 import kr.kosmo.jobkorea.supportD.model.NoticeDModel;
@@ -49,5 +51,26 @@ public interface PaymentService {
 	public void cartUpdate3(String cartNo); // 취소했을 떄 카트리스트 복귀
 	public Map<String, Object> defaultChart();
 	public Map<String, Object> goChart(Map<String, Object> paramMap) throws Exception;
+	public void mileageDeduction(PaymentModel vo);
+	public RegisterInfoModel userInfo(String loginID);
+	public List<PaymentModel> buyList(String loginID);
+	public List<PaymentModel> userOrders(String loginID);
+	public void userCancel(Map<String, Object> paramMap, String loginID);
+	public void mileageSet(PaymentModel vo);
+	public String addressCheck(String loginID);
+	public List<RegisterInfoModel> userAddressS(String loginID);
+	public void addAddress(Map<String, Object> paramMap);
+	public int delAddress(Map<String, Object> paramMap);
+	public void defaultAddress(Map<String, Object> paramMap);
+	public RegisterInfoModel getUserAddress(RegisterInfoModel vo); // 유저 기본 주소 
+	public List<PaymentModel> adminOrders();
+	public int countOrders(); // forPaging
+	public List<Map<String, Object>> adminOrdersPaging(Criteria cri);
+	public List<PaymentModel>showCoupon();
+	public String couponCheck(Map<String, Object> paramMap);	// 쿠폰 지급 확인
+	public void insertCoupon(Map<String, Object> paramMap);
+	public void modifyAddress(Map<String, Object> paramMap); // 기본배송지 수정
+	public RegisterInfoModel getAddress(Map<String, Object> paramMap);
+	public void directPay(PaymentModel vo, String sw); 
 }
 

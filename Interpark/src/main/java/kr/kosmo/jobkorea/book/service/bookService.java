@@ -20,6 +20,10 @@ public interface bookService {
 	
 	public BookModel goodsDetail(Map<String,Object> paramMap);
 	
+	public List<BookModel> relateGoods(Map<String,Object> paramMap);
+	
+	public BookModel limitGoods();
+	
 	// ahn
 	public BookModel bookInfo (String pId);
 	public void cartAdd(BookModel vo);

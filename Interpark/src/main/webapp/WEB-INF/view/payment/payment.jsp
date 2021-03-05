@@ -104,46 +104,50 @@ input[type="radio"]:checked + label span {
                         <div class="row">
                             <div class="col-lg-12">
                                 <label for="fir">이름<span>*</span></label>
-                                <input type="text" name="userName" value="${userInfo.name}">
+                                <input type="text" name="userName" value="${userInfo.name}" readonly>
                             </div>
                             <div class="col-lg-6">
                                 <label for="email">Email Address<span>*</span></label>
-                                <input type="text" name="userEmail" id="userEamil" value="${userInfo.mail}">
+                                <input type="text" name="userEmail" id="userEamil" value="${userInfo.mail}" readonly>
                             </div>
                             <div class="col-lg-6">
                                 <label for="phone">Phone<span>*</span></label>
-                                <input type="text" name="userPhone" id="userPhone" value="${userInfo.phone1}-${userInfo.phone2}-${userInfo.phone3}">
+                                <input type="text" name="userPhone" id="userPhone" value="${userInfo.phone1}-${userInfo.phone2}-${userInfo.phone3}" readonly>
                             </div>
                             <div class="col-lg-12">
-                                <label for="zip" style=visibility:hidden;>우편번호</label>
+                                <label for="zip" >우편번호</label>
                             </div>
                             <div class="col-lg-6">
                                 <label for="zip"></label><br>
-                                <input type="text" name="userAddress1" id="detailaddr" />
+                                <input type="text" name="userAddress1" id="detailaddr" value="${userAddress.address1}" readonly/>
                             </div>
                             
                             <div class="col-lg-6">
                                 <label for="zip"></label>
                                 <input type="button" value="우편번호"
 												onclick="execDaumPostcode()"
-													style="width: 150px; height: 50px; margin-left:2px;" />
+													style="width: 150px; height: 50px; margin-left:2px; visibility:hidden;" />
                             </div>
                             
                             <div class="col-lg-12">
                                 <label for="town">주소<span>*</span></label>
-                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" />
+                                <input type="text" class="inputTxt p100" name="userAddress1" id="loginaddr" value="${userAddress.address2}" readonly/>
                                 
                             </div>
                             <div class="col-lg-12">
                                 <label for="town">상세주소<span>*</span></label>
                                 <input type="text" class="inputTxt p100"
-												name="userAddress1" id="loginaddr1" />
+												name="userAddress1" id="loginaddr1" value="${userAddress.address3}" readonly/>
                             </div>
                             
                             <div class="col-lg-12">
-                                <label for="town">마일리지<span>:&nbsp;${userInfo.mileage}</span></label>
+                                <%-- <label for="town">마일리지<span>:&nbsp;</span><span id="applyMileage">${userInfo.mileage}</span></label> --%>
+                                <label for="town">마일리지<span>:&nbsp;</span><span id="applyMileage"><fmt:formatNumber pattern="###,###,###" value="${userInfo.mileage}"/></span></label>
                                 <input type="text" class="inputTxt p100"
-												name="" id="userMileage"  onchange="mileageCheck(this.value)" placeholder="사용하실 마일리지를 입력해주세요"/>
+												name="" id="userMileage"  placeholder="사용하실 마일리지를 입력해주세요"/>
+												<button type="button"  onclick="applyMileage()" class="site-btn place-btn">마일리지 적용</button>
+                                    			<button type="button"  onclick="applyCancel()" class="site-btn place-btn">취소</button>
+                                    
                             </div>
                         </div>
                     </div>
@@ -189,11 +193,15 @@ input[type="radio"]:checked + label span {
                                     <!-- <li class="fw-normal">Subtotal <span>$240.00</span></li> -->
                                     <!--bookName, price, stock  -->
                                     <li class="total-price">Total <span id="paymentPrice">원</span>
-                                    <li class="total-price">Mileage<span id="mileage"><c:out value="${mileage2}"/>원</span>
+                                    <li class="total-price">총 할인금액 <span id="dc">원</span>
+                                    <li class="total-price">적립될 마일리지<span id="mileage"><c:out value="${mileage2}"/>원</span>
                                     <input type="hidden" value="${totalPrice}" name="totalPrice" id="totalPrice">
                                     <input type="hidden" value="${cartNos}" name="cartNos">
                                     <input type="hidden" id="totalMileage" value="${userInfo.mileage}">
                                     <input type="hidden" id="reset" value="">
+                                    <input type="hidden" id="paymentSw" value="" name="paymentSw">
+                                    <input type="hidden" id="balanceMileage" value="${userInfo.mileage}" name="mileage">
+                                    <input type="hidden" id="earnedMileage" value="${mileage2}" name="earnedMileage">
                                     </li>
                                 </ul>
                                 <!--  
@@ -215,8 +223,8 @@ input[type="radio"]:checked + label span {
                                 </div>
                                 -->
                                 <div class="order-btn">
+                                	<button type="button"  onclick="goPayment()" class="site-btn place-btn">Place Order</button>
                                 	<button type="button"  onclick="goCancel()" class="site-btn place-btn">cancel</button>
-                                    <button type="button"  onclick="goPayment()" class="site-btn place-btn">Place Order</button>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +233,8 @@ input[type="radio"]:checked + label span {
                 <input type="hidden" value="${userInfo.loginID }" name="loginID" >
                 <input type="hidden" value="" name="couponPrice" id="couponPrice">
                 <input type="hidden" value="" name="couponNos" id="couponNos">
-                <input type="hidden" value="${mileage2}" name="mileage" id="mileage">
+                <input type="hidden" value="${mileage2}" name="mileage2" id="mileage">
+                <input type="hidden" value="" name="useMileage" id="useMileage">
             </form>
         </div>
     </section>
@@ -240,6 +249,8 @@ input[type="radio"]:checked + label span {
 	<script>
 	
 	var sw=0;
+	var result=0;
+	
 	
 	
 	$(document).ready(function() {
@@ -250,6 +261,8 @@ input[type="radio"]:checked + label span {
 		var oldTotal2 = $('#totalPrice').val();
 		var oldTotal3 = 0;
         var TotalRem = 0;
+        var dcPrc = 0
+        var dcPrc2 = 0
 		// check box 동적
 		$("body").on("change", "[id^=coupon]", function(event) {
 	        //console.log(this.id);		coupon2
@@ -266,6 +279,7 @@ input[type="radio"]:checked + label span {
 	        		}
 	        	}
 	        });	
+	        
 	        
 	        
 	        if($("#"+this.id).is(":checked")){
@@ -289,6 +303,18 @@ input[type="radio"]:checked + label span {
 				                	TotalRem = oldTotal-dcPrice;
 				                	oldTotal3 = fn($('#paymentPrice').html());
 				                	$('#paymentPrice').html(comma(TotalRem)+"원");
+				                	
+				                	// 화면에 할인금액 표시
+									var dcshow = 0
+									var dcValue = 0
+									var dcValue2 = 0
+									dcValue = parseInt((fn($('#dc').html())));
+									dcValue = dcValue ? dcValue : 0;
+									dcValue2 = parseInt(dcPrice);
+									$('#dc').html(comma(dcValue+dcValue2)+"원");
+									
+									dcPrc2 =dcPrice;
+									
 								}else {
 									// dc할인 일 겨우
 									var dcRate = userCoupon.couponRate;
@@ -296,6 +322,17 @@ input[type="radio"]:checked + label span {
 				                	TotalRem = oldTotal-oldTotal * dcRate / 100;
 				                	oldTotal3 = fn($('#paymentPrice').html());
 									$('#paymentPrice').html(comma(TotalRem)+"원");
+									
+									// 화면에 할인금액 표시
+									var dcshow = 0
+									var dcValue = 0
+									var dcValue2 = 0
+									dcValue = parseInt((fn($('#dc').html())));
+									dcValue = dcValue ? dcValue : 0;
+									dcValue2 = parseInt(oldTotal * dcRate / 100);
+									$('#dc').html(comma(dcValue+dcValue2)+"원");
+									
+									dcPrc = oldTotal * dcRate / 100;
 								}
 							}
 					    },
@@ -308,6 +345,7 @@ input[type="radio"]:checked + label span {
 	            var couponNo = fn(this.id); // 함수써서 숫자만 추출
 	            
 	            sw=0;
+	            
 	            
 	            $('input:checkbox[name="cc"]').each(function() {
 	                if(this.checked){//체크박스 해제 했을 때 남아있는 체크박스에서 체크된 애들
@@ -329,12 +367,32 @@ input[type="radio"]:checked + label span {
 	    									oldTotal = oldTotal2;
 	    				                	TotalRem = oldTotal-dcPrice;
 	    				                	$('#paymentPrice').html(comma(TotalRem)+"원");
+	    				                	
+	    				                	// 화면에 할인금액 표시
+	    									var dcValue = parseInt((fn($('#dc').html())));
+	    									var dcValue2 = parseInt((fn($('#userMileage').val())));
+	    									dcValue = dcValue ? dcValue : 0;
+	    									dcValue2 = dcValue2 ? dcValue2 : 0;	
+	    									$('#dc').html(comma(dcValue-dcPrc+dcValue2)+"원");
+	    									
 	    								}else {
 	    									// dc할인 일 겨우
+	    									
+	    									
+	    									// 화면에 할인금액 표시
+	    									var dcValue = parseInt((fn($('#dc').html())));
+	    									var dcValue2 = parseInt((fn($('#userMileage').val())));
+	    									dcValue = dcValue ? dcValue : 0;
+	    									dcValue2 = dcValue2 ? dcValue2 : 0;	
+	    									$('#dc').html(comma(dcValue-dcPrc2+dcValue2)+"원");
+	    									
+	    									
 	    									var dcRate = userCoupon.couponRate;
 	    									oldTotal = oldTotal2;
 	    									TotalRem = oldTotal-oldTotal * dcRate / 100;
-	    									$('#paymentPrice').html(comma(TotalRem)+"원");
+	    									$('#paymentPrice').html(comma(TotalRem+dcValue2)+"원");
+	    									
+	    									
 	    								}
 	    							}
 	    					    },
@@ -346,9 +404,22 @@ input[type="radio"]:checked + label span {
 	                }
 	           });
 				if(sw != 1) {
-					$('#paymentPrice').html(comma(oldTotal2)+"원");
+					// 체크박스 해제가 되었을 떄 !!
+					
+					// 화면에 할인금액 표시
+					var dcValue = parseInt((fn($('#dc').html())));
+					var dcValue2 = parseInt((fn($('#userMileage').val())));
+					dcValue = dcValue ? dcValue : 0;
+					dcValue2 = dcValue2 ? dcValue2 : 0;	
+					$('#dc').html(comma(dcValue-dcValue+dcValue2)+"원");
+					$('#paymentPrice').html(comma(parseInt(oldTotal2)-dcValue2)+"원");
+					
+					
+					
 				}else {
-					$('#paymentPrice').html(comma(oldTotal3)+"원");
+					var dcValue2 = parseInt((fn($('#userMileage').val())));
+					dcValue2 = dcValue2 ? dcValue2 : 0;
+					$('#paymentPrice').html(comma(oldTotal3-dcValue2)+"원");
 				}
 	        }
 	    });
@@ -363,6 +434,14 @@ input[type="radio"]:checked + label span {
 		    var tempVal = selector.val();
 		    selector.val(tempVal.replace(regExp, ""));
 		}
+		
+		
+		$("#userMileage").keypress(function (e) {
+	        if (e.which == 13){
+	        	applyMileage();      
+	        }
+	    });
+		
 		
 		
 	    
@@ -482,12 +561,32 @@ input[type="radio"]:checked + label span {
 			
 			
 			// couponPrice
-			if(oldTotal - nowTotal == 0) {
+			if(oldTotal - nowTotal == 0) {							// mileage x, coupon x
 				$('#couponPrice').val(0);
-			}else {//////////////////////이부분 수정이 되어야함 ////(마일리지로 인한 할인이 들어가면 null에러 뜸 )
+				$('#paymentSw').val(1);
+			}else if($('#paymentSw').val()==2){						
+				// mileage o, coupon o
+				
+				// 쿠폰 사용 check
+				var isSeasonChk=false;
+				$('input:checkbox[name="cc"]').each(function() {
+		        	if(this.checked){
+		        		isSeasonChk=true;
+		        	}
+		        });
+				
+				if(isSeasonChk) {
+					var mileage = parseInt($('#useMileage').val());
+					$('#couponPrice').val(oldTotal - nowTotal - mileage);
+					$('#paymentSw').val(4);
+				}else {
+					// mileage o, coupon x
+					$('#couponPrice').val(0);
+				}
+			}else if(cnt !=0){
 				$('#couponPrice').val(oldTotal - nowTotal);
+				$('#paymentSw').val(3);
 			}
-			
 			
 			
 			// couponNo
@@ -502,7 +601,6 @@ input[type="radio"]:checked + label span {
 		        });	
 			$('#couponNos').val(couponNos.slice(0,-1));
 		
-			
 			// post
 			$('#totalPrice').val(nowTotal);
 			var form = document.form;
@@ -519,6 +617,7 @@ input[type="radio"]:checked + label span {
 		location.href="/cartList.do";
 	}
 	
+	/* 
 	function mileageCheck(mileage) {
 		var inputMileage = parseInt(mileage);
 		var totalMileage = parseInt($('#totalMileage').val());
@@ -530,23 +629,73 @@ input[type="radio"]:checked + label span {
 			// total에서 깎아야함
 			var confirm_val = confirm("마일리지"+inputMileage+"사용하시겠습니까??");
 			if(confirm_val) {
+				var dbMileage;
 				reset();
 				oldTotal = fn($('#paymentPrice').html());
 				readTotal = oldTotal - inputMileage;
 				$('#paymentPrice').html(comma(readTotal)+"원");
+				$('#totalMileage').val(inputMileage);
+				dbMileage=(fn($('#applyMileage').html()));
+				$('#applyMileage').html(dbMileage-inputMileage);
 				$('#reset').val(1);
+				$('#paymentSw').val(2);
 			}else {
 			}
 			
 		}
 		
 	}
-	
+	*/
 	function reset(){
 		if($('#reset').val()==1) {
-			alert("마일리지를 다시 입력해주세요");
 			location.reload(true);	
 		}
+	}
+	function applyMileage(){
+		
+		var inputMileage = $('#userMileage').val();
+		var totalMileage = parseInt($('#totalMileage').val());
+		if(totalMileage < inputMileage) {
+			alert("현재 마일리지보다 큽니다");
+			$('#userMileage').val(0);
+		}else {
+			var confirm_val = confirm("마일리지"+inputMileage+"사용하시겠습니까??");
+			if(confirm_val) {
+				reset();
+				var dbMileage;
+				oldTotal = fn($('#paymentPrice').html());
+				readTotal = oldTotal - inputMileage;
+				$('#paymentPrice').html(comma(readTotal)+"원");
+				$('#useMileage').val(inputMileage);
+				dbMileage=(fn($('#applyMileage').html()));
+				$('#applyMileage').html(comma(dbMileage-inputMileage));
+				
+				// 화면에 할인금액 표시
+				var dcshow = 0
+				var dcValue = 0
+				var dcValue2 = 0
+				dcValue = parseInt((fn($('#dc').html())));
+				dcValue = dcValue ? dcValue : 0;
+				dcValue2 = parseInt(inputMileage);
+				$('#dc').html(comma(dcValue+dcValue2)+"원");
+				
+				$('#balanceMileage').val(dbMileage-inputMileage);
+				$('#reset').val(1);
+				$('#paymentSw').val(2);
+			}else {
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	function applyCancel(){
+		location.reload(true);
+	}
+	
+	function checkboxCheck(){
 	}
 	</script>
 

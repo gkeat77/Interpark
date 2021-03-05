@@ -46,13 +46,29 @@ public class BookController {
 	@Autowired
 	bookService booksv;
 	
-	
 	@RequestMapping("goodsListPage.do")
-	public 	String goodsListPage(Model model, HttpServletRequest request) throws Exception {
+	public 	String goodsListPage(Model model, HttpServletRequest request ,@RequestParam Map<String, Object> paramMap) throws Exception {
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>리스트 스타트>>>>>>>>>>>>>>>>>>"+paramMap);
+		String searchKey = (String)paramMap.get("searchKey");
+		if(searchKey !=null){
+			model.addAttribute("searchKey",searchKey );
+		}
+		String cateClass = (String)paramMap.get("cateClass");
+		if(cateClass !=null){
+			model.addAttribute("cateClass",cateClass );
+			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>카테클래스 세팅>>>>>>>>>>>>>>>>>>");
+		}
+		String categoryId = (String)paramMap.get("categoryId");
+		if(categoryId !=null){
+			model.addAttribute("categoryId",categoryId );
+			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>카테아이디 세팅>>>>>>>>>>>>>>>>>>");
+		}
+		
+		paramMap.clear();
 		//상위 카테고리 불러오기
-		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("level", 0);
 		List<CategoryModel> cateUpperList= booksv.cateList(paramMap);
+		
 		
 		//상위 카테고리에 하위 카테고리넣기
 		for (int i = 0; i < cateUpperList.size(); i++) {
@@ -61,6 +77,8 @@ public class BookController {
 			cateUpperList.get(i).setLowerCateList(booksv.cateList(paramMap));
 		}
 		model.addAttribute("cateList", cateUpperList);
+		
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>리스트 끝>>>>>>>>>>>>>>>>>>");
 		
 		return "book/goodsList";
 	}
@@ -93,44 +111,21 @@ public class BookController {
 	@RequestMapping("goodsDetail.do")
 	public 	String goodsDetail(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
+		//상품 상세정보
+		BookModel goods= booksv.goodsDetail(paramMap);
+		model.addAttribute("goods", goods);
+		//연관 상품 리스트
+		paramMap.put("categoryId", goods.getCategoryId());
+		List<BookModel> relateGoods = booksv.relateGoods(paramMap);
 		
-		model.addAttribute("goods", booksv.goodsDetail(paramMap));
+		if(relateGoods.size() < 3 ){
+			logger.info(">>>>>>>해당 카테고리 목록이 3개보다 적습니다. 대분류로 불러옵니다");
+			paramMap.put("cateClass", goods.getCategoryId().substring(0, 1));
+			relateGoods =booksv.relateGoods(paramMap);
+		}
+		
+		model.addAttribute("relate",relateGoods);
 		
 		return "book/goodsDetail";
 	}
-	
-	// -------------ahn start-------------
-	
-	@ResponseBody
-	@RequestMapping(value="/goCart.do" , method = RequestMethod.POST)
-	public Map<String, Object> goCart(@RequestParam Map<String, Object> paramMap, HttpSession session, HttpServletRequest req) throws Exception {
-		   Map<String, Object> resultMap = new HashMap<String, Object>();
-		   String result="";
-		   
-		   String pId = (String) paramMap.get("pId");
-
-		   RegisterInfoModel rm = (RegisterInfoModel) session.getAttribute("member");
-		   if(rm != null) {
-			   BookModel bookInfo = booksv.bookInfo(pId);
-			   bookInfo.setLoginID(rm.getLoginID());
-			   // 같은 상품이 있으면 add x
-			   String cartBookTtitle = booksv.cartInfo(bookInfo);
-			   if(bookInfo.getTitle().equals(cartBookTtitle)) {
-				   result="cartAlready";
-			   }else {
-				   bookInfo.setLoginID(rm.getLoginID());
-				   booksv.cartAdd(bookInfo);
-				   result="success";
-			   }
-		   }else {
-			   result="no";
-		   }
-		    
-		   //resultMap.put("userCoupon", paymentService.getCouponOne(couponNo));
-		   resultMap.put("resultMsg", result); 
-		   return resultMap;
-	   }
-	
-	// -------------ahn end-------------
-	
 }

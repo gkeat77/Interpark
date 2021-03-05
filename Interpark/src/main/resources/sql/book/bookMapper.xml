@@ -5,8 +5,10 @@
 	<!--카테고리 리스트 -->
 	<select id="cateList" resultType="kr.kosmo.jobkorea.book.model.CategoryModel">
 		SELECT * FROM CATEGORY 
-		<where> 
+		<where>
+		<if test="(level!= null) and (!level.equals(''))"> 
 		level=#{level}
+		</if>
 		<if test="(cateClass != null) and (!cateClass.equals(''))">
 		and cateClass=#{cateClass}
 		</if>
@@ -57,7 +59,7 @@
 		display,
 		DATE_FORMAT(sellStart, '%Y.%m.%d %h:%m') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d
 		%h:%m') as sellEnd,
-		ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
+		ROUND(avg(rStar),1) as rStar,count(rId) as rCount
 		FROM BOOK_GOODS b
 		left join REVIEW r
 		on b.P_ID = r.P_ID
@@ -86,13 +88,46 @@
 		sellState, display,file_nm, file_loc, file_size ,
 		serviceType,mileage,mileageRate,
 		DATE_FORMAT(sellStart, '%Y/%m/%d') as sellStart,DATE_FORMAT(sellEnd, '%Y/%m/%d') as sellEnd, 
-		ROUND(avg(R_STAR),1) as rStar,count(R_ID) as rCount
+		ROUND(avg(rStar),1) as rStar,count(rId) as rCount
 		FROM BOOK_GOODS b
 		left join REVIEW r
 		on b.P_ID = r.P_ID 
 		where b.P_ID=#{pId}
 		group by b.P_ID
 	</select>
+	
+	
+	<!--연관 상품보기  -->
+	<select id="relateGoods" resultType="kr.kosmo.jobkorea.book.model.BookModel">
+				SELECT *
+				FROM (
+				SELECT P_ID as pId,title,coverLargeUrl,realPrice, saleRate FROM `BOOK_GOODS`
+				<where>
+				<choose>
+				<when test="(cateClass != null) and (!cateClass.equals(''))">
+					categoryId like CONCAT(#{cateClass}, '__') 
+			    </when>
+			    <when test="(cateClass == null) or (cateClass.equals(''))">
+			    	categoryId=#{categoryId}
+			    </when>	
+			    </choose>
+			    </where>
+			    ORDER BY sellCount desc     
+			    LIMIT 12
+			) as A 
+			ORDER BY rand()
+	</select>
+	
+	<select id="limitGoods" resultType="kr.kosmo.jobkorea.book.model.BookModel">
+	 SELECT * FROM 
+	     ( SELECT P_ID as pId,title,coverLargeUrl,realPrice, saleRate,sellStart,sellEnd,description 
+	     FROM `BOOK_GOODS` 
+	     WHERE sellState='y' and sellEnd is not null 
+	     ORDER BY sellEnd 
+	     LIMIT 12 ) 
+	     as A ORDER BY rand() LIMIT 1 
+	</select>
+				
 
 	<!-- ahn -->
 	<select id="bookInfo" resultType="kr.kosmo.jobkorea.book.model.BookModel">
@@ -113,7 +148,7 @@
 		)
 		VALUES
 		(
-			#{title},1,#{realPrice},NOW(),'N',#{loginID},#{coverLargeUrl},#{mileage},#{pId}
+			#{title},#{stock},#{realPrice},NOW(),'N',#{loginID},#{coverLargeUrl},#{mileage},#{pId}
 		)
 	</insert>
 	
@@ -121,7 +156,7 @@
 		SELECT BOOK_NAME AS title
 		FROM CART
 		WHERE P_ID = #{pId}
-		AND ORDER_YN != 'Y'
+		AND ORDER_YN NOT IN ('Y','C')
 		AND loginID = #{loginID}
 	</select>
 	

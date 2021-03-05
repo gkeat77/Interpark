@@ -86,7 +86,7 @@
 		author,coverSmallUrl, categoryId, categoryName,
 		publisher, sellCount, stock, 
 		saleRate, salePrice,realPrice, 
-		DATE_FORMAT(regDate, '%Y-%m-%d') as regDate, sellState,
+		DATE_FORMAT(regDate, '%Y-%m-%d') as regDate,regDate as regTime ,sellState,
 		display,
 		DATE_FORMAT(sellStart, '%Y.%m.%d') as sellStart, DATE_FORMAT(sellEnd, '%Y.%m.%d') as sellEnd
 		FROM BOOK_GOODS
@@ -127,7 +127,7 @@
 		salePrice=#{salePrice},saleRate=#{saleRate},realPrice=#{realPrice},
 		sellState=#{sellState},display=#{display},stock=#{stock},
 		`index`=#{index},authorInfo=#{authorInfo},description=#{description},
-		serviceType=#{serviceType},mileageRate=#{mileageRate},mileage=#{mileageRate} 
+		serviceType=#{serviceType},mileageRate=#{mileageRate},mileage=#{mileage} 
 		<if test="!(sellStart.equals('')) and !(sellEnd.equals(''))">
 			,sellStart=#{sellStart},sellEnd=#{sellEnd}
 		</if>

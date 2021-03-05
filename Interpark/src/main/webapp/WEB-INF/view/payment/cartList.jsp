@@ -5,6 +5,79 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
 
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+	<style>
+		
+			
+			
+		
+		.product-details .quantity .pro-qty2 {
+	width: 123px;
+	height: 46px;
+	border: 2px solid #ebebeb;
+	padding: 0 15px;
+	float: left;
+	margin-right: 14px;
+}
+
+.product-details .quantity .pro-qty .qtybtn2 {
+	font-size: 24px;
+	color: #b2b2b2;
+	float: left;
+	line-height: 38px;
+	cursor: pointer;
+	width: 18px;
+}
+
+.product-details .quantity .pro-qty2 .qtybtn.dec {
+	font-size: 30px;
+}
+
+.product-details .quantity .pro-qty2 input {
+	text-align: center;
+	width: 52px;
+	font-size: 14px;
+	font-weight: 700;
+	border: none;
+	color: #4c4c4c;
+	line-height: 40px;
+	float: left;
+}
+	
+	
+	
+	.cart-table table tr td.qua-col .pro-qty2 {
+	width: 123px;
+	height: 46px;
+	border: 2px solid #ebebeb;
+	padding: 0 15px;
+	float: left;
+}
+
+.cart-table table tr td.qua-col .pro-qty2 .qtybtn {
+	font-size: 24px;
+	color: #b2b2b2;
+	float: left;
+	line-height: 38px;
+	cursor: pointer;
+	width: 18px;
+}
+
+.cart-table table tr td.qua-col .pro-qty2 .qtybtn.dec {
+	font-size: 30px;
+}
+
+.cart-table table tr td.qua-col .pro-qty2 input {
+	text-align: center;
+	width: 52px;
+	font-size: 14px;
+	font-weight: 700;
+	border: none;
+	color: #4c4c4c;
+	line-height: 40px;
+	float: left;
+}
+
+	</style>
     <!-- Breadcrumb Section Begin -->
      <div class="breacrumb-section">
         <div class="container">
@@ -67,10 +140,10 @@
                                     <td class="p-price"><span id="price${cartList.cartNo }"><fmt:formatNumber pattern="###,###,###" value="${cartList.price}" />원</span></td>
                                     <td class="qua-col">
                                         <div class="quantity">
-                                            <div class="pro-qty">
-                                            	<span class="dec qtybtn"  onclick="down(${cartList.cartNo})">-</span>
+                                            <div class="pro-qty2">
+                                            	<span class="dec qtybtn"  onclick="down(${cartList.cartNo})">-</span> 
                                                 <input type="text" value="${cartList.stock}" id="desNum${cartList.cartNo}">
-                                                <span class="inc qtybtn" onclick="add(${cartList.cartNo});">+</span>
+                                                <span class="inc qtybtn" onclick="add(${cartList.cartNo});">+</span> 
                                             </div>
                                         </div>
                                     </td>
@@ -132,6 +205,7 @@
 	    });
 	    
 	    totalPayment();	
+	    
 	    
 	    
 	    

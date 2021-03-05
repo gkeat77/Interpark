@@ -13,15 +13,9 @@ public interface eventDao {
 	
 	public List<CategoryModel> cateList(Map<String,Object> paramMap);
 	
-	public List<EventModel> eventList(Map<String,Object> paramMap);
+	public List<EventModel> eventList(String e_title);
 	
+	public List<EventModel> listAll();
+		
 	public int eventCount(Map<String,Object> paramMap);
-//	
-//	public BookModel goodsDetail(Map<String,Object> paramMap);
-//	
-//	public BookModel bookInfo (String pId);  
-//	
-//	public void cartAdd(BookModel vo);
-//	
-//	public String cartInfo (String pId);
 }

@@ -24,7 +24,8 @@ function fLoginProc(data) {
 /* 로그인 결과 */
 function fLoginProcResult(data) {
 	if (data.result == "SUCCESS") {
-		location.href = "/index.do";
+		console.log("redirectUrl:"+data.redirectUrl);
+		location.href = data.redirectUrl;
 	} else {
 		$("<div style='text-align:center;'>" + data.resultMsg + "</div>")
 				.dialog({

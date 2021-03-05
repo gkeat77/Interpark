@@ -39,6 +39,7 @@
    <select id="selectLogin" resultType="kr.kosmo.jobkorea.login.model.RegisterInfoModel" resultMap="userSelect">
       SELECT  loginID 
       			,PASSWORD
+      			,user_type
 		      	,A_AD1
 				,A_AD2
 				,A_AD3

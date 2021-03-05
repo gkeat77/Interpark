@@ -10,9 +10,11 @@ public class EventModel {
 		private Date e_edate;
 		private String e_content;
 		private int f_id;
-
+		private Date reg_date;
+		
 		private String longinID;
 		private String coupon_no;
+		private String thumnail_img;
 		public int getE_id() {
 			return e_id;
 		}
@@ -48,6 +50,12 @@ public class EventModel {
 		}
 		public void setF_id(int f_id) {
 			this.f_id = f_id;
+		}		
+		public Date getReg_date() {
+			return reg_date;
+		}
+		public void setReg_date(Date reg_date) {
+			this.reg_date = reg_date;
 		}
 		public String getLonginID() {
 			return longinID;
@@ -61,13 +69,18 @@ public class EventModel {
 		public void setCoupon_no(String coupon_no) {
 			this.coupon_no = coupon_no;
 		}
-		
-//		@Override
-//		public String toString() {
-//			return "EventModel [e_id=" + e_id + ", e_title =" + e_title + ", e_sdate=" + e_sdate + ", e_edate="
-//					+ e_edate + ", e_content=" + e_content + ", f_id=" + f_id + ", longinID="
-//					+ longinID + ", coupon_no=" + coupon_no +  "]";
-//		}
+		public String getThumnail_img() {
+			return thumnail_img;
+		}
+		public void setThumnail_img(String thumnail_img) {
+			this.thumnail_img = thumnail_img;
+		}
+		@Override
+		public String toString() {
+			return "EventModel [e_id=" + e_id + ", e_title =" + e_title + ", e_sdate=" + e_sdate + ", e_edate="
+					+ e_edate + ", e_content=" + e_content + ", f_id=" + f_id + ", reg_date="+ reg_date + ", "
+					+ "longinID=" + longinID + ", coupon_no=" + coupon_no +  ", thumnail_img=" + thumnail_img +  "]";
+		}
 		
 		//도서 
 //		private int pId;

@@ -1,6 +1,7 @@
 package kr.kosmo.jobkorea.payment.service;
 
 import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.kosmo.jobkorea.login.model.RegisterInfoModel;
 import kr.kosmo.jobkorea.payment.dao.PaymentDao;
 import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PaymentModel;
@@ -63,6 +65,20 @@ public class PaymentServiceImpl implements PaymentService{
 		paymentDao.payment(vo);
 		// userUPdate
 		
+		
+		 // book stock update
+	    // public List<PaymentModel> getCartList(String loginID);
+	    List<PaymentModel> bookStock = getCartList(vo.getLoginID());
+	    for(PaymentModel ad : bookStock) {
+	    	PaymentModel bookUpdate = new PaymentModel();
+	    	bookUpdate.setStock(ad.getStock());
+	    	bookUpdate.setpId(ad.getpId());
+	    	paymentDao.bookStockUpdate(bookUpdate);
+	    }
+	    
+	    
+	    
+	    
 		// cartUPdate
 		String[] cartNosArray = vo.getCartNos().split(",");
 	    for (int i = 0; i < cartNosArray.length; i++) {
@@ -73,6 +89,9 @@ public class PaymentServiceImpl implements PaymentService{
 	    // order_hst
 	    vo.setUserState(0);
 	    paymentDao.regOderHst(vo);
+	    
+	   
+	    
 	}
 
 
@@ -297,6 +316,269 @@ public class PaymentServiceImpl implements PaymentService{
 		map.put("total", result);
 		return map;
 	}
+
+
+
+
+	@Override
+	public void mileageDeduction(PaymentModel vo) {
+		paymentDao.mileageDeduction(vo);
+	}
+
+
+
+
+	@Override
+	public RegisterInfoModel userInfo(String loginID) {
+		return paymentDao.userInfo(loginID);
+	}
+
+
+
+
+	@Override
+	public List<PaymentModel> buyList(String loginID) {
+		return paymentDao.buyList(loginID);
+	}
+
+
+
+
+	@Override
+	public List<PaymentModel> userOrders(String loginID) {
+		return paymentDao.userOrders(loginID);
+	}
+
+
+
+
+	@Override
+	public void userCancel(Map<String, Object> paramMap,String loginID) {
+		String payNo = (String) paramMap.get("payNo");
+		PaymentModel orderDetail = paymentDao.orderShow(payNo);
+		orderDetail.setLoginID(loginID);
+		System.out.println("사용된 마일리지 " + orderDetail.getUseMileage());
+		System.out.println("적립된 마일리지 " + orderDetail.getEarnedMileage());
+		System.out.println("카트번호 " + orderDetail.getCartNos());
+		System.out.println("쿠폰번호 " + orderDetail.getCouponNo());
+		
+		// revertMileage
+		RegisterInfoModel userMileage =paymentDao.userInfo(loginID);
+		int oldMileage =userMileage.getMileage();
+		int useMileage = Integer.parseInt(orderDetail.getUseMileage());
+		orderDetail.setMileage(Integer.toString(oldMileage+useMileage));
+		paymentDao.mileageDeduction(orderDetail); // 사용한거 다시 복구
+		orderDetail.setBalanceMileage(Integer.toString(oldMileage- Integer.parseInt(orderDetail.getEarnedMileage())));
+		paymentDao.mileageSet(orderDetail);	// 적립된거 revert user테이블에
+		// cart
+		String[] cartNosArray = orderDetail.getCartNos().split(",");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("cartNos", cartNosArray);
+		paymentDao.userCancelCart(map);	// cart order_yn =n
+		// coupon
+		paymentDao.couponCancel(orderDetail.getCouponNo());
+		// state
+		paymentDao.userCancelState(payNo);
+		orderDetail.setUserState(5);
+	    paymentDao.regOderHst(orderDetail);
+	}
+
+
+
+
+	@Override
+	public void mileageSet(PaymentModel vo) {
+		paymentDao.mileageSet(vo);
+	}
+
+
+
+
+	@Override
+	public String addressCheck(String loginID) {
+		return paymentDao.addressCheck(loginID);
+	}
+
+
+
+
+	@Override
+	public List<RegisterInfoModel> userAddressS(String loginID) {
+		return paymentDao.userAddressS(loginID);
+	}
+
+
+
+
+
+
+	@Override
+	public void addAddress(Map<String, Object> paramMap) {
+		paymentDao.addAddress(paramMap);
+	}
+
+
+
+
+	@Override
+	public int delAddress(Map<String, Object> paramMap) {
+		
+		int result = 0; 
+		String addressCheck = paymentDao.addressTableCheck(paramMap);
+		if(addressCheck.equals("X")) {	// address 테이블이 아니면
+			// user삭제
+			result=1;
+		}else {
+			// address테이블이 맞다면
+			// address삭제
+			paymentDao.delAddress(paramMap);
+		}
+		return result;
+	}
+
+
+
+
+	@Override
+	public void defaultAddress(Map<String, Object> paramMap) {
+		int maxNum = paymentDao.maxVal(paramMap);
+		maxNum +=1;
+		paramMap.put("maxNum", maxNum);
+		
+		String addressCheck = paymentDao.addressTableCheck(paramMap);
+		if(addressCheck.equals("X")) {	// address 테이블이 아니면
+			// user테이블 +1
+			paymentDao.setUserTable(paramMap);
+		}else {
+			// address테이블 +1
+			paymentDao.setAddressTable(paramMap);
+		}
+	}
+
+
+
+
+	@Override
+	public RegisterInfoModel getUserAddress(RegisterInfoModel vo) {
+		RegisterInfoModel address = new RegisterInfoModel();
+		
+		// max값을 가져와 
+		int maxNum = paymentDao.maxVal2(vo);
+		vo.setVal(Integer.toString(maxNum));
+		address = paymentDao.userMaxAddress(vo);
+		return address;
+	}
+
+
+
+
+	@Override
+	public List<PaymentModel> adminOrders() {
+		return paymentDao.adminOrders();
+	}
+
+
+
+
+	@Override
+	public int countOrders() {
+		return paymentDao.countOrders();
+	}
+
+
+
+
+	@Override
+	public List<Map<String, Object>> adminOrdersPaging(Criteria cri) {
+		return paymentDao.adminOrdersPaging(cri);
+	}
+
+
+
+
+	@Override
+	public List<PaymentModel> showCoupon() {
+		return paymentDao.showCoupon();
+	}
+
+
+
+
+	@Override
+	public String couponCheck(Map<String, Object> paramMap) {
+		return paymentDao.couponCheck(paramMap);
+	}
+
+
+
+
+	@Override
+	public void insertCoupon(Map<String, Object> paramMap) {
+		paymentDao.insertCoupon(paramMap);
+	}
+
+
+
+
+	@Override
+	public void modifyAddress(Map<String, Object> paramMap) {
+		paymentDao.modifyAddress(paramMap);
+	}
+
+
+
+
+	@Override
+	public RegisterInfoModel getAddress(Map<String, Object> paramMap) {
+		return paymentDao.getAddress(paramMap);
+	}
+
+
+
+
+	@Override
+	public void directPay(PaymentModel vo, String sw) {
+
+		 // book stock update
+	    List<PaymentModel> bookStock = getCartList(vo.getLoginID());
+	    for(PaymentModel ad : bookStock) {
+	    	PaymentModel bookUpdate = new PaymentModel();
+	    	bookUpdate.setStock(ad.getStock());
+	    	bookUpdate.setpId(ad.getpId());
+	    	paymentDao.bookStockUpdate(bookUpdate);
+	    }
+	    
+	    String cartNo = "";
+	    if(sw.equals("1")) {
+	    	String bookName = vo.getBookName();
+	    	List<PaymentModel> getCartInfo = getCartList(vo.getLoginID());
+		    for(PaymentModel ad : getCartInfo) {
+		    	if(bookName.equals(ad.getBookName())) {
+		    		// 카트내역에서 바로 구매하는 상품을 선택
+			    	paymentDao.cartUpdate2(ad);
+			    	cartNo = ad.getCartNo();
+		    	}
+		    }
+		    
+			// payNo
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+			Date date = new Date();
+			int ram =(int)(Math.random()*100);
+			
+			vo.setPayNo(dateFormat.format(date)+ "" + Integer.toString(ram));
+			vo.setCartNos(cartNo);
+			paymentDao.payment(vo);
+			
+		    // order_hst
+		    vo.setUserState(0);
+		    paymentDao.regOderHst(vo);
+		    
+
+	    }else {
+	    }
+	    
+	}
+
 
 
 }

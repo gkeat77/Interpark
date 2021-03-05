@@ -62,7 +62,11 @@ public class LoginController {
    @RequestMapping(value="/login.me", method = RequestMethod.GET)
    public String index(Model result, @RequestParam Map<String, String> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
-
+	  
+	   String referer = request.getHeader("Referer");
+	   session.setAttribute("prevPage", referer);
+	   logger.info(">>>>>>>>>>>>>>>>>>>>>>>referer1 : " + referer);
+	   
       logger.info("+ Start LoginController.login.me");
       return "/login/login";
    }
@@ -82,10 +86,16 @@ public class LoginController {
    @ResponseBody
    public Map<String, Object> loginProc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request,
          HttpServletResponse response, HttpSession session) throws Exception {
-	   
       logger.info("+ Start loginProc.do");
       logger.info("   - loginProc.do ParamMap : " + paramMap);
-
+      String redirectUrl = (String) session.getAttribute("prevPage");
+      logger.info(">>>>>>>>>>>>>>>>>>>>>>>referer2 : " + redirectUrl);
+      
+   /*   if (redirectUrl != null) {
+          session.removeAttribute("prevPage");
+      }
+      */
+      
       // 사용자 로그인!
       RegisterInfoModel rm = loginService.loginProc(paramMap);
       String result;
@@ -110,6 +120,7 @@ public class LoginController {
       Map<String, Object> resultMap = new HashMap<String, Object>();
       resultMap.put("result", result);
       resultMap.put("resultMsg", resultMsg);
+      resultMap.put("redirectUrl", redirectUrl);
       
       logger.info("+ End LoginController.loginProc.do");
       Enumeration se = session.getAttributeNames();
@@ -131,13 +142,14 @@ public class LoginController {
     */
    @RequestMapping(value = "/logOut.do")
    public ModelAndView logOut(SessionStatus sessionStatus, HttpSession session) {
-       
+	   String redirectUrl = (String) session.getAttribute("prevPage");
+	   
 		   logger.info("+ Start " + className + "logOut");
 	      ModelAndView mav = new ModelAndView();
 	      sessionStatus.setComplete();
 	      session.invalidate();
 	      logger.info("+ End " + className + "logOut");
-	      mav.setViewName("redirect:/login/login.me");
+	      mav.setViewName("redirect:"+redirectUrl);
 
       return mav;
    }

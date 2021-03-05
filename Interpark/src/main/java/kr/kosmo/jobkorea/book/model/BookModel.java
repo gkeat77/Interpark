@@ -2,7 +2,7 @@ package kr.kosmo.jobkorea.book.model;
 
 
 public class BookModel {
-		//도서 
+	/*   도서 API 시작 */
 		private int pId;
 		private String itemId;
 		private String title;
@@ -19,6 +19,9 @@ public class BookModel {
 		private String categoryId;
 		private String publisher;
 		private String pubDate;
+	/*   도서 API 끝  */
+		
+	/*   쇼핑몰 등록용 도서 정보입력 시작 */
 		private String regDate;
 		private String serviceType;
 		private String index;
@@ -41,7 +44,7 @@ public class BookModel {
 		private int mileageRate;
 		// ahn
 		private String loginID;
-		
+	/*   쇼핑몰 등록용 도서 정보입력 끝 */	
 		
 		
 		public String getLoginID() {

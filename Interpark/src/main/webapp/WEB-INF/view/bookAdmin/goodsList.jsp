@@ -9,9 +9,86 @@
 <head>
 <title>!!!!</title>
 <jsp:include page="/WEB-INF/view/common/header.jsp"/>    
-<jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
 </head>
-<script>
+
+
+<input type="hidden" id="classify"> 
+<input type="hidden" id="sort"> 
+	<div class="container">
+	   <div class="breacrumb-section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+          </div>  
+	<section class="shopping-cart spad">
+	<div class="nav-item" style="margin-bottom:20px">
+                <nav class="nav-menu mobile-menu">
+                    <ul>
+                        <li><a class="btn" id="btnAll">전체</a></li>
+                        <li><a>판매상태</a>
+                        	 <ul class="dropdown">
+                        	    <li><a class="btn" id="btnSell">판매중</a></li>
+                                <li><a class="btn" id="btnNoSell">판매중지</a></li>
+                            </ul>
+                        </li>
+                         <li><a>전시상태</a>
+                        	 <ul class="dropdown">
+                        	    <li><a class="btn" id="btnDisplay">전시중</a></li>
+                                <li><a class="btn" id="btnNoDisplay">비노출</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="btn" id="btnNostock">품절</a></li>
+                    </ul>
+                </nav>
+               </div> 
+                	<p class="conTitle mt50">
+								<select	id="searchType" name="searchType" class="form-control sSelect">
+										<option value="all" id="option1" selected="selected">전체</option>
+										<option value="title" id="option1">상품명</option>
+										<option value="P_ID" id="option1">ID</option>
+								</select>
+								<input type="text" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()" class="form-control sInput"> 
+							 	<button type="button" id="btnSearch" class="btn sBtn"><span>검색</span></button>	
+							</p>
+                    <div class="cart-table">
+                    <strong>검색 결과: </strong><span class="count"></span>
+			        <div class="btn-group float-right">
+			      	  <button type="button" class="btn btn-outline-warning" id="priceUp">가격↑</button>
+					  <button type="button" class="btn btn-outline-warning" id="priceDown">가격↓</button>
+					  <button type="button" class="btn btn-outline-warning" id="sellUp">판매량↑</button>
+					  <button type="button" class="btn btn-outline-warning" id="sellDown">판매량↓</button>
+					  <button type="button" class="btn btn-outline-warning" id="regUp">등록일 ↑</button>
+					  <button type="button" class="btn btn-outline-warning" id="regDown">등록일 ↓</button> 
+					</div>
+                    <table class="table-hover table-bordered">
+                    	   <colgroup>
+							   <col width="10%" />
+							   <col width="30%" />
+							   <col width="20%" />
+							   <col width="20%" />
+							   </colgroup>
+								<thead> 
+									<tr>
+										<th class="thead">이미지</th>
+										<th class="thead">도서 정보</th>
+										<th class="thead">상품 정보</th>
+										<th class="thead">상품 상태</th>
+									</tr>
+								</thead>
+								<tbody id="goods_list"></tbody>
+							</table>
+					</div>
+	 		<div class="paging_area" id="Pagination"></div>
+    	</section>
+   </div>
+   <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
+   <jsp:include page="/WEB-INF/view/common/common_include_uni.jsp"/>
+   <script>
 var pageSize = 10;
 var pageBlockSize = 10;
 
@@ -57,11 +134,11 @@ $(document).ready(function() {
 			flist_goods();
 			break;
 		case 'regUp':
-			$("#sort").val('regDate');
+			$("#sort").val('regTime');
 			flist_goods();
 			break;	
 		case 'regDown':
-			$("#sort").val('regDate DESC');
+			$("#sort").val('regTime DESC');
 			flist_goods();
 			break;	
 		case 'sellUp':
@@ -146,79 +223,3 @@ $(document).ready(function() {
 	
 	
 </script>
-
-<input type="hidden" id="classify"> 
-<input type="hidden" id="sort"> 
-	<div class="container">
-	   <div class="breacrumb-section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-text">
-                        <a href="#"><i class="fa fa-home"></i> Home</a>
-                        <span>Shop</span>
-                    </div>
-                </div>
-            </div>
-          </div>  
-	<section class="shopping-cart spad">
-	<div class="nav-item" style="margin-bottom:20px">
-                <nav class="nav-menu mobile-menu">
-                    <ul>
-                        <li><a class="btn" id="btnAll">전체</a></li>
-                        <li><a>판매상태</a>
-                        	 <ul class="dropdown">
-                        	    <li><a class="btn" id="btnSell">판매중</a></li>
-                                <li><a class="btn" id="btnNoSell">판매중지</a></li>
-                            </ul>
-                        </li>
-                         <li><a>전시상태</a>
-                        	 <ul class="dropdown">
-                        	    <li><a class="btn" id="btnDisplay">전시중</a></li>
-                                <li><a class="btn" id="btnNoDisplay">비노출</a></li>
-                            </ul>
-                        </li>
-                        <li><a class="btn" id="btnNostock">품절</a></li>
-                    </ul>
-                </nav>
-               </div> 
-                	<p class="conTitle mt50">
-								<select	id="searchType" name="searchType" class="form-control sSelect">
-										<option value="all" id="option1" selected="selected">전체</option>
-										<option value="title" id="option1">상품명</option>
-										<option value="P_ID" id="option1">ID</option>
-								</select>
-								<input type="text" id="searchKey" name="searchKey" onKeyDown="if(event.keyCode == 13) flist_goods()" class="form-control sInput"> 
-							 	<button type="button" id="btnSearch" class="btn sBtn"><span>검색</span></button>	
-							</p>
-                    <div class="cart-table">
-                    <strong>검색 결과: </strong><span class="count"></span>
-			        <div class="btn-group float-right">
-			      	  <button type="button" class="btn btn-outline-warning" id="priceUp">가격↑</button>
-					  <button type="button" class="btn btn-outline-warning" id="priceDown">가격↓</button>
-					  <button type="button" class="btn btn-outline-warning" id="sellUp">판매량↑</button>
-					  <button type="button" class="btn btn-outline-warning" id="sellDown">판매량↓</button>
-					  <button type="button" class="btn btn-outline-warning" id="regUp">등록일 ↑</button>
-					  <button type="button" class="btn btn-outline-warning" id="regDown">등록일 ↓</button> 
-					</div>
-                    <table class="table-hover table-bordered">
-                    	   <colgroup>
-							   <col width="10%" />
-							   <col width="30%" />
-							   <col width="20%" />
-							   <col width="20%" />
-							   </colgroup>
-								<thead> 
-									<tr>
-										<th>이미지</th>
-										<th>도서 정보</th>
-										<th>상품 정보</th>
-										<th>상품 상태</th>
-									</tr>
-								</thead>
-								<tbody id="goods_list"></tbody>
-							</table>
-					</div>
-	 		<div class="paging_area" id="Pagination"></div>
-    	</section>
-   </div>
-   <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
