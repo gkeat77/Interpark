@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.kosmo.jobkorea.system.dao.MenuDao">
+   
+   <select id="menuList" resultType="kr.kosmo.jobkorea.system.model.MenuModel">
+   		select * from MENU 
+   		<where>
+   			menuType= #{menuType} and menuAuth is null 
+   		<if test="(menuAuth != null) and !(menuAuth.equals(''))">	
+   			or menuType= #{menuType} and menuAuth=#{menuAuth}
+   		</if>	
+   		<if test="(menuHigh != null) and !(menuHigh.equals(''))">
+			and menuHigh= #{menuHigh}
+		</if>	
+		<if test="(menuLvl != null) and !(menuLvl.equals(''))">
+			and menuLvl= #{menuLvl}
+		</if>
+		</where>
+   </select>
+	
+</mapper>
