@@ -51,7 +51,7 @@
 					<c:choose >
 						<c:when test="${not empty member}">
 						   <a href="/login/logOut.do" class="login-panel"><i class="fa fa-sign-out"></i>LogOut</a>
-						   <a href="/mypage/my.my" class="login-panel" style="margin-right:20px"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
+						   <a href="/userInfo.do" class="login-panel" style="margin-right:20px"><i class="fa fa-user"></i>${member.name}님의 마이페이지</a>
 						</c:when>
 						<c:when test="${empty member}">
 						 <a href="/login/login.me" class="login-panel"><i class="fa fa-user"></i>Login</a>

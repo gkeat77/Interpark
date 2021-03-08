@@ -119,7 +119,7 @@
 	   <section id="container">    
 		 <aside>
 		 <ul>
-		  <!-- <li><a href="">회원정보</a></li> -->
+		  <li><a href="/mypage/my.my">회원정보 수정</a></li>
 		  <li><a href="/userInfo.do?userSw=2">주소록</a></li>
 		  <!-- <li><a href="">쿠폰  & 마일리지</a></li> -->
 		  <li><a href="/userInfo.do?userSw=4">구매이력</a></li>
@@ -328,7 +328,7 @@
 	    <div id="myModal2" class="modal">
 	      <!-- Modal content -->
 	      <div class="modal-content">
-	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주수록 추가</span></b></span></p>
+	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주소록 추가</span></b></span></p>
 	                <p style="text-align: center; line-height: 1.5;"><br /></p>
 	                
 	                <form id="frm">
@@ -383,7 +383,7 @@
 	    <div id="myModal3" class="modal">
 	      <!-- Modal content -->
 	      <div class="modal-content">
-	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주수록 수정</span></b></span></p>
+	                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주소록 수정</span></b></span></p>
 	                <p style="text-align: center; line-height: 1.5;"><br /></p>
 	                
 	                <form id="modifyForm">
