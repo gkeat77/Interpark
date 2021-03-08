@@ -359,10 +359,6 @@ public class PaymentController {
 			   	//mav.addObject("cartList", paymentService.getCartList());
 			   	//mav.addObject("cartCnt",paymentService.getCartList().size());
 			    
-			    // aside
-				Map<String, Object> paramMap = new HashMap<String, Object>();
-				paramMap.put("menuHigh", "");
-				mav.addObject("manu", menuService.adminList(paramMap));
 				
 			   	mav.setViewName("payment/admin");
 	}
@@ -507,7 +503,7 @@ public class PaymentController {
 		// aside
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("menuHigh", "");
-		mav.addObject("manu", menuService.adminList(paramMap));
+		session.setAttribute("menu", menuService.adminList(paramMap));
 	}
 	else {
 		mav.setViewName("index");
@@ -720,10 +716,6 @@ public class PaymentController {
 			        mav.addObject("list", list);
 			        mav.addObject("pageMaker", pageMaker);
 			        
-			        // aside
-					Map<String, Object> paramMap = new HashMap<String, Object>();
-					paramMap.put("menuHigh", "");
-					mav.addObject("manu", menuService.adminList(paramMap));
 			        
 					result=1;
 				}
@@ -784,11 +776,6 @@ public class PaymentController {
 				   	//mav.addObject("cartList", paymentService.getCartList());
 				   	//mav.addObject("cartCnt",paymentService.getCartList().size());
 				   	mav.setViewName("payment/adminCoupon");
-				   	
-					// aside
-					Map<String, Object> paramMap = new HashMap<String, Object>();
-					paramMap.put("menuHigh", "");
-					mav.addObject("manu", menuService.adminList(paramMap));
 					
 		}
 		else {
