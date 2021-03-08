@@ -92,7 +92,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 <script>
 $(document).ready(function() {
-	
+	//현재 url 맞춰서 버튼 색깔주기
+	  var url = window.location.pathname
+	    $(".topBtn").each(function(){
+	     	 $(this).removeClass('active');
+	      	if ( $(this).data("url") == url ){
+	      		$(this).addClass("active");
+	      } 
+	    });
 });
 
 
