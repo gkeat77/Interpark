@@ -4,7 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
 
-	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/view/common/adminHeader.jsp"></jsp:include>
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
