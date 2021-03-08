@@ -42,7 +42,7 @@
                     <div class="mail-service" style="padding:0">
                       <div class="btn-group btn-group-lg">
                       <c:forEach items="${topMenu }" var="top">
-					    <button type="button" class="btn-outline-dark active" style="height:54px" data-url="${top.menuUrl }">${top.menuName }</button>
+					    <button type="button" class="btn-outline-dark topBtn" style="height:54px" data-url="${top.menuUrl }">${top.menuName }</button>
 					  </c:forEach>  
 					  </div>
                     </div>
