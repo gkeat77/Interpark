@@ -281,7 +281,7 @@
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 	<div id="container">
 		<ul>
-			<li class="lnb"><jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include></li>
+			<%-- <li class="lnb"><jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include></li> --%>
 			<li class="contents">
 				<h3 class="hidden">contents 영역</h3>
 				<div class="content">
