@@ -14,6 +14,19 @@
 			and menuHigh= #{menuHigh}
 		</if>	
 		<if test="(menuLvl != null) and !(menuLvl.equals(''))">
+		  	and menuLvl= #{menuLvl}
+		</if>
+		</where>
+   </select>
+   
+   <select id="adminList" resultType="kr.kosmo.jobkorea.system.model.MenuModel">
+   		select * from MENU 
+   		<where>
+   			menuType= 'Admin' and menuAuth = 'A' and menuHigh is null
+   		<if test="(menuAuth != null) and !(menuAuth.equals(''))">	
+   			or menuType= #{menuType} and menuAuth=#{menuAuth}
+   		</if>	
+		<if test="(menuLvl != null) and !(menuLvl.equals(''))">
 			and menuLvl= #{menuLvl}
 		</if>
 		</where>

@@ -11,4 +11,5 @@ import kr.kosmo.jobkorea.system.model.MenuModel;
 public interface MenuService {
 	
 	public List<MenuModel> menuList (Map<String, Object> paramMap);
+	public List<MenuModel> adminList (Map<String, Object> paramMap);
 }

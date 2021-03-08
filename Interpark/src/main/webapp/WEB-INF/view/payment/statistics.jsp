@@ -22,6 +22,39 @@
 		.ui-datepicker-trigger {
 			visibility: hidden;
 		}
+		
+		
+		 body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
+		 ul { padding:0; margin:0; list-style:none;  }
+		
+		 div#root { width:90%; margin:0 auto; }
+		 
+		 header#header { font-size:60px; padding:20px 0; }
+		 header#header h1 a { color:#000; font-weight:bold; }
+		 
+		 nav#nav { padding:10px; text-align:right; }
+		 nav#nav ul li { display:inline-block; margin-left:10px; }
+		
+		   section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
+		 section#container::after { content:""; display:block; clear:both; }
+		 aside { float:left; width:200px; }
+		 div#container_box { float:right; width:calc(100% - 200px - 20px); }
+		 
+		 aside ul li { text-align:center; margin-bottom:10px; }
+		 
+		 footer#footer { background:#f9f9f9; padding:20px; }
+		 footer#footer ul li { display:inline-block; margin-right:10px; }
+		 
+		  aside ul li a { display:block; width:100%; padding:10px 0; color: #000; background:#eee;}
+		  aside ul li a:hover { background:#eee; }
+		  
+		  
+		  /* dateForm */
+		  
+		  .dateForm {
+		    padding-left: 180px;
+		  }
+		  	
 	</style>
 		
     <!-- Breadcrumb Section Begin -->
@@ -50,72 +83,54 @@
     </c:when>
     <c:otherwise>
     
-    <section class="checkout-section spad">
+    <section class="contact-section spad">
+    
+   
         <div class="container">
+
+		<div class="row">
+             <div class="col-lg-12">
+                 <div class="contact-title">
+                     <h4>ADMIN</h4>
+                     <p>아래 정보를 확인해주시기 바랍니다.</p>
+                 </div>
+                 
+             </div>
+         </div> 
+         <section id="container">
+                
+         <aside>
+		 <ul>
+		  <!-- <li><a href="">회원정보</a></li> -->
+		  <c:forEach var="manu" items="${manu}">
+		  		<li><a href="${manu.menuUrl}">${manu.menuName}</a></li>
+		  </c:forEach>
+		 </ul>
+		</aside>
+		
+		
+		
             <form class="checkout-form" name="form">
                 <div class="row">
-                    <div class="col-lg-6">
-                    	<!--  
-                        <div class="checkout-content">
-                            <input type="text" placeholder="Enter Your Coupon Code">
-                        </div>
-                        -->
-                        <h4>날짜</h4>
-                        <div class="col-lg-12">
-                                <label for="fir"></label>
-                                 From: <input type="text" id="datepicker" class="dataP" style="width:200px;">
-   								 To: <input type="text" id="datepicker2" class="dataP" style="width:200px;">
-    							<button type="button"  onclick="goStatistics()" class="site-btn place-btn" style="display: block; margin: 0 auto;">검색</button>
- 
-            
-                        </div>
-                        <div class="col-lg-12">
-                                <label for="fir"></label>
-                                <input type="text" name="userName" style=visibility:hidden;>
-                        </div>
+                	<!--  
+                    <div class="checkout-content">
+                        <input type="text" placeholder="Enter Your Coupon Code">
                     </div>
-                    <div class="col-lg-6">
-                    	<!--  
-                        <div class="checkout-content">
-                            <input type="text" placeholder="Enter Your Coupon Code">
-                        </div>
-                        -->
-                        <div class="place-order" style=visibility:hidden;>
-                            <h4>매출</h4>
-                            <div class="order-total">
-                                <ul class="order-table">
-                                    <li class="user-orders" id="userId">아이디<span>정보</span></li>
-                                </ul>
-                                
-                                <!--  
-                                <div class="payment-check">
-                                    <div class="pc-item">
-                                        <label for="pc-check">
-                                            Cheque Payment
-                                            <input type="checkbox" id="pc-check">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                    <div class="pc-item">
-                                        <label for="pc-paypal">
-                                            Paypal
-                                            <input type="checkbox" id="pc-paypal">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                -->
-                                <!--
-                                <div class="order-btn">
-                                    <button type="button"  onclick="goPayment()" class="site-btn place-btn">Place Order</button>
-                                </div>
-                                  -->
-                                  
-                            </div>
-                        </div>
+                    -->
+                    <div class="dateForm">
+                    <h4>날짜</h4>
                     </div>
-                    
-                    
+                    <div class="col-lg-12">
+                            <label for="fir"></label>
+                            <div class="dateForm">
+                             From: <input type="text" id="datepicker" class="dataP" style="width:200px;">
+							 To: <input type="text" id="datepicker2" class="dataP" style="width:200px;">
+							 </div>
+							<button type="button"  onclick="goStatistics()" class="site-btn place-btn" style="display: block; margin: 0 auto;">검색</button>
+
+        
+                    </div>
+                                        
                 	<!--  -->
                 	<div class="col-lg-12">
                 	
@@ -137,7 +152,9 @@
                 	
                 </div>
             </form>
+            </section>
         </div>
+        
     </section>
     
     </c:otherwise>

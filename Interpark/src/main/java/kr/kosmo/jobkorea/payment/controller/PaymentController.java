@@ -35,6 +35,7 @@ import kr.kosmo.jobkorea.payment.model.Criteria;
 import kr.kosmo.jobkorea.payment.model.PageMaker;
 import kr.kosmo.jobkorea.payment.model.PaymentModel;
 import kr.kosmo.jobkorea.payment.service.PaymentService;
+import kr.kosmo.jobkorea.system.service.MenuService;
 
 @Controller
 public class PaymentController {
@@ -44,6 +45,10 @@ public class PaymentController {
 	
 	@Autowired
 	bookService booksv;
+	
+	@Autowired
+	MenuService menuService;
+	
 	
 	private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -493,6 +498,10 @@ public class PaymentController {
 		mav.addObject("days", days);
 		mav.addObject("total", total);
 		mav.setViewName("payment/statistics");
+		// aside
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("menuHigh", "");
+		mav.addObject("manu", menuService.adminList(paramMap));
 	}
 	else {
 		mav.setViewName("index");
@@ -763,6 +772,12 @@ public class PaymentController {
 				   	//mav.addObject("cartList", paymentService.getCartList());
 				   	//mav.addObject("cartCnt",paymentService.getCartList().size());
 				   	mav.setViewName("payment/adminCoupon");
+				   	
+					// aside
+					Map<String, Object> paramMap = new HashMap<String, Object>();
+					paramMap.put("menuHigh", "");
+					mav.addObject("manu", menuService.adminList(paramMap));
+					
 		}
 		else {
 			mav.setViewName("index");
