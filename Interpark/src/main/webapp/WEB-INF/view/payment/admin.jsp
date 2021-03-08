@@ -28,6 +28,12 @@
 			height: 150px;
 		}
 
+
+
+		
+		  
+		  
+		  
         /* The Modal (background) */
         .modal {
             display: none; /* Hidden by default */
@@ -57,15 +63,8 @@
     <!-- Breadcrumb Section Begin -->
      <div class="breacrumb-section">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-text product-more">
-                        <a href="/index.do"><i class="fa fa-home"></i> Home</a>
-                        <a href="./shop.html">Shop</a>
-                        <span>ADMIN</span>
-                    </div>
-                </div>
-            </div>
+            <!-- aside -->
+            <jsp:include page="/WEB-INF/view/common/aside.jsp"></jsp:include>
         </div>
     </div>
     
@@ -84,6 +83,8 @@
     
     <section class="checkout-section spad">
         <div class="container">
+		
+		
             <form class="checkout-form" name="form">
                 <div class="row">
                       <div class="col-lg-6">
