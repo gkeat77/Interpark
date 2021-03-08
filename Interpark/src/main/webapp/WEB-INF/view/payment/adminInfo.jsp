@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
 
-	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/view/common/adminHeader.jsp"></jsp:include>
 	<style>
 		 
 		  

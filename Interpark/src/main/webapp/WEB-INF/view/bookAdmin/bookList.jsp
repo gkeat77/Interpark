@@ -6,7 +6,7 @@
 <html lang="ko">
 <head>
 <title>!!!!</title>    
-<jsp:include page="/WEB-INF/view/common/header.jsp"/>
+<jsp:include page="/WEB-INF/view/common/adminHeader.jsp"></jsp:include>
 </head>
 
 

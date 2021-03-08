@@ -9,7 +9,7 @@
 </head>
 
 
-<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common/adminHeader.jsp"></jsp:include>
 <input type="hidden" id="action"> 
 	<form id="myForm">
       <div class="container">
