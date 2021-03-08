@@ -375,7 +375,8 @@
 			<ul>
 				<li class="lnb">
 					<!-- lnb 영역 --> 
-					<jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> <!--// lnb 영역 -->
+					<%-- <jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> --%> 
+					<!--// lnb 영역 -->
 				</li>
 				<li class="contents">
 					<!-- contents -->
