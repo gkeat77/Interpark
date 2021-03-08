@@ -63,7 +63,12 @@ public class BookController {
 			model.addAttribute("categoryId",categoryId );
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>카테아이디 세팅>>>>>>>>>>>>>>>>>>");
 		}
-		
+		String serviceType = (String)paramMap.get("serviceType");
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>서비스 타입>>>>>>>>>>>>>>>>>>:"+serviceType);
+		if(serviceType !=null){
+			model.addAttribute("serviceType",serviceType );
+			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>서비스 타입 모델에실음>>>>>>>>>>>>>>>>>>");
+		}
 		paramMap.clear();
 		//상위 카테고리 불러오기
 		paramMap.put("level", 0);

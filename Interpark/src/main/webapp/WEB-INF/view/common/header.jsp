@@ -41,11 +41,9 @@
                 <div class="ht-left">
                     <div class="mail-service" style="padding:0">
                       <div class="btn-group btn-group-lg">
-					    <button type="button" class="btn-outline-dark active" style="height:54px">도서</button>
-					    <button type="button" class="btn-outline-dark" style="height:54px">공연</button>
-					    <c:if test="${member.user_type eq 'A'}">
-					    <button type="button" class="btn-outline-dark" style="height:54px">관리자</button>
-					    </c:if>
+                      <c:forEach items="${topMenu }" var="top">
+					    <button type="button" class="btn-outline-dark active" style="height:54px" data-url="${top.menuUrl }">${top.menuName }</button>
+					  </c:forEach>  
 					  </div>
                     </div>
                 </div>
@@ -104,11 +102,6 @@
                     
                     <div class="col-lg-3 text-right col-md-3">
                         <ul class="nav-right">
-                            <li class="heart-icon"><a href="#">
-                                    <i class="icon_heart_alt"></i>
-                                    <span>1</span>
-                                </a>
-                            </li>
                             <li class="cart-icon"><a href="/cartList.do">
                                     <i class="icon_bag_alt"></i>
                                     <span>${cartCnt }</span>
@@ -169,25 +162,25 @@
 				         <c:set value="${megaMenu }" var="mega"/>
 		                     <div class="row">
 						        <div class="column">
-						          <h3 data-categoryid="100">국내도서</h3>
+						          <h3 data-categoryid="1">국내도서</h3>
 						           <c:forEach items="${mega.domesticList }" var="list">
 						          		<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
 						          </c:forEach>
 						        </div>
 						        <div class="column">
-						          <h3 data-categoryid="200">외국도서</h3>
+						          <h3 data-categoryid="2">외국도서</h3>
 						           <c:forEach items="${mega.foreignList  }" var="list">
 						          		<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
 						          </c:forEach>
 						        </div>
 						        <div class="column">
-						          <h3 data-categoryid="300">음반</h3>
+						          <h3 data-categoryid="3">음반</h3>
 						          <c:forEach items="${mega.cdList }" var="list">
 						          	<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
 						          </c:forEach>
 						        </div>
 						        <div class="column">
-						          <h3 data-categoryid="400">DVD</h3>
+						          <h3 data-categoryid="4">DVD</h3>
 						          <c:forEach items="${mega.dvdList }" var="list">
 						          	<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
 						          </c:forEach>
@@ -198,56 +191,9 @@
                 </div>
                 <nav class="nav-menu mobile-menu">
                     <ul>
-                        <li><a href="./index.html">Home</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">도서</a>
-                            <ul class="dropdown">
-                                <li><a href="/bookAdmin/regPage.do">도서등록</a></li>
-                                <li><a href="/bookAdmin/goodsListPage.do">도서목록(관리자)</a></li>
-                                <li><a href="/book/goodsListPage.do">도서목록</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                <li><a href="/adminInfo.do">Blog Details</a></li>
-                                <li><a href="/cartList.do">Shopping Cart</a></li>
-                                <li><a href="./check-out.html">Checkout</a></li>
-                                <li><a href="./faq.html">Faq</a></li>
-                                <li><a href="./register.html">Register</a></li>
-                                <c:choose>
-		                         <c:when test="${empty member}">
-		                            <li><a href="/login/login.me">Login</a></li>
-		                         </c:when>
-		                         <c:otherwise>
-		                         	<li><a href="/userInfo.do">userInfo</a></li>
-		                            <li><a href="/login/logOut.do">LOGOUT</a></li>
-		                         </c:otherwise>
-		                         </c:choose>
-                            </ul>
-                        </li>
-                        <li><a href="/event/eventListPage.do">이벤트</a>
-                        </li>
-                         <!-- <li><a href="/event/eventList.do">이벤트</a>
-                        </li> -->
-                        
-                        <c:if test="${member.loginID eq 'admin'}">
-                        	<li><a href="#">ADMIN</a>
-                            <ul class="dropdown">
-		                         <!-- admin  -->
-		                        <c:choose>
-		                         <c:when test="${member.loginID eq 'admin'}">
-		                         	<li><a href="/adminInfo.do">ADMIN</a></li>
-		                         	<li><a href="/statistics.do">통계</a></li>
-		                         	<li><a href="/adminCoupon.do">쿠폰지급</a></li>
-		                         	<li><a href="/adminOrders.do">ORDERS</a></li>
-		                         </c:when>
-		                         <c:otherwise>
-		                         </c:otherwise>
-		                         
-		                         </c:choose>
-                            </ul>
-                        </li>
-                        </c:if>
+                        <c:forEach items="${mainMenu }" var="main">
+                        	<li><a href="${main.menuUrl }">${main.menuName }</a></li>
+                        </c:forEach>
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>

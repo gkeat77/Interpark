@@ -272,3 +272,4 @@ function getEventDetail(e_id) {
   </div>
       
     <!-- Product Shop Section End -->
+     <jsp:include page="/WEB-INF/view/common/footer.jsp"/>

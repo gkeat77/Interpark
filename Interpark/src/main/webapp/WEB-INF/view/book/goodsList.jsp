@@ -24,6 +24,7 @@
 	<!-- Product Shop Section Begin -->
     <input type="hidden" id="cateId">
     <input type="hidden" id="cateClass">
+    <input type="hidden" id="serviceType">
     <section class="product-shop spad">
         <div class="container">
 		     <p class="conTitle mt50 text-right">
@@ -113,21 +114,29 @@ var pageBlockSize = 10;
 
 $(document).ready(function() {
 	
+	
+	
 	// 헤더 메뉴에서 접근
 	if('${cateClass}' != null && '${cateClass}' != ''){
-		$("#cateClass").val('${cateClass}'.substring(0,1));
+		$("#cateClass").val('${cateClass}');
 	}
 	
 	if('${categoryId}' != null  && '${categoryId}' != ''){
 		$("#cateId").val('${categoryId}');
 	}
 	
-	//헤더에서 검색
-	if('${searchKey}' != null){
-		fmain_search();
-	}else	
-		flist_goods();
+	if('${serviceType}' != null  && '${serviceType}' != ''){
+		$("#serviceType").val('${serviceType}');
+	}else{
+		$("#serviceType").val('');
+	}
 	
+	//헤더에서 검색
+	if('${searchKey}' != null && '${searchKey}' != ''){
+		fmain_search();
+	}else{	
+		flist_goods();
+	}
 	
 	
 	$(".cateHedaer").click(function() {
@@ -177,6 +186,7 @@ function flist_goods(currentPage) {
 	console.log(searchKey);
  	const searchType=$("#searchType").val();
 	const sort =$("#sort").val();
+	const serviceType =$("#serviceType").val();
 	
 	const cateClass=$("#cateClass").val();
 	const cateId=$("#cateId").val();
@@ -191,7 +201,8 @@ function flist_goods(currentPage) {
 			cateId:cateId,
 			searchType:searchType,
 			searchKey:searchKey,
-			sort:sort 
+			sort:sort,
+			serviceType:serviceType
 	}
 
 	var resultCallback = function(data) {

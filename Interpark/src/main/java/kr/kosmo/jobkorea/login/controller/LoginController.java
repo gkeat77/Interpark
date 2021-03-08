@@ -142,14 +142,13 @@ public class LoginController {
     */
    @RequestMapping(value = "/logOut.do")
    public ModelAndView logOut(SessionStatus sessionStatus, HttpSession session) {
-	   String redirectUrl = (String) session.getAttribute("prevPage");
 	   
 		   logger.info("+ Start " + className + "logOut");
 	      ModelAndView mav = new ModelAndView();
 	      sessionStatus.setComplete();
 	      session.invalidate();
 	      logger.info("+ End " + className + "logOut");
-	      mav.setViewName("redirect:"+redirectUrl);
+	      mav.setViewName("redirect:/index.do");
 
       return mav;
    }

@@ -21,6 +21,9 @@
 	<sql id="search">
 		<where>
 			display ='y' and sellState='y'
+		<if test="(serviceType != null) and (!serviceType.equals(''))">	
+			and serviceType=#{serviceType}
+		</if>	
 		<choose>	
 		<when test="(cateClass != null) and (!cateClass.equals(''))">
 			and categoryId like CONCAT(#{cateClass}, '__')
