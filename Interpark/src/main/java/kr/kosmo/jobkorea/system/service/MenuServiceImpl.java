@@ -31,6 +31,11 @@ public class MenuServiceImpl implements MenuService {
 	public List<MenuModel> menuList(Map<String, Object> paramMap) {
 		return menuDao.menuList(paramMap);
 	}
+
+	@Override
+	public List<MenuModel> adminList(Map<String, Object> paramMap) {
+		return menuDao.adminList(paramMap);
+	}
 	
 	
 }

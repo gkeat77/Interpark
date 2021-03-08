@@ -11,4 +11,6 @@ import kr.kosmo.jobkorea.system.model.MenuModel;
 public interface MenuDao {
 
 	public List<MenuModel> menuList (Map<String, Object> paramMap);
+	
+	public List<MenuModel> adminList (Map<String, Object> paramMap);
 }
