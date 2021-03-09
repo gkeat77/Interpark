@@ -41,7 +41,6 @@
                 
          <aside>
 		 <ul>
-		  <!-- <li><a href="">회원정보</a></li> -->
 		  <c:forEach var="menu" items="${menu}">
 		  		<li><a href="${menu.menuUrl}">${menu.menuName}</a></li>
 		  </c:forEach>
