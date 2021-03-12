@@ -31,6 +31,9 @@
 		<if test="(menuLvl != null) and !(menuLvl.equals(''))">
 			and m.menuLvl= #{menuLvl}
 		</if>
+		<if test="(userType != null) and !(userType.equals(''))">
+			and u.user_type= #{userType}
+		</if>
 		</where>
    </select>
 	

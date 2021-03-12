@@ -503,6 +503,7 @@ public class PaymentController {
 		// aside
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("menuHigh", "");
+		paramMap.put("userType", "A");
 		session.setAttribute("menu", menuService.adminList(paramMap));
 	}
 	else {
