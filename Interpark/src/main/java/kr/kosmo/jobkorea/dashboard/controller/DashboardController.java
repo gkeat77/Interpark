@@ -62,7 +62,7 @@ public class DashboardController {
 		paramMap.clear();
 		paramMap.put("menuType","top");  //메뉴 타입  (어디쓰는 메뉴인가)
 		if(member != null){
-			paramMap.put("menuAuth",member.getUser_type()); //(유저타입에 따른 메뉴 권한) 
+			paramMap.put("user_type",member.getUser_type()); //(유저타입에 따른 메뉴 권한) 
 		}
 		List<MenuModel> topMenu = menusv.menuList(paramMap);
 		session.setAttribute("topMenu", topMenu);

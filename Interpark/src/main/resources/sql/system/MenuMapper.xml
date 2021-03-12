@@ -3,31 +3,33 @@
 
 <mapper namespace="kr.kosmo.jobkorea.system.dao.MenuDao">
    
+     
    <select id="menuList" resultType="kr.kosmo.jobkorea.system.model.MenuModel">
-   		select * from MENU 
-   		<where>
-   			menuType= #{menuType} and menuAuth is null 
-   		<if test="(menuAuth != null) and !(menuAuth.equals(''))">	
-   			or menuType= #{menuType} and menuAuth=#{menuAuth}
-   		</if>	
-   		<if test="(menuHigh != null) and !(menuHigh.equals(''))">
-			and menuHigh= #{menuHigh}
-		</if>	
-		<if test="(menuLvl != null) and !(menuLvl.equals(''))">
-		  	and menuLvl= #{menuLvl}
-		</if>
-		</where>
+         select * from tm_mnu_mst m
+         left join tn_usr_mnu_atrt u
+         on m.menuID= u.menuId 
+         <where>
+            menuType= #{menuType} and u.user_type is null 
+         <if test="(user_type != null) and !(user_type.equals(''))">   
+            or menuType= #{menuType} and u.user_type=#{user_type}
+         </if>   
+         <if test="(menuHigh != null) and !(menuHigh.equals(''))">
+         and menuHigh= #{menuHigh}
+      </if>   
+      <if test="(menuLvl != null) and !(menuLvl.equals(''))">
+           and menuLvl= #{menuLvl}
+      </if>
+      </where>
    </select>
    
-   <select id="adminList" resultType="kr.kosmo.jobkorea.system.model.MenuModel">
-   		select * from MENU 
+      <select id="adminList" resultType="kr.kosmo.jobkorea.system.model.MenuModel">
+   		select * from tm_mnu_mst m
+        left join tn_usr_mnu_atrt u
+        on m.menuID = u.menuId
    		<where>
-   			menuType= 'Admin' and menuAuth = 'A' and menuHigh is null
-   		<if test="(menuAuth != null) and !(menuAuth.equals(''))">	
-   			or menuType= #{menuType} and menuAuth=#{menuAuth}
-   		</if>	
+   			m.menuType= 'Admin' and m.menuHigh is null
 		<if test="(menuLvl != null) and !(menuLvl.equals(''))">
-			and menuLvl= #{menuLvl}
+			and m.menuLvl= #{menuLvl}
 		</if>
 		</where>
    </select>
