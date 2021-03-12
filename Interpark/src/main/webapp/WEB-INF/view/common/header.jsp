@@ -159,30 +159,29 @@
                         <i class="ti-menu"></i>
                         <span>전체 카테고리</span>
                         <ul class="depart-hover">
-				         <c:set value="${megaMenu }" var="mega"/>
 		                     <div class="row">
 						        <div class="column">
 						          <h3 data-categoryid="1">국내도서</h3>
-						           <c:forEach items="${mega.domesticList }" var="list">
-						          		<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						           <c:forEach items="${domesticList }" var="list">
+						          		<a href="#" data-categoryid="${list.menuId }">${list.menuName }</a>
 						          </c:forEach>
 						        </div>
 						        <div class="column">
 						          <h3 data-categoryid="2">외국도서</h3>
-						           <c:forEach items="${mega.foreignList  }" var="list">
-						          		<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						           <c:forEach items="${foreignList  }" var="list">
+						          		<a href="#" data-categoryid="${list.menuId }">${list.menuName }</a>
 						          </c:forEach>
 						        </div>
 						        <div class="column">
 						          <h3 data-categoryid="3">음반</h3>
-						          <c:forEach items="${mega.cdList }" var="list">
-						          	<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          <c:forEach items="${cdList }" var="list">
+						          	<a href="#" data-categoryid="${list.menuId }">${list.menuName }</a>
 						          </c:forEach>
 						        </div>
 						        <div class="column">
 						          <h3 data-categoryid="4">DVD</h3>
-						          <c:forEach items="${mega.dvdList }" var="list">
-						          	<a href="#" data-categoryid="${list.categoryId }">${list.categoryName }</a>
+						          <c:forEach items="${dvdList }" var="list">
+						          	<a href="#" data-categoryid="${list.menuId }">${list.menuName }</a>
 						          </c:forEach>
 						        </div>
 						      </div>

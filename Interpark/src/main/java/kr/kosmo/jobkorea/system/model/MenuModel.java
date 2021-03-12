@@ -2,6 +2,8 @@ package kr.kosmo.jobkorea.system.model;
 
 import java.util.List;
 
+import kr.kosmo.jobkorea.book.model.CategoryModel;
+
 public class MenuModel {
 
 	private String menuId;
@@ -19,7 +21,7 @@ public class MenuModel {
 	private String menuLvl;
 	
 	private List<MenuModel> lowerMenuList;
-
+	
 	
 	public String getMenuId() {
 		return menuId;

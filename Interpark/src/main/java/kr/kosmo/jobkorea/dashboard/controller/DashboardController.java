@@ -71,18 +71,28 @@ public class DashboardController {
 		
 		//헤더 전체 카테고리
 		paramMap.clear();
-		CategoryModel megaMenu = new CategoryModel();
-		paramMap.put("cateClass","국내도서");
-		megaMenu.setDomesticList(booksv.cateList(paramMap));
-		paramMap.put("cateClass","외국도서");
-		megaMenu.setForeignList(booksv.cateList(paramMap));
-		paramMap.put("cateClass","음반");
-		megaMenu.setCdList(booksv.cateList(paramMap));
-		paramMap.put("cateClass","DVD");
-		megaMenu.setDvdList(booksv.cateList(paramMap));
+		paramMap.put("menuType","category");
 		
-		session.setAttribute("megaMenu", megaMenu);
-		logger.info("   - >>>>>>>>>>>>>>megaMenu : " + megaMenu);
+		paramMap.put("menuHigh","국내도서");
+		List<MenuModel> domesticList= menusv.menuList(paramMap);
+		
+		paramMap.put("menuHigh","외국도서");
+		List<MenuModel> foreignList= menusv.menuList(paramMap);
+		
+		paramMap.put("menuHigh","음반");
+		List<MenuModel> cdList = menusv.menuList(paramMap);
+		
+		paramMap.put("menuHigh","DVD");
+		List<MenuModel> dvdList =menusv.menuList(paramMap);
+		
+		session.setAttribute("domesticList", domesticList);
+		session.setAttribute("foreignList", foreignList);
+		session.setAttribute("cdList", cdList);
+		session.setAttribute("dvdList", dvdList);
+		logger.info("   - >>>>>>>>>>>>>>domesticList : " + domesticList);
+		logger.info("   - >>>>>>>>>>>>>>foreignList : " + foreignList);
+		logger.info("   - >>>>>>>>>>>>>>cdList : " + cdList);
+		logger.info("   - >>>>>>>>>>>>>>dvdList : " + dvdList);
 		
 		//헤더 메뉴
 		paramMap.clear();
